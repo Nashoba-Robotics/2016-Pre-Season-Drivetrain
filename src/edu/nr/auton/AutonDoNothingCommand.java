@@ -1,0 +1,29 @@
+package edu.nr.auton;
+
+import edu.nr.CMD;
+
+public class AutonDoNothingCommand extends CMD
+{
+	@Override
+	protected void onStart()
+	{
+		
+	}
+
+	@Override
+	protected void onExecute()
+	{
+	}
+
+	@Override
+	protected void onEnd(boolean interrupted)
+	{
+	}
+
+	@Override
+	protected boolean isFinished()
+	{
+		return true;
+	}
+
+}
