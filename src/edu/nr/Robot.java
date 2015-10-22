@@ -1,8 +1,8 @@
 
 package edu.nr;
 
-import edu.nr.robotics.auton.*;
-import edu.nr.robotics.subsystems.drive.Drive;
+import edu.nr.auton.AutonDoNothingCommand;
+import edu.nr.subsystems.drive.Drive;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -29,7 +29,7 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-		Drive.init();
+		edu.nr.subsystems.drive.Drive.init();
     	OI.init();
     	
     	autoCommandChooser = new SendableChooser();
@@ -43,7 +43,7 @@ public class Robot extends IterativeRobot {
 		OI.getInstance().drivingModeChooser.addObject("tank", "tank");
 		SmartDashboard.putData("Driving Mode Chooser", OI.getInstance().drivingModeChooser);
 		
-		SmartDashboard.putData(Drive.getInstance());
+		SmartDashboard.putData(edu.nr.subsystems.drive.Drive.getInstance());
     }
 	
 
