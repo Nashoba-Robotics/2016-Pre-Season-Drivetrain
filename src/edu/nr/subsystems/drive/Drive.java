@@ -191,6 +191,18 @@ public class Drive extends Subsystem {
         }
 	}
 	
+	public void tankDrive(double leftMotorSpeed, double rightMotorSpeed) {
+		if(leftPid.isEnable() && rightPid.isEnable())
+        {
+        	leftPid.setSetpoint(leftMotorSpeed);
+            rightPid.setSetpoint(rightMotorSpeed);
+        }
+        else
+        {
+        	setRawMotorSpeed(leftMotorSpeed, rightMotorSpeed);
+        }
+	}
+	
 	public void setRawMotorSpeed(double left, double right)
 	{
 		setPIDEnabled(false);
