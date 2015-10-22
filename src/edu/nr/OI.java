@@ -1,4 +1,4 @@
-package edu.nr.robotics;
+package edu.nr;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;

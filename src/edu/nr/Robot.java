@@ -1,14 +1,14 @@
 
-package edu.nr.robotics;
+package edu.nr;
 
+import edu.nr.robotics.auton.*;
+import edu.nr.robotics.subsystems.drive.Drive;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.nr.robotics.auton.AutonDoNothingCommand;
-import edu.nr.robotics.subsystems.drive.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
