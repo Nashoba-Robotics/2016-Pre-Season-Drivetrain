@@ -1,5 +1,7 @@
-package edu.nr;
+package edu.nr.robotics;
 
+import edu.nr.lib.EmptyCommand;
+import edu.nr.robotics.subsystems.drive.Drive;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -63,6 +65,22 @@ public class OI
 		//new JoystickButton(operatorLeft, 4).whenPressed(new FrontElevatorGoToHeightCommand(FrontElevator.HEIGHT_BOTTOM));
 		
 		JoystickButton fighter = new JoystickButton(operatorLeft, 9);
+		fighter.whenPressed(new EmptyCommand()
+		    	{
+					@Override
+					protected void onExecute()
+					{
+						Drive.getInstance().setPIDEnabled(false);
+					}
+		    	});
+		fighter.whenReleased(new EmptyCommand()
+		    	{
+					@Override
+					protected void onExecute()
+					{
+						Drive.getInstance().setPIDEnabled(true);
+					}
+		    	});		
 		//fighter.whenPressed(new ActivateDumbDriveCommand());
 		//fighter.whenReleased(new ActivateSmartDriveCommand());
 		//new JoystickButton(driveLeft, 1).whenPressed(new CancelAllCommand());

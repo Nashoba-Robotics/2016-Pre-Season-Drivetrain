@@ -1,6 +1,6 @@
-package edu.nr.auton;
+package edu.nr.robotics.auton;
 
-import edu.nr.CMD;
+import edu.nr.lib.CMD;
 
 public class AutonDoNothingCommand extends CMD
 {

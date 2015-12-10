@@ -1,7 +1,9 @@
-package edu.nr.subsystems.drive;
+package edu.nr.robotics.subsystems.drive;
 
-import edu.nr.CMD;
-import edu.nr.OI;
+import edu.nr.lib.CMD;
+import edu.nr.lib.NRMath;
+import edu.nr.robotics.OI;
+import edu.nr.robotics.subsystems.drive.Drive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -32,15 +34,38 @@ public class DriveJoystickCommand extends CMD
 	    	double driveMagnitude = moveValue;
 			if(OI.getInstance().reverseDriveDirection())
 	    		driveMagnitude  *= -1;
+	    		    	
+	    	double rotateValue = -OI.getInstance().getArcadeTurnValue()/3;
 	    	
-	    	double turn = OI.getInstance().getArcadeTurnValue()/3;
 	    	
+	    	
+            NRMath.squareWithSign(moveValue);
+            NRMath.squareWithSign(rotateValue);
+
+            double negInertia = rotateValue - oldTurn;
+            
+            // Negative inertia!
+            double negInertiaScalar;
+            
+            if (rotateValue * negInertia > 0) {
+                negInertiaScalar = 0.5;
+            } else {
+                if (Math.abs(rotateValue) > 0.65) {
+                    negInertiaScalar = 1.0;
+                } else {
+                    negInertiaScalar = 0.6;
+                }
+            }
+            
+            rotateValue = rotateValue + negInertia * negInertiaScalar;
+            
 	    	SmartDashboard.putNumber("Drive Magnitude", moveValue);
-	    	SmartDashboard.putNumber("Turn", turn);    	
+	    	SmartDashboard.putNumber("Turn", rotateValue);    
+
 	    	
-	    	Drive.getInstance().arcadeDrive(OI.getInstance().speedMultiplier*driveMagnitude, OI.getInstance().speedMultiplier*turn, oldTurn, true);
+	    	Drive.getInstance().arcadeDrive(OI.getInstance().speedMultiplier*driveMagnitude, OI.getInstance().speedMultiplier*rotateValue);
 	    	
-	    	oldTurn = OI.getInstance().speedMultiplier*turn;
+	    	oldTurn = rotateValue;
     	}
     	else{
     		//Get values of the joysticks
