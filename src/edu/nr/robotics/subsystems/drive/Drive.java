@@ -1,5 +1,6 @@
 package edu.nr.robotics.subsystems.drive;
 
+import edu.nr.robotics.Robot;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
@@ -24,10 +25,9 @@ public class Drive extends Subsystem {
 	CANTalon leftTalon, rightTalon;
 	Encoder leftEnc, rightEnc;
 	
-	//ticksPerRev is something...
-	private double ticksPerRev = 1440, wheelDiameter = .33; //TicksPerRev was 256 in 2015, wheelDiameter was 0.4975 in 2015
-	//TODO Get ticksPerRev and wheelDiameter
-	
+	//These values are right so that one distance unit given by the encoders is one meter
+	private double ticksPerRev = 56, wheelDiameter = .33; //TicksPerRev was 256 in 2015, wheelDiameter was 0.4975 in 2015
+		
 	private Drive() {
 		leftTalon = new CANTalon(RobotMap.TALON_LEFT_A);
 		leftTalon.enableBrakeMode(true);
@@ -53,7 +53,7 @@ public class Drive extends Subsystem {
 
 		double distancePerPulse = (1 / ticksPerRev) * Math.PI * wheelDiameter;
 		
-		//Max speed of robot is 20 ft/sec, so in order for our PIDController to work, the scale of encoder rate
+		//Max speed of robot is 4 m/sec, so in order for our PIDController to work, the scale of encoder rate
 		//in ft/sec must be on a scale of -1 to 1 (so it can be used to calculate motor output)
 		leftEnc.setDistancePerPulse(distancePerPulse / RobotMap.MAX_ENCODER_RATE);
 		rightEnc.setDistancePerPulse(distancePerPulse / RobotMap.MAX_ENCODER_RATE);
@@ -193,14 +193,14 @@ public class Drive extends Subsystem {
 	{
 		return (getEncoderRightSpeed() + getEncoderLeftSpeed()) / 2;
 	}
-	
+		
 	public void putSmartDashboardInfo()
 	{	
 		SmartDashboard.putNumber("Encoders Distance Ave", this.getEncoderAverageDistance());
 		SmartDashboard.putNumber("Encoders Speed Ave", this.getEncoderAverageSpeed());
 		SmartDashboard.putData("Encoder Left", leftEnc);
 		SmartDashboard.putData("Encoder Right", rightEnc);
-		
+				
 		SmartDashboard.putData("PID Left", leftPid);
 		SmartDashboard.putData("PID Right", rightPid);
 	}
