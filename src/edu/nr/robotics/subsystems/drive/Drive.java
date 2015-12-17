@@ -25,8 +25,8 @@ public class Drive extends Subsystem {
 	CANTalon leftTalon, rightTalon;
 	Encoder leftEnc, rightEnc;
 	
-	//These values are right so that one distance unit given by the encoders is one meter
-	private double ticksPerRev = 360, wheelDiameter = 4; //TicksPerRev was 256 in 2015, wheelDiameter was 0.4975 in 2015
+	//These values are right so that one distance unit given by the encoders is one foot
+	private double ticksPerRev = 360, wheelDiameter = 4/12; //TicksPerRev was 256 in 2015, wheelDiameter was 0.4975 in 2015
 		
 	private Drive() {
 		leftTalon = new CANTalon(RobotMap.TALON_LEFT_A);
@@ -53,8 +53,8 @@ public class Drive extends Subsystem {
 
 		double distancePerPulse = (1 / ticksPerRev) * Math.PI * wheelDiameter;
 		
-		//Max speed of robot is 4 m/sec, so in order for our PIDController to work, the scale of encoder rate
-		//in ft/sec must be on a scale of -1 to 1 (so it can be used to calculate motor output)
+		//Max speed of robot is not just 1 foot per second, but in order for our PIDController to work, the scale of encoder rate
+		//in ft/sec must be on a scale of -1 to 1 (so it can be used to calculate motor output), so this converts it
 		leftEnc.setDistancePerPulse(distancePerPulse / RobotMap.MAX_ENCODER_RATE);
 		rightEnc.setDistancePerPulse(distancePerPulse / RobotMap.MAX_ENCODER_RATE);
 				
