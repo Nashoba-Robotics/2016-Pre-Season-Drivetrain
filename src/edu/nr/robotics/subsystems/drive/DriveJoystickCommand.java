@@ -35,7 +35,7 @@ public class DriveJoystickCommand extends CMD
 			if(OI.getInstance().reverseDriveDirection())
 	    		driveMagnitude  *= -1;
 	    		    	
-	    	double rotateValue = -OI.getInstance().getArcadeTurnValue()/3;
+	    	double rotateValue = OI.getInstance().getArcadeTurnValue()/2;
 	    	
 	    	
 	    	

@@ -2,6 +2,7 @@ package edu.nr.robotics;
 
 import edu.nr.lib.EmptyCommand;
 import edu.nr.robotics.subsystems.drive.Drive;
+import edu.nr.robotics.subsystems.drive.ResetEncodersCommand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -16,7 +17,7 @@ public class OI
 	
 	public double speedMultiplier = 1;
 	
-	private final double JOYSTICK_DEAD_ZONE = 0.05;
+	private final double JOYSTICK_DEAD_ZONE = 0.15;
 	
 	public double gyroValueforPlayerStation = 0;
 	
@@ -83,7 +84,9 @@ public class OI
 		    	});		
 		//fighter.whenPressed(new ActivateDumbDriveCommand());
 		//fighter.whenReleased(new ActivateSmartDriveCommand());
-		//new JoystickButton(driveLeft, 1).whenPressed(new CancelAllCommand());
+		new JoystickButton(driveLeft, 1).whenPressed(new CancelAllCommand());
+		new JoystickButton(driveRight, 10).whenPressed(new ResetEncodersCommand());
+
 	}
 	
 	public static OI getInstance()
@@ -157,7 +160,7 @@ public class OI
 	
 	private double snapCoffinJoysticks(double value)
 	{
-		if(value > -0.1 && value < 0.1)
+		if(Math.abs(value) < 0.1)
 			return 0;
 		
 		return (value-0.1) / 0.9;

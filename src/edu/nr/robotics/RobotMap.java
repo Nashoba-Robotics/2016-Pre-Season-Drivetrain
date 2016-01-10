@@ -16,7 +16,7 @@ public class RobotMap {
 	public static final int ENCODER_LEFT_B = 8;
 	public static final int ENCODER_RIGHT_A = 7;
 	public static final int ENCODER_RIGHT_B = 6;
-	public static final double MAX_ENCODER_RATE = 20; //Rotations/second
+	public static final double MAX_ENCODER_RATE = 10.5; //feet/second
 	public static final double MAX_SPEED = 3.4; //Meters per second
 	public static final double MAX_ACCELERATION = 0; //Meters per second per second
 }
