@@ -1,6 +1,6 @@
 package edu.nr.robotics.subsystems.drive;
 
-import edu.nr.robotics.Robot;
+import edu.nr.lib.navx.NavX;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
@@ -204,5 +204,16 @@ public class Drive extends Subsystem {
 		SmartDashboard.putData("PID Left", leftPid);
 		SmartDashboard.putData("PID Right", rightPid);
 	}
+
+	public double getAngleDegrees() 
+	{
+		return NavX.getInstance().getYaw();
+	}
+	
+	public double getAngleRadians()
+	{
+		return getAngleDegrees() * (Math.PI)/180d;
+	}
+
 }
 
