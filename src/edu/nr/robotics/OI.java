@@ -1,7 +1,9 @@
 package edu.nr.robotics;
 
 import edu.nr.lib.EmptyCommand;
+import edu.nr.lib.path.OneDimensionalPath;
 import edu.nr.robotics.subsystems.drive.Drive;
+import edu.nr.robotics.subsystems.drive.DriveComplexDistanceCommand;
 import edu.nr.robotics.subsystems.drive.ResetEncodersCommand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -37,18 +39,13 @@ public class OI
 		operatorLeft = new Joystick(2);
 		operatorRight = new Joystick(3);
 		
-		//new JoystickButton(operatorRight, 9).whenPressed(new FrontArmsToggleCommand());
-		//new JoystickButton(operatorRight, 8).whenPressed(new ToteTwoToWaitWithOpeningArmsGroup());
-		//new JoystickButton(operatorRight, 7).whenPressed(new WhipDeployGroup());
-		//new JoystickButton(operatorRight, 6).whenPressed(new WhipUndeployGroup());
 		
-		//new JoystickButton(operatorRight, 5).whenPressed(new FrontElevatorGoToHeightCommand(FrontElevator.HEIGHT_WAITING));
-		//new JoystickButton(operatorRight, 4).whenPressed(new AdjustRecycleGroup());
-		
-		//new JoystickButton(operatorRight, 10).whenPressed(new ToteTwoToWaitGroup());
-		
-		//new JoystickButton(operatorRight, 2).whenPressed(new ToteOneToScoreGroup());
-		//new JoystickButton(operatorRight, 1).whenPressed(new ScoreGroup());
+		new JoystickButton(operatorRight, 1).whenPressed(new DriveComplexDistanceCommand(new OneDimensionalPath(1),
+				1/RobotMap.MAX_SPEED, //Kv
+				0, //Ka
+				0, //Kp
+				0  //Kd
+				)); //The score button
 		//new JoystickButton(operatorLeft, 8).whenPressed(new CloseBinGrabberAndRaiseGroup());
 		
 		//new JoystickButton(operatorLeft, 5).whenPressed(new ToggleBinGrabberCommand());
