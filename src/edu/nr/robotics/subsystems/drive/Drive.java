@@ -26,7 +26,7 @@ public class Drive extends Subsystem {
 	Encoder leftEnc, rightEnc;
 	
 	//These values are right so that one distance unit given by the encoders is one foot
-	private double ticksPerRev = 360, wheelDiameter = 4/12; //TicksPerRev was 256 in 2015, wheelDiameter was 0.4975 in 2015
+	private final double ticksPerRev = 360, wheelDiameter = 0.33333; //TicksPerRev was 256 in 2015, wheelDiameter was 0.4975 in 2015
 		
 	private Drive() {
 		leftTalon = new CANTalon(RobotMap.TALON_LEFT_A);

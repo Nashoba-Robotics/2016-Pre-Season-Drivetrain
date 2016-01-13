@@ -2,6 +2,7 @@ package edu.nr.robotics;
 
 import edu.nr.robotics.auton.AutonDoNothingCommand;
 import edu.nr.robotics.subsystems.drive.Drive;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -23,11 +24,21 @@ public class Robot extends IterativeRobot {
     Command autonomousCommand;
     SendableChooser autoCommandChooser;
     
+    CameraServer server;
+
+    
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
     public void robotInit() {
+    	
+        server = CameraServer.getInstance();
+        server.setQuality(50);
+        //the camera name (ex "cam0") can be found through the roborio web interface
+        //server.startAutomaticCapture("cam0");
+
+    	
 		Drive.init();
     	OI.init();
     	
