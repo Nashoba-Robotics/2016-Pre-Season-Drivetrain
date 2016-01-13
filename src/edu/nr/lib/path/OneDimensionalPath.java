@@ -18,8 +18,8 @@ public class OneDimensionalPath {
 		endUp = i;
 		double timeAtMaxSpeed = (distance - maxSpeed * endUp * 2)/maxSpeed;
 		startDown = endUp + timeAtMaxSpeed;
-		if(startDown < endUp) {
-			endUp = startDown; //Make sure that endUp <= endDown
+		if(timeAtMaxSpeed < 0) {
+			startDown = endUp; //Make sure that endUp <= startDown
 		}
 		length = startDown + endUp;
 	}
@@ -47,7 +47,7 @@ public class OneDimensionalPath {
 		} else if(time <= endUp) {
 			return time * maxAcc; //If we haven't finished speeding up, we're at the integral of maxAcc from 0 to time
 		} else {
-			return (time - startDown) * maxAcc; //We must not have finished slowing down, so we're at the integral of maxAcc from startDown to time
+			return maxSpeed - (time - startDown) * maxAcc; //We must not have finished slowing down, so we're at the integral of maxAcc from startDown to time
 		}
 	}
 	

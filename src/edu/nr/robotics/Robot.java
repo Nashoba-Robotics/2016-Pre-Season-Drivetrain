@@ -1,5 +1,6 @@
 package edu.nr.robotics;
 
+import edu.nr.lib.FieldCentric;
 import edu.nr.robotics.auton.AutonDoNothingCommand;
 import edu.nr.robotics.subsystems.drive.Drive;
 import edu.wpi.first.wpilibj.CameraServer;
@@ -66,7 +67,10 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
+        FieldCentric.getInstance().update();
+
         Scheduler.getInstance().run();
+        
 
         //Update SmartDashboard info after the scheduler runs our command(s)
         putSubsystemDashInfo();
@@ -84,8 +88,9 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        Scheduler.getInstance().run();
+        FieldCentric.getInstance().update();
 
+        Scheduler.getInstance().run();
 		//Update SmartDashboard info after the scheduler runs our commands
         putSubsystemDashInfo();
     }
@@ -99,6 +104,8 @@ public class Robot extends IterativeRobot {
     }
     
 	public void disabledPeriodic() {
+        FieldCentric.getInstance().update();
+
 		Scheduler.getInstance().run();
 
 		//Update SmartDashboard info after the scheduler runs our commands

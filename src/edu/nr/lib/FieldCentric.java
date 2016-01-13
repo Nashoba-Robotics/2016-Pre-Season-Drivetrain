@@ -23,6 +23,7 @@ public class FieldCentric {
 	
 	public FieldCentric(double initialTheta)
 	{
+		lastUpdateTime = System.currentTimeMillis();
 		this.initialTheta = initialTheta;
 	}
 	
@@ -30,7 +31,7 @@ public class FieldCentric {
     {
         if(System.currentTimeMillis() - lastUpdateTime > 300)
         {
-            //System.err.println("WARNING: FieldCentric not being called often enough: (" + ((System.currentTimeMillis() - lastUpdateTime)/1000f) + "s)");
+            System.err.println("WARNING: FieldCentric not being called often enough: (" + ((System.currentTimeMillis() - lastUpdateTime)/1000f) + "s)");
         }
         
         double angle = Drive.getInstance().getAngleDegrees() - initialGyro;
