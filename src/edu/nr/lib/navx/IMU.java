@@ -63,7 +63,7 @@ public class IMU extends SensorBase implements PIDSource, LiveWindowSendable, Ru
     private IMUProtocol.YPRUpdate ypr_update_data;
     protected byte update_type = IMUProtocol.MSGID_YPR_UPDATE;
     
-    PIDSourceType type; //This isn't actually used for anything in this, but WPILib requires it, since we implement PIDSource
+    PIDSourceType type; 
     
     /**
      * Constructs the IMU class, overriding the default update rate
