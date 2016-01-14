@@ -42,7 +42,7 @@ public class OI
 		
 		new JoystickButton(operatorRight, 1).whenPressed(new DriveComplexDistanceCommand(new OneDimensionalPath(1),
 				1/RobotMap.MAX_SPEED, //Kv
-				0, //Ka
+				0.5, //Ka
 				0, //Kp
 				0  //Kd
 				)); //The score button

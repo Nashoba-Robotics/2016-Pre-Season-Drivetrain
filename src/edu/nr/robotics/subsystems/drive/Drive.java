@@ -5,8 +5,8 @@ import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.CANTalon.ControlMode;
-import edu.wpi.first.wpilibj.PIDSource.PIDSourceParameter;
+import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -33,7 +33,7 @@ public class Drive extends Subsystem {
 		leftTalon.enableBrakeMode(true);
 		
 		CANTalon tempLeftTalon = new CANTalon(RobotMap.TALON_LEFT_B);
-		tempLeftTalon.changeControlMode(ControlMode.Follower);
+		tempLeftTalon.changeControlMode(TalonControlMode.Follower);
 		tempLeftTalon.set(leftTalon.getDeviceID());
 		tempLeftTalon.enableBrakeMode(true);
 
@@ -44,12 +44,12 @@ public class Drive extends Subsystem {
 		rightEnc = new Encoder(RobotMap.ENCODER_RIGHT_A, RobotMap.ENCODER_RIGHT_B);
 		
 		CANTalon tempRightTalon = new CANTalon(RobotMap.TALON_RIGHT_B);
-		tempRightTalon.changeControlMode(ControlMode.Follower);
+		tempRightTalon.changeControlMode(TalonControlMode.Follower);
 		tempRightTalon.set(rightTalon.getDeviceID());
 		tempRightTalon.enableBrakeMode(true);
 		
-		leftEnc.setPIDSourceParameter(PIDSourceParameter.kRate);
-		rightEnc.setPIDSourceParameter(PIDSourceParameter.kRate);
+		leftEnc.setPIDSourceType(PIDSourceType.kRate);
+		rightEnc.setPIDSourceType(PIDSourceType.kRate);
 
 		double distancePerPulse = (1 / ticksPerRev) * Math.PI * wheelDiameter;
 		
@@ -139,7 +139,7 @@ public class Drive extends Subsystem {
 	
     //Notable is that to go forward, they should be opposite signs, and to turn in place, they should be the same sign.
 	public void tankDrive(double leftMotorSpeed, double rightMotorSpeed) {
-		if(leftPid.isEnable() && rightPid.isEnable())
+		if(leftPid.isEnabled() && rightPid.isEnabled())
         {
         	leftPid.setSetpoint(leftMotorSpeed);
             rightPid.setSetpoint(rightMotorSpeed);
