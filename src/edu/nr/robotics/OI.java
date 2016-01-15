@@ -66,8 +66,7 @@ public class OI
 					}
 		    	});		
 
-		//TODO: Find out the button for the operature CancelAllCommand
-		
+		new JoystickButton(operatorLeft, 1).whenPressed(new CancelAllCommand());		
 		new JoystickButton(driveLeft, 1).whenPressed(new CancelAllCommand());
 		new JoystickButton(driveRight, 10).whenPressed(new ResetEncodersCommand());
 
