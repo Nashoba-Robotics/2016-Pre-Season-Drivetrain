@@ -46,22 +46,7 @@ public class OI
 				0.5, //Ka
 				0, //Kp
 				0  //Kd
-				)); //The score button
-		//new JoystickButton(operatorLeft, 8).whenPressed(new CloseBinGrabberAndRaiseGroup());
-		
-		//new JoystickButton(operatorLeft, 5).whenPressed(new ToggleBinGrabberCommand());
-		
-		//new JoystickButton(operatorLeft, 7).whenPressed(adjust); (Adjust used to be a variable, it was removed)
-		
-		//new JoystickButton(operatorLeft, 6).whenPressed(new FrontElevatorGoToHeightCommand(FrontElevator.HEIGHT_BEFORE_TOTE_ADJUST));
-		
-		//new JoystickButton(operatorLeft, 1).whenPressed(new CancelAllCommand());
-		
-		//new JoystickButton(operatorLeft, 3).whenPressed(new FrontElevatorGoToHeightCommand(FrontElevator.HEIGHT_SCORING));
-        
-		//new JoystickButton(operatorLeft, 2).whenPressed(new ToteTwoToScoreGroup());
-		
-		//new JoystickButton(operatorLeft, 4).whenPressed(new FrontElevatorGoToHeightCommand(FrontElevator.HEIGHT_BOTTOM));
+				)); //The old score button
 		
 		JoystickButton fighter = new JoystickButton(operatorLeft, 9);
 		fighter.whenPressed(new EmptyCommand()
@@ -80,8 +65,9 @@ public class OI
 						Drive.getInstance().setPIDEnabled(true);
 					}
 		    	});		
-		//fighter.whenPressed(new ActivateDumbDriveCommand());
-		//fighter.whenReleased(new ActivateSmartDriveCommand());
+
+		//TODO: Find out the button for the operature CancelAllCommand
+		
 		new JoystickButton(driveLeft, 1).whenPressed(new CancelAllCommand());
 		new JoystickButton(driveRight, 10).whenPressed(new ResetEncodersCommand());
 
