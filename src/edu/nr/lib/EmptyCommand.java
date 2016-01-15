@@ -28,6 +28,12 @@ public abstract class EmptyCommand extends CMD
 	protected void initialize() 
 	{
 	}
+	
+	@Override
+	protected void onExecute()
+	{
+		
+	}
 
 	@Override
 	protected boolean isFinished() 

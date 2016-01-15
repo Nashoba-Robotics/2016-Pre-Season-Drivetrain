@@ -1,5 +1,7 @@
 package edu.nr.robotics;
 
+import java.util.ArrayList;
+
 import edu.nr.lib.FieldCentric;
 import edu.nr.robotics.auton.AutonDoNothingCommand;
 import edu.nr.robotics.subsystems.drive.Drive;
@@ -9,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,6 +26,8 @@ public class Robot extends IterativeRobot {
 
     Command autonomousCommand;
     SendableChooser autoCommandChooser;    
+    
+    public static ArrayList<Subsystem> subsystems = new ArrayList<Subsystem>();
 
     public enum Mode {
     	TELEOP, AUTONOMOUS, DISABLED
@@ -37,6 +42,7 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
 		Drive.init();
     	OI.init();
+    	subsystems.add(Drive.getInstance());
     	
     	autoCommandChooser = new SendableChooser();
 		autoCommandChooser.addDefault("Do Nothing", new AutonDoNothingCommand());
