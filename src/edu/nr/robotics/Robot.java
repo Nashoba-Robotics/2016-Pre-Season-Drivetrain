@@ -3,7 +3,6 @@ package edu.nr.robotics;
 import edu.nr.lib.FieldCentric;
 import edu.nr.robotics.auton.AutonDoNothingCommand;
 import edu.nr.robotics.subsystems.drive.Drive;
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -23,23 +22,19 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 
     Command autonomousCommand;
-    SendableChooser autoCommandChooser;
-    
-    CameraServer server;
+    SendableChooser autoCommandChooser;    
 
+    public enum Mode {
+    	TELEOP, AUTONOMOUS, DISABLED
+    }
+    
+    public Mode currentMode;
     
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
     public void robotInit() {
-    	
-        server = CameraServer.getInstance();
-        server.setQuality(50);
-        //the camera name (ex "cam0") can be found through the roborio web interface
-        //server.startAutomaticCapture("cam0");
-
-    	
 		Drive.init();
     	OI.init();
     	
@@ -61,38 +56,30 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {
         autonomousCommand =(Command) autoCommandChooser.getSelected();
         autonomousCommand.start();
+        
+        currentMode = Mode.AUTONOMOUS;
     }
 
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-        FieldCentric.getInstance().update();
-
-        Scheduler.getInstance().run();
-        
-
-        //Update SmartDashboard info after the scheduler runs our command(s)
-        putSubsystemDashInfo();
+        periodic(Mode.AUTONOMOUS);
     }
 
     public void teleopInit() {
 		// This makes sure that the autonomous stops running when
-        // teleop starts running. If you want the autonomous to 
-        // continue until interrupted by another command, remove
-        // this line or comment it out.
+        // teleop starts running. 
         if (autonomousCommand != null) autonomousCommand.cancel();
+        
+        currentMode = Mode.TELEOP;
     }
     
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        FieldCentric.getInstance().update();
-
-        Scheduler.getInstance().run();
-		//Update SmartDashboard info after the scheduler runs our commands
-        putSubsystemDashInfo();
+        periodic(Mode.TELEOP);
     }
 
     /**
@@ -100,16 +87,11 @@ public class Robot extends IterativeRobot {
      * You can use it to reset subsystems before shutting down.
      */
     public void disabledInit(){
-
+    	currentMode = Mode.DISABLED;
     }
     
 	public void disabledPeriodic() {
-        FieldCentric.getInstance().update();
-
-		Scheduler.getInstance().run();
-
-		//Update SmartDashboard info after the scheduler runs our commands
-        putSubsystemDashInfo();
+        periodic(Mode.DISABLED);
 	}
     
     /**
@@ -117,6 +99,14 @@ public class Robot extends IterativeRobot {
      */
     public void testPeriodic() {
         LiveWindow.run();
+    }
+    
+    private void periodic(Mode mode)
+    {
+    	FieldCentric.getInstance().update();
+		Scheduler.getInstance().run();
+		
+        putSubsystemDashInfo();
     }
     
     private void putSubsystemDashInfo() {
