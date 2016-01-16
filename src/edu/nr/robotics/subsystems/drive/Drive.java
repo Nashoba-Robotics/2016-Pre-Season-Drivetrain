@@ -1,12 +1,12 @@
 package edu.nr.robotics.subsystems.drive;
 
 import edu.nr.lib.NRMath;
+import edu.nr.lib.PID;
 import edu.nr.lib.SmartDashboardSource;
 import edu.nr.lib.navx.NavX;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -22,12 +22,12 @@ public class Drive extends Subsystem implements SmartDashboardSource{
 
 	
 	private static Drive singleton;
-	private PIDController leftPid, rightPid;
+	private PID leftPid, rightPid;
 	CANTalon leftTalon, rightTalon;
 	Encoder leftEnc, rightEnc;
 	
 	//These values are right so that one distance unit given by the encoders is one foot
-	private final double ticksPerRev = 360, wheelDiameter = 0.33333; //TicksPerRev was 256 in 2015, wheelDiameter was 0.4975 in 2015
+	private final double ticksPerRev = 360, wheelDiameter = 0.33333;
 		
 	private Drive() {
 		leftTalon = new CANTalon(RobotMap.TALON_LEFT_A);
@@ -50,17 +50,18 @@ public class Drive extends Subsystem implements SmartDashboardSource{
 		tempRightTalon.enableBrakeMode(true);
 		
 		leftEnc.setPIDSourceType(PIDSourceType.kRate);
+		
+		leftEnc.setReverseDirection(true);
+		
 		rightEnc.setPIDSourceType(PIDSourceType.kRate);
 
 		double distancePerPulse = (1 / ticksPerRev) * Math.PI * wheelDiameter;
 		
-		//Max speed of robot is not just 1 foot per second, but in order for our PIDController to work, the scale of encoder rate
-		//in ft/sec must be on a scale of -1 to 1 (so it can be used to calculate motor output), so this converts it
-		leftEnc.setDistancePerPulse(distancePerPulse / RobotMap.MAX_ENCODER_RATE);
-		rightEnc.setDistancePerPulse(distancePerPulse / RobotMap.MAX_ENCODER_RATE);
+		leftEnc.setDistancePerPulse(distancePerPulse / RobotMap.MAX_SPEED);
+		rightEnc.setDistancePerPulse(distancePerPulse / RobotMap.MAX_SPEED);
 				
-		leftPid = new PIDController(JOYSTICK_DRIVE_P, 0, 0, 1, leftEnc, leftTalon);
-		rightPid = new PIDController(JOYSTICK_DRIVE_P, 0, 0, 1, rightEnc, rightTalon);
+		leftPid = new PID(JOYSTICK_DRIVE_P, 0, 0, 1, leftEnc, leftTalon);
+		rightPid = new PID(JOYSTICK_DRIVE_P, 0, 0, 1, rightEnc, rightTalon);
 		leftPid.enable();
 		rightPid.enable();
 	}
@@ -153,13 +154,25 @@ public class Drive extends Subsystem implements SmartDashboardSource{
 	}
 	
 	/**
-	 * Enabled the PID and sets the setpoint for the left and right motors
+	 * Enables the PID and sets the setpoint for the left and right motors
 	 * @param left the left motor speed, from -1 to 1
 	 * @param right the right motor speed, from -1 to 1
 	 */
 	public void setPIDSetpoint(double left, double right)
 	{
-		setPIDEnabled(true);
+		setPIDSetpoint(left,right,true);
+	}
+	
+	/**
+	 * Optionally enables the PID and sets the setpoint for the left and right motors
+	 * @param left the left motor speed, from -1 to 1
+	 * @param right the right motor speed, from -1 to 1
+	 * @param enable whether or not to enable the PID before setting the setpoints
+	 */
+	public void setPIDSetpoint(double left, double right, boolean enable)
+	{
+		if(enable)
+			setPIDEnabled(true);
     	
 		leftPid.setSetpoint(left);
         rightPid.setSetpoint(right);
@@ -186,11 +199,12 @@ public class Drive extends Subsystem implements SmartDashboardSource{
 	 */
 	public boolean getPIDEnabled()
 	{
-		return leftPid.isEnabled() && rightPid.isEnabled();
+		return leftPid.isEnable() && rightPid.isEnable();
 	}
 	
 	/**
-	 * Enables or disables both left and right PIDs
+	 * Enables or disables both left and right PIDs.
+	 * Disabling also resets the integral term and the previous error of the PID
 	 * @param enabled whether to enable (true) or disable (false)
 	 */
 	public void setPIDEnabled(boolean enabled)
@@ -202,8 +216,8 @@ public class Drive extends Subsystem implements SmartDashboardSource{
 		}
 		else 
 		{
-			leftPid.disable();
-			rightPid.disable();
+			leftPid.reset();
+			rightPid.reset();
 		}
 	}
 	
@@ -222,7 +236,7 @@ public class Drive extends Subsystem implements SmartDashboardSource{
 	 */
 	public double getEncoderLeftDistance()
 	{
-		return leftEnc.getDistance() * RobotMap.MAX_ENCODER_RATE;
+		return leftEnc.getDistance() * RobotMap.MAX_SPEED;
 	}
 	
 	/**
@@ -231,7 +245,7 @@ public class Drive extends Subsystem implements SmartDashboardSource{
 	 */
 	public double getEncoderRightDistance()
 	{
-		return -rightEnc.getDistance() * RobotMap.MAX_ENCODER_RATE;
+		return -rightEnc.getDistance() * RobotMap.MAX_SPEED;
 	}
 	
 	/**
@@ -240,7 +254,7 @@ public class Drive extends Subsystem implements SmartDashboardSource{
 	 */
 	public double getEncoderLeftSpeed()
 	{
-		return leftEnc.getRate() * RobotMap.MAX_ENCODER_RATE;
+		return leftEnc.getRate() * RobotMap.MAX_SPEED;
 	}
 	
 	/**
@@ -249,7 +263,7 @@ public class Drive extends Subsystem implements SmartDashboardSource{
 	 */
 	public double getEncoderRightSpeed()
 	{
-		return -rightEnc.getRate() * RobotMap.MAX_ENCODER_RATE;
+		return -rightEnc.getRate() * RobotMap.MAX_SPEED;
 	}
 	
 	/**

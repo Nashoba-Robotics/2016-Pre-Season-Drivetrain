@@ -33,7 +33,7 @@ public class OneDimensionalPath {
 	}
 	
 	public double getPosition(double time) {
-		if(time > endUp && time < startDown) {
+		if(time > endUp && time <= startDown) {
 			return getPosition(endUp) + maxSpeed*(time - endUp); //If we've finished speeding up, but haven't started slowing down, we're at a constant speed
 		} else if(time <= endUp) {
 			return maxAcc * time * time * 0.5; //If we haven't finished speeding up, we've been accelerating at maxAcc, and x = 1/2 a * t^2
@@ -46,7 +46,7 @@ public class OneDimensionalPath {
 	}
 	
 	public double getSpeed(double time) {
-		if(time > endUp && time < startDown) {
+		if(time > endUp && time <= startDown) {
 			return maxSpeed; //If we've finished speeding up, but haven't started slowing down, we're at maxSpeed
 		} else if(time <= endUp) {
 			return time * maxAcc; //If we haven't finished speeding up, we're at the integral of maxAcc from 0 to time

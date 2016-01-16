@@ -51,22 +51,6 @@ public class OI
 				)); //The old score button
 		
 		fighter = new JoystickButton(operatorLeft, 9);
-		fighter.whenPressed(new EmptyCommand()
-		    	{
-					@Override
-					protected void onExecute()
-					{
-						Drive.getInstance().setPIDEnabled(false);
-					}
-		    	});
-		fighter.whenReleased(new EmptyCommand()
-		    	{
-					@Override
-					protected void onExecute()
-					{
-						Drive.getInstance().setPIDEnabled(true);
-					}
-		    	});		
 
 		new JoystickButton(operatorLeft, 1).whenPressed(new CancelAllCommand());		
 		new JoystickButton(driveLeft, 1).whenPressed(new CancelAllCommand());
@@ -94,18 +78,6 @@ public class OI
 	public double getArcadeTurnValue()
 	{
 		return -snapDriveJoysticks(driveRight.getX());
-	}
-	
-	public double getHDriveValue()
-	{
-		if(driveRight.getRawButton(2))
-		{
-			return -driveRight.getX();
-		}
-		else
-		{
-			return snapCoffinJoysticks(-operatorLeft.getRawAxis(0));
-		}
 	}
 	
 	//Reversing drive direction makes it easy to maneuver in reverse

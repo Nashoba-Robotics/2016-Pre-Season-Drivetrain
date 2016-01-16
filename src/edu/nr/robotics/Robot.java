@@ -102,10 +102,8 @@ public class Robot extends IterativeRobot {
     public void disabledInit(){
     	initialize(Mode.DISABLED);
     	
-		//Make sure that the PIDs are disabled, otherwise if we disable while the PIDs are set, we might have issues...
-    	if(Drive.getInstance().getPIDEnabled()) { 
-    		Drive.getInstance().setPIDSetpoint(0, 0);
-    	}
+		//Make sure that the PIDs are set to 0, otherwise if we disable while the PIDs are set, we might have issues...
+    	Drive.getInstance().setPIDSetpoint(0, 0, false);
     }
     
     /**
@@ -121,6 +119,8 @@ public class Robot extends IterativeRobot {
 	 */
     private void periodic(Mode mode)
     {
+    	Drive.getInstance().setPIDEnabled(!OI.getInstance().fighter.get());
+    	
     	FieldCentric.getInstance().update();
     	Scheduler.getInstance().run();
     
