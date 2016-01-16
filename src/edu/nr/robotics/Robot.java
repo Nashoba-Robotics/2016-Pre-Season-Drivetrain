@@ -6,6 +6,7 @@ import edu.nr.lib.FieldCentric;
 import edu.nr.lib.SmartDashboardSource;
 import edu.nr.robotics.auton.AutonDoNothingCommand;
 import edu.nr.robotics.subsystems.drive.Drive;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -40,6 +41,12 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
+    	CameraServer server = CameraServer.getInstance();	
+        server.setQuality(50);
+        //the camera name (ex "cam0") can be found through the roborio web interface
+        server.startAutomaticCapture("cam1");//TODO: Potentially find the camera name with the real one we use
+
+    	
     	OI.init();
 		Drive.init();
 		FieldCentric.init();
