@@ -16,4 +16,12 @@ public class NRMath {
         return x;
 	}
 	
+	public static double degToRad(double d) {
+		return 2*Math.PI*d/360.0;
+	}
+	
+	public static double radToDeg(double d) {
+		return d*360.0/(2*Math.PI);
+	}
+	
 }

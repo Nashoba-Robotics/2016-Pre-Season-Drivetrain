@@ -1,6 +1,7 @@
 package edu.nr.robotics.subsystems.drive;
 
 import edu.nr.lib.ChiefSubsystem;
+import edu.nr.lib.NRMath;
 import edu.nr.lib.navx.NavX;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
@@ -16,7 +17,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Drive extends ChiefSubsystem {
 
 	//This is a constant that is used for driving with PID control
-	//It's a magic number.
 	public static final double JOYSTICK_DRIVE_P = 0.25;
 
 	
@@ -92,64 +92,70 @@ public class Drive extends ChiefSubsystem {
 	}
 
     /**
-     * @param moveValue The speed, from -1 to 1 (inclusive), that the robot should go at. 1 is max forward, 0 is stopped, -1 is max backward
-     * @param rotateValue The speed, from -1 to 1 (inclusive), that the robot should turn at. 1 is max right, 0 is stopped, -1 is max left
+     * Sets left and right motor speeds to the speeds needed for the given move and turn values
+     * @param move The speed, from -1 to 1 (inclusive), that the robot should go at. 1 is max forward, 0 is stopped, -1 is max backward
+     * @param turn The speed, from -1 to 1 (inclusive), that the robot should turn at. 1 is max right, 0 is stopped, -1 is max left
      */
-    public void arcadeDrive(double moveValue, double rotateValue)
+    public void arcadeDrive(double move, double turn)
 	{	
     	double leftMotorSpeed, rightMotorSpeed;
-        rightMotorSpeed = leftMotorSpeed = moveValue;
-        leftMotorSpeed += rotateValue;
-        rightMotorSpeed -= rotateValue;
+        rightMotorSpeed = leftMotorSpeed = move;
+        leftMotorSpeed += turn;
+        rightMotorSpeed -= turn;
 
-        if (moveValue > 0.0)
+        if (move > 0.0)
         {
-            if (rotateValue > 0.0) 
+            if (turn > 0.0) 
             {
-                leftMotorSpeed = moveValue - rotateValue;
-                rightMotorSpeed = Math.max(moveValue, rotateValue);
+                leftMotorSpeed = move - turn;
+                rightMotorSpeed = Math.max(move, turn);
             } 
             else
             {
-                leftMotorSpeed = Math.max(moveValue, -rotateValue);
-                rightMotorSpeed = moveValue + rotateValue;
+                leftMotorSpeed = Math.max(move, -turn);
+                rightMotorSpeed = move + turn;
             }
         } 
         else 
         {
-            if (rotateValue > 0.0) 
+            if (turn > 0.0) 
             {
-                leftMotorSpeed = -Math.max(-moveValue, rotateValue);
-                rightMotorSpeed = moveValue + rotateValue;
+                leftMotorSpeed = -Math.max(-move, turn);
+                rightMotorSpeed = move + turn;
             } 
             else 
             {
-                leftMotorSpeed = moveValue - rotateValue;
-                rightMotorSpeed = -Math.max(-moveValue, -rotateValue);
+                leftMotorSpeed = move - turn;
+                rightMotorSpeed = -Math.max(-move, -turn);
             }
         }
-
-                
-        SmartDashboard.putNumber("Arcade Left Motors", leftMotorSpeed);
-        SmartDashboard.putNumber("Arcade Right Motors", rightMotorSpeed);
-        SmartDashboard.putBoolean("Half Speed", false);
         
         tankDrive(leftMotorSpeed, -rightMotorSpeed);
 	}
 	
-    //Notable is that to go forward, they should be opposite signs, and to turn in place, they should be the same sign.
-	public void tankDrive(double leftMotorSpeed, double rightMotorSpeed) {
-		if(leftPid.isEnabled() && rightPid.isEnabled())
+    /**
+     * Sets both left and right motors to the given speed
+     * If PID is enabled, then sets the PID setpoints, otherwise sets the raw motor speeds
+     * Notable is that to go forward, they should be opposite signs, and to turn in place, they should be the same sign.
+     * @param left the left motor speed
+     * @param right the right motor speed
+     */
+	public void tankDrive(double left, double right) {
+		if(getPIDEnabled())
         {
-        	leftPid.setSetpoint(leftMotorSpeed);
-            rightPid.setSetpoint(rightMotorSpeed);
+			setPIDSetpoint(left, right);
         }
         else
         {
-        	setRawMotorSpeed(leftMotorSpeed, rightMotorSpeed);
+        	setRawMotorSpeed(left, right);
         }
 	}
 	
+	/**
+	 * Enabled the PID and sets the setpoint for the left and right motors
+	 * @param left the left motor speed, from -1 to 1
+	 * @param right the right motor speed, from -1 to 1
+	 */
 	public void setPIDSetpoint(double left, double right)
 	{
 		setPIDEnabled(true);
@@ -158,6 +164,12 @@ public class Drive extends ChiefSubsystem {
         rightPid.setSetpoint(right);
 	}
 	
+	/**
+	 * Disables the PID and sets the motor speed for the left and right motors
+	 * A raw motor speed is actually a scaled voltage value
+	 * @param left the left motor speed, from -1 to 1
+	 * @param right the right motor speed, from -1 to 1
+	 */
 	public void setRawMotorSpeed(double left, double right)
 	{
 		setPIDEnabled(false);
@@ -166,11 +178,20 @@ public class Drive extends ChiefSubsystem {
 		rightTalon.set(right);
 	}
 	
+	/**
+	 * Gets whether the PIDs are enabled or not.
+	 * If both are enabled, then returns true, otherwise returns false
+	 * @return whether the PIDs are enabled
+	 */
 	public boolean getPIDEnabled()
 	{
 		return leftPid.isEnabled() && rightPid.isEnabled();
 	}
 	
+	/**
+	 * Enables or disables both left and right PIDs
+	 * @param enabled whether to enable (true) or disable (false)
+	 */
 	public void setPIDEnabled(boolean enabled)
 	{
 		if(enabled)
@@ -185,42 +206,72 @@ public class Drive extends ChiefSubsystem {
 		}
 	}
 	
+	/**
+	 * Resets both the left and right encoders
+	 */
 	public void resetEncoders()
 	{
 		leftEnc.reset();
 		rightEnc.reset();
 	}
 	
+	/**
+	 * Gets the distance of the left encoder
+	 * @return the distance in meters
+	 */
 	public double getEncoderLeftDistance()
 	{
 		return leftEnc.getDistance() * RobotMap.MAX_ENCODER_RATE;
 	}
 	
+	/**
+	 * Gets the distance of the right encoder
+	 * @return the distance in meters
+	 */
 	public double getEncoderRightDistance()
 	{
 		return -rightEnc.getDistance() * RobotMap.MAX_ENCODER_RATE;
 	}
 	
+	/**
+	 * Gets the speed of the left encoder
+	 * @return the speed in meters per second
+	 */
 	public double getEncoderLeftSpeed()
 	{
 		return leftEnc.getRate() * RobotMap.MAX_ENCODER_RATE;
 	}
 	
+	/**
+	 * Gets the speed of the right encoder
+	 * @return the speed in meters per second
+	 */
 	public double getEncoderRightSpeed()
 	{
 		return -rightEnc.getRate() * RobotMap.MAX_ENCODER_RATE;
 	}
 	
+	/**
+	 * Gets the average distance of the encoders
+	 * @return the average distance in meters
+	 */
 	public double getEncoderAverageDistance()
 	{
 		return (getEncoderLeftDistance() + getEncoderRightDistance()) / 2f;
 	}
 	
+	/**
+	 * Gets the average speed of the encoders
+	 * @return the average speed in meters per second
+	 */
 	public double getEncoderAverageSpeed()
 	{
 		return (getEncoderRightSpeed() + getEncoderLeftSpeed()) / 2;
 	}
-		
+	
+	/**
+	 * Sends data to the SmartDashboard
+	 */
 	public void putSmartDashboardInfo()
 	{	
 		SmartDashboard.putNumber("Encoders Distance Ave", this.getEncoderAverageDistance());
@@ -232,14 +283,22 @@ public class Drive extends ChiefSubsystem {
 		SmartDashboard.putData("PID Right", rightPid);
 	}
 
+	/**
+	 * Gets the angle of the robot (the Yaw value from the NavX) in degrees
+	 * @return the angle in degrees
+	 */
 	public double getAngleDegrees() 
 	{
 		return NavX.getInstance().getYaw();
 	}
 	
+	/**
+	 * Gets the angle of the robot (the Yaw value from the NavX) in radians
+	 * @return the angle in radians
+	 */
 	public double getAngleRadians()
 	{
-		return getAngleDegrees() * (Math.PI)/180d;
+		return NRMath.degToRad(getAngleDegrees());
 	}
 
 }
