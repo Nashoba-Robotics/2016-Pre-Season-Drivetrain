@@ -1,5 +1,6 @@
 package edu.nr.robotics.subsystems.drive;
 
+import edu.nr.lib.ChiefSubsystem;
 import edu.nr.lib.navx.NavX;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
@@ -7,13 +8,12 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class Drive extends Subsystem {
+public class Drive extends ChiefSubsystem {
 
 	//This is a constant that is used for driving with PID control
 	//It's a magic number.

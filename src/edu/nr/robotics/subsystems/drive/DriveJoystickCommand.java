@@ -4,7 +4,6 @@ import edu.nr.lib.CMD;
 import edu.nr.lib.NRMath;
 import edu.nr.robotics.OI;
 import edu.nr.robotics.subsystems.drive.Drive;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -37,8 +36,6 @@ public class DriveJoystickCommand extends CMD
 	    		    	
 	    	double rotateValue = OI.getInstance().getArcadeTurnValue()/2;
 	    	
-	    	
-	    	
             NRMath.squareWithSign(moveValue);
             NRMath.squareWithSign(rotateValue);
 
@@ -58,10 +55,6 @@ public class DriveJoystickCommand extends CMD
             }
             
             rotateValue = rotateValue + negInertia * negInertiaScalar;
-            
-	    	SmartDashboard.putNumber("Drive Magnitude", moveValue);
-	    	SmartDashboard.putNumber("Turn", rotateValue);    
-
 	    	
 	    	Drive.getInstance().arcadeDrive(OI.getInstance().speedMultiplier*driveMagnitude, OI.getInstance().speedMultiplier*rotateValue);
 	    	
@@ -82,9 +75,6 @@ public class DriveJoystickCommand extends CMD
     		// cube the inputs (while preserving the sign) to increase fine control while permitting full power
             right = right*right*right;
             left = left*left*left;
-
-            SmartDashboard.putNumber("Tank Left Motor", left);
-            SmartDashboard.putNumber("Tank Right Motor", right);
 
     		Drive.getInstance().tankDrive(OI.getInstance().speedMultiplier*left, OI.getInstance().speedMultiplier*right);
 

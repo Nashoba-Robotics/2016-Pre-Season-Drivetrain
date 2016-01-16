@@ -2,13 +2,13 @@ package edu.nr.robotics;
 
 import java.util.ArrayList;
 
+import edu.nr.lib.ChiefSubsystem;
 import edu.nr.lib.FieldCentric;
 import edu.nr.robotics.auton.AutonDoNothingCommand;
 import edu.nr.robotics.subsystems.drive.Drive;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -27,7 +27,7 @@ public class Robot extends IterativeRobot {
     Command autonomousCommand;
     SendableChooser autoCommandChooser;    
     
-    public static ArrayList<Subsystem> subsystems = new ArrayList<Subsystem>();
+    public static ArrayList<ChiefSubsystem> subsystems = new ArrayList<ChiefSubsystem>();
 
     public enum Mode {
     	TELEOP, AUTONOMOUS, DISABLED
@@ -40,8 +40,8 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-		Drive.init();
     	OI.init();
+		Drive.init();
     	subsystems.add(Drive.getInstance());
     	
     	autoCommandChooser = new SendableChooser();
@@ -55,10 +55,13 @@ public class Robot extends IterativeRobot {
 		OI.getInstance().drivingModeChooser.addObject("tank", "tank");
 		SmartDashboard.putData("Driving Mode Chooser", OI.getInstance().drivingModeChooser);
 		
-		SmartDashboard.putData(Drive.getInstance());
+		for(Subsystem subsystem : subsystems)
+			SmartDashboard.putData(subsystem);
     }
 	
-
+    /**
+     * This function is run when the autonomous period begins
+     */
     public void autonomousInit() {
         autonomousCommand =(Command) autoCommandChooser.getSelected();
         autonomousCommand.start();
@@ -72,6 +75,9 @@ public class Robot extends IterativeRobot {
         periodic(Mode.AUTONOMOUS);
     }
 
+    /**
+     * This function is run when the operator control period begins
+     */
     public void teleopInit() {
 		// This makes sure that the autonomous stops running when
         // teleop starts running. 
@@ -88,7 +94,7 @@ public class Robot extends IterativeRobot {
     }
 
     /**
-     * This function is called when the disabled button is hit.
+     * This is called when the disabled button is hit.
      * You can use it to reset subsystems before shutting down.
      */
     public void disabledInit(){
@@ -100,10 +106,17 @@ public class Robot extends IterativeRobot {
     	}
     }
     
+    /**
+     * This is called periodically while the robot is disabled
+     */
 	public void disabledPeriodic() {
         periodic(Mode.DISABLED);
 	}
     
+	/**
+	 * A generic periodic function that is called by the periodic functions for the specific modes
+	 * @param mode The name of the mode that is currently occuring
+	 */
     private void periodic(Mode mode)
     {
     	FieldCentric.getInstance().update();
@@ -112,12 +125,20 @@ public class Robot extends IterativeRobot {
         putSubsystemDashInfo();
     }
     
+    /**
+	 * A generic initialization function that is called by the periodic functions for the specific modes
+	 * @param mode The name of the mode that just started
+     */
     private void initialize(Mode mode)
     {
     	currentMode = mode;
     }
     
+    /**
+     * Calls the putSmartDashboardInfo function of every subsytem
+     */
     private void putSubsystemDashInfo() {
-    	Drive.getInstance().putSmartDashboardInfo();
+    	for(ChiefSubsystem subsystem : subsystems)
+    		subsystem.putSmartDashboardInfo();
     }
 }
