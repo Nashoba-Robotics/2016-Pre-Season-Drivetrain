@@ -30,6 +30,8 @@ public class OI
 	Joystick driveRight;
 	Joystick operatorLeft, operatorRight;
 	
+	JoystickButton fighter;
+	
 	public static int H_DRIVE_BUTTON = 2;
 
 	private OI()
@@ -48,7 +50,7 @@ public class OI
 				0  //Kd
 				)); //The old score button
 		
-		JoystickButton fighter = new JoystickButton(operatorLeft, 9);
+		fighter = new JoystickButton(operatorLeft, 9);
 		fighter.whenPressed(new EmptyCommand()
 		    	{
 					@Override

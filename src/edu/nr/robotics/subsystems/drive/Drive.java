@@ -150,12 +150,25 @@ public class Drive extends Subsystem {
         }
 	}
 	
+	public void setPIDSetpoint(double left, double right)
+	{
+		setPIDEnabled(true);
+    	
+		leftPid.setSetpoint(left);
+        rightPid.setSetpoint(right);
+	}
+	
 	public void setRawMotorSpeed(double left, double right)
 	{
 		setPIDEnabled(false);
 		
 		leftTalon.set(left);
 		rightTalon.set(right);
+	}
+	
+	public boolean getPIDEnabled()
+	{
+		return leftPid.isEnabled() && rightPid.isEnabled();
 	}
 	
 	public void setPIDEnabled(boolean enabled)

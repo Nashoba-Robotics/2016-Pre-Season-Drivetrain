@@ -62,8 +62,7 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {
         autonomousCommand =(Command) autoCommandChooser.getSelected();
         autonomousCommand.start();
-        
-        currentMode = Mode.AUTONOMOUS;
+        initialize(Mode.AUTONOMOUS);
     }
 
     /**
@@ -78,7 +77,7 @@ public class Robot extends IterativeRobot {
         // teleop starts running. 
         if (autonomousCommand != null) autonomousCommand.cancel();
         
-        currentMode = Mode.TELEOP;
+        initialize(Mode.TELEOP);
     }
     
     /**
@@ -93,26 +92,29 @@ public class Robot extends IterativeRobot {
      * You can use it to reset subsystems before shutting down.
      */
     public void disabledInit(){
-    	currentMode = Mode.DISABLED;
+    	initialize(Mode.DISABLED);
+    	
+		//Make sure that the PIDs are disabled, otherwise if we disable while the PIDs are set, we might have issues...
+    	if(Drive.getInstance().getPIDEnabled()) { 
+    		Drive.getInstance().setPIDSetpoint(0, 0);
+    	}
     }
     
 	public void disabledPeriodic() {
         periodic(Mode.DISABLED);
 	}
     
-    /**
-     * This function is called periodically during test mode
-     */
-    public void testPeriodic() {
-        LiveWindow.run();
-    }
-    
     private void periodic(Mode mode)
     {
     	FieldCentric.getInstance().update();
-		Scheduler.getInstance().run();
-		
+    	Scheduler.getInstance().run();
+    
         putSubsystemDashInfo();
+    }
+    
+    private void initialize(Mode mode)
+    {
+    	currentMode = mode;
     }
     
     private void putSubsystemDashInfo() {
