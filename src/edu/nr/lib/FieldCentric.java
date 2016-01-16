@@ -3,22 +3,31 @@ package edu.nr.lib;
 import edu.nr.lib.Position;
 import edu.nr.lib.navx.NavX;
 import edu.nr.robotics.subsystems.drive.Drive;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class FieldCentric {
+public class FieldCentric extends Subsystem implements SmartDashboardSource{
 
 	//NOTE: X is forward, Y is side-to-side
 	
-	private static FieldCentric instance;
+	private static FieldCentric singleton;
 	private final double initialTheta;
     private double initialGyro = 0;
     private double x = 0, y = 0, dis = 0, lastEncoderDistance = 0;
     private long lastUpdateTime;
-
-	public static FieldCentric getInstance() {
-		if(instance == null)
-			instance = new FieldCentric(Math.PI/2);
-		return instance;
+	
+	public static FieldCentric getInstance()
+    {
+		init();
+        return singleton;
+    }
+	
+	public static void init()
+	{
+		if(singleton == null)
+		{
+			singleton = new FieldCentric(Math.PI/2);
+		}
 	}
 	
 	public FieldCentric(double initialTheta)
@@ -27,17 +36,18 @@ public class FieldCentric {
 		this.initialTheta = initialTheta;
 	}
 	
+	/**
+	 * Updates the model based on the current Drive values
+	 */
 	public void update()
     {
         if(System.currentTimeMillis() - lastUpdateTime > 300)
         {
-            System.err.println("WARNING: FieldCentric not being called often enough: (" + ((System.currentTimeMillis() - lastUpdateTime)/1000f) + "s)");
+            System.err.println("WARNING: FieldCentric not being called often enough: (" 
+            					+ ((System.currentTimeMillis() - lastUpdateTime)/1000f) + "s)");
         }
         
-        double angle = Drive.getInstance().getAngleDegrees() - initialGyro;
-        angle *= (Math.PI / 180); //Convert to radians
-        angle *= -1; //Gyro is reversed (clockwise causes an increase in the angle)
-        angle += initialTheta; //Make the initial position be facing north
+        double angle = getAngleRadians();
         
         double ave = Drive.getInstance().getEncoderAverageDistance();
         double delta_x_r = (ave-lastEncoderDistance);
@@ -52,37 +62,59 @@ public class FieldCentric {
         lastUpdateTime = System.currentTimeMillis();
     }
 	
-	//Gets the distance the robot has moved since FieldCentric was reset
+	/**
+	 * Gets the distance the robot has moved since FieldCentric was reset
+	 * @return the distance in meters
+	 */
 	public double getDistance() {
 		return dis;
 	}
 	
+	/**
+	 * Gets the x distance the robot has moved since FieldCentric was reset
+	 * @return the x distance in meters
+	 */
     public double getX()
     {
     	return x;
     }
 	
+    /**
+	 * Gets the y distance the robot has moved since FieldCentric was reset
+	 * @return the y distance in meters
+	 */
 	public double getY()
     {
     	return y;
     }
     
+	/**
+	 * Gets the Position change the robot has moved since FieldCentric was reset
+	 * @return the Position, where the values are in meters
+	 */
     public Position getPosition() {
     	return new Position(x,y);
     }
     
-    //The angle used for current coordinate calculations
-    public double getFieldCentricAngleRadians()
+    /**
+     * Gets the angle used for current coordinate calculations
+     * @return the angle in radians
+     */
+    public double getAngleRadians()
     {
-    	return (Drive.getInstance().getAngleDegrees() - initialGyro) * (-Math.PI / 180) + initialTheta;
+    	//Gyro is reversed (clockwise causes an increase in the angle)
+    	return (Drive.getInstance().getAngleRadians() - initialGyro) * -1 + initialTheta;
     }
 
+    /**
+     * Resets the model
+     */
     public void reset()
     {
     	x = 0;
     	y = 0;
     	lastEncoderDistance = Drive.getInstance().getEncoderAverageDistance();
-    	initialGyro = Drive.getInstance().getAngleDegrees();
+    	initialGyro = Drive.getInstance().getAngleRadians();
     }
 
 	public void putSmartDashboardInfo() {
@@ -90,6 +122,11 @@ public class FieldCentric {
 		SmartDashboard.putNumber("NavX Pitch", NavX.getInstance().getPitch());
 		SmartDashboard.putNumber("NavX Roll", NavX.getInstance().getRoll());
 		
-		SmartDashboard.putNumber("Gyro", Drive.getInstance().getAngleDegrees());
+		SmartDashboard.putNumber("Gyro", Drive.getInstance().getAngleRadians());
+	}
+
+	@Override
+	protected void initDefaultCommand() {
+		
 	}
 }

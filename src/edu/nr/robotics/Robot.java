@@ -2,8 +2,8 @@ package edu.nr.robotics;
 
 import java.util.ArrayList;
 
-import edu.nr.lib.ChiefSubsystem;
 import edu.nr.lib.FieldCentric;
+import edu.nr.lib.SmartDashboardSource;
 import edu.nr.robotics.auton.AutonDoNothingCommand;
 import edu.nr.robotics.subsystems.drive.Drive;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -27,7 +27,7 @@ public class Robot extends IterativeRobot {
     Command autonomousCommand;
     SendableChooser autoCommandChooser;    
     
-    public static ArrayList<ChiefSubsystem> subsystems = new ArrayList<ChiefSubsystem>();
+    public static ArrayList<Subsystem> subsystems = new ArrayList<Subsystem>();
 
     public enum Mode {
     	TELEOP, AUTONOMOUS, DISABLED
@@ -42,7 +42,9 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
     	OI.init();
 		Drive.init();
+		FieldCentric.init();
     	subsystems.add(Drive.getInstance());
+    	subsystems.add(FieldCentric.getInstance());
     	
     	autoCommandChooser = new SendableChooser();
 		autoCommandChooser.addDefault("Do Nothing", new AutonDoNothingCommand());
@@ -138,7 +140,8 @@ public class Robot extends IterativeRobot {
      * Calls the putSmartDashboardInfo function of every subsytem
      */
     private void putSubsystemDashInfo() {
-    	for(ChiefSubsystem subsystem : subsystems)
-    		subsystem.putSmartDashboardInfo();
+    	for(Subsystem subsystem : subsystems)
+    		if(subsystem instanceof SmartDashboardSource)
+    			((SmartDashboardSource) subsystem).putSmartDashboardInfo();
     }
 }

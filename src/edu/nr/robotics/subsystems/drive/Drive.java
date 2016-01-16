@@ -1,7 +1,7 @@
 package edu.nr.robotics.subsystems.drive;
 
-import edu.nr.lib.ChiefSubsystem;
 import edu.nr.lib.NRMath;
+import edu.nr.lib.SmartDashboardSource;
 import edu.nr.lib.navx.NavX;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
@@ -9,12 +9,13 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class Drive extends ChiefSubsystem {
+public class Drive extends Subsystem implements SmartDashboardSource{
 
 	//This is a constant that is used for driving with PID control
 	public static final double JOYSTICK_DRIVE_P = 0.25;
