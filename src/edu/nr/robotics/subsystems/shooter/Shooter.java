@@ -1,10 +1,10 @@
-package edu.nr.robotics.subsystems.intakearm;
+package edu.nr.robotics.subsystems.shooter;
 
 import edu.nr.lib.PID;
 import edu.nr.lib.SmartDashboardSource;
 import edu.nr.robotics.RobotMap;
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,33 +12,32 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class IntakeArm extends Subsystem implements SmartDashboardSource{
+public class Shooter extends Subsystem implements SmartDashboardSource{
     
-	private static IntakeArm singleton;
+	private static Shooter singleton;
 
 	CANTalon talon;
-	AnalogPotentiometer pot;
+	Encoder enc;
 	PID pid;
 	
-	private IntakeArm() {
+	private Shooter() {
 		talon = new CANTalon(RobotMap.INTAKE_ARM_TALON);
-		pot = new AnalogPotentiometer(RobotMap.INTAKE_ARM_POT);
-		pot.setPIDSourceType(PIDSourceType.kDisplacement);
-		pid = new PID(0.0001, 0, 0, pot, talon); //TODO: Get the value for the PID
+		enc = new Encoder(RobotMap.SHOOTER_ENCODER_A, RobotMap.SHOOTER_ENCODER_B);
+		enc.setPIDSourceType(PIDSourceType.kRate);
+		pid = new PID(0.0001, 0, 0, enc, talon); //TODO: Get the value for the PID
 	}
 	
     public void initDefaultCommand() {
-    	setDefaultCommand(new IntakeArmNeutralCommand());
     }
     
-    public static IntakeArm getInstance() {
+    public static Shooter getInstance() {
 		init();
 		return singleton;
 	}
 
 	public static void init() {
 		if (singleton == null) {
-			singleton = new IntakeArm();
+			singleton = new Shooter();
 		}
 	}
 	
@@ -90,17 +89,16 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource{
 	}
 	
 	/**
-	 * Gets the value of the potentiometer
-	 * @return the value of the potentiometer
+	 * Gets the speed of the shooter
+	 * @return the speed of the shooter
 	 */
-	public double get() {
-		return pot.get();
+	public double getSpeed() {
+		return enc.getRate();
 	}
 
 	@Override
 	public void putSmartDashboardInfo() {
-		SmartDashboard.putNumber("Intake Arm Potentiometer", get());
-		SmartDashboard.putBoolean("Intake Arm Moving", Math.abs(pid.getError()) > 0.05);
+		SmartDashboard.putNumber("Shooter Speed", getSpeed());
+		SmartDashboard.putBoolean("Shooter Running", getSetpoint() != 0);
 	}
 }
-
