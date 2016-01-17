@@ -2,27 +2,22 @@ package edu.nr.robotics.auton;
 
 import edu.nr.lib.CMD;
 
-public class AutonDoNothingCommand extends CMD
-{
+public class AutonDoNothingCommand extends CMD {
 	@Override
-	protected void onStart()
-	{
-		
+	protected void onStart() {
+
 	}
 
 	@Override
-	protected void onExecute()
-	{
+	protected void onExecute() {
 	}
 
 	@Override
-	protected void onEnd(boolean interrupted)
-	{
+	protected void onEnd(boolean interrupted) {
 	}
 
 	@Override
-	protected boolean isFinished()
-	{
+	protected boolean isFinished() {
 		return true;
 	}
 

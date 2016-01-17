@@ -1,4 +1,5 @@
 package edu.nr.robotics;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -11,12 +12,14 @@ public class RobotMap {
 	public static final int TALON_LEFT_B = 4;
 	public static final int TALON_RIGHT_A = 14;
 	public static final int TALON_RIGHT_B = 15;
-	
+
 	public static final int ENCODER_LEFT_A = 9;
 	public static final int ENCODER_LEFT_B = 8;
 	public static final int ENCODER_RIGHT_A = 7;
 	public static final int ENCODER_RIGHT_B = 6;
-	public static final double MAX_SPEED = 3.4; //Meters per second //Actual value is 3.4 m/s
-	public static final double MAX_ACCELERATION = 1; //Meters per second per second
-	//TODO: Find actual MAX_ACCELERATION instead of using a placeholder value
+	public static final double MAX_SPEED = 3.4; // Meters per second //Actual
+												// value is 3.4 m/s
+	public static final double MAX_ACCELERATION = 1; // Meters per second per
+														// second
+	// TODO: Find actual MAX_ACCELERATION instead of using a placeholder value
 }

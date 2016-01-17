@@ -6,13 +6,13 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class CancelAllCommand extends EmptyCommand {
 
 	public CancelAllCommand() {
-		for(Subsystem subsystem : Robot.subsystems)
-			this.requires(subsystem);
+		for (Subsystem subsystem : Robot.subsystems) {
+			requires(subsystem);
+		}
 	}
-	
+
 	@Override
-	protected boolean isFinished() 
-	{
+	protected boolean isFinished() {
 		return true;
 	}
 }

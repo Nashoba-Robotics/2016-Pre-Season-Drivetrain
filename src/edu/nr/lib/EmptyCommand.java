@@ -2,42 +2,35 @@ package edu.nr.lib;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public abstract class EmptyCommand extends CMD
-{
-	public EmptyCommand(String name)
-	{
+public abstract class EmptyCommand extends CMD {
+	public EmptyCommand(String name) {
 		super(name);
 	}
-	public EmptyCommand(Subsystem requires)
-	{
-		this.requires(requires);
+
+	public EmptyCommand(Subsystem requires) {
+		requires(requires);
 	}
-	
-	public EmptyCommand()
-	{
-		
-	}
-	
-	@Override
-	protected void onStart()
-	{
-		
-	}
-	
-	@Override
-	protected void initialize() 
-	{
-	}
-	
-	@Override
-	protected void onExecute()
-	{
-		
+
+	public EmptyCommand() {
+
 	}
 
 	@Override
-	protected boolean isFinished() 
-	{
+	protected void onStart() {
+
+	}
+
+	@Override
+	protected void initialize() {
+	}
+
+	@Override
+	protected void onExecute() {
+
+	}
+
+	@Override
+	protected boolean isFinished() {
 		return true;
 	}
 
