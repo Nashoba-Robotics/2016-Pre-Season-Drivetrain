@@ -36,8 +36,8 @@ public class DriveJoystickCommand extends CMD
 	    		    	
 	    	double rotateValue = OI.getInstance().getArcadeTurnValue()/2;
 	    	
-            NRMath.squareWithSign(moveValue);
-            NRMath.squareWithSign(rotateValue);
+            moveValue = NRMath.squareWithSign(moveValue);
+            rotateValue = NRMath.squareWithSign(rotateValue);
 
             double negInertia = rotateValue - oldTurn;
             
