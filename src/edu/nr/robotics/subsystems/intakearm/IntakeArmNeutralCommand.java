@@ -10,9 +10,7 @@ public class IntakeArmNeutralCommand extends EmptyCommand {
 	
 	@Override
 	protected void onStart() {
-		if(!IntakeArm.getInstance().isEnable()) {
-			IntakeArm.getInstance().disable();
-		}
+		IntakeArm.getInstance().disable();
 	}
 
 	@Override

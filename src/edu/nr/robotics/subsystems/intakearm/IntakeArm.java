@@ -24,11 +24,10 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource{
 		talon = new CANTalon(RobotMap.INTAKE_ARM_TALON);
 		pot = new AnalogPotentiometer(RobotMap.INTAKE_ARM_POT);
 		pot.setPIDSourceType(PIDSourceType.kDisplacement);
-		pid = new PID(0.0001, 0, 0, pot, talon); //TODO: Get the value for the PID
+		pid = new PID(0.0001, 0, 0, pot, talon); //TODO: Get the value for the Intake Arm PID
 	}
 	
     public void initDefaultCommand() {
-    	setDefaultCommand(new IntakeArmNeutralCommand());
     }
     
     public static IntakeArm getInstance() {

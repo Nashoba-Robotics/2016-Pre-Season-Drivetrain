@@ -1,6 +1,5 @@
 package edu.nr.robotics;
 
-import edu.wpi.first.wpilibj.DigitalSource;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -23,11 +22,13 @@ public class RobotMap {
 												// value is 3.4 m/s
 	public static final double MAX_ACCELERATION = 1; // Meters per second per
 														// second
-	// TODO: Find actual MAX_ACCELERATION instead of using a placeholder value
+	// TODO: Find actual max acc instead of using a placeholder value
 	
 	//TODO: Find values for ports
 	public static final int INTAKE_ARM_TALON = -1;
 	public static final int INTAKE_ARM_POT = -1;
 	public static final int SHOOTER_ENCODER_A = -1;
 	public static final int SHOOTER_ENCODER_B = -1;
+	public static final int HOOD_TALON = -1;
+	public static final int HOOD_POT = -1;
 }

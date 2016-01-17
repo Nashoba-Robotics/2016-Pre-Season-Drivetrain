@@ -1,10 +1,10 @@
-package edu.nr.robotics.subsystems.shooter;
+package edu.nr.robotics.subsystems.hood;
 
 import edu.nr.lib.PID;
 import edu.nr.lib.SmartDashboardSource;
 import edu.nr.robotics.RobotMap;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,32 +12,33 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class Shooter extends Subsystem implements SmartDashboardSource{
+public class Hood extends Subsystem implements SmartDashboardSource {
     
-	private static Shooter singleton;
-
-	CANTalon talon;
-	Encoder enc;
+	CANTalon talon;	
+	AnalogPotentiometer pot;
 	PID pid;
 	
-	private Shooter() {
-		talon = new CANTalon(RobotMap.INTAKE_ARM_TALON);
-		enc = new Encoder(RobotMap.SHOOTER_ENCODER_A, RobotMap.SHOOTER_ENCODER_B);
-		enc.setPIDSourceType(PIDSourceType.kRate);
-		pid = new PID(0.0001, 0, 0, enc, talon); //TODO: Get the value for the Shooter PID
+	private static Hood singleton;
+	
+	private Hood() {
+		talon = new CANTalon(RobotMap.HOOD_TALON);
+		pot = new AnalogPotentiometer(RobotMap.HOOD_POT);
+		pot.setPIDSourceType(PIDSourceType.kDisplacement);
+		pid = new PID(0.0001, 0, 0, pot, talon); //TODO: Get the value for the Hood PID
+	}
+
+	@Override
+	protected void initDefaultCommand() {
 	}
 	
-    public void initDefaultCommand() {
-    }
-    
-    public static Shooter getInstance() {
+	public static Hood getInstance() {
 		init();
 		return singleton;
 	}
 
 	public static void init() {
 		if (singleton == null) {
-			singleton = new Shooter();
+			singleton = new Hood();
 		}
 	}
 	
@@ -89,16 +90,17 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	}
 	
 	/**
-	 * Gets the speed of the shooter
-	 * @return the speed of the shooter
+	 * Gets the value of the potentiometer
+	 * @return the value of the potentiometer
 	 */
-	public double getSpeed() {
-		return enc.getRate();
+	public double get() {
+		return pot.get();
 	}
 
 	@Override
 	public void putSmartDashboardInfo() {
-		SmartDashboard.putNumber("Shooter Speed", getSpeed());
-		SmartDashboard.putBoolean("Shooter Running", getSetpoint() != 0);
+		SmartDashboard.putNumber("Hood Potentiometer", get());
+		SmartDashboard.putBoolean("Hood Moving", Math.abs(pid.getError()) > 0.05);
 	}
 }
+
