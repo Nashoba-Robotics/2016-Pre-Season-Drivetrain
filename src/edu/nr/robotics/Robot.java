@@ -7,6 +7,7 @@ import edu.nr.lib.SmartDashboardSource;
 import edu.nr.lib.navx.NavX;
 import edu.nr.robotics.auton.AutonDoNothingCommand;
 import edu.nr.robotics.subsystems.drive.Drive;
+import edu.nr.robotics.subsystems.elevator.Elevator;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;
 import edu.nr.robotics.subsystems.shooter.Shooter;
 import edu.wpi.first.wpilibj.CameraServer;
@@ -59,6 +60,7 @@ public class Robot extends IterativeRobot {
 		FieldCentric.init();
 		Shooter.init();
 		IntakeArm.init();
+		Elevator.init();
 		
 		subsystems.add(Drive.getInstance());
 		subsystems.add(Shooter.getInstance());
@@ -69,6 +71,7 @@ public class Robot extends IterativeRobot {
 		smartDashboardSources.add(FieldCentric.getInstance());
 		smartDashboardSources.add(Shooter.getInstance());
 		smartDashboardSources.add(IntakeArm.getInstance());
+		smartDashboardSources.add(Elevator.getInstance());
 
 		autoCommandChooser = new SendableChooser();
 		autoCommandChooser.addDefault("Do Nothing", new AutonDoNothingCommand());

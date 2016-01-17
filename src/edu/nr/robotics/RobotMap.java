@@ -31,4 +31,5 @@ public class RobotMap {
 	public static final int SHOOTER_ENCODER_B = -1;
 	public static final int HOOD_TALON = -1;
 	public static final int HOOD_POT = -1;
+	public static final int ELEVATOR_TALON = -1;
 }
