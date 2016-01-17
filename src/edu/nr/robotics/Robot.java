@@ -8,7 +8,9 @@ import edu.nr.lib.navx.NavX;
 import edu.nr.robotics.auton.AutonDoNothingCommand;
 import edu.nr.robotics.subsystems.drive.Drive;
 import edu.nr.robotics.subsystems.elevator.Elevator;
+import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;
+import edu.nr.robotics.subsystems.rollers.Rollers;
 import edu.nr.robotics.subsystems.shooter.Shooter;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -61,10 +63,15 @@ public class Robot extends IterativeRobot {
 		Shooter.init();
 		IntakeArm.init();
 		Elevator.init();
+		Rollers.init();
+		Hood.init();
 		
 		subsystems.add(Drive.getInstance());
 		subsystems.add(Shooter.getInstance());
 		subsystems.add(IntakeArm.getInstance());
+		subsystems.add(Rollers.getInstance());
+		subsystems.add(Elevator.getInstance());
+		subsystems.add(Hood.getInstance());
 		
 		smartDashboardSources.add(NavX.getInstance());
 		smartDashboardSources.add(Drive.getInstance());
@@ -72,6 +79,8 @@ public class Robot extends IterativeRobot {
 		smartDashboardSources.add(Shooter.getInstance());
 		smartDashboardSources.add(IntakeArm.getInstance());
 		smartDashboardSources.add(Elevator.getInstance());
+		smartDashboardSources.add(Rollers.getInstance());
+		smartDashboardSources.add(Hood.getInstance());
 
 		autoCommandChooser = new SendableChooser();
 		autoCommandChooser.addDefault("Do Nothing", new AutonDoNothingCommand());

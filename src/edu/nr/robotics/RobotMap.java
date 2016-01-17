@@ -1,6 +1,5 @@
 package edu.nr.robotics;
 
-
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -32,4 +31,10 @@ public class RobotMap {
 	public static final int HOOD_TALON = -1;
 	public static final int HOOD_POT = -1;
 	public static final int ELEVATOR_TALON = -1;
+	public static final int ROLLER_LOADER_TALON = -1;
+	public static final int ROLLER_INTAKE_TALON = -1;
+	public static final int ROLLER_LOADER_ENCODER_A = -1;
+	public static final int ROLLER_LOADER_ENCODER_B = -1;
+	public static final int ROLLER_INTAKE_ENCODER_A = -1;
+	public static final int ROLLER_INTAKE_ENCODER_B = -1;
 }
