@@ -22,4 +22,8 @@ public class RobotMap {
 	public static final double MAX_ACCELERATION = 1; // Meters per second per
 														// second
 	// TODO: Find actual MAX_ACCELERATION instead of using a placeholder value
+	
+	//TODO: Find values for ports
+	public static final int INTAKE_ARM_TALON = -1;
+	public static final int INTAKE_ARM_POT = -1;
 }
