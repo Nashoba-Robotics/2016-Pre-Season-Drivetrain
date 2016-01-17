@@ -1,4 +1,4 @@
-package edu.nr.lib;
+package edu.nr.lib.path;
 
 import java.util.LinkedList;
 import java.util.List;

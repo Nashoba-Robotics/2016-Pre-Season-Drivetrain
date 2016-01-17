@@ -1,7 +1,7 @@
 package edu.nr.robotics.subsystems.drive;
 
 import edu.nr.lib.CMD;
-import edu.nr.lib.FalconPathPlanner;
+import edu.nr.lib.path.FalconPathPlanner;
 
 /**
  *
