@@ -76,7 +76,7 @@ public class DriveJoystickCommand extends CMD
             right = right*right*right;
             left = left*left*left;
 
-    		Drive.getInstance().tankDrive(OI.getInstance().speedMultiplier*left, OI.getInstance().speedMultiplier*right);
+    		Drive.getInstance().tankDrive(OI.getInstance().speedMultiplier*left, -OI.getInstance().speedMultiplier*right);
 
     	}
     }
