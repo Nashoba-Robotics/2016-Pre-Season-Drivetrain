@@ -48,9 +48,8 @@ public class Robot extends IterativeRobot {
 		server.setQuality(50);
 		// the camera name (ex "cam0") can be found through the roborio web
 		// interface
-		server.startAutomaticCapture("cam1");// TODO: Potentially find the
-												// camera name with the real one
-												// we use
+		server.startAutomaticCapture("cam1");
+		// TODO: Potentially find the camera name with the real one we use
 
 		OI.init();
 		Drive.init();
@@ -58,7 +57,6 @@ public class Robot extends IterativeRobot {
 		FieldCentric.init();
 		
 		subsystems.add(Drive.getInstance());
-		subsystems.add(FieldCentric.getInstance());
 		
 		smartDashboardSources.add(NavX.getInstance());
 		smartDashboardSources.add(Drive.getInstance());
@@ -169,7 +167,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	/**
-	 * Calls the putSmartDashboardInfo function of every subsytem
+	 * Calls the putSmartDashboardInfo function of every smartDashboardSource
 	 */
 	private void putSubsystemDashInfo() {
 		for (SmartDashboardSource source : smartDashboardSources) {

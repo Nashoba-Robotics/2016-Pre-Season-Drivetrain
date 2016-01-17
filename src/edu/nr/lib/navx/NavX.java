@@ -24,7 +24,11 @@ public class NavX implements SmartDashboardSource {
 	int fullRotationCount = 0;
 	double lastYaw;
 
-	public double getYaw() {
+	/**
+	 * Gets the current yaw of the robot in degrees
+	 * @return the yaw in degrees
+	 */
+	public double getYawDeg() {
 		if (imu != null && imu.isConnected()) {
 			double currentYaw = imu.getYaw();
 			if ((lastYaw < -90 || lastYaw > 90) && (currentYaw > 90 || currentYaw < -90)) {
@@ -41,33 +45,56 @@ public class NavX implements SmartDashboardSource {
 		return 0;
 	}
 	
+	/**
+	 * Gets the current yaw of the robot in radians
+	 * @return the yaw in radians
+	 */
 	public double getYawRad() {
-		return NRMath.degToRad(getYaw());
+		return NRMath.degToRad(getYawDeg());
 	}
 
-	public double getRoll() {
+	/**
+	 * Gets the current roll of the robot in degrees
+	 * @return the roll in degrees
+	 */
+	public double getRollDeg() {
 		if (imu != null && imu.isConnected()) {
 			return imu.getRoll();
 		}
 		return 0;
 	}
 	
+	/**
+	 * Gets the current roll of the robot in radians
+	 * @return the roll in radians
+	 */
 	public double getRollRad() {
-		return NRMath.degToRad(getRoll());
+		return NRMath.degToRad(getRollDeg());
 	}
 
-	public double getPitch() {
+	/**
+	 * Gets the current pitch of the robot in degrees
+	 * @return the pitch in degrees
+	 */
+	public double getPitchDeg() {
 		if (imu != null && imu.isConnected()) {
 			return imu.getPitch();
 		}
 		return 0;
 	}
 	
+	/**
+	 * Gets the current pitch of the robot in radians
+	 * @return the pitch in radians
+	 */
 	public double getPitchRad() {
-		return NRMath.degToRad(getPitch());
+		return NRMath.degToRad(getPitchDeg());
 	}
 
-	public void resetAll() {
+	/**
+	 * Resets the yaw counter (that is, it zeros the yaw at the current position)
+	 */
+	public void resetYaw() {
 		if (imu != null && imu.isConnected()) {
 			imu.zeroYaw();
 		}
@@ -89,8 +116,8 @@ public class NavX implements SmartDashboardSource {
 
 	@Override
 	public void putSmartDashboardInfo() {
-		SmartDashboard.putNumber("NavX Yaw", getYaw());
-		SmartDashboard.putNumber("NavX Roll", getRoll());
-		SmartDashboard.putNumber("NavX Pitch", getPitch());
+		SmartDashboard.putNumber("NavX Yaw", getYawDeg());
+		SmartDashboard.putNumber("NavX Roll", getRollDeg());
+		SmartDashboard.putNumber("NavX Pitch", getPitchDeg());
 	}
 }

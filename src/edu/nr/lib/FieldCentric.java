@@ -5,7 +5,7 @@ import edu.nr.robotics.subsystems.drive.Drive;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class FieldCentric extends Subsystem implements SmartDashboardSource {
+public class FieldCentric implements SmartDashboardSource {
 
 	// NOTE: X is forward, Y is side-to-side
 
@@ -98,7 +98,7 @@ public class FieldCentric extends Subsystem implements SmartDashboardSource {
 	 */
 	public double getAngleRadians() {
 		// Gyro is reversed (clockwise causes an increase in the angle)
-		return (Drive.getInstance().getAngleRadians() - initialGyro) * -1 + initialTheta;
+		return ((NavX.getInstance().getYawRad()) - initialGyro) * -1 + initialTheta;
 	}
 
 	/**
@@ -108,20 +108,15 @@ public class FieldCentric extends Subsystem implements SmartDashboardSource {
 		x = 0;
 		y = 0;
 		lastEncoderDistance = Drive.getInstance().getEncoderAverageDistance();
-		initialGyro = Drive.getInstance().getAngleRadians();
+		initialGyro = NavX.getInstance().getYawRad();
 	}
 
 	@Override
 	public void putSmartDashboardInfo() {
-		SmartDashboard.putNumber("NavX Yaw", NavX.getInstance().getYaw());
-		SmartDashboard.putNumber("NavX Pitch", NavX.getInstance().getPitch());
-		SmartDashboard.putNumber("NavX Roll", NavX.getInstance().getRoll());
+		SmartDashboard.putNumber("NavX Yaw", NavX.getInstance().getYawDeg());
+		SmartDashboard.putNumber("NavX Pitch", NavX.getInstance().getPitchDeg());
+		SmartDashboard.putNumber("NavX Roll", NavX.getInstance().getRollDeg());
 
-		SmartDashboard.putNumber("Gyro", Drive.getInstance().getAngleRadians());
-	}
-
-	@Override
-	protected void initDefaultCommand() {
-
+		SmartDashboard.putNumber("Gyro", NavX.getInstance().getYawRad());
 	}
 }

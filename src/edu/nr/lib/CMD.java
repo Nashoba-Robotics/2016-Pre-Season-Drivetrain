@@ -36,6 +36,9 @@ public abstract class CMD extends Command {
 	 */
 	protected abstract void onStart();
 
+	/**
+	 * Called every loop while the command is active
+	 */
 	protected abstract void onExecute();
 
 	/**

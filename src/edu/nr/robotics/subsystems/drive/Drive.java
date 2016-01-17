@@ -299,13 +299,4 @@ public class Drive extends Subsystem implements SmartDashboardSource {
 		SmartDashboard.putData("PID Right", rightPid);
 	}
 
-	/**
-	 * Gets the angle of the robot (the Yaw value from the NavX) in radians
-	 * 
-	 * @return the angle in radians
-	 */
-	public double getAngleRadians() {
-		return NRMath.degToRad(NavX.getInstance().getYaw());
-	}
-
 }
