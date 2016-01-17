@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import edu.nr.lib.FieldCentric;
 import edu.nr.lib.SmartDashboardSource;
+import edu.nr.lib.navx.NavX;
 import edu.nr.robotics.auton.AutonDoNothingCommand;
 import edu.nr.robotics.subsystems.drive.Drive;
 import edu.wpi.first.wpilibj.CameraServer;
@@ -29,7 +30,8 @@ public class Robot extends IterativeRobot {
 	SendableChooser autoCommandChooser;
 
 	public static ArrayList<Subsystem> subsystems = new ArrayList<Subsystem>();
-
+	public static ArrayList<SmartDashboardSource> smartDashboardSources = new ArrayList<SmartDashboardSource>();
+	
 	public enum Mode {
 		TELEOP, AUTONOMOUS, DISABLED
 	}
@@ -52,9 +54,15 @@ public class Robot extends IterativeRobot {
 
 		OI.init();
 		Drive.init();
+		NavX.init();
 		FieldCentric.init();
+		
 		subsystems.add(Drive.getInstance());
 		subsystems.add(FieldCentric.getInstance());
+		
+		smartDashboardSources.add(NavX.getInstance());
+		smartDashboardSources.add(Drive.getInstance());
+		smartDashboardSources.add(FieldCentric.getInstance());
 
 		autoCommandChooser = new SendableChooser();
 		autoCommandChooser.addDefault("Do Nothing", new AutonDoNothingCommand());
@@ -164,10 +172,8 @@ public class Robot extends IterativeRobot {
 	 * Calls the putSmartDashboardInfo function of every subsytem
 	 */
 	private void putSubsystemDashInfo() {
-		for (Subsystem subsystem : subsystems) {
-			if (subsystem instanceof SmartDashboardSource) {
-				((SmartDashboardSource) subsystem).putSmartDashboardInfo();
-			}
+		for (SmartDashboardSource source : smartDashboardSources) {
+			source.putSmartDashboardInfo();
 		}
 	}
 }

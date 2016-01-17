@@ -1,8 +1,11 @@
 package edu.nr.lib.navx;
 
+import edu.nr.lib.NRMath;
+import edu.nr.lib.SmartDashboardSource;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class NavX {
+public class NavX implements SmartDashboardSource {
 	private SerialPort serial_port;
 	private IMU imu;
 
@@ -37,6 +40,10 @@ public class NavX {
 		}
 		return 0;
 	}
+	
+	public double getYawRad() {
+		return NRMath.degToRad(getYaw());
+	}
 
 	public double getRoll() {
 		if (imu != null && imu.isConnected()) {
@@ -44,12 +51,20 @@ public class NavX {
 		}
 		return 0;
 	}
+	
+	public double getRollRad() {
+		return NRMath.degToRad(getRoll());
+	}
 
 	public double getPitch() {
 		if (imu != null && imu.isConnected()) {
 			return imu.getPitch();
 		}
 		return 0;
+	}
+	
+	public double getPitchRad() {
+		return NRMath.degToRad(getPitch());
 	}
 
 	public void resetAll() {
@@ -70,5 +85,12 @@ public class NavX {
 		if (singleton == null) {
 			singleton = new NavX();
 		}
+	}
+
+	@Override
+	public void putSmartDashboardInfo() {
+		SmartDashboard.putNumber("NavX Yaw", getYaw());
+		SmartDashboard.putNumber("NavX Roll", getRoll());
+		SmartDashboard.putNumber("NavX Pitch", getPitch());
 	}
 }
