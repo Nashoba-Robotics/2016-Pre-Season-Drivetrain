@@ -5,6 +5,7 @@ import edu.nr.lib.SmartDashboardSource;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,15 +17,27 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource{
     
 	private static IntakeArm singleton;
 
-	CANTalon talon;
-	AnalogPotentiometer pot;
-	PID pid;
+	CANTalon armTalon;
+	CANTalon rollerTalon;
+	
+	Encoder rollerEncoder;
+	PID rollerPID;
+
+
+	AnalogPotentiometer armPot;
+	PID armPID;
 	
 	private IntakeArm() {
-		talon = new CANTalon(RobotMap.INTAKE_ARM_TALON);
-		pot = new AnalogPotentiometer(RobotMap.INTAKE_ARM_POT);
-		pot.setPIDSourceType(PIDSourceType.kDisplacement);
-		pid = new PID(0.0001, 0, 0, pot, talon); //TODO: Get the value for the Intake Arm PID
+		rollerTalon = new CANTalon(RobotMap.ROLLER_INTAKE_TALON);
+		rollerEncoder = new Encoder(RobotMap.ROLLER_INTAKE_ENCODER_A, RobotMap.ROLLER_INTAKE_ENCODER_B);
+		rollerEncoder.setPIDSourceType(PIDSourceType.kRate);
+		rollerPID = new PID(0, 0, 0, rollerEncoder, rollerTalon); //TODO: Get the PID value
+		rollerPID.enable();
+
+		armTalon = new CANTalon(RobotMap.INTAKE_ARM_TALON);
+		armPot = new AnalogPotentiometer(RobotMap.INTAKE_ARM_POT);
+		armPot.setPIDSourceType(PIDSourceType.kDisplacement);
+		armPID = new PID(0.0001, 0, 0, armPot, armTalon); //TODO: Get the value for the Intake Arm PID
 	}
 	
     public void initDefaultCommand() {
@@ -46,16 +59,24 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource{
 	 * @param speed the speed to set the motor to, from -1 to 1
 	 */
 	public void setMotor(double speed) {
-		pid.disable();
-		talon.set(speed);
+		armPID.disable();
+		armTalon.set(speed);
 	}
 	
 	/**
-	 * Set the PID setpoint
+	 * Set the arm PID setpoint
 	 * @param value the value to set the setpoint to
 	 */
-	public void setSetpoint(double value) {
-		pid.setSetpoint(value);	
+	public void setArmSetpoint(double value) {
+		armPID.setSetpoint(value);	
+	}
+	
+	/**
+	 * Set the roller PID setpoint
+	 * @param value the value to set the setpoint to
+	 */
+	public void setRollerSetpoint(double value) {
+		rollerPID.setSetpoint(value);	
 	}
 	
 	/**
@@ -63,21 +84,25 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource{
 	 * @return the PID setpoint
 	 */
 	public double getSetpoint() {
-		return pid.getSetpoint();
+		return armPID.getSetpoint();
+	}
+	
+	public boolean getRollerRunning() {
+		return rollerEncoder.get() > 0.1;
 	}
 	
 	/**
 	 * Enable the PID
 	 */
 	public void enable() {
-		pid.enable();
+		armPID.enable();
 	}
 	
 	/**
 	 * Disable the PID
 	 */
 	public void disable() {
-		pid.disable();
+		armPID.disable();
 	}
 	
 	/**
@@ -85,7 +110,7 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource{
 	 * @return whether the PID is enabled
 	 */
 	public boolean isEnable() {
-		return pid.isEnable();
+		return armPID.isEnable();
 	}
 	
 	/**
@@ -93,7 +118,12 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource{
 	 * @return the value of the potentiometer
 	 */
 	public double get() {
-		return pot.get();
+		return armPot.get();
+	}
+	
+	public boolean getBallInIntake() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	/**
@@ -101,14 +131,15 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource{
 	 * @return whether the motor is still moving
 	 */
 	public boolean getMoving() {
-		return Math.abs(pid.getError()) > 0.05;
+		return Math.abs(armPID.getError()) > 0.05;
 		//0.05 is a number I just made up
 	}
 
 	@Override
 	public void putSmartDashboardInfo() {
 		SmartDashboard.putNumber("Intake Arm Potentiometer", get());
-		SmartDashboard.putBoolean("Intake Arm Moving", Math.abs(pid.getError()) > 0.05);
+		SmartDashboard.putBoolean("Intake Arm Moving", Math.abs(armPID.getError()) > 0.05);
+		SmartDashboard.putNumber("Intake Roller Speed", rollerEncoder.getRate());
 	}
 }
 

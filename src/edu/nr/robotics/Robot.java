@@ -10,7 +10,7 @@ import edu.nr.robotics.subsystems.drive.Drive;
 import edu.nr.robotics.subsystems.elevator.Elevator;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;
-import edu.nr.robotics.subsystems.rollers.Rollers;
+import edu.nr.robotics.subsystems.loaderroller.LoaderRoller;
 import edu.nr.robotics.subsystems.shooter.Shooter;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -63,13 +63,13 @@ public class Robot extends IterativeRobot {
 		Shooter.init();
 		IntakeArm.init();
 		Elevator.init();
-		Rollers.init();
+		LoaderRoller.init();
 		Hood.init();
 		
 		subsystems.add(Drive.getInstance());
 		subsystems.add(Shooter.getInstance());
 		subsystems.add(IntakeArm.getInstance());
-		subsystems.add(Rollers.getInstance());
+		subsystems.add(LoaderRoller.getInstance());
 		subsystems.add(Elevator.getInstance());
 		subsystems.add(Hood.getInstance());
 		
@@ -79,7 +79,7 @@ public class Robot extends IterativeRobot {
 		smartDashboardSources.add(Shooter.getInstance());
 		smartDashboardSources.add(IntakeArm.getInstance());
 		smartDashboardSources.add(Elevator.getInstance());
-		smartDashboardSources.add(Rollers.getInstance());
+		smartDashboardSources.add(LoaderRoller.getInstance());
 		smartDashboardSources.add(Hood.getInstance());
 
 		autoCommandChooser = new SendableChooser();

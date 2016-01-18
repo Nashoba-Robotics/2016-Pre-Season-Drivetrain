@@ -102,6 +102,10 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 		return getSpeed() > 0.1;
 	}
 	
+	public double getSpeedPercent() {
+		return enc.getRate() / FULL_SPEED;
+	}
+	
 	/**
 	 * Tells if the shooter is up to speed
 	 * @return

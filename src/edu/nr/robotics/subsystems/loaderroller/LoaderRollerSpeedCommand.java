@@ -1,22 +1,22 @@
-package edu.nr.robotics.subsystems.rollers;
+package edu.nr.robotics.subsystems.loaderroller;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class RollerLoaderSpeedCommand extends Command {
+public class LoaderRollerSpeedCommand extends Command {
 
 	double val;
 	
-    public RollerLoaderSpeedCommand(double val) {
+    public LoaderRollerSpeedCommand(double val) {
     	this.val = val;
-    	requires(Rollers.getInstance());
+    	requires(LoaderRoller.getInstance());
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Rollers.getInstance().setLoaderSetpoint(val);
+    	LoaderRoller.getInstance().setLoaderSetpoint(val);
     }
 
     // Called repeatedly when this Command is scheduled to run

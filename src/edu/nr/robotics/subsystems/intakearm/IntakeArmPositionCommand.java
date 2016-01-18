@@ -18,7 +18,7 @@ public class IntakeArmPositionCommand extends CMD {
 
 	@Override
 	protected void onExecute() {
-		IntakeArm.getInstance().setSetpoint(val);
+		IntakeArm.getInstance().setArmSetpoint(val);
 	}
 
 	@Override

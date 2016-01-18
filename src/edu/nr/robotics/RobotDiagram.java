@@ -2,7 +2,7 @@ package edu.nr.robotics;
 
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;
-import edu.nr.robotics.subsystems.rollers.Rollers;
+import edu.nr.robotics.subsystems.loaderroller.LoaderRoller;
 import edu.nr.robotics.subsystems.shooter.Shooter;
 import edu.wpi.first.wpilibj.NamedSendable;
 import edu.wpi.first.wpilibj.tables.ITable;
@@ -22,19 +22,17 @@ private ITable table;
 
 			//Hood
 			table.putNumber("Hood Position", Hood.getInstance().get());
-			table.putBoolean("Hood Moving", Hood.getInstance().getMoving());
 			//Intake Arm
 			table.putNumber("Intake Arm Position", IntakeArm.getInstance().get());
-			table.putBoolean("Intake Arm Moving", IntakeArm.getInstance().getMoving());
 			//Rollers
-			table.putBoolean("Intake Roller Running", Rollers.getInstance().getIntakeRunning());
-			table.putBoolean("Loader Roller Runing", Rollers.getInstance().getLoaderRunning());
+			table.putBoolean("Intake Roller Running", IntakeArm.getInstance().getRollerRunning());
+			table.putBoolean("Loader Roller Runing", LoaderRoller.getInstance().getLoaderRunning());
 			//Shooter
-			table.putBoolean("Shooter Moving", Shooter.getInstance().getRunning());
+			table.putNumber("Shooter Percent", Shooter.getInstance().getSpeedPercent());
 			table.putBoolean("Shooter Full Speed", Shooter.getInstance().getSped());
 			//Ball
-			table.putBoolean("Ball In Intake", Rollers.getInstance().getBallInIntake());
-			table.putBoolean("Ball in Loader", Rollers.getInstance().getBallInLoader());
+			table.putBoolean("Ball In Intake", IntakeArm.getInstance().getBallInIntake());
+			table.putBoolean("Ball in Loader", LoaderRoller.getInstance().getBallInLoader());
 		}
 	}
 

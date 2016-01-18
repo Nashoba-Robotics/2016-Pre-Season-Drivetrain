@@ -1,4 +1,4 @@
-package edu.nr.robotics.subsystems.rollers;
+package edu.nr.robotics.subsystems.loaderroller;
 
 import edu.nr.lib.PID;
 import edu.nr.lib.SmartDashboardSource;
@@ -13,45 +13,37 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class Rollers extends Subsystem implements SmartDashboardSource {
+public class LoaderRoller extends Subsystem implements SmartDashboardSource {
     
 	CANTalon loaderTalon;
-	CANTalon intakeTalon;
 	
 	Encoder loaderEncoder;
-	Encoder intakeEncoder;
 	
 	PID loaderPID;
-	PID intakePID;
 	
-	private static Rollers singleton;
+	private static LoaderRoller singleton;
 	
-	private Rollers() {
+	private LoaderRoller() {
 		loaderTalon = new CANTalon(RobotMap.ROLLER_LOADER_TALON);
 
-		intakeTalon = new CANTalon(RobotMap.ROLLER_INTAKE_TALON);
 
 		loaderEncoder = new Encoder(RobotMap.ROLLER_LOADER_ENCODER_A, RobotMap.ROLLER_LOADER_ENCODER_B);
-		intakeEncoder = new Encoder(RobotMap.ROLLER_INTAKE_ENCODER_A, RobotMap.ROLLER_INTAKE_ENCODER_B);
 
 		loaderEncoder.setPIDSourceType(PIDSourceType.kRate);
-		intakeEncoder.setPIDSourceType(PIDSourceType.kRate);
 
 		loaderPID = new PID(0, 0, 0, loaderEncoder, loaderTalon);
-		intakePID = new PID(0, 0, 0, intakeEncoder, intakeTalon);
 		//TODO: Get the value for the Rollers PID
 		loaderPID.enable();
-		intakePID.enable();
 	}
 	
-	public static Rollers getInstance() {
+	public static LoaderRoller getInstance() {
 		init();
 		return singleton;
 	}
 
 	public static void init() {
 		if (singleton == null) {
-			singleton = new Rollers();
+			singleton = new LoaderRoller();
 		}
 	}
 	
@@ -61,7 +53,6 @@ public class Rollers extends Subsystem implements SmartDashboardSource {
 	 */
 	public void setSetpoints(double val) {
 		loaderPID.setSetpoint(val);
-		intakePID.setSetpoint(val);
 	}
 	
 	/**
@@ -70,18 +61,6 @@ public class Rollers extends Subsystem implements SmartDashboardSource {
 	 */
 	public void setLoaderSetpoint(double val) {
 		loaderPID.setSetpoint(val);
-	}
-	
-	/**
-	 * Set the intake PID to the given value
-	 * @param val the value to set the intake setpoint to
-	 */
-	public void setIntakeSetpoint(double val) {
-		intakePID.setSetpoint(val);
-	}
-	
-	public boolean getIntakeRunning() {
-		return intakeEncoder.get() > 0.1;
 	}
 	
 	public boolean getLoaderRunning() {
@@ -94,14 +73,8 @@ public class Rollers extends Subsystem implements SmartDashboardSource {
 	@Override
 	public void putSmartDashboardInfo() {
 		SmartDashboard.putNumber("Loader Encoder Speed", loaderEncoder.getRate());
-		SmartDashboard.putNumber("Intake Encoder Speed", intakeEncoder.getRate());
 	}
-
-	public boolean getBallInIntake() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+	
 	public boolean getBallInLoader() {
 		// TODO Auto-generated method stub
 		return false;
