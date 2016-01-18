@@ -54,7 +54,7 @@ public class Robot extends IterativeRobot {
 		// the camera name (ex "cam0") can be found through the roborio web
 		// interface
 		server.startAutomaticCapture("cam1");
-		// TODO: Potentially find the camera name with the real one we use
+		// TODO: Get potentially the camera name with the real one we use
 
 		OI.init();
 		Drive.init();

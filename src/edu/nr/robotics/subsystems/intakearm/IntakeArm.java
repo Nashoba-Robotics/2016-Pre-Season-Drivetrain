@@ -95,6 +95,15 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource{
 	public double get() {
 		return pot.get();
 	}
+	
+	/**
+	 * Gets whether the motor is still moving
+	 * @return whether the motor is still moving
+	 */
+	public boolean getMoving() {
+		return Math.abs(pid.getError()) > 0.05;
+		//0.05 is a number I just made up
+	}
 
 	@Override
 	public void putSmartDashboardInfo() {

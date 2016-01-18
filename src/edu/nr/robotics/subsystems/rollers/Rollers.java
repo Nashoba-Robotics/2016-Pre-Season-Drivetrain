@@ -39,7 +39,7 @@ public class Rollers extends Subsystem implements SmartDashboardSource {
 
 		loaderPID = new PID(0, 0, 0, loaderEncoder, loaderTalon);
 		intakePID = new PID(0, 0, 0, intakeEncoder, intakeTalon);
-		//TODO: Find the value for the Rollers PID
+		//TODO: Get the value for the Rollers PID
 		loaderPID.enable();
 		intakePID.enable();
 	}
@@ -80,6 +80,14 @@ public class Rollers extends Subsystem implements SmartDashboardSource {
 		intakePID.setSetpoint(val);
 	}
 	
+	public boolean getIntakeRunning() {
+		return intakeEncoder.get() > 0.1;
+	}
+	
+	public boolean getLoaderRunning() {
+		return loaderEncoder.get() > 0.1;
+	}
+	
     public void initDefaultCommand() {
     }
 
@@ -87,6 +95,16 @@ public class Rollers extends Subsystem implements SmartDashboardSource {
 	public void putSmartDashboardInfo() {
 		SmartDashboard.putNumber("Loader Encoder Speed", loaderEncoder.getRate());
 		SmartDashboard.putNumber("Intake Encoder Speed", intakeEncoder.getRate());
+	}
+
+	public boolean getBallInIntake() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean getBallInLoader() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
 

@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Shooter extends Subsystem implements SmartDashboardSource{
     
+	private static final double FULL_SPEED = 0; //TODO: Find the full speed of the shooter
+
 	private static Shooter singleton;
 
 	CANTalon talon;
@@ -94,6 +96,18 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	 */
 	public double getSpeed() {
 		return enc.getRate();
+	}
+	
+	public boolean getRunning() {
+		return getSpeed() > 0.1;
+	}
+	
+	/**
+	 * Tells if the shooter is up to speed
+	 * @return
+	 */
+	public boolean getSped() {
+		return getSpeed() > FULL_SPEED;
 	}
 
 	@Override

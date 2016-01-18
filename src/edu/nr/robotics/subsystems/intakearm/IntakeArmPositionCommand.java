@@ -23,14 +23,12 @@ public class IntakeArmPositionCommand extends CMD {
 
 	@Override
 	protected void onEnd(boolean interrupted) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 }
