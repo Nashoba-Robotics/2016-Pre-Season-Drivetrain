@@ -112,7 +112,6 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource{
 	public boolean isEnable() {
 		return armPID.isEnable();
 	}
-	
 	/**
 	 * Gets the value of the potentiometer
 	 * @return the value of the potentiometer

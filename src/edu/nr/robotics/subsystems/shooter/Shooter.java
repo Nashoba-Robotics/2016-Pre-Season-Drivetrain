@@ -18,15 +18,19 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 
 	private static Shooter singleton;
 
-	CANTalon talon;
+	CANTalon talonOne, talonTwo;
 	Encoder enc;
-	PID pid;
+	PID pidOne, pidTwo;
 	
 	private Shooter() {
-		talon = new CANTalon(RobotMap.INTAKE_ARM_TALON);
+		talonOne = new CANTalon(RobotMap.INTAKE_ARM_TALON);
+		talonTwo = new CANTalon(RobotMap.INTAKE_ARM_TALON);
+
 		enc = new Encoder(RobotMap.SHOOTER_ENCODER_A, RobotMap.SHOOTER_ENCODER_B);
 		enc.setPIDSourceType(PIDSourceType.kRate);
-		pid = new PID(0.0001, 0, 0, enc, talon); //TODO: Get the value for the Shooter PID
+		pidOne = new PID(0.0001, 0, 0, enc, talonOne); //TODO: Get the value for the Shooter PID
+		pidTwo = new PID(0.0001, 0, 0, enc, talonTwo); //TODO: Get the value for the Shooter PID
+
 	}
 	
     public void initDefaultCommand() {
@@ -48,8 +52,10 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	 * @param speed the speed to set the motor to, from -1 to 1
 	 */
 	public void setMotor(double speed) {
-		pid.disable();
-		talon.set(speed);
+		pidOne.disable();
+		pidTwo.disable();
+		talonOne.set(speed);
+		talonTwo.set(speed);
 	}
 	
 	/**
@@ -57,37 +63,41 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	 * @param value the value to set the setpoint to
 	 */
 	public void setSetpoint(double value) {
-		pid.setSetpoint(value);	
+		pidOne.setSetpoint(value);	
+		pidTwo.setSetpoint(value);
 	}
 	
 	/**
-	 * Get the PID setpoint
+	 * Get the average PID setpoint
 	 * @return the PID setpoint
 	 */
-	public double getSetpoint() {
-		return pid.getSetpoint();
+	public double getAveSetpoint() {
+		return (pidOne.getSetpoint() + pidTwo.getSetpoint())/2;
 	}
 	
 	/**
 	 * Enable the PID
 	 */
 	public void enable() {
-		pid.enable();
+		pidOne.enable();
+		pidTwo.enable();
 	}
 	
 	/**
 	 * Disable the PID
 	 */
 	public void disable() {
-		pid.disable();
+		pidOne.disable();
+		pidTwo.disable();
 	}
 	
 	/**
-	 * Gets whether the PID is enabled or not
-	 * @return whether the PID is enabled
+	 * Gets whether the PIDs are enabled or not
+	 * technically only checks one of the PIDs, but they should be the same
+	 * @return whether the PIDs are enabled
 	 */
 	public boolean isEnable() {
-		return pid.isEnable();
+		return pidOne.isEnable();
 	}
 	
 	/**
@@ -117,6 +127,6 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	@Override
 	public void putSmartDashboardInfo() {
 		SmartDashboard.putNumber("Shooter Speed", getSpeed());
-		SmartDashboard.putBoolean("Shooter Running", getSetpoint() != 0);
+		SmartDashboard.putBoolean("Shooter Running", getAveSetpoint() != 0);
 	}
 }
