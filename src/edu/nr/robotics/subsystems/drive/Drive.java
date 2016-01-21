@@ -37,7 +37,7 @@ public class Drive extends Subsystem implements SmartDashboardSource {
 		tempLeftTalon.changeControlMode(TalonControlMode.Follower);
 		tempLeftTalon.set(leftTalon.getDeviceID());
 		tempLeftTalon.enableBrakeMode(true);
-
+		
 		rightTalon = new CANTalon(RobotMap.TALON_RIGHT_A);
 		rightTalon.enableBrakeMode(true);
 
@@ -191,7 +191,7 @@ public class Drive extends Subsystem implements SmartDashboardSource {
 	 */
 	public void setRawMotorSpeed(double left, double right) {
 		setPIDEnabled(false);
-
+		
 		leftTalon.set(left);
 		rightTalon.set(right);
 	}
@@ -208,18 +208,25 @@ public class Drive extends Subsystem implements SmartDashboardSource {
 
 	/**
 	 * Enables or disables both left and right PIDs. Disabling also resets the
-	 * integral term and the previous error of the PID
+	 * integral term and the previous error of the PID, and sets the output to
+	 * zero
+	 * 
+	 * Doesn't do anything if they are already that state.
 	 * 
 	 * @param enabled
 	 *            whether to enable (true) or disable (false)
 	 */
 	public void setPIDEnabled(boolean enabled) {
 		if (enabled) {
-			leftPid.enable();
-			rightPid.enable();
+			if(!getPIDEnabled()) {
+				leftPid.enable();
+				rightPid.enable();
+			}
 		} else {
-			leftPid.reset();
-			rightPid.reset();
+			if(getPIDEnabled()) {
+				leftPid.reset();
+				rightPid.reset();
+			}
 		}
 	}
 
