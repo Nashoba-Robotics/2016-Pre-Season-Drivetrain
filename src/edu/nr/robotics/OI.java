@@ -3,7 +3,6 @@ package edu.nr.robotics;
 import edu.nr.lib.CancelAllCommand;
 import edu.nr.lib.path.OneDimensionalPath;
 import edu.nr.robotics.subsystems.drive.DriveComplexDistanceCommand;
-import edu.nr.robotics.subsystems.drive.DriveConstantCommand;
 import edu.nr.robotics.subsystems.drive.ResetEncodersCommand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -39,15 +38,12 @@ public class OI {
 		operatorLeft = new Joystick(2);
 		operatorRight = new Joystick(3);
 
-		new JoystickButton(operatorRight, 1).whenPressed(new DriveConstantCommand(false, true, false, 1));
-		new JoystickButton(operatorRight, 2).whenPressed(new DriveConstantCommand(false, true, false, 0));
-
-		/*
+		new JoystickButton(operatorRight, 1)
 				.whenPressed(new DriveComplexDistanceCommand(new OneDimensionalPath(1), 1 / RobotMap.MAX_SPEED, // Kv
 						0.5, // Ka
 						0, // Kp
 						0 // Kd
-		)); // The old score button*/
+		)); // The old score button
 
 		fighter = new JoystickButton(operatorLeft, 9);
 

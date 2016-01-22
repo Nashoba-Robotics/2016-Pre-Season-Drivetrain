@@ -7,7 +7,6 @@ import edu.nr.lib.SmartDashboardSource;
 import edu.nr.lib.navx.NavX;
 import edu.nr.robotics.auton.AutonDoNothingCommand;
 import edu.nr.robotics.subsystems.drive.Drive;
-import edu.nr.robotics.subsystems.drive.DriveConstantCommand;
 import edu.nr.robotics.subsystems.elevator.Elevator;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;
@@ -94,9 +93,6 @@ public class Robot extends IterativeRobot {
 		OI.getInstance().drivingModeChooser.addObject("tank", "tank");
 		SmartDashboard.putData("Driving Mode Chooser", OI.getInstance().drivingModeChooser);
 
-		SmartDashboard.putData("Left Drive Motor On", new DriveConstantCommand(false, true, false, 1.0));
-		SmartDashboard.putData("Left Drive Motor Off", new DriveConstantCommand(false, true, false, 0));
-		
 		for (Subsystem subsystem : subsystems) {
 			SmartDashboard.putData(subsystem);
 		}
