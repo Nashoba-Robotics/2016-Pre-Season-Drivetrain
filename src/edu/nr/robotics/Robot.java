@@ -145,13 +145,34 @@ public class Robot extends RobotBase {
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
+		initCamera();
+		initSubsystems();
+		initSmartDashboardChoosers();
+	}
+	
+	public void initSmartDashboardChoosers() {
+		autoCommandChooser = new SendableChooser();
+		autoCommandChooser.addDefault("Do Nothing", new AutonDoNothingCommand());
+		// Add more options like:
+		// autoCommandChooser.addObject(String name, Command command);
+		SmartDashboard.putData("Autonomous Chooser", autoCommandChooser);
+
+		OI.getInstance().drivingModeChooser = new SendableChooser();
+		OI.getInstance().drivingModeChooser.addDefault("arcade", "arcade");
+		OI.getInstance().drivingModeChooser.addObject("tank", "tank");
+		SmartDashboard.putData("Driving Mode Chooser", OI.getInstance().drivingModeChooser);
+	}
+	
+	public void initCamera() {
 		CameraServer server = CameraServer.getInstance();
 		server.setQuality(50);
 		// the camera name (ex "cam0") can be found through the roborio web
 		// interface
 		server.startAutomaticCapture("cam1");
 		// TODO: Get potentially the camera name with the real one we use
-
+	}
+	
+	public void initSubsystems() {
 		OI.init();
 		Drive.init();
 		NavX.init();
@@ -177,18 +198,7 @@ public class Robot extends RobotBase {
 		smartDashboardSources.add(Elevator.getInstance());
 		smartDashboardSources.add(LoaderRoller.getInstance());
 		smartDashboardSources.add(Hood.getInstance());
-
-		autoCommandChooser = new SendableChooser();
-		autoCommandChooser.addDefault("Do Nothing", new AutonDoNothingCommand());
-		// Add more options like:
-		// autoCommandChooser.addObject(String name, Command command);
-		SmartDashboard.putData("Autonomous Chooser", autoCommandChooser);
-
-		OI.getInstance().drivingModeChooser = new SendableChooser();
-		OI.getInstance().drivingModeChooser.addDefault("arcade", "arcade");
-		OI.getInstance().drivingModeChooser.addObject("tank", "tank");
-		SmartDashboard.putData("Driving Mode Chooser", OI.getInstance().drivingModeChooser);
-
+		
 		for (Subsystem subsystem : subsystems) {
 			SmartDashboard.putData(subsystem);
 		}
