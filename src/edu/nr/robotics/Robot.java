@@ -198,9 +198,8 @@ public class Robot extends RobotBase {
 		smartDashboardSources.add(LoaderRoller.getInstance());
 		smartDashboardSources.add(Hood.getInstance());
 		
-		for (Subsystem subsystem : subsystems) {
-			SmartDashboard.putData(subsystem);
-		}
+    subsystems.forEach(SmartDashboard::putData);
+
 	}
 
 	/**
@@ -234,8 +233,6 @@ public class Robot extends RobotBase {
 	 * Calls the putSmartDashboardInfo function of every smartDashboardSource
 	 */
 	private void putSubsystemDashInfo() {
-		for (SmartDashboardSource source : smartDashboardSources) {
-			source.putSmartDashboardInfo();
-		}
+		smartDashboardSources.forEach(SmartDashboardSource::putSmartDashboardInfo);
 	}
 }
