@@ -100,7 +100,7 @@ public class FieldCentric implements SmartDashboardSource {
 		if(unit == AngleUnit.RADIAN)
 			return val;
 		if(unit == AngleUnit.DEGREE)
-			return NRMath.radToDeg(val);
+			return Math.toDegrees(val);
 		return 0;
 	}
 

@@ -47,7 +47,7 @@ public class NavX implements SmartDashboardSource {
 				return valueDeg;
 			}
 			if(unit == AngleUnit.RADIAN) {
-				return NRMath.degToRad(valueDeg);
+				return Math.toRadians(valueDeg);
 			}
 		}
 		return 0;
@@ -64,7 +64,7 @@ public class NavX implements SmartDashboardSource {
 				return imu.getRoll();
 			}
 			if(unit == AngleUnit.RADIAN) {
-				return NRMath.degToRad(imu.getRoll());
+				return Math.toRadians(imu.getRoll());
 			}
 		}
 		return 0;
@@ -81,7 +81,7 @@ public class NavX implements SmartDashboardSource {
 				return imu.getPitch();
 			}
 			if(unit == AngleUnit.RADIAN) {
-				return NRMath.degToRad(imu.getPitch());
+				return Math.toRadians(imu.getPitch());
 			}
 		}
 		return 0;

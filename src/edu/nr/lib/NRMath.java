@@ -25,23 +25,4 @@ public class NRMath {
 		}
 		return x;
 	}
-
-	/**
-	 * Converts a value from degrees to radians
-	 * @param degrees the value in degrees
-	 * @return the value in radians
-	 */
-	public static double degToRad(double d) {
-		return 2 * Math.PI * d / 360.0;
-	}
-
-	/**
-	 * Converts a value from radians to degrees
-	 * @param radians the value in radians
-	 * @return the value in degrees
-	 */
-	public static double radToDeg(double r) {
-		return r * 360.0 / (2 * Math.PI);
-	}
-
 }
