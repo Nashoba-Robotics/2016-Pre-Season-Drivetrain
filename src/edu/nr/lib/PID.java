@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.util.BoundaryException;
  */
 public class PID implements LiveWindowSendable {
 
-	public static final double kDefaultPeriod = .05;
+	public static final double kDefaultPeriod = .001;
 	private double m_P; // factor for "proportional" control
 	private double m_I; // factor for "integral" control
 	private double m_D; // factor for "derivative" control
