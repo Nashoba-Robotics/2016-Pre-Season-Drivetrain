@@ -24,12 +24,13 @@ public class DriveJoystickCommand extends CMD {
 	protected void onExecute() {
 		if (OI.getInstance().drivingModeChooser.getSelected().equals("arcade")) {
 			double moveValue = OI.getInstance().getArcadeMoveValue();
-			double driveMagnitude = moveValue;
 			if (OI.getInstance().reverseDriveDirection()) {
-				driveMagnitude *= -1;
+				moveValue *= -1;
 			}
+			
+			double rotateAdjustValue = OI.getInstance().getQuickTurn();
 
-			double rotateValue = OI.getInstance().getArcadeTurnValue() / 2;
+			double rotateValue = OI.getInstance().getArcadeTurnValue() * rotateAdjustValue;
 
 			moveValue = NRMath.squareWithSign(moveValue);
 			rotateValue = NRMath.squareWithSign(rotateValue);
@@ -51,7 +52,7 @@ public class DriveJoystickCommand extends CMD {
 
 			rotateValue = rotateValue + negInertia * negInertiaScalar;
 
-			Drive.getInstance().arcadeDrive(OI.getInstance().speedMultiplier * driveMagnitude,
+			Drive.getInstance().arcadeDrive(OI.getInstance().speedMultiplier * moveValue,
 					OI.getInstance().speedMultiplier * rotateValue);
 
 			oldTurn = rotateValue;
