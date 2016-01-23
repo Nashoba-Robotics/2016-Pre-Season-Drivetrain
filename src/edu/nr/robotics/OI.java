@@ -1,8 +1,6 @@
 package edu.nr.robotics;
 
 import edu.nr.lib.CancelAllCommand;
-import edu.nr.lib.path.OneDimensionalPath;
-import edu.nr.robotics.subsystems.drive.DriveComplexDistanceCommand;
 import edu.nr.robotics.subsystems.drive.DriveConstantCommand;
 import edu.nr.robotics.subsystems.drive.ResetEncodersCommand;
 import edu.wpi.first.wpilibj.Joystick;
@@ -14,6 +12,23 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
+	/** Used Buttons:
+	 * Drive Left: (0)
+	 * -> 1:  Cancel all commands
+	 * 
+	 * Drive Right: (1)
+	 * -> 1:  Reverse drive direction
+	 * -> 2:  Quick Turn
+	 * -> 10: Reset encoders
+	 * 
+	 * Operator Left: (2)
+	 * -> 1:  Cancel all commands
+	 * -> 9:  Drive PID enable switch
+	 * 
+	 * Operator Right: (3)
+	 * -> 1:  Drive Constant Command, left only, no PID, full throttle
+	 */
+	
 	public SendableChooser drivingModeChooser;
 
 	public double speedMultiplier = 1;
@@ -30,8 +45,6 @@ public class OI {
 
 	JoystickButton fighter;
 
-	public static int H_DRIVE_BUTTON = 2;
-
 	private OI() {
 		driveLeft = new Joystick(0);
 		driveRight = new Joystick(1);
@@ -40,7 +53,6 @@ public class OI {
 		operatorRight = new Joystick(3);
 
 		new JoystickButton(operatorRight, 1).whileHeld(new DriveConstantCommand(false, true, false,1));
-		//new JoystickButton(operatorRight, 1).whenReleased(new DriveConstantCommand(false, true, false,0));
 
 		fighter = new JoystickButton(operatorLeft, 9);
 
@@ -95,19 +107,15 @@ public class OI {
 		return value;
 	}
 
-	/**
-	 * @return true if the DriveJoystickCommand should ignore joystick Z value
-	 *         and use the gyro to drive straight instead.
-	 */
-	public boolean useGyroCorrection() {
-		return driveRight.getRawButton(H_DRIVE_BUTTON);
-	}
-
 	public double getRawMove() {
 		return -driveLeft.getY();
 	}
 
 	public double getRawTurn() {
 		return -driveRight.getX();
+	}
+
+	public double getQuickTurn() {
+		return driveRight.getRawButton(2) ? 1 : 0.5;
 	}
 }
