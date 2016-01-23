@@ -24,12 +24,22 @@ public class Position {
 		return this;
 	}
 	
+	public Position(double magnitude, double angle, AngleUnit unit) {
+		if(unit == AngleUnit.DEGREE)
+			angle = Math.toRadians(angle);
+        x = magnitude * Math.cos(angle);
+        y = magnitude * Math.sin(angle);
+	}
+	
 	/**
 	 * Set the coordinates using polar coordinates
 	 * @param magnitude
-	 * @param angle in radians
+	 * @param angle
+	 * @param unit the unit for the coordinates
 	 */
-	public Position setPolar(double magnitude, double angle) {
+	public Position setPolar(double magnitude, double angle, AngleUnit unit) {
+		if(unit == AngleUnit.DEGREE)
+			angle = Math.toRadians(angle);
         x = magnitude * Math.cos(angle);
         y = magnitude * Math.sin(angle);
         
@@ -58,11 +68,13 @@ public class Position {
 	/**
      * Rotates the current coordinates by a given angle.
      * 
-     * @param angle
-     *            The angle (in radians) to rotate the pair by
+     * @param angle the angle to rotate the pair by
+     * @param unit the unit of the angle
      * @return the rotated object
      */
-    public Position rotate(double angle) {
+    public Position rotate(double angle, AngleUnit unit) {
+		if(unit == AngleUnit.DEGREE)
+			angle = Math.toRadians(angle);
         double cosA = Math.cos(angle);
         double sinA = Math.sin(angle);
         double tempX = x * cosA - y * sinA;
@@ -78,8 +90,12 @@ public class Position {
      * Gets the current angle in radians
      * @return the angle in radians
      */
-    public double getAngle() {
-        return Math.atan2(y, x);
+    public double getAngle(AngleUnit unit) {
+        if(unit == AngleUnit.RADIAN) {
+        	return Math.atan2(y, x);
+        } else {
+        	return Math.toDegrees(Math.atan2(y, x));
+        }
     }
 
     /**
