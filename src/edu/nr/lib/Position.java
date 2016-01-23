@@ -104,7 +104,7 @@ public class Position {
      * @return the magnitude
      */
     public double getMagnitude() {
-        return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        return Math.hypot(x, y);
     }
     
     public Position add(Position pair) {
