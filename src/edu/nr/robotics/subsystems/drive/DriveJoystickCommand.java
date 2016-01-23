@@ -46,6 +46,10 @@ public class DriveJoystickCommand extends CMD {
 	    		{
 	    			rotateValue = gyroCorrection.getTurnValue();
 	    		}
+		    	else
+		    	{	    		
+		    		gyroCorrection.clearInitialValue();
+		    	}
 	    	}
 	    	else
 	    	{	    		
