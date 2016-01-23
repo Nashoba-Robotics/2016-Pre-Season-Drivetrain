@@ -1,5 +1,6 @@
 package edu.nr.lib.navx;
 
+import edu.nr.lib.AngleUnit;
 import edu.nr.lib.NRMath;
 import edu.nr.lib.SmartDashboardSource;
 import edu.wpi.first.wpilibj.SerialPort;
@@ -25,10 +26,11 @@ public class NavX implements SmartDashboardSource {
 	double lastYaw;
 
 	/**
-	 * Gets the current yaw of the robot in degrees
-	 * @return the yaw in degrees
+	 * Gets the current yaw of the robot in the given units
+	 * @param unit the {@link AngleUnit} to return in
+	 * @return the yaw
 	 */
-	public double getYawDeg() {
+	public double getYaw(AngleUnit unit) {
 		if (imu != null && imu.isConnected()) {
 			double currentYaw = imu.getYaw();
 			if ((lastYaw < -90 || lastYaw > 90) && (currentYaw > 90 || currentYaw < -90)) {
@@ -40,55 +42,49 @@ public class NavX implements SmartDashboardSource {
 			}
 
 			lastYaw = currentYaw;
-			return currentYaw + 360 * fullRotationCount;
+			double valueDeg = currentYaw + 360 * fullRotationCount;
+			if(unit == AngleUnit.DEGREE) {
+				return valueDeg;
+			}
+			if(unit == AngleUnit.RADIAN) {
+				return NRMath.degToRad(valueDeg);
+			}
 		}
 		return 0;
-	}
-	
-	/**
-	 * Gets the current yaw of the robot in radians
-	 * @return the yaw in radians
-	 */
-	public double getYawRad() {
-		return NRMath.degToRad(getYawDeg());
 	}
 
 	/**
-	 * Gets the current roll of the robot in degrees
-	 * @return the roll in degrees
+	 * Gets the current roll of the robot in the given units
+	 * @param unit the {@link AngleUnit} to return in
+	 * @return the roll
 	 */
-	public double getRollDeg() {
+	public double getRoll(AngleUnit unit) {
 		if (imu != null && imu.isConnected()) {
-			return imu.getRoll();
+			if(unit == AngleUnit.DEGREE) {
+				return imu.getRoll();
+			}
+			if(unit == AngleUnit.RADIAN) {
+				return NRMath.degToRad(imu.getRoll());
+			}
 		}
 		return 0;
-	}
-	
-	/**
-	 * Gets the current roll of the robot in radians
-	 * @return the roll in radians
-	 */
-	public double getRollRad() {
-		return NRMath.degToRad(getRollDeg());
 	}
 
 	/**
-	 * Gets the current pitch of the robot in degrees
-	 * @return the pitch in degrees
+	 * Gets the current pitch of the robot in the given units
+	 * @param unit the {@link AngleUnit} to return in
+	 * @return the pitch
 	 */
-	public double getPitchDeg() {
+	public double getPitch(AngleUnit unit) {
 		if (imu != null && imu.isConnected()) {
-			return imu.getPitch();
+			if(unit == AngleUnit.DEGREE) {
+				return imu.getPitch();
+			}
+			if(unit == AngleUnit.RADIAN) {
+				return NRMath.degToRad(imu.getPitch());
+			}
 		}
 		return 0;
-	}
-	
-	/**
-	 * Gets the current pitch of the robot in radians
-	 * @return the pitch in radians
-	 */
-	public double getPitchRad() {
-		return NRMath.degToRad(getPitchDeg());
 	}
 
 	/**
@@ -116,8 +112,8 @@ public class NavX implements SmartDashboardSource {
 
 	@Override
 	public void putSmartDashboardInfo() {
-		SmartDashboard.putNumber("NavX Yaw", getYawDeg());
-		SmartDashboard.putNumber("NavX Roll", getRollDeg());
-		SmartDashboard.putNumber("NavX Pitch", getPitchDeg());
+		SmartDashboard.putNumber("NavX Yaw", getYaw(AngleUnit.DEGREE));
+		SmartDashboard.putNumber("NavX Roll", getRoll(AngleUnit.DEGREE));
+		SmartDashboard.putNumber("NavX Pitch", getPitch(AngleUnit.DEGREE));
 	}
 }

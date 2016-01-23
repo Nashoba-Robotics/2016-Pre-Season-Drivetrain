@@ -9,11 +9,11 @@ public class AngleGyroCorrection extends GyroCorrection
 	public double getAngleErrorDegrees()
 	{
 		//Error is just based off initial angle
-    	return (NavX.getInstance().getYawDeg() - initialAngle);
+    	return (NavX.getInstance().getYaw(AngleUnit.DEGREE) - initialAngle);
 	}
 	
 	public void reset()
 	{
-		initialAngle = NavX.getInstance().getYawDeg();
+		initialAngle = NavX.getInstance().getYaw(AngleUnit.DEGREE);
 	}
 }

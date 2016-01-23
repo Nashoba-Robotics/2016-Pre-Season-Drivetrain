@@ -2,8 +2,6 @@ package edu.nr.lib;
 
 import edu.nr.lib.navx.NavX;
 import edu.nr.robotics.subsystems.drive.Drive;
-import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class FieldCentric implements SmartDashboardSource {
 
@@ -40,7 +38,7 @@ public class FieldCentric implements SmartDashboardSource {
 					+ (System.currentTimeMillis() - lastUpdateTime) / 1000f + "s)");
 		}
 
-		double angle = getAngleRadians();
+		double angle = getAngle(AngleUnit.RADIAN);
 
 		double ave = Drive.getInstance().getEncoderAverageDistance();
 		double delta_x_r = ave - lastEncoderDistance;
@@ -93,12 +91,17 @@ public class FieldCentric implements SmartDashboardSource {
 
 	/**
 	 * Gets the angle used for current coordinate calculations
-	 * 
-	 * @return the angle in radians
+	 * @param unit the AngleUnit to return in
+	 * @return the angle in the given units
 	 */
-	public double getAngleRadians() {
+	public double getAngle(AngleUnit unit) {
 		// Gyro is reversed (clockwise causes an increase in the angle)
-		return ((NavX.getInstance().getYawRad()) - initialGyro) * -1 + initialTheta;
+		double val = ((NavX.getInstance().getYaw(AngleUnit.RADIAN)) - initialGyro) * -1 + initialTheta;
+		if(unit == AngleUnit.RADIAN)
+			return val;
+		if(unit == AngleUnit.DEGREE)
+			return NRMath.radToDeg(val);
+		return 0;
 	}
 
 	/**
@@ -108,15 +111,10 @@ public class FieldCentric implements SmartDashboardSource {
 		x = 0;
 		y = 0;
 		lastEncoderDistance = Drive.getInstance().getEncoderAverageDistance();
-		initialGyro = NavX.getInstance().getYawRad();
+		initialGyro = NavX.getInstance().getYaw(AngleUnit.RADIAN);
 	}
 
 	@Override
 	public void putSmartDashboardInfo() {
-		SmartDashboard.putNumber("NavX Yaw", NavX.getInstance().getYawDeg());
-		SmartDashboard.putNumber("NavX Pitch", NavX.getInstance().getPitchDeg());
-		SmartDashboard.putNumber("NavX Roll", NavX.getInstance().getRollDeg());
-
-		SmartDashboard.putNumber("Gyro", NavX.getInstance().getYawRad());
 	}
 }
