@@ -31,10 +31,15 @@ public class RobotMap {
 	public static final int HOOD_TALON = -1;
 	public static final int HOOD_POT = -1;
 	public static final int ELEVATOR_TALON = -1;
-	public static final int ROLLER_LOADER_TALON = -1;
-	public static final int ROLLER_INTAKE_TALON = -1;
+	
+	public static final int ROLLER_LOADER_TALON     = -1;
 	public static final int ROLLER_LOADER_ENCODER_A = -1;
 	public static final int ROLLER_LOADER_ENCODER_B = -1;
+	public static final int ROLLER_LOADER_IR_SENSOR = -1;
+
+	public static final int ROLLER_INTAKE_TALON     = -1;
 	public static final int ROLLER_INTAKE_ENCODER_A = -1;
 	public static final int ROLLER_INTAKE_ENCODER_B = -1;
+	public static final int ROLLER_INTAKE_IR_SENSOR = -1;
+
 }

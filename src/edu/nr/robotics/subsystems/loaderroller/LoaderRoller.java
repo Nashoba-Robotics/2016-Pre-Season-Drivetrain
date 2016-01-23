@@ -1,12 +1,12 @@
 package edu.nr.robotics.subsystems.loaderroller;
 
+import edu.nr.lib.AnalogIRSensor;
 import edu.nr.lib.PID;
 import edu.nr.lib.SmartDashboardSource;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -19,11 +19,15 @@ public class LoaderRoller extends Subsystem implements SmartDashboardSource {
 	
 	Encoder loaderEncoder;
 	
+	AnalogIRSensor irSensor;
+	
 	PID loaderPID;
 	
 	private static LoaderRoller singleton;
 	
 	private LoaderRoller() {
+		irSensor = new AnalogIRSensor(RobotMap.ROLLER_LOADER_IR_SENSOR);
+		
 		loaderTalon = new CANTalon(RobotMap.ROLLER_LOADER_TALON);
 
 

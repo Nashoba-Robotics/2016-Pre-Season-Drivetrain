@@ -1,5 +1,6 @@
 package edu.nr.robotics.subsystems.intakearm;
 
+import edu.nr.lib.AnalogIRSensor;
 import edu.nr.lib.PID;
 import edu.nr.lib.SmartDashboardSource;
 import edu.nr.robotics.RobotMap;
@@ -22,12 +23,15 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource{
 	
 	Encoder rollerEncoder;
 	PID rollerPID;
-
+	
+	AnalogIRSensor irSensor;
 
 	AnalogPotentiometer armPot;
 	PID armPID;
 	
 	private IntakeArm() {
+		irSensor = new AnalogIRSensor(RobotMap.ROLLER_LOADER_IR_SENSOR);
+		
 		rollerTalon = new CANTalon(RobotMap.ROLLER_INTAKE_TALON);
 		rollerEncoder = new Encoder(RobotMap.ROLLER_INTAKE_ENCODER_A, RobotMap.ROLLER_INTAKE_ENCODER_B);
 		rollerEncoder.setPIDSourceType(PIDSourceType.kRate);
