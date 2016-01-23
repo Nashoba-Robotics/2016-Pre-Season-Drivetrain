@@ -198,8 +198,7 @@ public class Robot extends RobotBase {
 		smartDashboardSources.add(LoaderRoller.getInstance());
 		smartDashboardSources.add(Hood.getInstance());
 		
-    subsystems.forEach(SmartDashboard::putData);
-
+		subsystems.forEach(SmartDashboard::putData);
 	}
 
 	/**
