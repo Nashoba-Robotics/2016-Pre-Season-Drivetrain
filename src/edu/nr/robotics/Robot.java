@@ -169,9 +169,7 @@ public class Robot extends RobotBase {
 		OI.getInstance().drivingModeChooser.addObject("tank", "tank");
 		SmartDashboard.putData("Driving Mode Chooser", OI.getInstance().drivingModeChooser);
 
-		for (Subsystem subsystem : subsystems) {
-			SmartDashboard.putData(subsystem);
-		}
+		subsystems.forEach(SmartDashboard::putData);
 	}
 
 	/**
@@ -205,8 +203,6 @@ public class Robot extends RobotBase {
 	 * Calls the putSmartDashboardInfo function of every smartDashboardSource
 	 */
 	private void putSubsystemDashInfo() {
-		for (SmartDashboardSource source : smartDashboardSources) {
-			source.putSmartDashboardInfo();
-		}
+		smartDashboardSources.forEach(SmartDashboardSource::putSmartDashboardInfo);
 	}
 }

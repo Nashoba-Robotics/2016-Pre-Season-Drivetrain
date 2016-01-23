@@ -244,7 +244,7 @@ public class Drive extends Subsystem implements SmartDashboardSource {
 	 * @return the distance in meters
 	 */
 	public double getEncoderLeftDistance() {
-		return leftEnc.getDistance();
+		return -leftEnc.getDistance();
 	}
 
 	/**
@@ -253,7 +253,7 @@ public class Drive extends Subsystem implements SmartDashboardSource {
 	 * @return the distance in meters
 	 */
 	public double getEncoderRightDistance() {
-		return -rightEnc.getDistance();
+		return rightEnc.getDistance();
 	}
 
 	/**
@@ -262,7 +262,7 @@ public class Drive extends Subsystem implements SmartDashboardSource {
 	 * @return the speed in meters per second
 	 */
 	public double getEncoderLeftSpeed() {
-		return leftEnc.getRate();
+		return -leftEnc.getRate();
 	}
 
 	/**
@@ -271,7 +271,7 @@ public class Drive extends Subsystem implements SmartDashboardSource {
 	 * @return the speed in meters per second
 	 */
 	public double getEncoderRightSpeed() {
-		return -rightEnc.getRate();
+		return rightEnc.getRate();
 	}
 
 	/**
