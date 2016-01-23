@@ -15,10 +15,10 @@ public class OI {
 	/** Used Buttons:
 	 * Drive Left: (0)
 	 * -> 1:  Cancel all commands
+	 * -> 2:  Reverse drive direction
 	 * 
 	 * Drive Right: (1)
-	 * -> 1:  Reverse drive direction
-	 * -> 2:  Quick Turn
+	 * -> 1:  Quick Turn
 	 * -> 10: Reset encoders
 	 * 
 	 * Operator Left: (2)
@@ -83,7 +83,7 @@ public class OI {
 
 	// Reversing drive direction makes it easy to maneuver in reverse
 	public boolean reverseDriveDirection() {
-		return driveRight.getRawButton(1);
+		return driveLeft.getRawButton(2);
 	}
 
 	public double getTankLeftValue() {
@@ -116,6 +116,6 @@ public class OI {
 	}
 
 	public double getQuickTurn() {
-		return driveRight.getRawButton(2) ? 1 : 0.5;
+		return driveRight.getRawButton(1) ? 1 : 0.5;
 	}
 }
