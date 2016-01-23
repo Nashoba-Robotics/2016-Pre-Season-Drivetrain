@@ -8,10 +8,15 @@ import edu.nr.lib.navx.NavX;
 import edu.nr.robotics.auton.AutonDoNothingCommand;
 import edu.nr.robotics.subsystems.drive.Drive;
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary;
+import edu.wpi.first.wpilibj.communication.UsageReporting;
+import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tInstances;
+import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tResourceType;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -22,7 +27,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public class Robot extends IterativeRobot {
+public class Robot extends RobotBase {
 
 	public static OI oi;
 
@@ -32,17 +37,108 @@ public class Robot extends IterativeRobot {
 	public static ArrayList<Subsystem> subsystems = new ArrayList<Subsystem>();
 	public static ArrayList<SmartDashboardSource> smartDashboardSources = new ArrayList<SmartDashboardSource>();
 	
+	private boolean m_disabledInitialized;
+	private boolean m_autonomousInitialized;
+	private boolean m_teleopInitialized;
+	private boolean m_testInitialized;
+	
 	public enum Mode {
-		TELEOP, AUTONOMOUS, DISABLED
+		TELEOP, AUTONOMOUS, DISABLED, TEST
 	}
 
 	public Mode currentMode;
+	
+	public Robot() {
+	    // set status for initialization of disabled, autonomous, and teleop code.
+	    m_disabledInitialized = false;
+	    m_autonomousInitialized = false;
+	    m_teleopInitialized = false;
+	    m_testInitialized = false;
+	  }
+	
+	@Override
+	public void startCompetition() {
+		UsageReporting.report(tResourceType.kResourceType_Framework, tInstances.kFramework_Iterative);
 
+		robotInit();
+
+		// Tell the DS that the robot is ready to be enabled
+		FRCNetworkCommunicationsLibrary.FRCNetworkCommunicationObserveUserProgramStarting();
+
+		// loop forever, calling the appropriate mode-dependent function
+		LiveWindow.setEnabled(false);
+		while (true) {
+			// Call the appropriate function depending upon the current robot
+			// mode
+			if (isDisabled()) {
+				// call DisabledInit() if we are now just entering disabled mode
+				// from either a different mode or from power-on
+				if (!m_disabledInitialized) {
+					LiveWindow.setEnabled(false);
+					initialize(Mode.DISABLED);
+					m_disabledInitialized = true;
+					// reset the initialization flags for the other modes
+					m_autonomousInitialized = false;
+					m_teleopInitialized = false;
+					m_testInitialized = false;
+				}
+				FRCNetworkCommunicationsLibrary.FRCNetworkCommunicationObserveUserProgramDisabled();
+				periodic(Mode.DISABLED);
+			} else if (isTest()) {
+				// call TestInit() if we are now just entering test mode from
+				// either a different mode or from power-on
+				if (!m_testInitialized) {
+					LiveWindow.setEnabled(true);
+					initialize(Mode.TEST);
+					m_testInitialized = true;
+					m_autonomousInitialized = false;
+					m_teleopInitialized = false;
+					m_disabledInitialized = false;
+				}
+				FRCNetworkCommunicationsLibrary.FRCNetworkCommunicationObserveUserProgramTest();
+				periodic(Mode.TEST);
+			} else if (isAutonomous()) {
+				// call Autonomous_Init() if this is the first time
+				// we've entered autonomous_mode
+				if (!m_autonomousInitialized) {
+					LiveWindow.setEnabled(false);
+					autonomousCommand = (Command) autoCommandChooser.getSelected();
+					autonomousCommand.start();
+					initialize(Mode.AUTONOMOUS);
+					m_autonomousInitialized = true;
+					m_testInitialized = false;
+					m_teleopInitialized = false;
+					m_disabledInitialized = false;
+				}
+				FRCNetworkCommunicationsLibrary.FRCNetworkCommunicationObserveUserProgramAutonomous();
+				periodic(Mode.AUTONOMOUS);
+			} else {
+				// call Teleop_Init() if this is the first time
+				// we've entered teleop_mode
+				if (!m_teleopInitialized) {
+					LiveWindow.setEnabled(false);
+					// This makes sure that the autonomous stops running when
+					// teleop starts running.
+					if (autonomousCommand != null) {
+						autonomousCommand.cancel();
+					}
+
+					initialize(Mode.TELEOP);
+					m_teleopInitialized = true;
+					m_testInitialized = false;
+					m_autonomousInitialized = false;
+					m_disabledInitialized = false;
+				}
+				FRCNetworkCommunicationsLibrary.FRCNetworkCommunicationObserveUserProgramTeleop();
+				periodic(Mode.TELEOP);
+			}
+		}
+	}
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
-	@Override
 	public void robotInit() {
 		CameraServer server = CameraServer.getInstance();
 		server.setQuality(50);
@@ -76,67 +172,6 @@ public class Robot extends IterativeRobot {
 		for (Subsystem subsystem : subsystems) {
 			SmartDashboard.putData(subsystem);
 		}
-	}
-
-	/**
-	 * This function is run when the autonomous period begins
-	 */
-	@Override
-	public void autonomousInit() {
-		autonomousCommand = (Command) autoCommandChooser.getSelected();
-		autonomousCommand.start();
-		initialize(Mode.AUTONOMOUS);
-	}
-
-	/**
-	 * This function is called periodically during autonomous
-	 */
-	@Override
-	public void autonomousPeriodic() {
-		periodic(Mode.AUTONOMOUS);
-	}
-
-	/**
-	 * This function is run when the operator control period begins
-	 */
-	@Override
-	public void teleopInit() {
-		// This makes sure that the autonomous stops running when
-		// teleop starts running.
-		if (autonomousCommand != null) {
-			autonomousCommand.cancel();
-		}
-
-		initialize(Mode.TELEOP);
-	}
-
-	/**
-	 * This function is called periodically during operator control
-	 */
-	@Override
-	public void teleopPeriodic() {
-		periodic(Mode.TELEOP);
-	}
-
-	/**
-	 * This is called when the disabled button is hit. You can use it to reset
-	 * subsystems before shutting down.
-	 */
-	@Override
-	public void disabledInit() {
-		initialize(Mode.DISABLED);
-
-		// Make sure that the PIDs are set to 0, otherwise if we disable while
-		// the PIDs are set, we might have issues...
-		Drive.getInstance().setPIDSetpoint(0, 0, false);
-	}
-
-	/**
-	 * This is called periodically while the robot is disabled
-	 */
-	@Override
-	public void disabledPeriodic() {
-		periodic(Mode.DISABLED);
 	}
 
 	/**
