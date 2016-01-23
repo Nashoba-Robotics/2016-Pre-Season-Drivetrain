@@ -1,5 +1,7 @@
 package edu.nr.lib;
 
+import edu.nr.lib.navx.NavX;
+
 public class AngleGyroCorrection extends GyroCorrection
 {
 	private double initialAngle;
@@ -7,11 +9,11 @@ public class AngleGyroCorrection extends GyroCorrection
 	public double getAngleErrorDegrees()
 	{
 		//Error is just based off initial angle
-    	return (NRMath.radToDeg(FieldCentric.getInstance().getAngleRadians()) - initialAngle);
+    	return (NavX.getInstance().getYawDeg() - initialAngle);
 	}
 	
 	public void reset()
 	{
-		initialAngle = NRMath.radToDeg(FieldCentric.getInstance().getAngleRadians());
+		initialAngle = NavX.getInstance().getYawDeg();
 	}
 }
