@@ -197,7 +197,7 @@ public class Robot extends RobotBase {
 		smartDashboardSources.add(Elevator.getInstance());
 		smartDashboardSources.add(LoaderRoller.getInstance());
 		smartDashboardSources.add(Hood.getInstance());
-		
+    smartDashboardSources.add(OI.getInstance());
 		subsystems.forEach(SmartDashboard::putData);
 	}
 

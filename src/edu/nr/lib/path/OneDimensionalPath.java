@@ -23,6 +23,7 @@ public class OneDimensionalPath {
 			startDown = endUp; // Make sure that endUp <= startDown
 		}
 		length = startDown + endUp;
+		//TODO: Fix this
 		if (getPosition(length) > distance + 0.1) { // The 0.1 is to make sure
 													// that this doesn't occur
 													// due to a float issue

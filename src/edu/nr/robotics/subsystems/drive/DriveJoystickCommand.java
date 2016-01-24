@@ -73,8 +73,7 @@ public class DriveJoystickCommand extends CMD {
 
 			rotateValue = rotateValue + negInertia * negInertiaScalar;
 
-			Drive.getInstance().arcadeDrive(OI.getInstance().speedMultiplier * moveValue,
-					OI.getInstance().speedMultiplier * rotateValue);
+			Drive.getInstance().arcadeDrive(moveValue,rotateValue,true);
 
 			oldTurn = rotateValue;
 		} else {

@@ -12,16 +12,17 @@ public class NRMath {
 	}
 
 	/**
-	 * Limits the value given from -1 to 1
+	 * Limits x from -y to y
 	 * @param x
-	 * @return the value, limited from -1 to 1
+	 * @param y
+	 * @return the value, limited from -y to y
 	 */
-	public static double limit(double x) {
-		if (x > 1.0) {
-			return 1.0;
+	public static double limit(double x, double y) {
+		if (x > y) {
+			return y;
 		}
-		if (x < -1.0) {
-			return -1.0;
+		if (x < -y) {
+			return -y;
 		}
 		return x;
 	}

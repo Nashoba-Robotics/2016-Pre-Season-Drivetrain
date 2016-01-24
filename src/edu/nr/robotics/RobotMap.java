@@ -17,9 +17,9 @@ public class RobotMap {
 	public static final int ENCODER_LEFT_B = 8;
 	public static final int ENCODER_RIGHT_A = 7;
 	public static final int ENCODER_RIGHT_B = 6;
-	public static final double MAX_SPEED = 3.4; // Meters per second //Actual
+	public static final double MAX_SPEED = 0.5; // Meters per second //Actual
 												// value is 3.4 m/s
-	public static final double MAX_ACCELERATION = 1; // Meters per second per
+	public static final double MAX_ACCELERATION = 3.0; // Meters per second per
 														// second
 	// TODO: Get actual max acc instead of using a placeholder value
 	
