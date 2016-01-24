@@ -31,7 +31,8 @@ public class DriveComplexDistanceCommand extends CMD {
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return prevTime > path.getLength();
+		return prevTime > path.getLength() || FieldCentric.getInstance().getX() > path.getDistance();
+		//The 0.2 is to give time for the motor to stop
 	}
 
 	@Override
@@ -48,7 +49,7 @@ public class DriveComplexDistanceCommand extends CMD {
 		double dt = time - prevTime;
 		prevTime = time;
 
-		double error = path.getPosition(time) + FieldCentric.getInstance().getX();
+		double error = path.getPosition(time) - FieldCentric.getInstance().getX();
 		double errorDeriv = (error - errorLast) / dt;
 		double motorSpeed = Kv * path.getSpeed(time) + Ka * path.getAcc(time) + Kp * error + Kd * errorDeriv;
 		errorLast = error;

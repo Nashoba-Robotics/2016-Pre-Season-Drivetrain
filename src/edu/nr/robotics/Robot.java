@@ -157,6 +157,7 @@ public class Robot extends RobotBase {
 		smartDashboardSources.add(NavX.getInstance());
 		smartDashboardSources.add(Drive.getInstance());
 		smartDashboardSources.add(FieldCentric.getInstance());
+		smartDashboardSources.add(OI.getInstance());
 
 		autoCommandChooser = new SendableChooser();
 		autoCommandChooser.addDefault("Do Nothing", new AutonDoNothingCommand());

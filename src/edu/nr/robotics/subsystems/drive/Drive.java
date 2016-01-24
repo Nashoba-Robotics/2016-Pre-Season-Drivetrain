@@ -4,6 +4,7 @@ import edu.nr.lib.NRMath;
 import edu.nr.lib.PID;
 import edu.nr.lib.SmartDashboardSource;
 import edu.nr.lib.navx.NavX;
+import edu.nr.robotics.OI;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
@@ -103,6 +104,27 @@ public class Drive extends Subsystem implements SmartDashboardSource {
 	 *            turn at. 1 is max right, 0 is stopped, -1 is max left
 	 */
 	public void arcadeDrive(double move, double turn) {
+		arcadeDrive(move,turn,false);
+	}
+	
+	/**
+	 * Sets left and right motor speeds to the speeds needed for the given move
+	 * and turn values
+	 * 
+	 * @param move
+	 *            The speed, from -1 to 1 (inclusive), that the robot should go
+	 *            at. 1 is max forward, 0 is stopped, -1 is max backward
+	 * @param turn
+	 *            The speed, from -1 to 1 (inclusive), that the robot should
+	 *            turn at. 1 is max right, 0 is stopped, -1 is max left
+	 * @param speedMultiplier 
+	 * 			  whether or not to use the OI speed multiplier
+	 *            It should really only be used for operator driving
+	 * 
+	 */
+	public void arcadeDrive(double move, double turn, boolean speedMultiplier) {
+		move = NRMath.limit(move, 1);
+		turn = NRMath.limit(turn, 1);
 		double leftMotorSpeed, rightMotorSpeed;
 		rightMotorSpeed = leftMotorSpeed = move;
 		leftMotorSpeed += turn;
@@ -126,7 +148,10 @@ public class Drive extends Subsystem implements SmartDashboardSource {
 			}
 		}
 
-		tankDrive(leftMotorSpeed, -rightMotorSpeed);
+		if(speedMultiplier)
+			tankDrive(leftMotorSpeed*OI.getInstance().speedMultiplier, -rightMotorSpeed*OI.getInstance().speedMultiplier);
+		else 
+			tankDrive(leftMotorSpeed, -rightMotorSpeed);
 	}
 
 	/**

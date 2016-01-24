@@ -1,17 +1,21 @@
 package edu.nr.robotics;
 
 import edu.nr.lib.CancelAllCommand;
+import edu.nr.lib.SmartDashboardSource;
+import edu.nr.lib.path.OneDimensionalPath;
+import edu.nr.robotics.subsystems.drive.DriveComplexDistanceCommand;
 import edu.nr.robotics.subsystems.drive.DriveConstantCommand;
 import edu.nr.robotics.subsystems.drive.ResetEncodersCommand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
-public class OI {
+public class OI implements SmartDashboardSource {
 	/** Used Buttons:
 	 * Drive Left: (0)
 	 * -> 1:  Cancel all commands
@@ -46,6 +50,8 @@ public class OI {
 	JoystickButton fighter;
 
 	private OI() {
+		SmartDashboard.putNumber("Speed Multiplier", speedMultiplier);
+
 		driveLeft = new Joystick(0);
 		driveRight = new Joystick(1);
 
@@ -53,6 +59,8 @@ public class OI {
 		operatorRight = new Joystick(3);
 
 		new JoystickButton(operatorRight, 1).whileHeld(new DriveConstantCommand(false, true, false,1));
+		
+		new JoystickButton(operatorRight, 2).whenPressed(new DriveComplexDistanceCommand(new OneDimensionalPath(6.096,RobotMap.MAX_SPEED, RobotMap.MAX_ACCELERATION), 1/RobotMap.MAX_SPEED,0,0,0));
 
 		fighter = new JoystickButton(operatorLeft, 9);
 
@@ -117,5 +125,10 @@ public class OI {
 
 	public double getQuickTurn() {
 		return driveRight.getRawButton(1) ? 1 : 0.5;
+	}
+
+	@Override
+	public void putSmartDashboardInfo() {
+		speedMultiplier = SmartDashboard.getNumber("Speed Multiplier");
 	}
 }
