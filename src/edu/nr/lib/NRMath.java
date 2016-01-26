@@ -8,7 +8,17 @@ public class NRMath {
 	 * @return the squared value with the sign maintained
 	 */
 	public static double squareWithSign(double x) {
-		return x * x * Math.signum(x);
+		return powWithSign(x,2);
+	}
+	
+	/**
+	 * Returns the value of the first argument raised to the power of the second argument multiplied by the sign of the first argument
+	 * @param x the base
+	 * @param exp the exponent
+	 * @return the value a^b * the sign of a
+	 */
+	public static double powWithSign(double x, double exp) {
+		return Math.pow(x, exp) * Math.signum(x);
 	}
 
 	/**
@@ -23,6 +33,21 @@ public class NRMath {
 		}
 		if (x < -y) {
 			return -y;
+		}
+		return x;
+	}
+
+	/**
+	 * Limites x from -1 to 1
+	 * @param x
+	 * @return the value, limited betweeen -1 and 1
+	 */
+	public static double limit(double x) {
+		if (x > 1) {
+			return 1;
+		}
+		if (x < -1) {
+			return -1;
 		}
 		return x;
 	}

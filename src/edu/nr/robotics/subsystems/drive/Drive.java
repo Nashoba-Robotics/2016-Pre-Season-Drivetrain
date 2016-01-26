@@ -18,7 +18,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Drive extends Subsystem implements SmartDashboardSource {
 
-	// This is a constant that is used for driving with PID control
+	/**
+	 *  This is a constant that is used for driving with PID control
+	 */
 	public static final double JOYSTICK_DRIVE_P = 0.25;
 
 	private static Drive singleton;
@@ -26,8 +28,8 @@ public class Drive extends Subsystem implements SmartDashboardSource {
 	CANTalon leftTalon, rightTalon;
 	Encoder leftEnc, rightEnc;
 
-	// These values are right so that one distance unit given by the encoders is
-	// one foot
+	// These values are right so that one distance  
+	// unit given by the encoders is one meter
 	private final double ticksPerRev = 360, wheelDiameter = 0.33333;
 
 	private Drive() {
@@ -82,12 +84,15 @@ public class Drive extends Subsystem implements SmartDashboardSource {
 	}
 
 	/**
-	 * @param value
+	 * Set the voltage ramp rate for both drive talons. 
+	 * Limits the rate at which the throttle will change.
+	 * 
+	 * @param rampRate
 	 *            Maximum change in voltage, in volts / sec.
 	 */
-	public void setTalonRampRate(double value) {
-		leftTalon.setVoltageRampRate(value);
-		rightTalon.setVoltageRampRate(value);
+	public void setTalonRampRate(double rampRate) {
+		leftTalon.setVoltageRampRate(rampRate);
+		rightTalon.setVoltageRampRate(rampRate);
 	}
 
 	/**
@@ -107,7 +112,9 @@ public class Drive extends Subsystem implements SmartDashboardSource {
 	
 	/**
 	 * Sets left and right motor speeds to the speeds needed for the given move
-	 * and turn values
+	 * and turn values, multiplied by the OI speed multiplier if the speed multiplier
+	 * parameter is true. If you don't care about the speed multiplier parameter, you
+	 * might want to use {@link arcadeDrive(double move, double turn)}
 	 * 
 	 * @param move
 	 *            The speed, from -1 to 1 (inclusive), that the robot should go
@@ -121,8 +128,8 @@ public class Drive extends Subsystem implements SmartDashboardSource {
 	 * 
 	 */
 	public void arcadeDrive(double move, double turn, boolean speedMultiplier) {
-		move = NRMath.limit(move, 1);
-		turn = NRMath.limit(turn, 1);
+		move = NRMath.limit(move);
+		turn = NRMath.limit(turn);
 		double leftMotorSpeed, rightMotorSpeed;
 		rightMotorSpeed = leftMotorSpeed = move;
 		leftMotorSpeed += turn;
@@ -146,10 +153,8 @@ public class Drive extends Subsystem implements SmartDashboardSource {
 			}
 		}
 
-		if(speedMultiplier)
-			tankDrive(leftMotorSpeed*OI.getInstance().speedMultiplier, -rightMotorSpeed*OI.getInstance().speedMultiplier);
-		else 
-			tankDrive(leftMotorSpeed, -rightMotorSpeed);
+		double multiplier = speedMultiplier? OI.getInstance().speedMultiplier : 0;
+		tankDrive(leftMotorSpeed*multiplier, -rightMotorSpeed*multiplier);
 	}
 
 	/**
@@ -262,36 +267,38 @@ public class Drive extends Subsystem implements SmartDashboardSource {
 	}
 
 	/**
-	 * Gets the distance of the left encoder
+	 * Get the distance the left encoder has driven since the last reset
 	 * 
-	 * @return the distance in meters
+	 * @return The distance the left encoder has driven since the last reset as scaled by the value from setDistancePerPulse().
 	 */
 	public double getEncoderLeftDistance() {
 		return -leftEnc.getDistance();
 	}
 
 	/**
-	 * Gets the distance of the right encoder
+	 * Get the distance the right encoder has driven since the last reset
 	 * 
-	 * @return the distance in meters
+	 * @return The distance the right encoder has driven since the last reset as scaled by the value from setDistancePerPulse().
 	 */
 	public double getEncoderRightDistance() {
 		return rightEnc.getDistance();
 	}
 
 	/**
-	 * Gets the speed of the left encoder
+	 * Get the current rate of the left encoder. 
+	 * Units are distance per second as scaled by the value from setDistancePerPulse().
 	 * 
-	 * @return the speed in meters per second
+	 * @return The current rate of the encoder
 	 */
 	public double getEncoderLeftSpeed() {
 		return -leftEnc.getRate();
 	}
 
 	/**
-	 * Gets the speed of the right encoder
+	 * Get the current rate of the right encoder. 
+	 * Units are distance per second as scaled by the value from setDistancePerPulse().
 	 * 
-	 * @return the speed in meters per second
+	 * @return The current rate of the encoder
 	 */
 	public double getEncoderRightSpeed() {
 		return rightEnc.getRate();
@@ -300,16 +307,19 @@ public class Drive extends Subsystem implements SmartDashboardSource {
 	/**
 	 * Gets the average distance of the encoders
 	 * 
-	 * @return the average distance in meters
+	 * @return 
+	 * 		The average distance the encoders have driven since the 
+	 * 		last reset as scaled by the value from setDistancePerPulse().
 	 */
 	public double getEncoderAverageDistance() {
 		return (getEncoderLeftDistance() + getEncoderRightDistance()) / 2;
 	}
 
 	/**
-	 * Gets the average speed of the encoders
+	 * Get the average current rate of the encoders. 
+	 * Units are distance per second as scaled by the value from setDistancePerPulse().
 	 * 
-	 * @return the average speed in meters per second
+	 * @return The current average rate of the encoders
 	 */
 	public double getEncoderAverageSpeed() {
 		return (getEncoderRightSpeed() + getEncoderLeftSpeed()) / 2;
