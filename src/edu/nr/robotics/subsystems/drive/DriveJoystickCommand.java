@@ -1,17 +1,23 @@
 package edu.nr.robotics.subsystems.drive;
 
 import edu.nr.lib.CMD;
+import edu.nr.lib.GyroCorrection;
 import edu.nr.lib.NRMath;
 import edu.nr.robotics.OI;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.nr.lib.AngleGyroCorrection;
 
 /**
  *
  */
 public class DriveJoystickCommand extends CMD {
 	private double oldTurn;
+	
+	GyroCorrection gyroCorrection;
 
 	public DriveJoystickCommand() {
 		requires(Drive.getInstance());
+        gyroCorrection = new AngleGyroCorrection();
 	}
 
 	@Override
@@ -35,6 +41,27 @@ public class DriveJoystickCommand extends CMD {
 			moveValue = NRMath.squareWithSign(moveValue);
 			rotateValue = NRMath.squareWithSign(rotateValue);
 
+			if(Math.abs(rotateValue) < 0.05)
+	    	{
+	    		if (Math.abs(moveValue) > .1)
+	    		{
+	    			rotateValue = gyroCorrection.getTurnValue();
+	    			SmartDashboard.putBoolean("Using gyro correction", true);
+	    		}
+		    	else
+		    	{	    		
+		    		gyroCorrection.clearInitialValue();
+	    			SmartDashboard.putBoolean("Using gyro correction", false);
+
+		    	}
+	    	}
+	    	else
+	    	{	    		
+	    		gyroCorrection.clearInitialValue();
+    			SmartDashboard.putBoolean("Using gyro correction", false);
+
+	    	}
+			
 			double negInertia = rotateValue - oldTurn;
 
 			// Negative inertia!

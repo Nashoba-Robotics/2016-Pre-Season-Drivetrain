@@ -7,6 +7,11 @@ import edu.nr.lib.SmartDashboardSource;
 import edu.nr.lib.navx.NavX;
 import edu.nr.robotics.auton.AutonDoNothingCommand;
 import edu.nr.robotics.subsystems.drive.Drive;
+import edu.nr.robotics.subsystems.elevator.Elevator;
+import edu.nr.robotics.subsystems.hood.Hood;
+import edu.nr.robotics.subsystems.intakearm.IntakeArm;
+import edu.nr.robotics.subsystems.loaderroller.LoaderRoller;
+import edu.nr.robotics.subsystems.shooter.Shooter;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.command.Command;
@@ -21,10 +26,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the IterativeRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the manifest file in the resource
+ * The VM is configured to automatically run this class. 
+ * If you change the name of this class or the package after creating 
+ * this project, you must also update the manifest file in the resource
  * directory.
  */
 public class Robot extends RobotBase {
@@ -42,6 +46,9 @@ public class Robot extends RobotBase {
 	private boolean m_teleopInitialized;
 	private boolean m_testInitialized;
 	
+	long prevTime;
+	ArrayList<Long> last1000Times;
+	
 	public enum Mode {
 		TELEOP, AUTONOMOUS, DISABLED, TEST
 	}
@@ -54,10 +61,23 @@ public class Robot extends RobotBase {
 	    m_autonomousInitialized = false;
 	    m_teleopInitialized = false;
 	    m_testInitialized = false;
-	  }
+	    last1000Times = new ArrayList<Long>();
+	    prevTime = System.currentTimeMillis();
+	}
+	
+	private void updateLoopTime() {
+		SmartDashboard.putNumber("Time in the loop", System.currentTimeMillis() - prevTime);
+	    prevTime = System.currentTimeMillis();
+	    last1000Times.add(prevTime);
+	    if(last1000Times.size() > 1000) {
+	    	last1000Times.remove(0);
+	    	SmartDashboard.putNumber("Time of last 1000 loops", System.currentTimeMillis() - last1000Times.get(0));
+	    }
+	}
 	
 	@Override
 	public void startCompetition() {
+
 		UsageReporting.report(tResourceType.kResourceType_Framework, tInstances.kFramework_Iterative);
 
 		robotInit();
@@ -68,6 +88,8 @@ public class Robot extends RobotBase {
 		// loop forever, calling the appropriate mode-dependent function
 		LiveWindow.setEnabled(false);
 		while (true) {
+			updateLoopTime();
+
 			// Call the appropriate function depending upon the current robot
 			// mode
 			if (isDisabled()) {
@@ -140,25 +162,12 @@ public class Robot extends RobotBase {
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
-		CameraServer server = CameraServer.getInstance();
-		server.setQuality(50);
-		// the camera name (ex "cam0") can be found through the roborio web
-		// interface
-		server.startAutomaticCapture("cam1");
-		// TODO: Potentially find the camera name with the real one we use
-
-		OI.init();
-		Drive.init();
-		NavX.init();
-		FieldCentric.init();
-		
-		subsystems.add(Drive.getInstance());
-		
-		smartDashboardSources.add(NavX.getInstance());
-		smartDashboardSources.add(Drive.getInstance());
-		smartDashboardSources.add(FieldCentric.getInstance());
-		smartDashboardSources.add(OI.getInstance());
-
+		initCamera();
+		initSubsystems();
+		initSmartDashboardChoosers();
+	}
+	
+	public void initSmartDashboardChoosers() {
 		autoCommandChooser = new SendableChooser();
 		autoCommandChooser.addDefault("Do Nothing", new AutonDoNothingCommand());
 		// Add more options like:
@@ -169,7 +178,45 @@ public class Robot extends RobotBase {
 		OI.getInstance().drivingModeChooser.addDefault("arcade", "arcade");
 		OI.getInstance().drivingModeChooser.addObject("tank", "tank");
 		SmartDashboard.putData("Driving Mode Chooser", OI.getInstance().drivingModeChooser);
-
+	}
+	
+	public void initCamera() {
+		CameraServer server = CameraServer.getInstance();
+		server.setQuality(50);
+		// the camera name (ex "cam0") can be found through the roborio web
+		// interface
+		server.startAutomaticCapture("cam2");
+		// TODO: Get potentially the camera name with the real one we use
+	}
+	
+	public void initSubsystems() {
+		OI.init();
+		Drive.init();
+		NavX.init();
+		FieldCentric.init();
+		/*Shooter.init();
+		IntakeArm.init();
+		Elevator.init();
+		LoaderRoller.init();
+		Hood.init();*/
+		
+		subsystems.add(Drive.getInstance());
+		/*subsystems.add(Shooter.getInstance());
+		subsystems.add(IntakeArm.getInstance());
+		subsystems.add(LoaderRoller.getInstance());
+		subsystems.add(Elevator.getInstance());
+		subsystems.add(Hood.getInstance());*/
+		
+		smartDashboardSources.add(NavX.getInstance());
+		smartDashboardSources.add(Drive.getInstance());
+		smartDashboardSources.add(FieldCentric.getInstance());
+		/*smartDashboardSources.add(Shooter.getInstance());
+		smartDashboardSources.add(IntakeArm.getInstance());
+		smartDashboardSources.add(Elevator.getInstance());
+		smartDashboardSources.add(LoaderRoller.getInstance());
+		smartDashboardSources.add(Hood.getInstance());*/
+		smartDashboardSources.add(OI.getInstance());
+		
 		subsystems.forEach(SmartDashboard::putData);
 	}
 

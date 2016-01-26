@@ -63,8 +63,6 @@ public class Drive extends Subsystem implements SmartDashboardSource {
 
 		leftPid = new PID(JOYSTICK_DRIVE_P, 0, 0, 1, leftEnc, leftTalon);
 		rightPid = new PID(JOYSTICK_DRIVE_P, 0, 0, 1, rightEnc, rightTalon);
-		leftPid.enable();
-		rightPid.enable();
 	}
 
 	public static Drive getInstance() {
