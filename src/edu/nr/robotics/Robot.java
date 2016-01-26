@@ -46,6 +46,9 @@ public class Robot extends RobotBase {
 	private boolean m_teleopInitialized;
 	private boolean m_testInitialized;
 	
+	long prevTime;
+	ArrayList<Long> last1000Times;
+	
 	public enum Mode {
 		TELEOP, AUTONOMOUS, DISABLED, TEST
 	}
@@ -58,10 +61,23 @@ public class Robot extends RobotBase {
 	    m_autonomousInitialized = false;
 	    m_teleopInitialized = false;
 	    m_testInitialized = false;
-	  }
+	    last1000Times = new ArrayList<Long>();
+	    prevTime = System.currentTimeMillis();
+	}
+	
+	private void updateLoopTime() {
+		SmartDashboard.putNumber("Time in the loop", System.currentTimeMillis() - prevTime);
+	    prevTime = System.currentTimeMillis();
+	    last1000Times.add(prevTime);
+	    if(last1000Times.size() > 1000) {
+	    	last1000Times.remove(0);
+	    	SmartDashboard.putNumber("Time of last 1000 loops", System.currentTimeMillis() - last1000Times.get(0));
+	    }
+	}
 	
 	@Override
 	public void startCompetition() {
+
 		UsageReporting.report(tResourceType.kResourceType_Framework, tInstances.kFramework_Iterative);
 
 		robotInit();
@@ -72,6 +88,8 @@ public class Robot extends RobotBase {
 		// loop forever, calling the appropriate mode-dependent function
 		LiveWindow.setEnabled(false);
 		while (true) {
+			updateLoopTime();
+
 			// Call the appropriate function depending upon the current robot
 			// mode
 			if (isDisabled()) {
@@ -167,7 +185,7 @@ public class Robot extends RobotBase {
 		server.setQuality(50);
 		// the camera name (ex "cam0") can be found through the roborio web
 		// interface
-		server.startAutomaticCapture("cam1");
+		server.startAutomaticCapture("cam2");
 		// TODO: Get potentially the camera name with the real one we use
 	}
 	
@@ -176,28 +194,29 @@ public class Robot extends RobotBase {
 		Drive.init();
 		NavX.init();
 		FieldCentric.init();
-		Shooter.init();
+		/*Shooter.init();
 		IntakeArm.init();
 		Elevator.init();
 		LoaderRoller.init();
-		Hood.init();
+		Hood.init();*/
 		
 		subsystems.add(Drive.getInstance());
-		subsystems.add(Shooter.getInstance());
+		/*subsystems.add(Shooter.getInstance());
 		subsystems.add(IntakeArm.getInstance());
 		subsystems.add(LoaderRoller.getInstance());
 		subsystems.add(Elevator.getInstance());
-		subsystems.add(Hood.getInstance());
+		subsystems.add(Hood.getInstance());*/
 		
 		smartDashboardSources.add(NavX.getInstance());
 		smartDashboardSources.add(Drive.getInstance());
 		smartDashboardSources.add(FieldCentric.getInstance());
-		smartDashboardSources.add(Shooter.getInstance());
+		/*smartDashboardSources.add(Shooter.getInstance());
 		smartDashboardSources.add(IntakeArm.getInstance());
 		smartDashboardSources.add(Elevator.getInstance());
 		smartDashboardSources.add(LoaderRoller.getInstance());
-		smartDashboardSources.add(Hood.getInstance());
-    smartDashboardSources.add(OI.getInstance());
+		smartDashboardSources.add(Hood.getInstance());*/
+		smartDashboardSources.add(OI.getInstance());
+		
 		subsystems.forEach(SmartDashboard::putData);
 	}
 

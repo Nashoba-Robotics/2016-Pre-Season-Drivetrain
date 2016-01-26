@@ -4,6 +4,7 @@ import edu.nr.lib.CMD;
 import edu.nr.lib.GyroCorrection;
 import edu.nr.lib.NRMath;
 import edu.nr.robotics.OI;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.nr.lib.AngleGyroCorrection;
 
 /**
@@ -45,15 +46,20 @@ public class DriveJoystickCommand extends CMD {
 	    		if (Math.abs(moveValue) > .1)
 	    		{
 	    			rotateValue = gyroCorrection.getTurnValue();
+	    			SmartDashboard.putBoolean("Using gyro correction", true);
 	    		}
 		    	else
 		    	{	    		
 		    		gyroCorrection.clearInitialValue();
+	    			SmartDashboard.putBoolean("Using gyro correction", false);
+
 		    	}
 	    	}
 	    	else
 	    	{	    		
 	    		gyroCorrection.clearInitialValue();
+    			SmartDashboard.putBoolean("Using gyro correction", false);
+
 	    	}
 			
 			double negInertia = rotateValue - oldTurn;

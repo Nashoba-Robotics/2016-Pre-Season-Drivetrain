@@ -30,7 +30,8 @@ public class OI implements SmartDashboardSource {
 	 * -> 9:  Drive PID enable switch
 	 * 
 	 * Operator Right: (3)
-	 * -> 1:  Drive Constant Command, left only, no PID, full throttle
+	 * -> 4:   Drive Constant Command, left only, no PID, full reverse throttle
+	 * -> 10:  Drive Constant Command, left only, no PID, full throttle
 	 */
 	
 	public SendableChooser drivingModeChooser;
@@ -58,7 +59,8 @@ public class OI implements SmartDashboardSource {
 		operatorLeft = new Joystick(2);
 		operatorRight = new Joystick(3);
 
-		new JoystickButton(operatorRight, 1).whileHeld(new DriveConstantCommand(false, true, false,1));
+		new JoystickButton(operatorRight, 10).whileHeld(new DriveConstantCommand(false, true, false,0.9));
+		new JoystickButton(operatorRight, 4).whileHeld(new DriveConstantCommand(false, true, false,-0.9));
 		
 		new JoystickButton(operatorRight, 2).whenPressed(new DriveComplexDistanceCommand(new OneDimensionalPath(6.096,RobotMap.MAX_SPEED, RobotMap.MAX_ACCELERATION), 1/RobotMap.MAX_SPEED,0,0,0));
 

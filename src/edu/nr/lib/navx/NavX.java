@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class NavX implements SmartDashboardSource {
 	private SerialPort serial_port;
-	private IMU imu;
+	private IMUAdvanced imu;
 
 	private NavX() {
 		try {
@@ -115,5 +115,10 @@ public class NavX implements SmartDashboardSource {
 		SmartDashboard.putNumber("NavX Yaw", getYaw(AngleUnit.DEGREE));
 		SmartDashboard.putNumber("NavX Roll", getRoll(AngleUnit.DEGREE));
 		SmartDashboard.putNumber("NavX Pitch", getPitch(AngleUnit.DEGREE));
+		
+		SmartDashboard.putNumber("NavX X Accel", imu.getWorldLinearAccelX());
+		SmartDashboard.putNumber("NavX Y Accel", imu.getWorldLinearAccelY());
+		SmartDashboard.putNumber("NavX Z Accel", imu.getWorldLinearAccelZ());
+		SmartDashboard.putNumber("NavX XY Hypot Accel", Math.hypot(imu.getWorldLinearAccelX(), imu.getWorldLinearAccelY()));
 	}
 }
