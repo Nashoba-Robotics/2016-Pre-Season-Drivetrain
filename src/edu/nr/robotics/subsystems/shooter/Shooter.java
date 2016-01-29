@@ -6,6 +6,7 @@ import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -18,22 +19,27 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 
 	private static Shooter singleton;
 
-	CANTalon talonOne, talonTwo;
+	CANTalon talon;
 	Encoder enc;
-	PID pidOne, pidTwo;
+	PID pid;
 	
 	private Shooter() {
-		talonOne = new CANTalon(RobotMap.INTAKE_ARM_TALON);
-		talonTwo = new CANTalon(RobotMap.INTAKE_ARM_TALON);
-
+		talon = new CANTalon(RobotMap.SHOOTER_TALON_A);
+		
+		CANTalon talonTemp = new CANTalon(RobotMap.SHOOTER_TALON_B);
+		talonTemp.changeControlMode(TalonControlMode.Follower);
+		talonTemp.set(talon.getDeviceID());
+		talonTemp.enableBrakeMode(true);
+		
 		enc = new Encoder(RobotMap.SHOOTER_ENCODER_A, RobotMap.SHOOTER_ENCODER_B);
 		enc.setPIDSourceType(PIDSourceType.kRate);
-		pidOne = new PID(0.0001, 0, 0, enc, talonOne); //TODO: Get the value for the Shooter PID
-		pidTwo = new PID(0.0001, 0, 0, enc, talonTwo); //TODO: Get the value for the Shooter PID
+				
+		pid = new PID(0.0001, 0, 0, enc, talon); //TODO: Get the value for the Shooter PID
 
 	}
 	
     public void initDefaultCommand() {
+    	setDefaultCommand(new ShooterOffCommand());
     }
     
     public static Shooter getInstance() {
@@ -52,43 +58,43 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	 * @param speed the speed to set the motor to, from -1 to 1
 	 */
 	public void setMotor(double speed) {
-		pidOne.disable();
-		pidTwo.disable();
-		talonOne.set(speed);
-		talonTwo.set(speed);
+		pid.disable();
+		talon.set(speed);
 	}
 	
 	/**
-	 * Set the PID setpoint
+	 * Set the PID setpoint and enables the PID
 	 * @param value the value to set the setpoint to
 	 */
 	public void setSetpoint(double value) {
-		pidOne.setSetpoint(value);	
-		pidTwo.setSetpoint(value);
+		pid.enable();
+		pid.setSetpoint(value);	
 	}
 	
 	/**
-	 * Get the average PID setpoint
+	 * Get the PID setpoint
 	 * @return the PID setpoint
 	 */
-	public double getAveSetpoint() {
-		return (pidOne.getSetpoint() + pidTwo.getSetpoint())/2;
+	public double getSetpoint() {
+		return pid.getSetpoint();
 	}
 	
 	/**
 	 * Enable the PID
 	 */
 	public void enable() {
-		pidOne.enable();
-		pidTwo.enable();
+		if(!pid.isEnable()) {
+			pid.enable();
+		}
 	}
 	
 	/**
 	 * Disable the PID
 	 */
 	public void disable() {
-		pidOne.disable();
-		pidTwo.disable();
+		if(pid.isEnable()) {
+			pid.disable();
+		}
 	}
 	
 	/**
@@ -96,8 +102,8 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	 * technically only checks one of the PIDs, but they should be the same
 	 * @return whether the PIDs are enabled
 	 */
-	public boolean isEnable() {
-		return pidOne.isEnable();
+	public boolean isPIDEnable() {
+		return pid.isEnable();
 	}
 	
 	/**
@@ -127,6 +133,7 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	@Override
 	public void putSmartDashboardInfo() {
 		SmartDashboard.putNumber("Shooter Speed", getSpeed());
-		SmartDashboard.putBoolean("Shooter Running", getAveSetpoint() != 0);
+		SmartDashboard.putBoolean("Shooter Running", getSetpoint() != 0);
+		SmartDashboard.putNumber("Shooter Current", talon.getOutputCurrent());
 	}
 }

@@ -191,11 +191,11 @@ public class Robot extends RobotBase {
 	
 	public void initSubsystems() {
 		OI.init();
-		Drive.init();
+		//Drive.init();
 		NavX.init();
 		FieldCentric.init();
-		/*Shooter.init();
-		IntakeArm.init();
+		Shooter.init();
+		/*IntakeArm.init();
 		Elevator.init();
 		LoaderRoller.init();
 		Hood.init();*/

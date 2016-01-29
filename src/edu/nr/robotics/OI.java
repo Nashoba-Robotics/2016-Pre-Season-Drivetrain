@@ -6,6 +6,7 @@ import edu.nr.lib.path.OneDimensionalPath;
 import edu.nr.robotics.subsystems.drive.DriveComplexDistanceCommand;
 import edu.nr.robotics.subsystems.drive.DriveConstantCommand;
 import edu.nr.robotics.subsystems.drive.ResetEncodersCommand;
+import edu.nr.robotics.subsystems.shooter.ShooterOnCommand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -30,6 +31,7 @@ public class OI implements SmartDashboardSource {
 	 * -> 9:  Drive PID enable switch
 	 * 
 	 * Operator Right: (3)
+	 * -> 1:   Shooter On Command
 	 * -> 4:   Drive Constant Command, left only, no PID, full reverse throttle
 	 * -> 10:  Drive Constant Command, left only, no PID, full throttle
 	 */
@@ -61,6 +63,7 @@ public class OI implements SmartDashboardSource {
 
 		new JoystickButton(operatorRight, 10).whileHeld(new DriveConstantCommand(false, true, false,0.9));
 		new JoystickButton(operatorRight, 4).whileHeld(new DriveConstantCommand(false, true, false,-0.9));
+		new JoystickButton(operatorRight, 1).whileHeld(new ShooterOnCommand(1, false));
 		
 		new JoystickButton(operatorRight, 2).whenPressed(new DriveComplexDistanceCommand(new OneDimensionalPath(6.096,RobotMap.MAX_SPEED, RobotMap.MAX_ACCELERATION), 1/RobotMap.MAX_SPEED,0,0,0));
 

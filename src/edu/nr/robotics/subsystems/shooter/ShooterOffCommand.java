@@ -13,7 +13,11 @@ public class ShooterOffCommand extends CMD {
 
 	@Override
 	protected void onStart() {
-		Shooter.getInstance().setSetpoint(0);
+		if(Shooter.getInstance().isPIDEnable()) {
+			Shooter.getInstance().setSetpoint(0);
+		} else {
+			Shooter.getInstance().setMotor(0);
+		}
 	}
 
 	@Override

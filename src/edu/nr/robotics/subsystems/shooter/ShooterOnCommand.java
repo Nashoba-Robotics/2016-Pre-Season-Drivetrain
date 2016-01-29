@@ -8,15 +8,21 @@ import edu.nr.lib.CMD;
 public class ShooterOnCommand extends CMD {
 
 	double val;
+	boolean PID;
 	
-    public ShooterOnCommand(double val) {
+    public ShooterOnCommand(double val, boolean PID) {
     	this.val = val;
+    	this.PID = PID;
     	requires(Shooter.getInstance());
     }
 
 	@Override
 	protected void onStart() {
-		Shooter.getInstance().setSetpoint(val);
+		if(PID) {
+			Shooter.getInstance().setSetpoint(val);
+		} else {
+			Shooter.getInstance().setMotor(val);
+		}
 	}
 
 	@Override
