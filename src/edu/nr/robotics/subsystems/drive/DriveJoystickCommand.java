@@ -34,7 +34,7 @@ public class DriveJoystickCommand extends CMD {
 				moveValue *= -1;
 			}
 			
-			double rotateAdjustValue = OI.getInstance().getQuickTurn();
+			double rotateAdjustValue = OI.getInstance().getTurnAdjust();
 
 			double rotateValue = OI.getInstance().getArcadeTurnValue() * rotateAdjustValue;
 

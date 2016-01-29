@@ -22,7 +22,7 @@ public class OI implements SmartDashboardSource {
 	 * -> 2:  Reverse drive direction
 	 * 
 	 * Drive Right: (1)
-	 * -> 1:  Quick Turn
+	 * -> 1:  Slow Turn
 	 * -> 10: Reset encoders
 	 * 
 	 * Operator Left: (2)
@@ -125,8 +125,8 @@ public class OI implements SmartDashboardSource {
 		return -driveRight.getX();
 	}
 
-	public double getQuickTurn() {
-		return driveRight.getRawButton(1) ? 1 : 0.5;
+	public double getTurnAdjust() {
+		return driveRight.getRawButton(1) ? 0.5 : 1;
 	}
 
 	@Override

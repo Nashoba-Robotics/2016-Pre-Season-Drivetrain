@@ -43,6 +43,7 @@ public class Drive extends Subsystem implements SmartDashboardSource {
 		
 		rightTalon = new CANTalon(RobotMap.TALON_RIGHT_A);
 		rightTalon.enableBrakeMode(true);
+		rightTalon.setInverted(true);
 
 		leftEnc = new Encoder(RobotMap.ENCODER_LEFT_A, RobotMap.ENCODER_LEFT_B);
 		rightEnc = new Encoder(RobotMap.ENCODER_RIGHT_A, RobotMap.ENCODER_RIGHT_B);
@@ -154,7 +155,7 @@ public class Drive extends Subsystem implements SmartDashboardSource {
 		}
 
 		double multiplier = speedMultiplier? OI.getInstance().speedMultiplier : 0;
-		tankDrive(leftMotorSpeed*multiplier, -rightMotorSpeed*multiplier);
+		tankDrive(leftMotorSpeed*multiplier, rightMotorSpeed*multiplier);
 	}
 
 	/**
@@ -337,6 +338,8 @@ public class Drive extends Subsystem implements SmartDashboardSource {
 
 		SmartDashboard.putData("PID Left", leftPid);
 		SmartDashboard.putData("PID Right", rightPid);
+		
+		SmartDashboard.putNumber("Drive Talon Average Current Draw", (leftTalon.getOutputCurrent() + rightTalon.getOutputCurrent())/2);
 	}
 
 }

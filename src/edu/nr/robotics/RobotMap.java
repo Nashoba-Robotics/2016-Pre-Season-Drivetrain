@@ -8,10 +8,10 @@ package edu.nr.robotics;
  */
 public class RobotMap {
 
-	public static final int TALON_LEFT_A = 16;
-	public static final int TALON_LEFT_B = 4;
-	public static final int TALON_RIGHT_A = 14;
-	public static final int TALON_RIGHT_B = 15;
+	public static final int TALON_RIGHT_A = 4;
+	public static final int TALON_RIGHT_B = 16;
+	public static final int TALON_LEFT_A = 14;
+	public static final int TALON_LEFT_B = 15;
 
 	public static final int ENCODER_LEFT_A = 9;
 	public static final int ENCODER_LEFT_B = 8;
