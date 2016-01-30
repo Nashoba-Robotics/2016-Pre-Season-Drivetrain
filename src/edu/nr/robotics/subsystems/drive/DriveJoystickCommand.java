@@ -30,9 +30,6 @@ public class DriveJoystickCommand extends CMD {
 	protected void onExecute() {
 		if (OI.getInstance().drivingModeChooser.getSelected().equals("arcade")) {
 			double moveValue = OI.getInstance().getArcadeMoveValue();
-			if (OI.getInstance().reverseDriveDirection()) {
-				moveValue *= -1;
-			}
 			
 			double rotateAdjustValue = OI.getInstance().getTurnAdjust();
 

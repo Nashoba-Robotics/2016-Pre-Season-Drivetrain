@@ -63,7 +63,7 @@ public class OI implements SmartDashboardSource {
 
 		new JoystickButton(operatorRight, 10).whileHeld(new DriveConstantCommand(false, true, false,0.9));
 		new JoystickButton(operatorRight, 4).whileHeld(new DriveConstantCommand(false, true, false,-0.9));
-		new JoystickButton(operatorRight, 1).whileHeld(new ShooterOnCommand(1, false));
+		//new JoystickButton(operatorRight, 1).whileHeld(new ShooterOnCommand(1, false));
 		
 		new JoystickButton(operatorRight, 2).whenPressed(new DriveComplexDistanceCommand(new OneDimensionalPath(6.096,RobotMap.MAX_SPEED, RobotMap.MAX_ACCELERATION), 1/RobotMap.MAX_SPEED,0,0,0));
 
@@ -87,16 +87,11 @@ public class OI implements SmartDashboardSource {
 	}
 
 	public double getArcadeMoveValue() {
-		return -snapDriveJoysticks(driveLeft.getY());
+		return snapDriveJoysticks(driveLeft.getY()) * (driveLeft.getRawButton(2) ? -1 : 1);
 	}
 
 	public double getArcadeTurnValue() {
 		return -snapDriveJoysticks(driveRight.getX());
-	}
-
-	// Reversing drive direction makes it easy to maneuver in reverse
-	public boolean reverseDriveDirection() {
-		return driveLeft.getRawButton(2);
 	}
 
 	public double getTankLeftValue() {
