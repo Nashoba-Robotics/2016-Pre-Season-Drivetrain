@@ -154,7 +154,7 @@ public class Drive extends Subsystem implements SmartDashboardSource {
 			}
 		}
 
-		double multiplier = speedMultiplier? OI.getInstance().speedMultiplier : 0;
+		double multiplier = speedMultiplier? OI.getInstance().speedMultiplier : 1;
 		tankDrive(leftMotorSpeed*multiplier, rightMotorSpeed*multiplier);
 	}
 
@@ -339,7 +339,10 @@ public class Drive extends Subsystem implements SmartDashboardSource {
 		SmartDashboard.putData("PID Left", leftPid);
 		SmartDashboard.putData("PID Right", rightPid);
 		
-		SmartDashboard.putNumber("Drive Talon Average Current Draw", (leftTalon.getOutputCurrent() + rightTalon.getOutputCurrent())/2);
+		SmartDashboard.putNumber("Drive Talon Left Out", leftTalon.get());
+		SmartDashboard.putNumber("Drive Talon Right Out", rightTalon.get());
+
+		SmartDashboard.putNumber("Drive Talon Average Current Draw", (rightTalon.getOutputCurrent() + rightTalon.getOutputCurrent())/2);
 	}
 
 }
