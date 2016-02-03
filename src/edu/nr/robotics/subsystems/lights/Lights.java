@@ -21,7 +21,7 @@ public class Lights extends Subsystem implements SmartDashboardSource {
 	}
 
     public void initDefaultCommand() {
-        
+        setDefaultCommand(new LightsOffCommand());
     }
     
     public static Lights getInstance() {

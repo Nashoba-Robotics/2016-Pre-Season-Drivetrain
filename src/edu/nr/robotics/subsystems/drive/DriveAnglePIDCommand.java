@@ -21,7 +21,7 @@ public class DriveAnglePIDCommand extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {//Something strange is causing the number to double in the gyro correction
-    	pid = new PIDController(angle*0.002, 0.002, 0, new AngleGyroCorrection(angle/2), new AngleController());
+    	pid = new PIDController(angle*0.0015, 0.002, 0, new AngleGyroCorrection(angle/2), new AngleController());
     	pid.enable();
     	pid.setSetpoint(angle);
     }
@@ -30,8 +30,7 @@ public class DriveAnglePIDCommand extends Command {
     protected void execute() {
     	SmartDashboard.putData("Angle PID", pid);
     	SmartDashboard.putNumber("Angle PID Error", pid.getError());
-    	SmartDashboard.putNumber("Angle PID Output", pid.get());
-    	pid.setPID(pid.getError()*0.002, pid.getI(), pid.getD());
+    	pid.setPID(pid.getError()*0.0015, pid.getI(), pid.getD());
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -11,24 +11,24 @@ public class AngleGyroCorrection extends GyroCorrection implements PIDSource
 	PIDSourceType type;
 	
 	public AngleGyroCorrection(double angle) {
-		initialAngle = NavX.getInstance().getYaw(AngleUnit.DEGREE) + angle;
+		initialAngle = NavX.getInstance().getYawAbsolute(AngleUnit.DEGREE) + angle;
 		type = PIDSourceType.kDisplacement;
 	}
 	
 	public AngleGyroCorrection() {
-		initialAngle = NavX.getInstance().getYaw(AngleUnit.DEGREE);
+		initialAngle = NavX.getInstance().getYawAbsolute(AngleUnit.DEGREE);
 		type = PIDSourceType.kDisplacement;
 	}
 	
 	public double getAngleErrorDegrees()
 	{
 		//Error is just based off initial angle
-    	return (NavX.getInstance().getYaw(AngleUnit.DEGREE) - initialAngle);
+    	return (NavX.getInstance().getYawAbsolute(AngleUnit.DEGREE) - initialAngle);
 	}
 	
 	public void reset()
 	{
-		initialAngle = NavX.getInstance().getYaw(AngleUnit.DEGREE);
+		initialAngle = NavX.getInstance().getYawAbsolute(AngleUnit.DEGREE);
 	}
 
 	@Override

@@ -1,11 +1,11 @@
 package edu.nr.robotics.subsystems.lights;
 
-import edu.nr.lib.EmptyCommand;
+import edu.nr.lib.CMD;
 
 /**
  *
  */
-public class LightsOnCommand extends EmptyCommand {
+public class LightsOnCommand extends CMD {
 
     public LightsOnCommand() {
         requires(Lights.getInstance());
@@ -15,4 +15,18 @@ public class LightsOnCommand extends EmptyCommand {
     public void onStart() {
     	Lights.getInstance().enable();
     }
+    
+    @Override
+    public boolean isFinished() {
+    	return false;
+    }
+
+	@Override
+	protected void onExecute() {		
+	}
+
+	@Override
+	protected void onEnd(boolean interrupted) {
+		Lights.getInstance().disable();
+	}
 }

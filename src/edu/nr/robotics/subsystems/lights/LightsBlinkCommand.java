@@ -19,8 +19,9 @@ public class LightsBlinkCommand extends CMD {
 
 	@Override
 	protected void onExecute() {
-		if((System.currentTimeMillis() - startTime)%millisBetweenChange == 0) {
+		if((System.currentTimeMillis() - startTime) > millisBetweenChange) {
 			Lights.getInstance().swap();
+			startTime = System.currentTimeMillis();
 		}
 	}
 

@@ -76,7 +76,7 @@ public class OI implements SmartDashboardSource {
 
 		new JoystickButton(operatorRight, 6).whenPressed(new LightsOnCommand());
 		new JoystickButton(operatorRight, 7).whenPressed(new LightsOffCommand());
-		new JoystickButton(operatorRight, 8).whenPressed(new LightsBlinkCommand(2000));
+		new JoystickButton(operatorRight, 8).whenPressed(new LightsBlinkCommand(100));
 
 		
 		fighter = new JoystickButton(operatorLeft, 9);

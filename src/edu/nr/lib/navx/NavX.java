@@ -52,6 +52,18 @@ public class NavX implements SmartDashboardSource {
 		}
 		return 0;
 	}
+	
+	public double getYawAbsolute(AngleUnit unit) {
+		if (imu != null && imu.isConnected()) {
+			if(unit == AngleUnit.DEGREE) {
+				return imu.getYaw();
+			}
+			if(unit == AngleUnit.RADIAN) {
+				return Math.toRadians(imu.getYaw());
+			}
+		}
+		return 0;
+	}
 
 	/**
 	 * Gets the current roll of the robot in the given units
