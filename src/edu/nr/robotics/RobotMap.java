@@ -8,8 +8,8 @@ package edu.nr.robotics;
  */
 public class RobotMap {
 
-	public static final int TALON_RIGHT_A = 4;//4;
-	public static final int TALON_RIGHT_B = 16;//16;
+	public static final int TALON_RIGHT_A = 4;
+	public static final int TALON_RIGHT_B = 16;
 	public static final int TALON_LEFT_A = 14;
 	public static final int TALON_LEFT_B = 15;
 
@@ -22,6 +22,8 @@ public class RobotMap {
 	public static final double MAX_ACCELERATION = 3.0; // Meters per second per
 														// second
 	// TODO: Get actual max values instead of using a placeholder value
+	
+	public static final int LIGHTS_SPIKE = 0;
 	
 	//TODO: Get values for ports
 	public static final int INTAKE_ARM_TALON = -1;
@@ -41,7 +43,7 @@ public class RobotMap {
 	public static final int ROLLER_INTAKE_ENCODER_A = -1;
 	public static final int ROLLER_INTAKE_ENCODER_B = -1;
 	public static final int ROLLER_INTAKE_IR_SENSOR = -1;
-	public static final int SHOOTER_TALON_A = 4;
-	public static final int SHOOTER_TALON_B = 16;
+	public static final int SHOOTER_TALON_A = -1;
+	public static final int SHOOTER_TALON_B = -1;
 
 }
