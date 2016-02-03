@@ -7,6 +7,9 @@ import edu.nr.robotics.subsystems.drive.DriveAnglePIDCommand;
 import edu.nr.robotics.subsystems.drive.DriveComplexDistanceCommand;
 import edu.nr.robotics.subsystems.drive.DriveConstantCommand;
 import edu.nr.robotics.subsystems.drive.ResetEncodersCommand;
+import edu.nr.robotics.subsystems.lights.LightsBlinkCommand;
+import edu.nr.robotics.subsystems.lights.LightsOffCommand;
+import edu.nr.robotics.subsystems.lights.LightsOnCommand;
 import edu.nr.robotics.subsystems.shooter.ShooterOnCommand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -34,6 +37,9 @@ public class OI implements SmartDashboardSource {
 	 * Operator Right: (3)
 	 * -> 1:   Drive Angle Command
 	 * -> 4:   Drive Constant Command, left only, no PID, full reverse throttle
+	 * -> 6:   Lights On Command
+	 * -> 7:   Lights Off Command
+	 * -> 8:   Lights Blink Command, every 2000 milliseconds
 	 * -> 10:  Drive Constant Command, left only, no PID, full throttle
 	 */
 	
@@ -68,6 +74,11 @@ public class OI implements SmartDashboardSource {
 		
 		new JoystickButton(operatorRight, 2).whenPressed(new DriveComplexDistanceCommand(new OneDimensionalPath(6.096,RobotMap.MAX_SPEED, RobotMap.MAX_ACCELERATION), 1/RobotMap.MAX_SPEED,0,0,0));
 
+		new JoystickButton(operatorRight, 6).whenPressed(new LightsOnCommand());
+		new JoystickButton(operatorRight, 7).whenPressed(new LightsOffCommand());
+		new JoystickButton(operatorRight, 8).whenPressed(new LightsBlinkCommand(2000));
+
+		
 		fighter = new JoystickButton(operatorLeft, 9);
 
 		new JoystickButton(operatorLeft, 1).whenPressed(new CancelAllCommand());
