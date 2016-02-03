@@ -49,7 +49,7 @@ public class Elevator extends Subsystem implements SmartDashboardSource {
     }
 
 	@Override
-	public void putSmartDashboardInfo() {
+	public void smartDashboardInfo() {
 		SmartDashboard.putNumber("Elevator Speed", getMotorValue());
 	}
 }

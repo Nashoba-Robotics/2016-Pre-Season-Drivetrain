@@ -330,7 +330,7 @@ public class Drive extends Subsystem implements SmartDashboardSource {
 	 * Sends data to the SmartDashboard
 	 */
 	@Override
-	public void putSmartDashboardInfo() {
+	public void smartDashboardInfo() {
 		SmartDashboard.putNumber("Encoders Distance Ave", getEncoderAverageDistance());
 		SmartDashboard.putNumber("Encoders Speed Ave", getEncoderAverageSpeed());
 		SmartDashboard.putData("Encoder Left", leftEnc);

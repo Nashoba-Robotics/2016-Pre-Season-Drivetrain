@@ -111,7 +111,7 @@ public class NavX implements SmartDashboardSource {
 	}
 
 	@Override
-	public void putSmartDashboardInfo() {
+	public void smartDashboardInfo() {
 		SmartDashboard.putNumber("NavX Yaw", getYaw(AngleUnit.DEGREE));
 		SmartDashboard.putNumber("NavX Roll", getRoll(AngleUnit.DEGREE));
 		SmartDashboard.putNumber("NavX Pitch", getPitch(AngleUnit.DEGREE));

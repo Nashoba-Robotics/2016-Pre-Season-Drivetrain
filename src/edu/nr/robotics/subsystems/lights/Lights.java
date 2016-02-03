@@ -67,7 +67,7 @@ public class Lights extends Subsystem implements SmartDashboardSource {
 	}
 
 	@Override
-	public void putSmartDashboardInfo() {
+	public void smartDashboardInfo() {
 		SmartDashboard.putData("Lights", lights);
 	}
 }

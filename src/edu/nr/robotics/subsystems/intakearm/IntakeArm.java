@@ -139,7 +139,7 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource{
 	}
 
 	@Override
-	public void putSmartDashboardInfo() {
+	public void smartDashboardInfo() {
 		SmartDashboard.putNumber("Intake Arm Potentiometer", get());
 		SmartDashboard.putBoolean("Intake Arm Moving", Math.abs(armPID.getError()) > 0.05);
 		SmartDashboard.putNumber("Intake Roller Speed", rollerEncoder.getRate());

@@ -75,7 +75,7 @@ public class LoaderRoller extends Subsystem implements SmartDashboardSource {
     }
 
 	@Override
-	public void putSmartDashboardInfo() {
+	public void smartDashboardInfo() {
 		SmartDashboard.putNumber("Loader Encoder Speed", loaderEncoder.getRate());
 	}
 	

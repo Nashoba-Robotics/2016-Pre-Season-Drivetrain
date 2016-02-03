@@ -10,6 +10,7 @@ import edu.nr.robotics.subsystems.drive.Drive;
 import edu.nr.robotics.subsystems.elevator.Elevator;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;
+import edu.nr.robotics.subsystems.lights.Lights;
 import edu.nr.robotics.subsystems.loaderroller.LoaderRoller;
 import edu.nr.robotics.subsystems.shooter.Shooter;
 import edu.wpi.first.wpilibj.CameraServer;
@@ -161,13 +162,13 @@ public class Robot extends RobotBase {
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
-	public void robotInit() {
+	private void robotInit() {
 		initCamera();
 		initSubsystems();
 		initSmartDashboardChoosers();
 	}
 	
-	public void initSmartDashboardChoosers() {
+	private void initSmartDashboardChoosers() {
 		autoCommandChooser = new SendableChooser();
 		autoCommandChooser.addDefault("Do Nothing", new AutonDoNothingCommand());
 		// Add more options like:
@@ -180,7 +181,7 @@ public class Robot extends RobotBase {
 		SmartDashboard.putData("Driving Mode Chooser", OI.getInstance().drivingModeChooser);
 	}
 	
-	public void initCamera() {
+	private void initCamera() {
 		CameraServer server = CameraServer.getInstance();
 		server.setQuality(50);
 		// the camera name (ex "cam0") can be found through the roborio web
@@ -189,27 +190,33 @@ public class Robot extends RobotBase {
 		// TODO: Get potentially the camera name with the real one we use
 	}
 	
-	public void initSubsystems() {
+	private void initSubsystems() {
+		//Init subsystems
 		OI.init();
 		Drive.init();
 		NavX.init();
 		FieldCentric.init();
-		//Shooter.init();
-		/*IntakeArm.init();
+		Lights.init();
+		/*Shooter.init();
+		IntakeArm.init();
 		Elevator.init();
 		LoaderRoller.init();
 		Hood.init();*/
 		
+		//Add subsystems to subsystem array light
 		subsystems.add(Drive.getInstance());
+		subsystems.add(Lights.getInstance());
 		/*subsystems.add(Shooter.getInstance());
 		subsystems.add(IntakeArm.getInstance());
 		subsystems.add(LoaderRoller.getInstance());
 		subsystems.add(Elevator.getInstance());
 		subsystems.add(Hood.getInstance());*/
 		
+		//Add SmartDashboard sources to the smartdashboard source array list
 		smartDashboardSources.add(NavX.getInstance());
 		smartDashboardSources.add(Drive.getInstance());
 		smartDashboardSources.add(FieldCentric.getInstance());
+		smartDashboardSources.add(Lights.getInstance());
 		/*smartDashboardSources.add(Shooter.getInstance());
 		smartDashboardSources.add(IntakeArm.getInstance());
 		smartDashboardSources.add(Elevator.getInstance());
@@ -233,7 +240,7 @@ public class Robot extends RobotBase {
 		FieldCentric.getInstance().update();
 		Scheduler.getInstance().run();
 
-		putSubsystemDashInfo();
+		subsystemDashInfo();
 	}
 
 	/**
@@ -250,7 +257,7 @@ public class Robot extends RobotBase {
 	/**
 	 * Calls the putSmartDashboardInfo function of every smartDashboardSource
 	 */
-	private void putSubsystemDashInfo() {
-		smartDashboardSources.forEach(SmartDashboardSource::putSmartDashboardInfo);
+	private void subsystemDashInfo() {
+		smartDashboardSources.forEach(SmartDashboardSource::smartDashboardInfo);
 	}
 }

@@ -131,7 +131,7 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	}
 
 	@Override
-	public void putSmartDashboardInfo() {
+	public void smartDashboardInfo() {
 		SmartDashboard.putNumber("Shooter Speed", getSpeed());
 		SmartDashboard.putBoolean("Shooter Running", getSetpoint() != 0);
 		SmartDashboard.putNumber("Shooter Current", talon.getOutputCurrent());

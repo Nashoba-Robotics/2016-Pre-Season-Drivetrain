@@ -140,7 +140,7 @@ public class OI implements SmartDashboardSource {
 	}
 
 	@Override
-	public void putSmartDashboardInfo() {
+	public void smartDashboardInfo() {
 		speedMultiplier = SmartDashboard.getNumber("Speed Multiplier");
 	}
 }

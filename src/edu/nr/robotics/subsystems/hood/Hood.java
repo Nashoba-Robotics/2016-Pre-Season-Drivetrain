@@ -107,7 +107,7 @@ public class Hood extends Subsystem implements SmartDashboardSource {
 	}
 
 	@Override
-	public void putSmartDashboardInfo() {
+	public void smartDashboardInfo() {
 		SmartDashboard.putNumber("Hood Potentiometer", get());
 		SmartDashboard.putBoolean("Hood Moving", getMoving());
 	}

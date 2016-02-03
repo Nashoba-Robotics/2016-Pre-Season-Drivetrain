@@ -115,6 +115,6 @@ public class FieldCentric implements SmartDashboardSource {
 	}
 
 	@Override
-	public void putSmartDashboardInfo() {
+	public void smartDashboardInfo() {
 	}
 }
