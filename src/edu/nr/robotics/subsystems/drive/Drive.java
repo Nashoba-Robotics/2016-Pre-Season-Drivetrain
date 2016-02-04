@@ -2,6 +2,7 @@ package edu.nr.robotics.subsystems.drive;
 
 import edu.nr.lib.NRMath;
 import edu.nr.lib.PID;
+import edu.nr.lib.Periodic;
 import edu.nr.lib.SmartDashboardSource;
 import edu.nr.lib.navx.NavX;
 import edu.nr.robotics.OI;
@@ -16,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class Drive extends Subsystem implements SmartDashboardSource {
+public class Drive extends Subsystem implements SmartDashboardSource, Periodic{
 
 	/**
 	 *  This is a constant that is used for driving with PID control
@@ -41,14 +42,14 @@ public class Drive extends Subsystem implements SmartDashboardSource {
 		tempLeftTalon.set(leftTalon.getDeviceID());
 		tempLeftTalon.enableBrakeMode(true);
 		
-		rightTalon = new CANTalon(RobotMap.TALON_RIGHT_B);
+		rightTalon = new CANTalon(RobotMap.TALON_RIGHT_A);
 		rightTalon.enableBrakeMode(true);
 		rightTalon.setInverted(true);
 
 		leftEnc = new Encoder(RobotMap.ENCODER_LEFT_A, RobotMap.ENCODER_LEFT_B);
 		rightEnc = new Encoder(RobotMap.ENCODER_RIGHT_A, RobotMap.ENCODER_RIGHT_B);
 
-		tempRightTalon = new CANTalon(RobotMap.TALON_RIGHT_A);
+		tempRightTalon = new CANTalon(RobotMap.TALON_RIGHT_B);
 		tempRightTalon.changeControlMode(TalonControlMode.Follower);
 		tempRightTalon.set(rightTalon.getDeviceID());
 		tempRightTalon.enableBrakeMode(true);
@@ -342,13 +343,22 @@ public class Drive extends Subsystem implements SmartDashboardSource {
 		SmartDashboard.putNumber("Drive Talon Left Out", leftTalon.get());
 		SmartDashboard.putNumber("Drive Talon Right Out", rightTalon.get());
 
+		SmartDashboard.putNumber("Drive Talon Average Current Draw", (rightTalon.getOutputCurrent() + rightTalon.getOutputCurrent() + tempLeftTalon.getOutputCurrent() + tempRightTalon.getOutputCurrent())/4);
 		SmartDashboard.putNumber("Drive Right Main Talon Current", rightTalon.getOutputCurrent());
 		SmartDashboard.putNumber("Drive Left Main Talon Current", leftTalon.getOutputCurrent());
 		SmartDashboard.putNumber("Drive Right Temp Talon Current", tempRightTalon.getOutputCurrent());
 		SmartDashboard.putNumber("Drive Left Temp Talon Current", tempLeftTalon.getOutputCurrent());
-		SmartDashboard.putNumber("Drive Talon Average Current Draw", (rightTalon.getOutputCurrent() + rightTalon.getOutputCurrent() + tempLeftTalon.getOutputCurrent() + tempRightTalon.getOutputCurrent())/4);
 
+	}
 
+	@Override
+	public void periodic() {
+		if(leftTalon.getOutputCurrent() > 40 || tempLeftTalon.getOutputCurrent() > 40) {
+			leftPid.setSetpoint(leftPid.getSetpoint()*0.99);
+		}
+		if(rightTalon.getOutputCurrent() > 40 || tempRightTalon.getOutputCurrent() > 40) {
+			rightPid.setSetpoint(rightPid.getSetpoint()*0.99);
+		}
 	}
 
 }

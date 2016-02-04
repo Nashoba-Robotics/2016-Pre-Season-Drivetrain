@@ -2,8 +2,7 @@ package edu.nr.robotics;
 
 import java.util.ArrayList;
 
-import edu.nr.lib.FieldCentric;
-import edu.nr.lib.SmartDashboardSource;
+import edu.nr.lib.*;
 import edu.nr.lib.navx.NavX;
 import edu.nr.robotics.auton.AutonDoNothingCommand;
 import edu.nr.robotics.subsystems.drive.Drive;
@@ -41,6 +40,7 @@ public class Robot extends RobotBase {
 
 	public static ArrayList<Subsystem> subsystems = new ArrayList<Subsystem>();
 	public static ArrayList<SmartDashboardSource> smartDashboardSources = new ArrayList<SmartDashboardSource>();
+	public static ArrayList<Periodic> periodics = new ArrayList<Periodic>();
 	
 	private boolean m_disabledInitialized;
 	private boolean m_autonomousInitialized;
@@ -224,6 +224,8 @@ public class Robot extends RobotBase {
 		smartDashboardSources.add(Hood.getInstance());*/
 		smartDashboardSources.add(OI.getInstance());
 		
+		periodics.add(Drive.getInstance());
+		
 		subsystems.forEach(SmartDashboard::putData);
 	}
 
@@ -235,12 +237,14 @@ public class Robot extends RobotBase {
 	 *            The name of the mode that is currently occuring
 	 */
 	private void periodic(Mode mode) {
+		periodics.forEach(Periodic::periodic);
+		
 		Drive.getInstance().setPIDEnabled(!OI.getInstance().fighter.get());
 
 		FieldCentric.getInstance().update();
 		Scheduler.getInstance().run();
 
-		subsystemDashInfo();
+		smartDashboardSources.forEach(SmartDashboardSource::smartDashboardInfo);
 	}
 
 	/**
@@ -252,12 +256,5 @@ public class Robot extends RobotBase {
 	 */
 	private void initialize(Mode mode) {
 		currentMode = mode;
-	}
-
-	/**
-	 * Calls the putSmartDashboardInfo function of every smartDashboardSource
-	 */
-	private void subsystemDashInfo() {
-		smartDashboardSources.forEach(SmartDashboardSource::smartDashboardInfo);
 	}
 }
