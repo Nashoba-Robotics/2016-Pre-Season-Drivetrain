@@ -9,7 +9,7 @@ public class AngleController implements PIDOutput {
 
 	@Override
 	public void pidWrite(double output) {
-		Drive.getInstance().arcadeDrive(0,-output);
+		Drive.getInstance().tankDrive(output, -output);
 	}
 
 }

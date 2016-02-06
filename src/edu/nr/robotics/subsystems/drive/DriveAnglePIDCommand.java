@@ -1,16 +1,16 @@
 package edu.nr.robotics.subsystems.drive;
 
 import edu.nr.lib.AngleGyroCorrection;
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.command.Command;
+import edu.nr.lib.CMD;
+import edu.nr.lib.PID;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class DriveAnglePIDCommand extends Command {
+public class DriveAnglePIDCommand extends CMD {
 
-	PIDController pid;
+	PID pid;
 	
 	double angle;
 	
@@ -19,18 +19,14 @@ public class DriveAnglePIDCommand extends Command {
     	requires(Drive.getInstance());
     }
 
-    // Called just before this Command runs the first time
-    protected void initialize() {//Something strange is causing the number to double in the gyro correction
-    	pid = new PIDController(angle*0.0015, 0.002, 0, new AngleGyroCorrection(angle/2), new AngleController());
-    	pid.enable();
-    	pid.setSetpoint(angle);
-    }
-
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
+    protected void onExecute() {
     	SmartDashboard.putData("Angle PID", pid);
     	SmartDashboard.putNumber("Angle PID Error", pid.getError());
-    	pid.setPID(pid.getError()*0.0015, pid.getI(), pid.getD());
+    	pid.setPID(pid.getError()*0.001, pid.getI(), pid.getD());
+		if(Math.signum(pid.getError()) != Math.signum(pid.getTotalError())) {
+			pid.resetTotalError();
+		}
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -38,14 +34,15 @@ public class DriveAnglePIDCommand extends Command {
         return Math.abs(pid.getError()) < 0.25;
     }
 
-    // Called once after isFinished returns true
-    protected void end() {
-    	pid.disable();
-    }
+	@Override
+	protected void onEnd(boolean interrupted) {
+		pid.disable();
+	}
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-    	pid.disable();
-    }
+	@Override
+	protected void onStart() {
+		pid = new PID(angle*0.001, 0.0005, 0.0001, new AngleGyroCorrection(), new AngleController());
+    	pid.enable();
+    	pid.setSetpoint(angle);
+	}
 }

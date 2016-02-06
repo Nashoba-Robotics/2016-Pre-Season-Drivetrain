@@ -29,10 +29,10 @@ public abstract class CMD extends Command {
 		super(timeout);
 	}
 
-	private boolean reset = true;
+	private boolean reset;
 
 	/**
-	 * Called every time the command starts after being stopped
+	 * Called every time the command starts
 	 */
 	protected abstract void onStart();
 
@@ -51,7 +51,8 @@ public abstract class CMD extends Command {
 
 	@Override
 	protected void initialize() {
-
+		onStart();
+		reset = false;
 	}
 
 	@Override

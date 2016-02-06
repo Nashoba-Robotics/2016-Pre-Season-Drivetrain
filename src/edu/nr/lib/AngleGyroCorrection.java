@@ -7,28 +7,30 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 public class AngleGyroCorrection extends GyroCorrection implements PIDSource
 {
 	private double initialAngle;
-	
+	double goalAngle;
 	PIDSourceType type;
 	
 	public AngleGyroCorrection(double angle) {
-		initialAngle = NavX.getInstance().getYawAbsolute(AngleUnit.DEGREE) + angle;
+		goalAngle = angle;
+		initialAngle = NavX.getInstance().getYaw(AngleUnit.DEGREE);
 		type = PIDSourceType.kDisplacement;
 	}
 	
 	public AngleGyroCorrection() {
-		initialAngle = NavX.getInstance().getYawAbsolute(AngleUnit.DEGREE);
+		goalAngle = 0;
+		initialAngle = NavX.getInstance().getYaw(AngleUnit.DEGREE);
 		type = PIDSourceType.kDisplacement;
 	}
 	
 	public double getAngleErrorDegrees()
 	{
 		//Error is just based off initial angle
-    	return (NavX.getInstance().getYawAbsolute(AngleUnit.DEGREE) - initialAngle);
+    	return (NavX.getInstance().getYaw(AngleUnit.DEGREE) - initialAngle) + goalAngle;
 	}
 	
 	public void reset()
 	{
-		initialAngle = NavX.getInstance().getYawAbsolute(AngleUnit.DEGREE);
+		initialAngle = NavX.getInstance().getYaw(AngleUnit.DEGREE);
 	}
 
 	@Override

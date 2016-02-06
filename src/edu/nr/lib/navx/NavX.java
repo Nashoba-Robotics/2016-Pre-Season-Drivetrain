@@ -1,14 +1,15 @@
 package edu.nr.lib.navx;
 
 import edu.nr.lib.AngleUnit;
-import edu.nr.lib.NRMath;
 import edu.nr.lib.SmartDashboardSource;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class NavX implements SmartDashboardSource {
+	
+	//The roborio is tilted on its side. This means that the yaw is imu.getRoll, roll is imu.getYaw, pitch is still imu.getPitch
 	private SerialPort serial_port;
-	private IMUAdvanced imu;
+	public IMUAdvanced imu;
 
 	private NavX() {
 		try {
@@ -32,7 +33,7 @@ public class NavX implements SmartDashboardSource {
 	 */
 	public double getYaw(AngleUnit unit) {
 		if (imu != null && imu.isConnected()) {
-			double currentYaw = imu.getYaw();
+			double currentYaw = imu.getRoll();
 			if ((lastYaw < -90 || lastYaw > 90) && (currentYaw > 90 || currentYaw < -90)) {
 				if (lastYaw < 0 && currentYaw > 0) {
 					fullRotationCount--;
@@ -55,11 +56,12 @@ public class NavX implements SmartDashboardSource {
 	
 	public double getYawAbsolute(AngleUnit unit) {
 		if (imu != null && imu.isConnected()) {
+			float yaw = imu.getRoll();
 			if(unit == AngleUnit.DEGREE) {
-				return imu.getYaw();
+				return yaw;
 			}
 			if(unit == AngleUnit.RADIAN) {
-				return Math.toRadians(imu.getYaw());
+				return Math.toRadians(yaw);
 			}
 		}
 		return 0;
@@ -72,11 +74,12 @@ public class NavX implements SmartDashboardSource {
 	 */
 	public double getRoll(AngleUnit unit) {
 		if (imu != null && imu.isConnected()) {
+			float roll = imu.getYaw();
 			if(unit == AngleUnit.DEGREE) {
-				return imu.getRoll();
+				return roll;
 			}
 			if(unit == AngleUnit.RADIAN) {
-				return Math.toRadians(imu.getRoll());
+				return Math.toRadians(roll);
 			}
 		}
 		return 0;
@@ -97,15 +100,6 @@ public class NavX implements SmartDashboardSource {
 			}
 		}
 		return 0;
-	}
-
-	/**
-	 * Resets the yaw counter (that is, it zeros the yaw at the current position)
-	 */
-	public void resetYaw() {
-		if (imu != null && imu.isConnected()) {
-			imu.zeroYaw();
-		}
 	}
 
 	// Singleton code

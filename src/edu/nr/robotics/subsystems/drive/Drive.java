@@ -26,6 +26,7 @@ public class Drive extends Subsystem implements SmartDashboardSource, Periodic{
 
 	private static Drive singleton;
 	private PID leftPid, rightPid;
+	double pidMaxVal;
 	CANTalon leftTalon, rightTalon, tempLeftTalon, tempRightTalon;
 	Encoder leftEnc, rightEnc;
 
@@ -67,6 +68,11 @@ public class Drive extends Subsystem implements SmartDashboardSource, Periodic{
 
 		leftPid = new PID(JOYSTICK_DRIVE_P, 0, 0, 1, leftEnc, leftTalon);
 		rightPid = new PID(JOYSTICK_DRIVE_P, 0, 0, 1, rightEnc, rightTalon);
+		
+		pidMaxVal = 1.0;
+		rightPid.setOutputRange(-pidMaxVal, pidMaxVal);
+		leftPid.setOutputRange(-pidMaxVal, pidMaxVal);
+
 	}
 
 	public static Drive getInstance() {
@@ -340,6 +346,8 @@ public class Drive extends Subsystem implements SmartDashboardSource, Periodic{
 		SmartDashboard.putData("PID Left", leftPid);
 		SmartDashboard.putData("PID Right", rightPid);
 		
+		SmartDashboard.putNumber("pidMaxVal", pidMaxVal);
+		
 		SmartDashboard.putNumber("Drive Talon Left Out", leftTalon.get());
 		SmartDashboard.putNumber("Drive Talon Right Out", rightTalon.get());
 
@@ -353,12 +361,17 @@ public class Drive extends Subsystem implements SmartDashboardSource, Periodic{
 
 	@Override
 	public void periodic() {
-		if(leftTalon.getOutputCurrent() > 40 || tempLeftTalon.getOutputCurrent() > 40) {
-			leftPid.setSetpoint(leftPid.getSetpoint()*0.99);
+		if(pidMaxVal > 1.0) {
+			pidMaxVal = 1.0;
 		}
-		if(rightTalon.getOutputCurrent() > 40 || tempRightTalon.getOutputCurrent() > 40) {
-			rightPid.setSetpoint(rightPid.getSetpoint()*0.99);
+		if(pidMaxVal < 1.0 && leftTalon.getOutputCurrent() < 40 && tempLeftTalon.getOutputCurrent() < 40 && rightTalon.getOutputCurrent() < 40 && tempRightTalon.getOutputCurrent() < 40) {
+			pidMaxVal += 0.01;
+		} else {
+			pidMaxVal -= 0.03;
 		}
+
+		leftPid.setOutputRange(-pidMaxVal, pidMaxVal);
+		rightPid.setOutputRange(-pidMaxVal, pidMaxVal);
 	}
 
 }
