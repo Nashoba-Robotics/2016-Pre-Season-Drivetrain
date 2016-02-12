@@ -110,5 +110,21 @@ public class PositionTest {
 		System.out.println("@Test position set polar y radian: " + pos.y + " == " + 1.449483);
 		assertEquals(pos.y, 2.793472, 0.000001);
 	}
+	
+	@Test
+	public void testPolarRadian() {
+		double angle = 2.4 * Math.PI;
+		double magnitude = 2.93723;
+		
+		Position pos = new Position(magnitude, angle, AngleUnit.RADIAN);
+		System.out.println("@Test position set polar angle radian: " + pos.getAngle(AngleUnit.RADIAN) + " == " + angle);
+		assertEquals(pos.getAngle(AngleUnit.RADIAN),angle%(2*Math.PI),0.0001);
+		System.out.println("@Test position set polar magnitude radian: " + ", " + pos.getMagnitude() + " == " + magnitude);
+		assertEquals(pos.getMagnitude(),magnitude,0.0001);
+		System.out.println("@Test position set polar x radian: " + pos.x + " == " + -2.554666);
+		assertEquals(pos.x, 0.907654, 0.000001);
+		System.out.println("@Test position set polar y radian: " + pos.y + " == " + 1.449483);
+		assertEquals(pos.y, 2.793472, 0.000001);
+	}
 
 }

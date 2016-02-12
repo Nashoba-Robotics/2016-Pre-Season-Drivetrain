@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class NavX implements SmartDashboardSource {
 	
 	private SerialPort serial_port;
-	public IMUAdvanced imu;
+	private IMUAdvanced imu;
 
-	private NavX() {
+	protected NavX() {
 		try {
 			serial_port = new SerialPort(57600, SerialPort.Port.kMXP);
 
