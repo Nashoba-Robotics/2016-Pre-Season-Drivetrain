@@ -176,8 +176,8 @@ public class Robot extends RobotBase {
 		SmartDashboard.putData("Autonomous Chooser", autoCommandChooser);
 
 		OI.getInstance().drivingModeChooser = new SendableChooser();
-		OI.getInstance().drivingModeChooser.addDefault("arcade", "arcade");
-		OI.getInstance().drivingModeChooser.addObject("tank", "tank");
+		OI.getInstance().drivingModeChooser.addDefault("arcade", DrivingMode.ARCADE);
+		OI.getInstance().drivingModeChooser.addObject("tank", DrivingMode.TANK);
 		SmartDashboard.putData("Driving Mode Chooser", OI.getInstance().drivingModeChooser);
 	}
 	

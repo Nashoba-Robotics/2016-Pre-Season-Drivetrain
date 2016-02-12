@@ -145,14 +145,36 @@ public class OI implements SmartDashboardSource, Periodic {
 	public void smartDashboardInfo() {
 		speedMultiplier = SmartDashboard.getNumber("Speed Multiplier");
 	}
+	
+	public boolean isTankNonZero() {
+		return getTankLeftValue() != 0 || getTankRightValue() != 0;
+	}
+	
+	public boolean isArcadeNonZero() {
+		return getArcadeMoveValue() != 0 || getArcadeTurnValue() != 0;
+	}
 
+	public boolean isCurrentModeNonZero() throws DrivingModeException {
+		if(drivingModeChooser.getSelected().equals("arcade")) {
+			return isArcadeNonZero();
+		} else if(drivingModeChooser.getSelected().equals("tank")) {
+			return isTankNonZero();
+		} else {
+			throw new DrivingModeException((DrivingMode) drivingModeChooser.getSelected());
+		}
+	}
+		
 	@Override
 	public void periodic() {
-		if(getArcadeMoveValue() != 0 || getArcadeTurnValue() != 0) {
-			if(Drive.getInstance().getCurrentCommand().getName() != "DriveJoystickCommand") {
-				Drive.getInstance().getCurrentCommand().cancel();
-				//TODO: Test this cancel functionality
+		try {
+			if(isCurrentModeNonZero()) {
+				if(Drive.getInstance().getCurrentCommand().getName() != "DriveJoystickCommand") {
+					Drive.getInstance().getCurrentCommand().cancel();
+					//TODO: Test this cancel functionality
+				}
 			}
+		} catch (DrivingModeException e) {
+			System.out.println("Driving Mode " + e.getMode().toString() + " is not supported by OI drive subsystem cancel");
 		}
 	}
 }

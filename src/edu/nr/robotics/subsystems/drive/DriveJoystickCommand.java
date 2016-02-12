@@ -3,6 +3,8 @@ package edu.nr.robotics.subsystems.drive;
 import edu.nr.lib.CMD;
 import edu.nr.lib.GyroCorrection;
 import edu.nr.lib.NRMath;
+import edu.nr.robotics.DrivingMode;
+import edu.nr.robotics.DrivingModeException;
 import edu.nr.robotics.OI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.nr.lib.AngleGyroCorrection;
@@ -28,7 +30,7 @@ public class DriveJoystickCommand extends CMD {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void onExecute() {
-		if (OI.getInstance().drivingModeChooser.getSelected().equals("arcade")) {
+		if (OI.getInstance().drivingModeChooser.getSelected().equals(DrivingMode.ARCADE)) {
 			double moveValue = OI.getInstance().getArcadeMoveValue();
 			
 			double rotateAdjustValue = OI.getInstance().getTurnAdjust();
