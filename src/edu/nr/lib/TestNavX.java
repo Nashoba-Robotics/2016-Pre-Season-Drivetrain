@@ -1,4 +1,5 @@
-import edu.nr.lib.AngleUnit;
+package edu.nr.lib;
+
 import edu.nr.lib.navx.NavX;
 
 public class TestNavX extends NavX {
@@ -8,17 +9,16 @@ public class TestNavX extends NavX {
 	private double pitch;
 	private double yaw;
 	
-	private static TestNavX singleton;
-
-	public static TestNavX getInstance() {
-		init();
-		return singleton;
+	public TestNavX(double yaw, double pitch, double roll, AngleUnit unit) {
+		setPitch(pitch, unit);
+		setRoll(roll, unit);
+		setYaw(yaw, unit);
 	}
-
-	public static void init() {
-		if (singleton == null) {
-			singleton = new TestNavX();
-		}
+	
+	public TestNavX() {
+		pitch = 0;
+		yaw = 0;
+		roll = 0;
 	}
 	
 	@Override

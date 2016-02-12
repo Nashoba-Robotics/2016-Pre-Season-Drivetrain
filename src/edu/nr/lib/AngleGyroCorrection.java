@@ -22,6 +22,10 @@ public class AngleGyroCorrection extends GyroCorrection implements PIDSource
 		this(angle, NavX.getInstance());
 	}
 	
+	public AngleGyroCorrection(NavX navx) {
+		this(0, navx);
+	}
+	
 	public AngleGyroCorrection() {
 		this(0);
 	}
