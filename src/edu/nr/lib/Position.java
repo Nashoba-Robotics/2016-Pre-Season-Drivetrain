@@ -39,6 +39,7 @@ public class Position {
 	public Position setPolar(double magnitude, double angle, AngleUnit unit) {
 		if(unit == AngleUnit.DEGREE)
 			angle = Math.toRadians(angle);
+		
         x = magnitude * Math.cos(angle);
         y = magnitude * Math.sin(angle);
         
