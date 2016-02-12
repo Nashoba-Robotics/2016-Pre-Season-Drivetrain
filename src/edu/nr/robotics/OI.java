@@ -1,8 +1,10 @@
 package edu.nr.robotics;
 
 import edu.nr.lib.CancelAllCommand;
+import edu.nr.lib.Periodic;
 import edu.nr.lib.SmartDashboardSource;
 import edu.nr.lib.path.OneDimensionalPath;
+import edu.nr.robotics.subsystems.drive.Drive;
 import edu.nr.robotics.subsystems.drive.DriveAnglePIDCommand;
 import edu.nr.robotics.subsystems.drive.DriveComplexDistanceCommand;
 import edu.nr.robotics.subsystems.drive.DriveConstantCommand;
@@ -20,7 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
-public class OI implements SmartDashboardSource {
+public class OI implements SmartDashboardSource, Periodic {
 	/** Used Buttons:
 	 * Drive Left: (0)
 	 * -> 1:  Cancel all commands
@@ -70,7 +72,7 @@ public class OI implements SmartDashboardSource {
 
 		new JoystickButton(operatorRight, 10).whileHeld(new DriveConstantCommand(false, true, false,0.9));
 		new JoystickButton(operatorRight, 4).whileHeld(new DriveConstantCommand(false, true, false,-0.9));
-		new JoystickButton(operatorRight, 1).whenPressed(new DriveAnglePIDCommand(30));
+		new JoystickButton(operatorRight, 1).whenPressed(new DriveAnglePIDCommand(0.65));
 		
 		new JoystickButton(operatorRight, 2).whenPressed(new DriveComplexDistanceCommand(new OneDimensionalPath(6.096,RobotMap.MAX_SPEED, RobotMap.MAX_ACCELERATION), 1/RobotMap.MAX_SPEED,0,0,0));
 
@@ -142,5 +144,15 @@ public class OI implements SmartDashboardSource {
 	@Override
 	public void smartDashboardInfo() {
 		speedMultiplier = SmartDashboard.getNumber("Speed Multiplier");
+	}
+
+	@Override
+	public void periodic() {
+		if(getArcadeMoveValue() != 0 || getArcadeTurnValue() != 0) {
+			if(Drive.getInstance().getCurrentCommand().getName() != "DriveJoystickCommand") {
+				Drive.getInstance().getCurrentCommand().cancel();
+				//TODO: Test this cancel functionality
+			}
+		}
 	}
 }

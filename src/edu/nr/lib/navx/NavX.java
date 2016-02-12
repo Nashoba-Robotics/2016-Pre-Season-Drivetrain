@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class NavX implements SmartDashboardSource {
 	
-	//The roborio is tilted on its side. This means that the yaw is imu.getRoll, roll is imu.getYaw, pitch is still imu.getPitch
 	private SerialPort serial_port;
 	public IMUAdvanced imu;
 
@@ -33,7 +32,7 @@ public class NavX implements SmartDashboardSource {
 	 */
 	public double getYaw(AngleUnit unit) {
 		if (imu != null && imu.isConnected()) {
-			double currentYaw = imu.getRoll();
+			double currentYaw = imu.getYaw();
 			if ((lastYaw < -90 || lastYaw > 90) && (currentYaw > 90 || currentYaw < -90)) {
 				if (lastYaw < 0 && currentYaw > 0) {
 					fullRotationCount--;
@@ -56,7 +55,7 @@ public class NavX implements SmartDashboardSource {
 	
 	public double getYawAbsolute(AngleUnit unit) {
 		if (imu != null && imu.isConnected()) {
-			float yaw = imu.getRoll();
+			float yaw = imu.getYaw();
 			if(unit == AngleUnit.DEGREE) {
 				return yaw;
 			}
@@ -74,7 +73,7 @@ public class NavX implements SmartDashboardSource {
 	 */
 	public double getRoll(AngleUnit unit) {
 		if (imu != null && imu.isConnected()) {
-			float roll = imu.getYaw();
+			float roll = imu.getRoll();
 			if(unit == AngleUnit.DEGREE) {
 				return roll;
 			}
@@ -118,7 +117,7 @@ public class NavX implements SmartDashboardSource {
 
 	@Override
 	public void smartDashboardInfo() {
-		SmartDashboard.putNumber("NavX Yaw", getYaw(AngleUnit.DEGREE));
+		SmartDashboard.putNumber("NavX Yaw", getYawAbsolute(AngleUnit.DEGREE));
 		SmartDashboard.putNumber("NavX Roll", getRoll(AngleUnit.DEGREE));
 		SmartDashboard.putNumber("NavX Pitch", getPitch(AngleUnit.DEGREE));
 		

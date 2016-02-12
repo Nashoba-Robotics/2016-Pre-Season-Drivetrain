@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.tables.ITable;
 public class RobotDiagram implements NamedSendable {
 
 	public RobotDiagram() {
-		// TODO Auto-generated constructor stub
 	}
 
 private ITable table;
