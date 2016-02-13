@@ -1,5 +1,6 @@
 import static org.junit.Assert.*;
 
+import org.junit.After;
 import org.junit.Test;
 
 import edu.nr.lib.AngleUnit;
@@ -104,6 +105,43 @@ public class PositionTest {
 		assertEquals(pos.getMagnitude(),magnitude,0.0001);
 		assertEquals(pos.x, 0.907654, 0.000001);
 		assertEquals(pos.y, 2.793472, 0.000001);
+	}
+	
+	@Test
+	public void testScaleSingle() {
+		double scale = 0.2;
+		double x = 5.2;
+		double y = 3.7;
+		Position pos = new Position(x,y);
+		pos.scale(scale);
+		assertEquals(pos.x, x * scale, 0.00001);
+		assertEquals(pos.y, y * scale, 0.00001);
+	}
+	
+	@Test
+	public void testScaleDouble() {
+		double xScale = 0.2;
+		double yScale = 0.5;
+		double x = 5.2;
+		double y = 3.7;
+		Position pos = new Position(x,y);
+		pos.scale(xScale,yScale);
+		assertEquals(pos.x, x * xScale, 0.00001);
+		assertEquals(pos.y, y * yScale, 0.00001);
+	}
+	
+	@Test
+	public void testRotate() {
+		double initialAngle = 3.5 * Math.PI;
+		double angle = 2.4 * Math.PI;
+		double magnitude = 2.93723;
+		
+		Position pos = new Position(magnitude, initialAngle, AngleUnit.RADIAN);
+		pos.rotate(angle, AngleUnit.RADIAN);
+		assertEquals(pos.getAngle(AngleUnit.RADIAN),((angle + initialAngle) % (2*Math.PI)) - (2 * Math.PI),0.0001);
+		assertEquals(pos.getMagnitude(),magnitude,0.0001);
+		assertEquals(pos.x, magnitude * (Math.cos((angle + initialAngle))), 0.000001);
+		assertEquals(pos.y, magnitude * (Math.sin((angle + initialAngle))), 0.000001);
 	}
 
 }

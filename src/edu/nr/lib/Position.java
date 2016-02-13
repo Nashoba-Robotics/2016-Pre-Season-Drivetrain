@@ -75,13 +75,11 @@ public class Position {
     public Position rotate(double angle, AngleUnit unit) {
 		if(unit == AngleUnit.DEGREE)
 			angle = Math.toRadians(angle);
-        double cosA = Math.cos(angle);
-        double sinA = Math.sin(angle);
-        double tempX = x * cosA - y * sinA;
-        double tempY = x * sinA + y * cosA;
-
-        x = tempX;
-        y = tempY;
+		
+		double mag = getMagnitude();
+		double currentAngle = getAngle(AngleUnit.RADIAN);
+        x = mag * Math.cos(angle + currentAngle);
+        y = mag * Math.sin(angle + currentAngle);
 
         return this;
     }

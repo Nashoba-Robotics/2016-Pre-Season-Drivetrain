@@ -74,7 +74,8 @@ public class OI implements SmartDashboardSource, Periodic {
 		new JoystickButton(operatorRight, 4).whileHeld(new DriveConstantCommand(false, true, false,-0.9));
 		new JoystickButton(operatorRight, 1).whenPressed(new DriveAnglePIDCommand(0.65));
 		
-		new JoystickButton(operatorRight, 2).whenPressed(new DriveComplexDistanceCommand(new OneDimensionalPath(6.096,RobotMap.MAX_SPEED, RobotMap.MAX_ACCELERATION), 1/RobotMap.MAX_SPEED,0,0,0));
+		new JoystickButton(operatorRight, 2).whenPressed(new DriveComplexDistanceCommand(
+				new OneDimensionalPath(6.096,RobotMap.MAX_SPEED, RobotMap.MAX_ACCELERATION), 1/RobotMap.MAX_SPEED,0,0,0));
 
 		new JoystickButton(operatorRight, 6).whenPressed(new LightsOnCommand());
 		new JoystickButton(operatorRight, 7).whenPressed(new LightsOffCommand());

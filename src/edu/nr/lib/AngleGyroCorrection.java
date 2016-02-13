@@ -12,6 +12,9 @@ public class AngleGyroCorrection extends GyroCorrection implements PIDSource
 	NavX navx;
 	
 	public AngleGyroCorrection(double angle, NavX navx) {
+		if(navx == null) {
+			this.navx = NavX.getInstance();
+		}
 		this.navx = navx;
 		goalAngle = angle;
 		initialAngle = navx.getYaw(AngleUnit.DEGREE);

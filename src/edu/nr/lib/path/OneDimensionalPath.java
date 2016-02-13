@@ -24,7 +24,7 @@ public class OneDimensionalPath {
 		}
 		length = startDown + endUp;
 		//TODO: Fix this
-		if (getPosition(length) > distance + 0.1) { // The 0.1 is to make sure
+		if (getPosition(length) > distance + 0.0001) { // The 0.1 is to make sure
 													// that this doesn't occur
 													// due to a float issue
 			endUp = startDown = Math.sqrt(distance / maxAcc);
