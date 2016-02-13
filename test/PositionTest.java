@@ -131,6 +131,19 @@ public class PositionTest {
 	}
 	
 	@Test
+	public void testScalePosition() {
+		double xScale = 0.2;
+		double yScale = 0.5;
+		Position scale = new Position(xScale, yScale);
+		double x = 5.2;
+		double y = 3.7;
+		Position pos = new Position(x,y);
+		pos.scale(scale);
+		assertEquals(pos.x, x * xScale, 0.00001);
+		assertEquals(pos.y, y * yScale, 0.00001);
+	}
+	
+	@Test
 	public void testRotate() {
 		double initialAngle = 3.5 * Math.PI;
 		double angle = 2.4 * Math.PI;
@@ -142,6 +155,16 @@ public class PositionTest {
 		assertEquals(pos.getMagnitude(),magnitude,0.0001);
 		assertEquals(pos.x, magnitude * (Math.cos((angle + initialAngle))), 0.000001);
 		assertEquals(pos.y, magnitude * (Math.sin((angle + initialAngle))), 0.000001);
+	}
+	
+	@Test
+	public void testClone() {
+		double x = 5.1235;
+		double y = 8.12376;
+		Position pos = new Position(x,y);
+		Position posClone = pos.clone();
+		assertEquals(posClone.x, pos.x, 0.00001);
+		assertEquals(posClone.y, pos.y, 0.00001);
 	}
 
 }
