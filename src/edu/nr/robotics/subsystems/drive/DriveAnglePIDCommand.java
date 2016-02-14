@@ -1,6 +1,6 @@
 package edu.nr.robotics.subsystems.drive;
 
-import edu.nr.lib.AngleGyroCorrection;
+import edu.nr.lib.AngleGyroCorrectionSource;
 import edu.nr.lib.CMD;
 import edu.nr.lib.PID;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -41,7 +41,7 @@ public class DriveAnglePIDCommand extends CMD {
 
 	@Override
 	protected void onStart() {
-		pid = new PID(angle*0.001, 0.0005, 0.0001, new AngleGyroCorrection(), new AngleController());
+		pid = new PID(angle*0.001, 0.0005, 0.0001, new AngleGyroCorrectionSource(), new AngleController());
     	pid.enable();
     	pid.setSetpoint(angle);
 	}

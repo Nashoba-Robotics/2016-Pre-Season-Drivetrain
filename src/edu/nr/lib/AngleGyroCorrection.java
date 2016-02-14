@@ -1,14 +1,11 @@
 package edu.nr.lib;
 
 import edu.nr.lib.navx.NavX;
-import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.PIDSourceType;
 
-public class AngleGyroCorrection extends GyroCorrection implements PIDSource
-{
+public class AngleGyroCorrection extends GyroCorrection {
+
 	private double initialAngle;
 	double goalAngle;
-	PIDSourceType type;
 	NavX navx;
 	
 	public AngleGyroCorrection(double angle, NavX navx) {
@@ -18,7 +15,6 @@ public class AngleGyroCorrection extends GyroCorrection implements PIDSource
 		this.navx = navx;
 		goalAngle = angle;
 		initialAngle = navx.getYaw(AngleUnit.DEGREE);
-		type = PIDSourceType.kDisplacement;
 	}
 	
 	public AngleGyroCorrection(double angle) {
@@ -42,21 +38,5 @@ public class AngleGyroCorrection extends GyroCorrection implements PIDSource
 	public void reset()
 	{
 		initialAngle = navx.getYaw(AngleUnit.DEGREE);
-	}
-
-	@Override
-	public void setPIDSourceType(PIDSourceType pidSource) {
-		type = pidSource;
-		
-	}
-
-	@Override
-	public PIDSourceType getPIDSourceType() {
-		return type;
-	}
-
-	@Override
-	public double pidGet() {
-		return getAngleErrorDegrees();
 	}
 }
