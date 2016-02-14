@@ -1,12 +1,11 @@
 package edu.nr.robotics.subsystems.intakearm;
 
-import edu.nr.lib.AnalogIRSensor;
 import edu.nr.lib.PID;
 import edu.nr.lib.SmartDashboardSource;
+import edu.nr.lib.TalonEncoder;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,19 +20,15 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource{
 	CANTalon armTalon;
 	CANTalon rollerTalon;
 	
-	Encoder rollerEncoder;
+	TalonEncoder rollerEncoder;
 	PID rollerPID;
-	
-	AnalogIRSensor irSensor;
 
 	AnalogPotentiometer armPot;
 	PID armPID;
 	
-	private IntakeArm() {
-		irSensor = new AnalogIRSensor(RobotMap.ROLLER_LOADER_IR_SENSOR);
-		
+	private IntakeArm() {		
 		rollerTalon = new CANTalon(RobotMap.ROLLER_INTAKE_TALON);
-		rollerEncoder = new Encoder(RobotMap.ROLLER_INTAKE_ENCODER_A, RobotMap.ROLLER_INTAKE_ENCODER_B);
+		rollerEncoder = new TalonEncoder(rollerTalon);
 		rollerEncoder.setPIDSourceType(PIDSourceType.kRate);
 		rollerPID = new PID(0, 0, 0, rollerEncoder, rollerTalon); //TODO: Get the PID value
 		rollerPID.enable();
