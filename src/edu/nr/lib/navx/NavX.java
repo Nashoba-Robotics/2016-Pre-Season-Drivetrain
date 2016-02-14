@@ -5,7 +5,7 @@ import edu.nr.lib.SmartDashboardSource;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class NavX implements SmartDashboardSource {
+public class NavX implements BaseNavX, SmartDashboardSource {
 	
 	private SerialPort serial_port;
 	private IMUAdvanced imu;

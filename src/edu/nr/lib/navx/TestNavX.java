@@ -3,7 +3,7 @@ package edu.nr.lib.navx;
 import edu.nr.lib.AngleUnit;
 import edu.nr.lib.navx.NavX;
 
-public class TestNavX extends NavX {
+public class TestNavX implements BaseNavX {
 
 	//Saved as degrees
 	private double roll;
