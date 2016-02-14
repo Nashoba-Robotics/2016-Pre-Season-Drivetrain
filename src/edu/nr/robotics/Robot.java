@@ -166,6 +166,11 @@ public class Robot extends RobotBase {
 		initCamera();
 		initSubsystems();
 		initSmartDashboardChoosers();
+		initServer();
+	}
+	
+	private void initServer() {
+		(new Thread(UDPServer.getInstance())).start();
 	}
 	
 	private void initSmartDashboardChoosers() {

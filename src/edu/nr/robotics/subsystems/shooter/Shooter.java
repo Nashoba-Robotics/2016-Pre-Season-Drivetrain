@@ -2,6 +2,7 @@ package edu.nr.robotics.subsystems.shooter;
 
 import edu.nr.lib.PID;
 import edu.nr.lib.SmartDashboardSource;
+import edu.nr.lib.TalonEncoder;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
@@ -20,18 +21,19 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	private static Shooter singleton;
 
 	CANTalon talon;
-	Encoder enc;
+	TalonEncoder enc;
 	PID pid;
 	
 	private Shooter() {
 		talon = new CANTalon(RobotMap.SHOOTER_TALON_A);
-		
+		talon.enableBrakeMode(true);
+
 		CANTalon talonTemp = new CANTalon(RobotMap.SHOOTER_TALON_B);
 		talonTemp.changeControlMode(TalonControlMode.Follower);
 		talonTemp.set(talon.getDeviceID());
 		talonTemp.enableBrakeMode(true);
 		
-		enc = new Encoder(RobotMap.SHOOTER_ENCODER_A, RobotMap.SHOOTER_ENCODER_B);
+		enc = new TalonEncoder(talon);
 		enc.setPIDSourceType(PIDSourceType.kRate);
 				
 		pid = new PID(0.0001, 0, 0, enc, talon); //TODO: Get the value for the Shooter PID

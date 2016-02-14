@@ -3,6 +3,7 @@ package edu.nr.robotics.subsystems.loaderroller;
 import edu.nr.lib.AnalogIRSensor;
 import edu.nr.lib.PID;
 import edu.nr.lib.SmartDashboardSource;
+import edu.nr.lib.TalonEncoder;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
@@ -17,7 +18,7 @@ public class LoaderRoller extends Subsystem implements SmartDashboardSource {
     
 	CANTalon loaderTalon;
 	
-	Encoder loaderEncoder;
+	TalonEncoder loaderEncoder;
 	
 	AnalogIRSensor irSensor;
 	
@@ -31,7 +32,7 @@ public class LoaderRoller extends Subsystem implements SmartDashboardSource {
 		loaderTalon = new CANTalon(RobotMap.ROLLER_LOADER_TALON);
 
 
-		loaderEncoder = new Encoder(RobotMap.ROLLER_LOADER_ENCODER_A, RobotMap.ROLLER_LOADER_ENCODER_B);
+		loaderEncoder = new TalonEncoder(loaderTalon);
 
 		loaderEncoder.setPIDSourceType(PIDSourceType.kRate);
 

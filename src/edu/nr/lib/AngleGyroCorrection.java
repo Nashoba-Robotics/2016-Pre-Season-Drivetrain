@@ -8,7 +8,6 @@ public class AngleGyroCorrection extends GyroCorrection implements PIDSource
 {
 	private double initialAngle;
 	double goalAngle;
-	PIDSourceType type;
 	NavX navx;
 	
 	public AngleGyroCorrection(double angle, NavX navx) {
@@ -18,7 +17,6 @@ public class AngleGyroCorrection extends GyroCorrection implements PIDSource
 		this.navx = navx;
 		goalAngle = angle;
 		initialAngle = navx.getYaw(AngleUnit.DEGREE);
-		type = PIDSourceType.kDisplacement;
 	}
 	
 	public AngleGyroCorrection(double angle) {
@@ -43,16 +41,15 @@ public class AngleGyroCorrection extends GyroCorrection implements PIDSource
 	{
 		initialAngle = navx.getYaw(AngleUnit.DEGREE);
 	}
-
+	
 	@Override
 	public void setPIDSourceType(PIDSourceType pidSource) {
-		type = pidSource;
-		
+		System.err.println("Can't set the PID source type of an angle gyro correction - it is always kDisplacement");
 	}
 
 	@Override
 	public PIDSourceType getPIDSourceType() {
-		return type;
+		return PIDSourceType.kDisplacement;
 	}
 
 	@Override
