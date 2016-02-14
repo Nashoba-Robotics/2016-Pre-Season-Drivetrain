@@ -11,7 +11,7 @@ public class TalonEncoder implements PIDSource {
 	double scale = 1; //Divide by this number to make the robot be from -1 to 1 instead of -MAX_RATE to MAX_RATE
 	double distancePerRev = 1; 
 	int ticksPerRev = 1;
-	boolean reverseDirection;
+	boolean reverseDirection = false;
 	
 	public TalonEncoder(CANTalon talon) {
 		this.talon = talon;
