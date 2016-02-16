@@ -5,13 +5,15 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class UDPServer implements Runnable {
 	public static UDPServer singleton;
 	char delimiter = ':'; //The information is split distance:beta_h
 	DatagramSocket serverSocket;
 	
-	double distance;
-	double beta_h;
+	private double distance;
+	private double angle;
 	
 	private Object lock = new Object();
 	
@@ -46,12 +48,21 @@ public class UDPServer implements Runnable {
 		if (p >= 0) {
 		    String left = data.substring(0, p);
 		    String right = data.substring(p + 1);
-		    double distance = Double.valueOf(left);
-		    double beta_h = Double.valueOf(right);
-		    synchronized(lock) {
-		    	this.distance = distance;
-				this.beta_h = beta_h;
+		    try {
+		    	double distance = Double.valueOf(left);
+		    	double beta_h = Double.valueOf(right);
+
+			    synchronized(lock) {
+			    	this.distance = distance;
+					this.angle = beta_h;
+			    }
+		    } catch (NumberFormatException e) {
+		    	System.err.println("Coudln't parse number from Jetson. Recieved Message: " + data);
 		    }
+		    System.out.println("Distance: " + getDistance() + " Angle: " + getAngle());
+		    SmartDashboard.putNumber("Distance from camera", getDistance());
+		    SmartDashboard.putNumber("Angle from camera", getAngle());
+
 		} else {
 		  System.err.println("Packet received doesn't have a delimiter");
 		}
@@ -63,9 +74,9 @@ public class UDPServer implements Runnable {
 		}
 	}
 	
-	public double getBetaH() {
+	public double getAngle() {
 		synchronized(lock) {
-			return beta_h;
+			return angle;
 		}	
 	}
 }

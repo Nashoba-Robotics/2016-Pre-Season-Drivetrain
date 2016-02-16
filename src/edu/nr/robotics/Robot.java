@@ -244,7 +244,7 @@ public class Robot extends RobotBase {
 	private void periodic(Mode mode) {
 		periodics.forEach(Periodic::periodic);
 		
-		Drive.getInstance().setPIDEnabled(!OI.getInstance().fighter.get());
+		//Drive.getInstance().setPIDEnabled(!OI.getInstance().fighter.get());
 
 		FieldCentric.getInstance().update();
 		Scheduler.getInstance().run();
