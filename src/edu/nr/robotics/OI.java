@@ -7,6 +7,7 @@ import edu.nr.lib.UDPServer;
 import edu.nr.robotics.commandgroups.*;
 import edu.nr.robotics.subsystems.drive.*;
 import edu.nr.robotics.subsystems.elevator.*;
+import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.intakearm.*;
 import edu.nr.robotics.subsystems.intakeroller.*;
 import edu.nr.robotics.subsystems.lights.*;
@@ -132,18 +133,21 @@ public class OI implements SmartDashboardSource, Periodic {
 		new JoystickButton(operatorRight, 9).whenPressed(new ElevatorClimbCommand());
 		  //-> 10: Cancel all commands
 		new JoystickButton(operatorRight, 10).whenPressed(new CancelAllCommand());
-		  //x> Joy1: Arm Position Joystick
+		  //-> Joy1: Arm Position Joystick
 		  //           Overrides intake arm position (overrides pot, not limit switches)
-		  //x> Joy2: Loader Joystick
+		  //  snapCoffinJoysticks(operatorRight.getRawAxis(0))
+		
+		  //-> Joy2: Loader Joystick
 		  //           Overrides loader motor power
-		  //x> Joy3: Hood Joystick
+		  //  snapCoffinJoysticks(operatorRight.getRawAxis(1))
+		
+		  //-> Joy3: Hood Joystick
 		  //           Overrides hood angle (undone if another auto hood angle command is sent)
-		  //x> Joy4: Elevator Joystick
+		  //  snapCoffinJoysticks(operatorRight.getRawAxis(2))
+
+		  //-> Joy4: Elevator Joystick
 		  //           Overrides elevator (limit switches still operate)
-		
-
-		
-
+		  //  snapCoffinJoysticks(operatorRight.getRawAxis(3))
 	}
 
 	public static OI getInstance() {
@@ -155,6 +159,22 @@ public class OI implements SmartDashboardSource, Periodic {
 		if (singleton == null) {
 			singleton = new OI();
 		}
+	}
+	
+	public double getIntakeArmMoveValue() {
+		return snapCoffinJoysticks(operatorRight.getRawAxis(0));
+	}
+	
+	public double getLoaderRollerMoveValue() {
+		return snapCoffinJoysticks(operatorRight.getRawAxis(1));
+	}
+	
+	public double getHoodMoveValue() {
+		return snapCoffinJoysticks(operatorRight.getRawAxis(2));
+	}
+	
+	public double getElevatorMoveValue() {
+		return snapCoffinJoysticks(operatorRight.getRawAxis(3));
 	}
 
 	public double getArcadeMoveValue() {
@@ -184,6 +204,14 @@ public class OI implements SmartDashboardSource, Periodic {
 		value /= 1 - JOYSTICK_DEAD_ZONE;
 
 		return value;
+	}
+	
+	private double snapCoffinJoysticks(double value)
+	{
+		if(value > -0.1 && value < 0.1)
+			return 0;
+		
+		return (value-0.1) / 0.9;
 	}
 
 	public double getRawMove() {
@@ -231,11 +259,39 @@ public class OI implements SmartDashboardSource, Periodic {
 			if(isCurrentModeNonZero()) {
 				if(Drive.getInstance().getCurrentCommand().getName() != "DriveJoystickCommand") {
 					Drive.getInstance().getCurrentCommand().cancel();
-					//TODO: Test this cancel functionality
+					//TODO: Test drive joystick cancel functionality
 				}
 			}
 		} catch (DrivingModeException e) {
-			System.out.println("Driving Mode " + e.getMode().toString() + " is not supported by OI drive subsystem cancel");
+			System.out.println("Driving Mode " + e.getMode() + " is not supported by OI drive subsystem cancel");
+		}
+		
+		if(getLoaderRollerMoveValue() != 0) {
+			if(LoaderRoller.getInstance().getCurrentCommand().getName() != "LoaderRollerJoystickCommand") {
+				LoaderRoller.getInstance().getCurrentCommand().cancel();
+				//TODO: Test loader roller joystick cancel functionality
+			}
+		}
+		
+		if(getIntakeArmMoveValue() != 0) {
+			if(IntakeArm.getInstance().getCurrentCommand().getName() != "IntakeArmJoystickCommand") {
+				IntakeArm.getInstance().getCurrentCommand().cancel();
+				//TODO: Test intake arm joystick cancel functionality
+			}
+		}
+		
+		if(getHoodMoveValue() != 0) {
+			if(Hood.getInstance().getCurrentCommand().getName() != "HoodJoystickCommand") {
+				Hood.getInstance().getCurrentCommand().cancel();
+				//TODO: Test hood joystick cancel functionality
+			}
+		}
+		
+		if(getElevatorMoveValue() != 0) {
+			if(Elevator.getInstance().getCurrentCommand().getName() != "ElevatorJoystickCommand") {
+				Elevator.getInstance().getCurrentCommand().cancel();
+				//TODO: Test elevator joystick cancel functionality
+			}
 		}
 	}
 }

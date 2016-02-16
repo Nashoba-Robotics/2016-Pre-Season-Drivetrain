@@ -13,7 +13,7 @@ public class AutoShovelOfFriesCommandGroup extends CommandGroup {
 	public static final double seconddistance = 6;
 	public static final double secondspeed = 1;
 	
-	//TODO: Confirm the behaviour of auto shovel of fried
+	//TODO: Confirm the behaviour of auto shovel of fries
 
     public  AutoShovelOfFriesCommandGroup() {
     	addSequential(new IntakeArmUpHeightCommand());
