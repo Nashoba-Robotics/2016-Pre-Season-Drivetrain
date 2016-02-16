@@ -1,19 +1,22 @@
-package edu.nr.robotics.subsystems.intakearm;
+package edu.nr.robotics.subsystems.elevator;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class IntakeArmUpHeightCommand extends Command {
+public class ElevatorSpeedCommand extends Command {
 
-    public IntakeArmUpHeightCommand() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+	double val;
+	
+    public ElevatorSpeedCommand(double val) {
+    	this.val = val;
+    	requires(Elevator.getInstance());
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Elevator.getInstance().setMotorValue(val);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -22,7 +25,7 @@ public class IntakeArmUpHeightCommand extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true

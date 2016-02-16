@@ -57,5 +57,14 @@ public class RobotMap {
 	
 	//TODO: find the shooter ramp rate
 	public static final double SHOOTER_RAMP_RATE = 1;
+	
+	//TODO: find the intake arm heights
+	public static final double INTAKE_ARM_UP_HEIGHT = 0;
+	public static final double INTAKE_ARM_BOTTOM_HEIGHT = 0;
+	public static final double INTAKE_ARM_INTAKE_HEIGHT = 0;
+	public static final double INTAKE_ARM_BUMPER_HEIGHT = 0;
+	
+	//TODO: find the elevator extend distance
+	public static final double ELEVATOR_EXTEND_DISTANCE = 0;
 
 }

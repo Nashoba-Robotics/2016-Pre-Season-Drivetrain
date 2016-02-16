@@ -1,7 +1,6 @@
 package edu.nr.robotics.commandgroups;
 
 import edu.nr.robotics.subsystems.hood.HoodBottomCommand;
-import edu.nr.robotics.subsystems.intakearm.IntakeArmBottomHeightCommand;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**

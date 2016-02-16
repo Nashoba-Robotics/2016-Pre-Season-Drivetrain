@@ -1,15 +1,18 @@
-package edu.nr.robotics.subsystems.intakearm;
+package edu.nr.lib;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class IntakeArmBumperHeightCommand extends Command {
+public class WaitForEncoderGreaterThanCommand extends Command {
 
-    public IntakeArmBumperHeightCommand() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+	TalonEncoder enc;
+	double value;
+	
+    public WaitForEncoderGreaterThanCommand(TalonEncoder enc, double value) {
+    	this.enc = enc;
+    	this.value = value;
     }
 
     // Called just before this Command runs the first time
@@ -22,7 +25,7 @@ public class IntakeArmBumperHeightCommand extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return enc.get() > value;
     }
 
     // Called once after isFinished returns true

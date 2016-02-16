@@ -8,10 +8,8 @@ import edu.nr.robotics.commandgroups.*;
 import edu.nr.robotics.subsystems.drive.*;
 import edu.nr.robotics.subsystems.elevator.*;
 import edu.nr.robotics.subsystems.intakearm.*;
-import edu.nr.robotics.subsystems.intakeroller.IntakeRollerSpeedCommand;
-import edu.nr.robotics.subsystems.lights.LightsBlinkCommand;
-import edu.nr.robotics.subsystems.lights.LightsOffCommand;
-import edu.nr.robotics.subsystems.lights.LightsOnCommand;
+import edu.nr.robotics.subsystems.intakeroller.*;
+import edu.nr.robotics.subsystems.lights.*;
 import edu.nr.robotics.subsystems.loaderroller.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -78,7 +76,7 @@ public class OI implements SmartDashboardSource, Periodic {
 		  //->  4: Align
 		  //           Auto align the robot to target, ends when drive joysticks are touched
 		new JoystickButton(operatorLeft, 4).whenPressed(new DriveAnglePIDCommand(UDPServer.getInstance().getTurnAngle()));
-		  //x>  5: Brake Light Cutout Switch
+		  //->  5: Brake Light Cutout Switch
 		  //           Disables robot “shot ready” LED sequences (in the event that signifying we are about to shoot enables defense robots to defend more effectively
 		brakeLightCutout = new JoystickButton(operatorLeft, 5);
 		  //->  6: Get low
@@ -105,31 +103,31 @@ public class OI implements SmartDashboardSource, Periodic {
 
 		  //Operator Right: (3)
 		operatorRight = new Joystick(3);
-		  //x>  1: Up Height (Climb Height)
+		  //->  1: Up Height (Climb Height)
 		  //           Positions intake arm to vertical height, ensures intake off (also used for climb)
 		new JoystickButton(operatorRight, 1).whenPressed(new IntakeArmUpHeightCommand());
-		  //x>  2: Intake Height
+		  //->  2: Intake Height
 		  //           Positions intake arm to collecting height turns on intake
 		new JoystickButton(operatorRight, 2).whenPressed(new IntakeArmIntakeHeightCommand());
-		  //x>  3: Bumper Height (Home)
+		  //->  3: Bumper Height (Home)
 		  //           Positions intake arm to home height (such that it will contact the bumper of another robot), ensures intake off
 		new JoystickButton(operatorRight, 3).whenPressed(new IntakeArmBumperHeightCommand());
-		  //x>  4: Bottom Height
+		  //->  4: Bottom Height
 		  //           Positions intake arm to bottom height, ensures intake off
 		new JoystickButton(operatorRight, 4).whenPressed(new IntakeArmBottomHeightCommand());
-		  //x>  5: Intake On
+		  //->  5: Intake On
 		  //           Overrides intake rollers
-		new JoystickButton(operatorRight, 5).whenPressed(new IntakeRollerSpeedCommand(1));
-		  //x>  6: Laser Cannon Trigger (Shoot)
+		new JoystickButton(operatorRight, 5).whenPressed(new IntakeRollerForwardCommand());
+		  //->  6: Laser Cannon Trigger (Shoot)
 		  //           Forces intake on to shoot (loader auto off based on photo sensor 3, turns off lights)
 		new JoystickButton(operatorRight, 6).whenPressed(new LaserCannonTriggerCommand());
-		  //x>  7: Prepare Climb
-		  //           Un-latches elevator
+		  //->  7: Prepare Climb
+		  //           Un-latches elevator (drives the elevator down a little)
 		new JoystickButton(operatorRight, 7).whenPressed(new ElevatorPrepareClimbCommand());
-		  //x>  8: Extend & Intake Up
+		  //->  8: Extend & Intake Up
 		  //           Extends elevator completely, brings intake to up position
 		new JoystickButton(operatorRight, 8).whenPressed(new ExtendAndIntakeUpCommandGroup());
-		  //x>  9: Climb
+		  //->  9: Climb
 		  //           Fully retracts elevator, stops after 1 second of motor stall
 		new JoystickButton(operatorRight, 9).whenPressed(new ElevatorClimbCommand());
 		  //-> 10: Cancel all commands
@@ -221,6 +219,10 @@ public class OI implements SmartDashboardSource, Periodic {
 		} else {
 			throw new DrivingModeException((DrivingMode) drivingModeChooser.getSelected());
 		}
+	}
+	
+	public boolean getBrakeLightCutout() {
+		return brakeLightCutout.get();
 	}
 		
 	@Override

@@ -9,6 +9,7 @@ import edu.nr.robotics.subsystems.drive.Drive;
 import edu.nr.robotics.subsystems.elevator.Elevator;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;
+import edu.nr.robotics.subsystems.intakeroller.IntakeRoller;
 import edu.nr.robotics.subsystems.lights.Lights;
 import edu.nr.robotics.subsystems.loaderroller.LoaderRoller;
 import edu.nr.robotics.subsystems.shooter.Shooter;
@@ -202,31 +203,34 @@ public class Robot extends RobotBase {
 		NavX.init();
 		FieldCentric.init();
 		Lights.init();
-		/*Shooter.init();
+		Shooter.init();
 		IntakeArm.init();
 		Elevator.init();
 		LoaderRoller.init();
-		Hood.init();*/
+		Hood.init();
+		IntakeRoller.init();
 		
 		//Add subsystems to subsystem array light
 		subsystems.add(Drive.getInstance());
 		subsystems.add(Lights.getInstance());
-		/*subsystems.add(Shooter.getInstance());
+		subsystems.add(Shooter.getInstance());
 		subsystems.add(IntakeArm.getInstance());
 		subsystems.add(LoaderRoller.getInstance());
 		subsystems.add(Elevator.getInstance());
-		subsystems.add(Hood.getInstance());*/
+		subsystems.add(Hood.getInstance());
+		subsystems.add(IntakeRoller.getInstance());
 		
 		//Add SmartDashboard sources to the smartdashboard source array list
 		smartDashboardSources.add(NavX.getInstance());
 		smartDashboardSources.add(Drive.getInstance());
 		smartDashboardSources.add(FieldCentric.getInstance());
 		smartDashboardSources.add(Lights.getInstance());
-		/*smartDashboardSources.add(Shooter.getInstance());
+		smartDashboardSources.add(Shooter.getInstance());
 		smartDashboardSources.add(IntakeArm.getInstance());
 		smartDashboardSources.add(Elevator.getInstance());
 		smartDashboardSources.add(LoaderRoller.getInstance());
-		smartDashboardSources.add(Hood.getInstance());*/
+		smartDashboardSources.add(Hood.getInstance());
+		smartDashboardSources.add(IntakeRoller.getInstance());
 		smartDashboardSources.add(OI.getInstance());
 		
 		periodics.add(Drive.getInstance());
@@ -244,7 +248,7 @@ public class Robot extends RobotBase {
 	private void periodic(Mode mode) {
 		periodics.forEach(Periodic::periodic);
 		
-		//Drive.getInstance().setPIDEnabled(!OI.getInstance().fighter.get());
+		Drive.getInstance().setPIDEnabled(!OI.getInstance().dumbDrive.get());
 
 		FieldCentric.getInstance().update();
 		Scheduler.getInstance().run();

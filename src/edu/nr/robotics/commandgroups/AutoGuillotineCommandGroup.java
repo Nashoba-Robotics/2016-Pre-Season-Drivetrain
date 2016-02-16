@@ -1,8 +1,6 @@
 package edu.nr.robotics.commandgroups;
 
 import edu.nr.robotics.subsystems.drive.DriveSimpleDistanceCommand;
-import edu.nr.robotics.subsystems.intakearm.IntakeArmBottomHeightCommand;
-import edu.nr.robotics.subsystems.intakearm.IntakeArmUpHeightCommand;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**

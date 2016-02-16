@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 
 public class TalonEncoder implements PIDSource {
 
-	PIDSourceType pidSourceType;
+	PIDSourceType pidSourceType = PIDSourceType.kDisplacement;
 	CANTalon talon;
 	double scale = 1; //Divide by this number to make the robot be from -1 to 1 instead of -MAX_RATE to MAX_RATE
 	double distancePerRev = 1; 

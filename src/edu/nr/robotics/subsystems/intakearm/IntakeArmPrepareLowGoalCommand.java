@@ -1,5 +1,6 @@
 package edu.nr.robotics.subsystems.intakearm;
 
+import edu.nr.robotics.commandgroups.IntakeArmUpHeightCommand;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**

@@ -1,6 +1,5 @@
 package edu.nr.robotics.commandgroups;
 
-import edu.nr.robotics.subsystems.intakearm.IntakeArmUpHeightCommand;
 import edu.nr.robotics.subsystems.intakeroller.IntakeRollerNeutralCommand;
 import edu.nr.robotics.subsystems.intakeroller.IntakeRollerReverseCommand;
 import edu.nr.robotics.subsystems.loaderroller.LoaderRollerNeutralCommand;
