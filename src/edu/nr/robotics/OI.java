@@ -22,24 +22,68 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class OI implements SmartDashboardSource, Periodic {
 	/** Used Buttons:
 	 * Drive Left: (0)
-	 * -> 1:  Cancel all commands
-	 * -> 2:  Reverse drive direction
+	 * ->  1: Cancel all commands
+	 * ->  2: Reverse drive direction
 	 * 
 	 * Drive Right: (1)
-	 * -> 1:  Slow Turn
+	 * ->  1: Slow Turn
 	 * -> 10: Reset encoders
 	 * 
 	 * Operator Left: (2)
-	 * -> 1:  Cancel all commands
-	 * -> 9:  Drive PID enable switch
+	 * ->  1: Cancel all commands
+	 * ->  2: Auto Guillotine
+	 *            Auto guillotine routine, ends when drive joysticks are touched
+	 * ->  3: Auto Shovel of Fries
+	 *            Auto shovel of fries routine, ends when drive joysticks are touched
+	 * ->  4: Align
+	 *            Auto align the robot to target, ends when drive joysticks are touched
+	 * ->  5: Brake Light Cutout Switch
+	 *            Disables robot “shot ready” LED sequences (in the event that signifying we are about to shoot enables defense robots to defend more effectively
+	 * ->  6: Get low
+	 *            Puts robot in position to go under low bar (hood down, intake to appropriate height)
+	 * ->  7: Prepare Long Shot
+	 *            Prepares long shot (shooter wheels to speed, hood up to approximate angle, drops intake to position where it does not block shot)
+	 * ->  8: Prepare Close Shot
+	 *            Prepares close shot (shooter wheels to speed, hood up to approximate angle, drops intake to position where it does not block shot)
+	 * ->  9: Dumb Drive switch
+	 *            Switch closed loop drive off (in case of sensor failure)
+	 * -> 10: Prepare Low Goal
+	 *            Prepares low goal dump (positions intake to proper height)
+	 * -> 11: Low Goal
+	 *            Double checks intake height, reverses intake and loader to spit ball into low goal.
+	 * -> 12: Puke
+	 *            Reverses all ball handling systems (shooter, loader, intake) (SHOOTER RAMPING REQUIRED)
 	 * 
 	 * Operator Right: (3)
-	 * -> 1:   Drive Angle Command
-	 * -> 4:   Drive Constant Command, left only, no PID, full reverse throttle
-	 * -> 6:   Lights On Command
-	 * -> 7:   Lights Off Command
-	 * -> 8:   Lights Blink Command, every 2000 milliseconds
-	 * -> 10:  Drive Constant Command, left only, no PID, full throttle
+	 * ->  1: Up Height (Climb Height)
+	 *            Positions intake arm to vertical height, ensures intake off (also used for climb)
+	 * ->  2: Intake Height
+	 *            Positions intake arm to collecting height turns on intake
+	 * ->  3: Bumper Height (Home)
+	 *            Positions intake arm to home height (such that it will contact the bumper of another robot), ensures intake off
+	 * ->  4: Bottom Height
+	 *            Positions intake arm to bottom height, ensures intake off
+	 * ->  5: Intake On/Off
+	 *            Overrides intake on/off
+	 * ->  6: Laser Cannon Trigger (Shoot)
+	 *            Forces intake on to shoot (loader auto off based on photo sensor 3)
+	 * ->  7: Prepare Climb
+	 *            Un-latches elevator
+	 * ->  8: Extend & Intake Up
+	 *            Extends elevator completely, brings intake to up position
+	 * ->  9: Climb
+	 *            Fully retracts elevator, stops after 1 second of motor stall
+	 * -> 10: Climb Cancel
+	 *            Cancels automatic climb routines (except for prepare, as it can not be undone)
+	 * 
+	 * -> Joy1: Arm Position Joystick
+	 *            Overrides intake arm position (overrides pot, not limit switches)
+	 * -> Joy2: Loader Joystick
+	 *            Overrides loader motor power
+	 * -> Joy3: Hood Joystick
+	 *            Overrides hood angle (undone if another auto hood angle command is sent)
+	 * -> Joy4: Elevator Joystick
+	 *            Overrides elevator (limit switches still operate)
 	 */
 	
 	public SendableChooser drivingModeChooser;
@@ -56,7 +100,7 @@ public class OI implements SmartDashboardSource, Periodic {
 	Joystick driveRight;
 	Joystick operatorLeft, operatorRight;
 
-	JoystickButton fighter;
+	JoystickButton dumbDrive;
 
 	private OI() {
 		SmartDashboard.putNumber("Speed Multiplier", speedMultiplier);
@@ -66,17 +110,8 @@ public class OI implements SmartDashboardSource, Periodic {
 
 		operatorLeft = new Joystick(2);
 		operatorRight = new Joystick(3);
-
-		new JoystickButton(operatorRight, 10).whileHeld(new DriveConstantCommand(false, true, false,0.9));
-		new JoystickButton(operatorRight, 4).whileHeld(new DriveConstantCommand(false, true, false,-0.9));
-		new JoystickButton(operatorRight, 1).whenPressed(new DriveAnglePIDCommand(0.65));
 		
-		new JoystickButton(operatorRight, 6).whenPressed(new LightsOnCommand());
-		new JoystickButton(operatorRight, 7).whenPressed(new LightsOffCommand());
-		new JoystickButton(operatorRight, 8).whenPressed(new LightsBlinkCommand(100));
-
-		
-		fighter = new JoystickButton(operatorLeft, 9);
+		dumbDrive = new JoystickButton(operatorLeft, 9);
 
 		new JoystickButton(operatorLeft, 1).whenPressed(new CancelAllCommand());
 		new JoystickButton(driveLeft, 1).whenPressed(new CancelAllCommand());
