@@ -35,36 +35,38 @@ public class UDPServer implements Runnable {
 	}
 
 	public void run() {
-		byte[] receiveData = new byte[1024];
-		DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-		try {
-			serverSocket.receive(receivePacket);
-		} catch (IOException e) {
-			System.err.println("Couldn't get a packet");
-		}
-		
-		String data = new String( receivePacket.getData() );
-		int p = data.indexOf(delimiter);
-		if (p >= 0) {
-		    String left = data.substring(0, p);
-		    String right = data.substring(p + 1);
-		    try {
-		    	double distance = Double.valueOf(left);
-		    	double beta_h = Double.valueOf(right);
-
-			    synchronized(lock) {
-			    	this.distance = distance;
-					this.angle = beta_h;
+		while(true) {
+			byte[] receiveData = new byte[1024];
+			DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+			try {
+				serverSocket.receive(receivePacket);
+			} catch (IOException e) {
+				System.err.println("Couldn't get a packet");
+			}
+			
+			String data = new String( receivePacket.getData() );
+			int p = data.indexOf(delimiter);
+			if (p >= 0) {
+			    String left = data.substring(0, p);
+			    String right = data.substring(p + 1);
+			    try {
+			    	double distance = Double.valueOf(left);
+			    	double beta_h = Double.valueOf(right);
+	
+				    synchronized(lock) {
+				    	this.distance = distance;
+						this.angle = beta_h;
+				    }
+			    } catch (NumberFormatException e) {
+			    	System.err.println("Coudln't parse number from Jetson. Recieved Message: " + data);
 			    }
-		    } catch (NumberFormatException e) {
-		    	System.err.println("Coudln't parse number from Jetson. Recieved Message: " + data);
-		    }
-		    System.out.println("Distance: " + getDistance() + " Angle: " + getAngle());
-		    SmartDashboard.putNumber("Distance from camera", getDistance());
-		    SmartDashboard.putNumber("Angle from camera", getAngle());
-
-		} else {
-		  System.err.println("Packet received doesn't have a delimiter");
+			    System.out.println("Distance: " + getDistance() + " Angle: " + getAngle());
+			    SmartDashboard.putNumber("Distance from camera", getDistance());
+			    SmartDashboard.putNumber("Angle from camera", getAngle());
+	
+			} else {
+			  System.err.println("Packet received doesn't have a delimiter");
+			}
 		}
 	}
 	
