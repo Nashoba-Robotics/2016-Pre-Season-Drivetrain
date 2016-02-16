@@ -198,7 +198,7 @@ public class Robot extends RobotBase {
 	private void initSubsystems() {
 		//Init subsystems
 		OI.init();
-		Drive.init();
+		//Drive.init();
 		NavX.init();
 		FieldCentric.init();
 		Lights.init();

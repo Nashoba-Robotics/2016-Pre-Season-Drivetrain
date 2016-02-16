@@ -10,7 +10,6 @@ public class LIDAR
 	//laser.start(); //Start polling
 	//laser.getDistanceCentimeters(); //Get distance
 	//laser.stop(); //Stop polling
-
 	
 	private I2C i2c;
 	private byte[] distance;
@@ -19,6 +18,7 @@ public class LIDAR
 	private final int LIDAR_ADDR = 0x62;
 	private final int LIDAR_CONFIG_REGISTER = 0x00;
 	private final int LIDAR_DISTANCE_REGISTER = 0x8f;
+	private static final int defaultPollingPeriod = 1000/100;
 	
 	//Laser updates twice as fast as the command loop, so we average the previous two values
 	private int[] savedValues = {-1, -1};
@@ -111,7 +111,9 @@ public class LIDAR
 			savedValues[savedValuesIndex % 4] = newValue;
 			savedValuesIndex++;
 			
-			
+			new UDPClient("Lidar read errors: " + readErrors);
+			new UDPClient("Lidar read successes: " + readSuccess);
+
 			SmartDashboard.putNumber("Laser Read Errors", readErrors);
 			SmartDashboard.putNumber("Laser Read Success Num", readSuccess);
 		}
@@ -119,6 +121,10 @@ public class LIDAR
 		previousWriteSuccess = !i2c.write(LIDAR_CONFIG_REGISTER, 0x04);
 		if(!previousWriteSuccess)
 			writeErrors++;
+		
+		new UDPClient("Lidar write errors: " + writeErrors);
+		new UDPClient("Lidar write success: " + previousWriteSuccess);
+		
 		SmartDashboard.putBoolean("Laser Write Success", previousWriteSuccess);
 		SmartDashboard.putNumber("Laser Write Errors", writeErrors);
 	}
@@ -126,11 +132,11 @@ public class LIDAR
 	// Timer task to keep distance updated
 	private class LIDARUpdater implements Runnable 
 	{
-		private int period = 1000/100; //Default of 100Hz
+		private int period; //Default of 100Hz
 		
 		public LIDARUpdater() //Provides a default value for period
 		{
-			
+			this(defaultPollingPeriod);
 		}
 		
 		public LIDARUpdater(int period)
@@ -144,6 +150,7 @@ public class LIDAR
 			while(true)
 			{
 				update();
+				new UDPClient("Lidar: " + getDistanceCentimeters());
 				try 
 				{
 					Thread.sleep(period);
