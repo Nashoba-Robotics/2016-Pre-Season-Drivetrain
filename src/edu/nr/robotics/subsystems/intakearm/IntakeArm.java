@@ -17,26 +17,16 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource{
     
 	private static IntakeArm singleton;
 
-	CANTalon armTalon;
-	CANTalon rollerTalon;
-	
-	TalonEncoder rollerEncoder;
-	PID rollerPID;
-
-	AnalogPotentiometer armPot;
-	PID armPID;
+	CANTalon talon;
+	AnalogPotentiometer pot;
+	PID pid;
 	
 	private IntakeArm() {		
-		rollerTalon = new CANTalon(RobotMap.ROLLER_INTAKE_TALON);
-		rollerEncoder = new TalonEncoder(rollerTalon);
-		rollerEncoder.setPIDSourceType(PIDSourceType.kRate);
-		rollerPID = new PID(0, 0, 0, rollerEncoder, rollerTalon); //TODO: Get the PID value
-		rollerPID.enable();
 
-		armTalon = new CANTalon(RobotMap.INTAKE_ARM_TALON);
-		armPot = new AnalogPotentiometer(RobotMap.INTAKE_ARM_POT);
-		armPot.setPIDSourceType(PIDSourceType.kDisplacement);
-		armPID = new PID(0.0001, 0, 0, armPot, armTalon); //TODO: Get the value for the Intake Arm PID
+		talon = new CANTalon(RobotMap.INTAKE_ARM_TALON);
+		pot = new AnalogPotentiometer(RobotMap.INTAKE_ARM_POT);
+		pot.setPIDSourceType(PIDSourceType.kDisplacement);
+		pid = new PID(0.0001, 0, 0, pot, talon); //TODO: Get the value for the Intake Arm PID
 	}
 	
     public void initDefaultCommand() {
@@ -58,8 +48,8 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource{
 	 * @param speed the speed to set the motor to, from -1 to 1
 	 */
 	public void setMotor(double speed) {
-		armPID.disable();
-		armTalon.set(speed);
+		pid.disable();
+		talon.set(speed);
 	}
 	
 	/**
@@ -67,15 +57,7 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource{
 	 * @param value the value to set the setpoint to
 	 */
 	public void setArmSetpoint(double value) {
-		armPID.setSetpoint(value);	
-	}
-	
-	/**
-	 * Set the roller PID setpoint
-	 * @param value the value to set the setpoint to
-	 */
-	public void setRollerSetpoint(double value) {
-		rollerPID.setSetpoint(value);	
+		pid.setSetpoint(value);	
 	}
 	
 	/**
@@ -83,25 +65,21 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource{
 	 * @return the PID setpoint
 	 */
 	public double getSetpoint() {
-		return armPID.getSetpoint();
-	}
-	
-	public boolean getRollerRunning() {
-		return rollerEncoder.get() > 0.1;
+		return pid.getSetpoint();
 	}
 	
 	/**
 	 * Enable the PID
 	 */
 	public void enable() {
-		armPID.enable();
+		pid.enable();
 	}
 	
 	/**
 	 * Disable the PID
 	 */
 	public void disable() {
-		armPID.disable();
+		pid.disable();
 	}
 	
 	/**
@@ -109,14 +87,14 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource{
 	 * @return whether the PID is enabled
 	 */
 	public boolean isEnable() {
-		return armPID.isEnable();
+		return pid.isEnable();
 	}
 	/**
 	 * Gets the value of the potentiometer
 	 * @return the value of the potentiometer
 	 */
 	public double get() {
-		return armPot.get();
+		return pot.get();
 	}
 	
 	public boolean getBallInIntake() {
@@ -129,15 +107,14 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource{
 	 * @return whether the motor is still moving
 	 */
 	public boolean getMoving() {
-		return Math.abs(armPID.getError()) > 0.05;
+		return Math.abs(pid.getError()) > 0.05;
 		//0.05 is a number I just made up
 	}
 
 	@Override
 	public void smartDashboardInfo() {
 		SmartDashboard.putNumber("Intake Arm Potentiometer", get());
-		SmartDashboard.putBoolean("Intake Arm Moving", Math.abs(armPID.getError()) > 0.05);
-		SmartDashboard.putNumber("Intake Roller Speed", rollerEncoder.getRate());
+		SmartDashboard.putBoolean("Intake Arm Moving", Math.abs(pid.getError()) > 0.05);
 	}
 }
 

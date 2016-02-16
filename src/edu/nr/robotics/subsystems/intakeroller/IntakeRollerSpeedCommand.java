@@ -1,6 +1,5 @@
-package edu.nr.robotics.subsystems.intakearm;
+package edu.nr.robotics.subsystems.intakeroller;
 
-import edu.nr.robotics.subsystems.loaderroller.LoaderRoller;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -12,12 +11,12 @@ public class IntakeRollerSpeedCommand extends Command {
 	
     public IntakeRollerSpeedCommand(double val) {
     	this.val = val;
-    	requires(LoaderRoller.getInstance());
+    	requires(IntakeRoller.getInstance());
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	IntakeArm.getInstance().setRollerSetpoint(val);
+    	IntakeRoller.getInstance().setRollerSetpoint(val);
     }
 
     // Called repeatedly when this Command is scheduled to run

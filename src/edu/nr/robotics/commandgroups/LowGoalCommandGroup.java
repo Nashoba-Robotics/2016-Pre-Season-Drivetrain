@@ -1,6 +1,12 @@
 package edu.nr.robotics.commandgroups;
 
+import edu.nr.robotics.subsystems.intakearm.IntakeArmUpHeightCommand;
+import edu.nr.robotics.subsystems.intakeroller.IntakeRollerNeutralCommand;
+import edu.nr.robotics.subsystems.intakeroller.IntakeRollerReverseCommand;
+import edu.nr.robotics.subsystems.loaderroller.LoaderRollerNeutralCommand;
+import edu.nr.robotics.subsystems.loaderroller.LoaderRollerReverseCommand;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 
 /**
  *
@@ -8,21 +14,11 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class LowGoalCommandGroup extends CommandGroup {
     
     public  LowGoalCommandGroup() {
-        // Add Commands here:
-        // e.g. addSequential(new Command1());
-        //      addSequential(new Command2());
-        // these will run in order.
-
-        // To run multiple commands at the same time,
-        // use addParallel()
-        // e.g. addParallel(new Command1());
-        //      addSequential(new Command2());
-        // Command1 and Command2 will run in parallel.
-
-        // A command group will require all of the subsystems that each member
-        // would require.
-        // e.g. if Command1 requires chassis, and Command2 requires arm,
-        // a CommandGroup containing them would require both the chassis and the
-        // arm.
+        addSequential(new IntakeArmUpHeightCommand());
+        addParallel(new IntakeRollerReverseCommand());
+        addParallel(new LoaderRollerReverseCommand());
+        addSequential(new WaitCommand(1.5));
+        addParallel(new IntakeRollerNeutralCommand());
+        addParallel(new LoaderRollerNeutralCommand());
     }
 }

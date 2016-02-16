@@ -1,13 +1,13 @@
-package edu.nr.robotics.subsystems.drive;
+package edu.nr.robotics.subsystems.intakearm;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class AlignCommand extends Command {
+public class IntakeArmUpHeightCommand extends Command {
 
-    public AlignCommand() {
+    public IntakeArmUpHeightCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }

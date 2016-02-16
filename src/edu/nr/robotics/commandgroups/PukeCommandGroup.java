@@ -1,6 +1,15 @@
 package edu.nr.robotics.commandgroups;
 
+import edu.nr.robotics.RobotMap;
+import edu.nr.robotics.subsystems.intakeroller.IntakeRollerNeutralCommand;
+import edu.nr.robotics.subsystems.intakeroller.IntakeRollerReverseCommand;
+import edu.nr.robotics.subsystems.loaderroller.LoaderRollerNeutralCommand;
+import edu.nr.robotics.subsystems.loaderroller.LoaderRollerReverseCommand;
+import edu.nr.robotics.subsystems.shooter.Shooter;
+import edu.nr.robotics.subsystems.shooter.ShooterOffCommand;
+import edu.nr.robotics.subsystems.shooter.ShooterReverseCommand;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 
 /**
  *
@@ -8,21 +17,15 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class PukeCommandGroup extends CommandGroup {
     
     public  PukeCommandGroup() {
-        // Add Commands here:
-        // e.g. addSequential(new Command1());
-        //      addSequential(new Command2());
-        // these will run in order.
-
-        // To run multiple commands at the same time,
-        // use addParallel()
-        // e.g. addParallel(new Command1());
-        //      addSequential(new Command2());
-        // Command1 and Command2 will run in parallel.
-
-        // A command group will require all of the subsystems that each member
-        // would require.
-        // e.g. if Command1 requires chassis, and Command2 requires arm,
-        // a CommandGroup containing them would require both the chassis and the
-        // arm.
+    	double oldRampRate = Shooter.getInstance().getRampRate();
+    	Shooter.getInstance().setRampRate(RobotMap.SHOOTER_RAMP_RATE);
+        addParallel(new ShooterReverseCommand());
+        addParallel(new LoaderRollerReverseCommand());
+        addParallel(new IntakeRollerReverseCommand());
+        addSequential(new WaitCommand(1.5));
+        addParallel(new ShooterOffCommand());
+        addParallel(new LoaderRollerNeutralCommand());
+        addParallel(new IntakeRollerNeutralCommand());
+        Shooter.getInstance().setRampRate(oldRampRate);
     }
 }

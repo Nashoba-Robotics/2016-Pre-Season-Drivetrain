@@ -35,5 +35,6 @@ public class DriveSimpleDistanceCommand extends CMD {
 
 	@Override
 	protected void onEnd(boolean interrupted) {
+		Drive.getInstance().tankDrive(0, 0);
 	}
 }

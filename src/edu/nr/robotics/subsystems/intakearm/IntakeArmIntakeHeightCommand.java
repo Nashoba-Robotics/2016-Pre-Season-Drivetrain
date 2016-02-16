@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class BumperHeightCommand extends Command {
+public class IntakeArmIntakeHeightCommand extends Command {
 
-    public BumperHeightCommand() {
+    public IntakeArmIntakeHeightCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }

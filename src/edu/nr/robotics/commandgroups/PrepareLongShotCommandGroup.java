@@ -1,5 +1,11 @@
 package edu.nr.robotics.commandgroups;
 
+import edu.nr.lib.UDPServer;
+import edu.nr.robotics.RobotMap;
+import edu.nr.robotics.subsystems.hood.HoodPositionCommand;
+import edu.nr.robotics.subsystems.intakearm.IntakeArmBottomHeightCommand;
+import edu.nr.robotics.subsystems.lights.LightsBlinkCommand;
+import edu.nr.robotics.subsystems.shooter.ShooterHighCommand;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -8,21 +14,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class PrepareLongShotCommandGroup extends CommandGroup {
     
     public  PrepareLongShotCommandGroup() {
-        // Add Commands here:
-        // e.g. addSequential(new Command1());
-        //      addSequential(new Command2());
-        // these will run in order.
-
-        // To run multiple commands at the same time,
-        // use addParallel()
-        // e.g. addParallel(new Command1());
-        //      addSequential(new Command2());
-        // Command1 and Command2 will run in parallel.
-
-        // A command group will require all of the subsystems that each member
-        // would require.
-        // e.g. if Command1 requires chassis, and Command2 requires arm,
-        // a CommandGroup containing them would require both the chassis and the
-        // arm.
+        addParallel(new ShooterHighCommand());
+        addParallel(new HoodPositionCommand(UDPServer.getInstance().getShootAngle()));
+        addParallel(new IntakeArmBottomHeightCommand());
+        addParallel(new LightsBlinkCommand(RobotMap.LIGHTS_BLINK_PERIOD));
     }
 }

@@ -45,5 +45,17 @@ public class RobotMap {
 	public static final int ROLLER_INTAKE_IR_SENSOR = -1;
 	public static final int SHOOTER_TALON_A = -1;
 	public static final int SHOOTER_TALON_B = -1;
+	
+	//TODO: Find the shooter fast and slow speeds
+	public static final double SHOOTER_FAST_SPEED = 0.7;
+	public static final double SHOOTER_SLOW_SPEED = 0.4;
+	
+	public static final long LIGHTS_BLINK_PERIOD = 200; //in milliseconds
+	
+	//TODO: find the close shot hood position
+	public static final double CLOSE_SHOT_POSITION = 5;
+	
+	//TODO: find the shooter ramp rate
+	public static final double SHOOTER_RAMP_RATE = 1;
 
 }

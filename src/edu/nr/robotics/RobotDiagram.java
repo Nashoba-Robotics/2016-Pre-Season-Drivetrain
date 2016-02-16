@@ -2,6 +2,7 @@ package edu.nr.robotics;
 
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;
+import edu.nr.robotics.subsystems.intakeroller.IntakeRoller;
 import edu.nr.robotics.subsystems.loaderroller.LoaderRoller;
 import edu.nr.robotics.subsystems.shooter.Shooter;
 import edu.wpi.first.wpilibj.NamedSendable;
@@ -24,7 +25,7 @@ private ITable table;
 			//Intake Arm
 			table.putNumber("Intake Arm Position", IntakeArm.getInstance().get());
 			//Rollers
-			table.putBoolean("Intake Roller Running", IntakeArm.getInstance().getRollerRunning());
+			table.putBoolean("Intake Roller Running", IntakeRoller.getInstance().getRollerRunning());
 			table.putBoolean("Loader Roller Runing", LoaderRoller.getInstance().getLoaderRunning());
 			//Shooter
 			table.putNumber("Shooter Percent", Shooter.getInstance().getSpeedPercent());

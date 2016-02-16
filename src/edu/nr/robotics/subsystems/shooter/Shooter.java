@@ -24,10 +24,12 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	TalonEncoder enc;
 	PID pid;
 	
+	double talonRampRate = 100000;
+	
 	private Shooter() {
 		talon = new CANTalon(RobotMap.SHOOTER_TALON_A);
 		talon.enableBrakeMode(true);
-
+		
 		CANTalon talonTemp = new CANTalon(RobotMap.SHOOTER_TALON_B);
 		talonTemp.changeControlMode(TalonControlMode.Follower);
 		talonTemp.set(talon.getDeviceID());
@@ -122,6 +124,18 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	
 	public double getSpeedPercent() {
 		return enc.getRate() / FULL_SPEED;
+	}
+	
+	/**
+	 * Sets the ramp rate in volts/s
+	 */
+	public void setRampRate(double voltsPerSec) {
+		talon.setVoltageRampRate(voltsPerSec);
+		talonRampRate = voltsPerSec;
+	}
+	
+	public double getRampRate() {
+		return talonRampRate;
 	}
 	
 	/**

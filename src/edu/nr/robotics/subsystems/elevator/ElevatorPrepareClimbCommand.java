@@ -1,13 +1,13 @@
-package edu.nr.robotics.subsystems.intakearm;
+package edu.nr.robotics.subsystems.elevator;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class PrepareLowGoalCommand extends Command {
+public class ElevatorPrepareClimbCommand extends Command {
 
-    public PrepareLowGoalCommand() {
+    public ElevatorPrepareClimbCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
