@@ -16,8 +16,6 @@ public class PrepareCloseShotCommandGroup extends CommandGroup {
     	addParallel(new ShooterHighCommand());
         addParallel(new HoodPositionCommand(RobotMap.CLOSE_SHOT_POSITION));
         addParallel(new IntakeArmBottomHeightCommandGroup());
-        if(!OI.getInstance().getBrakeLightCutout()) {
-        	addParallel(new LightsBlinkCommand(RobotMap.LIGHTS_BLINK_PERIOD));
-        }
+        addParallel(new LightsBlinkCommand(RobotMap.LIGHTS_BLINK_PERIOD));
     }
 }

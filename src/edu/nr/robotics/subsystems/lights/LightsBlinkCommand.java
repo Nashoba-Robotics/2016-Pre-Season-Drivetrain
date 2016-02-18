@@ -1,6 +1,7 @@
 package edu.nr.robotics.subsystems.lights;
 
 import edu.nr.lib.NRCommand;
+import edu.nr.robotics.OI;
 import edu.nr.robotics.RobotMap;
 
 public class LightsBlinkCommand extends NRCommand {
@@ -37,7 +38,7 @@ public class LightsBlinkCommand extends NRCommand {
 
 	@Override
 	protected boolean isFinished() {
-		return false;
+		return OI.getInstance().getBrakeLightCutout();
 	}
 
 }

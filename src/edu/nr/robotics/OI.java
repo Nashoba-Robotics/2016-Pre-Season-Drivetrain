@@ -42,7 +42,7 @@ public class OI implements SmartDashboardSource, Periodic {
 	public JoystickButton fireButton;
 	public JoystickButton alignButton;
 	
-	AlignCommand alignCommand;
+	AlignCommandGroup alignCommand;
 
 	/**
 	 * 
@@ -81,7 +81,7 @@ public class OI implements SmartDashboardSource, Periodic {
 		  //->  4: Align
 		  //           Auto align the robot to target, ends when drive joysticks are touched
 		alignButton = new JoystickButton(operatorLeft, 4);
-		alignCommand = new AlignCommand();
+		alignCommand = new AlignCommandGroup();
 		alignButton.whileHeld(alignCommand);
 		  //->  5: Brake Light Cutout Switch
 		  //           Disables robot “shot ready” LED sequences (in the event that signifying we are about to shoot enables defense robots to defend more effectively

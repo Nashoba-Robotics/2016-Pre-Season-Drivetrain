@@ -3,6 +3,7 @@ package edu.nr.robotics.auton;
 import edu.nr.lib.network.UDPServer;
 import edu.nr.robotics.OI;
 import edu.nr.robotics.RobotMap;
+import edu.nr.robotics.commandgroups.AlignSubcommandGroup;
 import edu.nr.robotics.subsystems.drive.DriveAngleJetsonPIDCommand;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.hood.HoodJetsonPositionCommand;
@@ -19,10 +20,7 @@ public class AutonAlignCommand extends CommandGroup {
     
     public  AutonAlignCommand() {
     	addSequential(new WaitCommand(0.25));
-        addParallel(new HoodJetsonPositionCommand());
-        addParallel(new ShooterHighCommand());
-        addParallel(new LightsBlinkCommand(200));
-        addSequential(new DriveAngleJetsonPIDCommand());
+        addSequential(new AlignSubcommandGroup());
         addSequential(new WaitCommand(0.25));
     }
     

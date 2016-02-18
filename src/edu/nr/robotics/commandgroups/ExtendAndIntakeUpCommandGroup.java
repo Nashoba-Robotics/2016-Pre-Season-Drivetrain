@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class ExtendAndIntakeUpCommandGroup extends CommandGroup {
     
     public  ExtendAndIntakeUpCommandGroup() {
-        addParallel(new IntakeArmUpHeightCommandGroup());
+        addSequential(new IntakeArmUpHeightCommandGroup());
         addSequential(new ElevatorUpCommand());
         addSequential(new WaitForEncoderGreaterThanCommand(Elevator.getInstance().enc, RobotMap.ELEVATOR_EXTEND_DISTANCE));
         addSequential(new ElevatorOffCommand());

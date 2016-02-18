@@ -160,6 +160,6 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	}
 
 	public boolean hasBall() {
-		return gate.get();
+		return !gate.get();
 	}
 }
