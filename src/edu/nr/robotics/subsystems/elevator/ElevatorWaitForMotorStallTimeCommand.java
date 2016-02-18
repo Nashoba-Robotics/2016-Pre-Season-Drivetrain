@@ -1,11 +1,11 @@
 package edu.nr.robotics.subsystems.elevator;
 
-import edu.nr.lib.CMD;
+import edu.nr.lib.NRCommand;
 
 /**
  *
  */
-public class ElevatorWaitForMotorStallTimeCommand extends CMD {
+public class ElevatorWaitForMotorStallTimeCommand extends NRCommand {
 
 	long timeStalling = 0;
 	

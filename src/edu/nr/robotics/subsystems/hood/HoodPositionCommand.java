@@ -1,8 +1,8 @@
 package edu.nr.robotics.subsystems.hood;
 
-import edu.nr.lib.CMD;
+import edu.nr.lib.NRCommand;
 
-public class HoodPositionCommand extends CMD {
+public class HoodPositionCommand extends NRCommand {
 
 	double val;
 	

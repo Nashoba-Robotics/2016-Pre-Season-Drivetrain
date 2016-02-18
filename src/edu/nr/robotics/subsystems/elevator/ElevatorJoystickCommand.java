@@ -1,12 +1,12 @@
 package edu.nr.robotics.subsystems.elevator;
 
-import edu.nr.lib.CMD;
+import edu.nr.lib.NRCommand;
 import edu.nr.robotics.OI;
 
 /**
  *
  */
-public class ElevatorJoystickCommand extends CMD {
+public class ElevatorJoystickCommand extends NRCommand {
 
     public ElevatorJoystickCommand() {
         requires(Elevator.getInstance());

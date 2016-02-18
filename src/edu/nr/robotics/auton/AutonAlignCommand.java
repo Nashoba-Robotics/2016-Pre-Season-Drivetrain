@@ -1,6 +1,6 @@
 package edu.nr.robotics.auton;
 
-import edu.nr.lib.UDPServer;
+import edu.nr.lib.network.UDPServer;
 import edu.nr.robotics.OI;
 import edu.nr.robotics.RobotMap;
 import edu.nr.robotics.subsystems.drive.DriveAngleJetsonPIDCommand;

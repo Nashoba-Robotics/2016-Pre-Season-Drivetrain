@@ -1,11 +1,11 @@
 package edu.nr.robotics.subsystems.drive;
 
-import edu.nr.lib.CMD;
+import edu.nr.lib.NRCommand;
 
 /**
  *
  */
-public class DriveConstantCommand extends CMD {
+public class DriveConstantCommand extends NRCommand {
 
 	boolean PID;
 	double left, right;

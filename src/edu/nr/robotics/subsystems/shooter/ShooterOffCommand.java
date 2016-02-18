@@ -1,11 +1,11 @@
 package edu.nr.robotics.subsystems.shooter;
 
-import edu.nr.lib.CMD;
+import edu.nr.lib.NRCommand;
 
 /**
  *
  */
-public class ShooterOffCommand extends CMD {
+public class ShooterOffCommand extends NRCommand {
 
     public ShooterOffCommand() {
     	requires(Shooter.getInstance());

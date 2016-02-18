@@ -1,6 +1,6 @@
 package edu.nr.robotics.subsystems.drive;
 
-import edu.nr.lib.CMD;
+import edu.nr.lib.NRCommand;
 import edu.nr.lib.GyroCorrection;
 import edu.nr.lib.NRMath;
 import edu.nr.robotics.DrivingMode;
@@ -11,7 +11,7 @@ import edu.nr.lib.AngleGyroCorrection;
 /**
  *
  */
-public class DriveJoystickCommand extends CMD {
+public class DriveJoystickCommand extends NRCommand {
 	private double oldTurn;
 	
 	GyroCorrection gyroCorrection;

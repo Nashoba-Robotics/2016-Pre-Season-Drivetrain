@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import edu.nr.lib.*;
 import edu.nr.lib.navx.NavX;
+import edu.nr.lib.network.UDPClient;
+import edu.nr.lib.network.UDPServer;
 import edu.nr.robotics.auton.*;
 import edu.nr.robotics.commandgroups.AlignAndShootCommandGroup;
 import edu.nr.robotics.commandgroups.AutoGuillotineCommandGroup;

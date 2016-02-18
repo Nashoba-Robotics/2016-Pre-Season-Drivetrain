@@ -1,8 +1,8 @@
 package edu.nr.robotics.subsystems.intakearm;
 
-import edu.nr.lib.CMD;
+import edu.nr.lib.NRCommand;
 
-public class IntakeArmPositionCommand extends CMD {
+public class IntakeArmPositionCommand extends NRCommand {
 
 	double val;
 	

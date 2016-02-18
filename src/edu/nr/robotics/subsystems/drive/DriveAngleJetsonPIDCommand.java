@@ -1,15 +1,15 @@
 package edu.nr.robotics.subsystems.drive;
 
 import edu.nr.lib.AngleGyroCorrectionSource;
-import edu.nr.lib.CMD;
+import edu.nr.lib.NRCommand;
 import edu.nr.lib.PID;
-import edu.nr.lib.UDPServer;
+import edu.nr.lib.network.UDPServer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class DriveAngleJetsonPIDCommand extends CMD {
+public class DriveAngleJetsonPIDCommand extends NRCommand {
 
 	PID pid;
 	

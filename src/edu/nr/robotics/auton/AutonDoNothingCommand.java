@@ -1,8 +1,8 @@
 package edu.nr.robotics.auton;
 
-import edu.nr.lib.CMD;
+import edu.nr.lib.NRCommand;
 
-public class AutonDoNothingCommand extends CMD {
+public class AutonDoNothingCommand extends NRCommand {
 	@Override
 	protected void onStart() {
 

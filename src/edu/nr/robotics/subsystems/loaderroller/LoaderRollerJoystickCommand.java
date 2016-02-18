@@ -1,12 +1,12 @@
 package edu.nr.robotics.subsystems.loaderroller;
 
-import edu.nr.lib.CMD;
+import edu.nr.lib.NRCommand;
 import edu.nr.robotics.OI;
 
 /**
  *
  */
-public class LoaderRollerJoystickCommand extends CMD {
+public class LoaderRollerJoystickCommand extends NRCommand {
 
     public LoaderRollerJoystickCommand() {
         requires(LoaderRoller.getInstance());

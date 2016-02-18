@@ -1,11 +1,11 @@
 package edu.nr.robotics.subsystems.elevator;
 
-import edu.nr.lib.CMD;
+import edu.nr.lib.NRCommand;
 
 /**
  *
  */
-public class ElevatorSpeedCommand extends CMD {
+public class ElevatorSpeedCommand extends NRCommand {
 
 	double val;
 	

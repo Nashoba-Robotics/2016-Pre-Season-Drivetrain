@@ -1,12 +1,12 @@
 package edu.nr.robotics.subsystems.intakearm;
 
-import edu.nr.lib.CMD;
+import edu.nr.lib.NRCommand;
 import edu.nr.robotics.OI;
 
 /**
  *
  */
-public class IntakeArmJoystickCommand extends CMD {
+public class IntakeArmJoystickCommand extends NRCommand {
 
     public IntakeArmJoystickCommand() {
         requires(IntakeArm.getInstance());

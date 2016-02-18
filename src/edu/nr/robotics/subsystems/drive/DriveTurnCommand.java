@@ -2,12 +2,12 @@ package edu.nr.robotics.subsystems.drive;
 
 import edu.nr.lib.AngleGyroCorrection;
 import edu.nr.lib.AngleUnit;
-import edu.nr.lib.CMD;
+import edu.nr.lib.NRCommand;
 
 /**
  *
  */
-public class DriveTurnCommand extends CMD {
+public class DriveTurnCommand extends NRCommand {
 
 	private AngleGyroCorrection gyro;
 	double angle;

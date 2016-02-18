@@ -1,11 +1,11 @@
 package edu.nr.robotics.subsystems.shooter;
 
-import edu.nr.lib.CMD;
+import edu.nr.lib.NRCommand;
 
 /**
  *
  */
-public class ShooterOnCommand extends CMD {
+public class ShooterOnCommand extends NRCommand {
 
 	double val;
 	boolean PID;

@@ -1,8 +1,8 @@
 package edu.nr.robotics.subsystems.hood;
 
-import edu.nr.lib.CMD;
+import edu.nr.lib.NRCommand;
 
-public class HoodNeutralCommand extends CMD {
+public class HoodNeutralCommand extends NRCommand {
 
 	public HoodNeutralCommand() {
 		requires(Hood.getInstance());

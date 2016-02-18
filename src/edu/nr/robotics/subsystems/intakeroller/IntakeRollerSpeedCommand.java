@@ -1,11 +1,11 @@
 package edu.nr.robotics.subsystems.intakeroller;
 
-import edu.nr.lib.CMD;
+import edu.nr.lib.NRCommand;
 
 /**
  *
  */
-public class IntakeRollerSpeedCommand extends CMD {
+public class IntakeRollerSpeedCommand extends NRCommand {
 
 	double val;
 	

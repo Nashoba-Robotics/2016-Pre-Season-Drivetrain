@@ -3,7 +3,7 @@ package edu.nr.lib;
 /**
  *
  */
-public class WaitForEncoderGreaterThanCommand extends CMD {
+public class WaitForEncoderGreaterThanCommand extends NRCommand {
 
 	TalonEncoder enc;
 	double value;

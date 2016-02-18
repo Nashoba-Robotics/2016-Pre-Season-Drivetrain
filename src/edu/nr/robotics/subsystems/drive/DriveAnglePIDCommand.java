@@ -1,14 +1,14 @@
 package edu.nr.robotics.subsystems.drive;
 
 import edu.nr.lib.AngleGyroCorrectionSource;
-import edu.nr.lib.CMD;
+import edu.nr.lib.NRCommand;
 import edu.nr.lib.PID;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class DriveAnglePIDCommand extends CMD {
+public class DriveAnglePIDCommand extends NRCommand {
 
 	PID pid;
 	

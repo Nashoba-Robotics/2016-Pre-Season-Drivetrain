@@ -1,8 +1,8 @@
 package edu.nr.robotics.subsystems.intakearm;
 
-import edu.nr.lib.CMD;
+import edu.nr.lib.NRCommand;
 
-public class IntakeArmOnCommand extends CMD {
+public class IntakeArmOnCommand extends NRCommand {
 
 	public IntakeArmOnCommand() {
 		requires(IntakeArm.getInstance());

@@ -1,4 +1,4 @@
-package edu.nr.lib;
+package edu.nr.lib.network;
 
 import java.io.IOException;
 import java.net.DatagramPacket;

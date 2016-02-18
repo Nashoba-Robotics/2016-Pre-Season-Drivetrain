@@ -1,12 +1,12 @@
 package edu.nr.robotics.subsystems.drive;
 
-import edu.nr.lib.CMD;
+import edu.nr.lib.NRCommand;
 import edu.nr.lib.FieldCentric;
 
 /**
  *
  */
-public class DriveSimpleDistanceCommand extends CMD {
+public class DriveSimpleDistanceCommand extends NRCommand {
 
 	double distance; // in meters
 	double speed; // from 0 to 1

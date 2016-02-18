@@ -1,9 +1,9 @@
 package edu.nr.robotics.subsystems.lights;
 
-import edu.nr.lib.CMD;
+import edu.nr.lib.NRCommand;
 import edu.nr.robotics.RobotMap;
 
-public class LightsBlinkCommand extends CMD {
+public class LightsBlinkCommand extends NRCommand {
 
 	long millisBetweenChange;
 	long startTime;

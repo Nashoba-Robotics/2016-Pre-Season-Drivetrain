@@ -1,11 +1,11 @@
 package edu.nr.robotics.subsystems.drive;
 
-import edu.nr.lib.CMD;
+import edu.nr.lib.NRCommand;
 
 /**
  *
  */
-public class ResetEncodersCommand extends CMD {
+public class ResetEncodersCommand extends NRCommand {
 
 	public ResetEncodersCommand() {
 		requires(Drive.getInstance());

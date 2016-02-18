@@ -1,11 +1,11 @@
 package edu.nr.robotics.subsystems.loaderroller;
 
-import edu.nr.lib.CMD;
+import edu.nr.lib.NRCommand;
 
 /**
  *
  */
-public class LoaderRollerSpeedCommand extends CMD {
+public class LoaderRollerSpeedCommand extends NRCommand {
 
 	double val;
 	

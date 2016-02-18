@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.command.Command;
  * lifecycle methods.
  *
  */
-public class CMD extends Command {
-	public CMD() {
+public class NRCommand extends Command {
+	public NRCommand() {
 		super();
 	}
 
@@ -17,15 +17,15 @@ public class CMD extends Command {
 	 * 
 	 * @param name
 	 */
-	public CMD(String name) {
+	public NRCommand(String name) {
 		super(name);
 	}
 
-	public CMD(String name, double timeout) {
+	public NRCommand(String name, double timeout) {
 		super(name, timeout);
 	}
 
-	public CMD(double timeout) {
+	public NRCommand(double timeout) {
 		super(timeout);
 	}
 

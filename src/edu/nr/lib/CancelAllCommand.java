@@ -3,7 +3,7 @@ package edu.nr.lib;
 import edu.nr.robotics.Robot;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class CancelAllCommand extends CMD {
+public class CancelAllCommand extends NRCommand {
 
 	public CancelAllCommand() {
 		for (Subsystem subsystem : Robot.subsystems) {

@@ -1,11 +1,11 @@
 package edu.nr.robotics.subsystems.lights;
 
-import edu.nr.lib.CMD;
+import edu.nr.lib.NRCommand;
 
 /**
  *
  */
-public class LightsOffCommand extends CMD {
+public class LightsOffCommand extends NRCommand {
 
     public LightsOffCommand() {
         requires(Lights.getInstance());

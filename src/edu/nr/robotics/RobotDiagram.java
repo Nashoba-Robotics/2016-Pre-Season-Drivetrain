@@ -1,6 +1,6 @@
 package edu.nr.robotics;
 
-import edu.nr.lib.UDPServer;
+import edu.nr.lib.network.UDPServer;
 import edu.nr.robotics.subsystems.elevator.Elevator;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;

@@ -1,9 +1,9 @@
 package edu.nr.robotics.subsystems.hood;
 
-import edu.nr.lib.CMD;
-import edu.nr.lib.UDPServer;
+import edu.nr.lib.NRCommand;
+import edu.nr.lib.network.UDPServer;
 
-public class HoodJetsonPositionCommand extends CMD {
+public class HoodJetsonPositionCommand extends NRCommand {
 
 	double val;
 	

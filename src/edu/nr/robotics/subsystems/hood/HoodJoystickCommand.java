@@ -1,12 +1,12 @@
 package edu.nr.robotics.subsystems.hood;
 
-import edu.nr.lib.CMD;
+import edu.nr.lib.NRCommand;
 import edu.nr.robotics.OI;
 
 /**
  *
  */
-public class HoodJoystickCommand extends CMD {
+public class HoodJoystickCommand extends NRCommand {
 
     public HoodJoystickCommand() {
         requires(Hood.getInstance());
