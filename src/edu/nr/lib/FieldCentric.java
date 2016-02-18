@@ -2,9 +2,6 @@ package edu.nr.lib;
 
 import edu.nr.lib.navx.NavX;
 import edu.nr.robotics.subsystems.drive.Drive;
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.I2C.Port;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class FieldCentric implements SmartDashboardSource {
 

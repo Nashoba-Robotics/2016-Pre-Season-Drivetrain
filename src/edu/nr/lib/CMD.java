@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
  * lifecycle methods.
  *
  */
-public abstract class CMD extends Command {
+public class CMD extends Command {
 	public CMD() {
 		super();
 	}
@@ -34,12 +34,12 @@ public abstract class CMD extends Command {
 	/**
 	 * Called every time the command starts
 	 */
-	protected abstract void onStart();
+	protected void onStart() {}
 
 	/**
 	 * Called every loop while the command is active
 	 */
-	protected abstract void onExecute();
+	protected void onExecute() {}
 
 	/**
 	 * Called when the command ends
@@ -47,7 +47,7 @@ public abstract class CMD extends Command {
 	 * @param interrupted
 	 *            True if the command was interrupted
 	 */
-	protected abstract void onEnd(boolean interrupted);
+	protected void onEnd(boolean interrupted) {}
 
 	@Override
 	protected void initialize() {
@@ -75,5 +75,10 @@ public abstract class CMD extends Command {
 	protected final void interrupted() {
 		reset = true;
 		onEnd(true);
+	}
+
+	@Override
+	protected boolean isFinished() {
+		return true;
 	}
 }

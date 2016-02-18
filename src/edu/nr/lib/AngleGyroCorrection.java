@@ -2,7 +2,6 @@ package edu.nr.lib;
 
 import edu.nr.lib.navx.BaseNavX;
 import edu.nr.lib.navx.NavX;
-import edu.nr.lib.navx.TestNavX;
 
 public class AngleGyroCorrection extends GyroCorrection {
 

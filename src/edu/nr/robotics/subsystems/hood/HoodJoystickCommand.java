@@ -1,37 +1,24 @@
 package edu.nr.robotics.subsystems.hood;
 
+import edu.nr.lib.CMD;
 import edu.nr.robotics.OI;
-import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class HoodJoystickCommand extends Command {
+public class HoodJoystickCommand extends CMD {
 
     public HoodJoystickCommand() {
         requires(Hood.getInstance());
     }
 
-    // Called just before this Command runs the first time
-    protected void initialize() {
-    }
-
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
+    protected void onExecute() {
     	Hood.getInstance().setMotor(OI.getInstance().getHoodMoveValue());
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         return false;
-    }
-
-    // Called once after isFinished returns true
-    protected void end() {
-    }
-
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
     }
 }

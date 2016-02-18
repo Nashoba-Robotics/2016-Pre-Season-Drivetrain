@@ -1,11 +1,11 @@
 package edu.nr.robotics.subsystems.elevator;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.nr.lib.CMD;
 
 /**
  *
  */
-public class ElevatorWaitForMotorStallTimeCommand extends Command {
+public class ElevatorWaitForMotorStallTimeCommand extends CMD {
 
 	long timeStalling = 0;
 	
@@ -23,7 +23,7 @@ public class ElevatorWaitForMotorStallTimeCommand extends Command {
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
+    protected void onExecute() {
     	if(!Elevator.getInstance().isMoving()) {
     		timeStalling = System.currentTimeMillis() - prevTime;
     	} else {
@@ -36,14 +36,5 @@ public class ElevatorWaitForMotorStallTimeCommand extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         return timeStalling > reqTime;
-    }
-
-    // Called once after isFinished returns true
-    protected void end() {
-    }
-
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
     }
 }

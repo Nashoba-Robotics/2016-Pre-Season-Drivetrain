@@ -1,8 +1,8 @@
 package edu.nr.robotics.subsystems.intakearm;
 
-import edu.nr.lib.EmptyCommand;
+import edu.nr.lib.CMD;
 
-public class IntakeArmOnCommand extends EmptyCommand {
+public class IntakeArmOnCommand extends CMD {
 
 	public IntakeArmOnCommand() {
 		requires(IntakeArm.getInstance());
@@ -11,11 +11,6 @@ public class IntakeArmOnCommand extends EmptyCommand {
 	@Override
 	protected void onStart() {
 		IntakeArm.getInstance().enable();
-	}
-
-	@Override
-	protected boolean isFinished() {
-		return true;
 	}
 
 }

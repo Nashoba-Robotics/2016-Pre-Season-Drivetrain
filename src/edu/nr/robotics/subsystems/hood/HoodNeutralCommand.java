@@ -1,8 +1,8 @@
 package edu.nr.robotics.subsystems.hood;
 
-import edu.nr.lib.EmptyCommand;
+import edu.nr.lib.CMD;
 
-public class HoodNeutralCommand extends EmptyCommand {
+public class HoodNeutralCommand extends CMD {
 
 	public HoodNeutralCommand() {
 		requires(Hood.getInstance());
@@ -12,10 +12,4 @@ public class HoodNeutralCommand extends EmptyCommand {
 	protected void onStart() {
 		Hood.getInstance().disable();
 	}
-
-	@Override
-	protected boolean isFinished() {
-		return true;
-	}
-
 }
