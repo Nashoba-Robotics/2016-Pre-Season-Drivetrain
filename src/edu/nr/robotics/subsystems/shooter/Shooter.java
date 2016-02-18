@@ -1,5 +1,6 @@
 package edu.nr.robotics.subsystems.shooter;
 
+import edu.nr.lib.DigitalInputPIDSource;
 import edu.nr.lib.PID;
 import edu.nr.lib.SmartDashboardSource;
 import edu.nr.lib.TalonEncoder;
@@ -8,6 +9,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -19,12 +21,17 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	private static Shooter singleton;
 
 	CANTalon talon;
-	TalonEncoder enc;
 	PID pid;
 	
 	double talonRampRate = 100000;
 	
+	DigitalInput gate;
+	
+	DigitalInputPIDSource shooterRate;
+	
 	private Shooter() {
+		gate = new DigitalInput(RobotMap.SHOOTER_PHOTO_GATE);
+		
 		talon = new CANTalon(RobotMap.SHOOTER_TALON_A);
 		talon.enableBrakeMode(true);
 		
@@ -33,11 +40,11 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 		talonTemp.set(talon.getDeviceID());
 		talonTemp.enableBrakeMode(true);
 		
-		enc = new TalonEncoder(talon);
-		enc.setPIDSourceType(PIDSourceType.kRate);
-		enc.setScale(RobotMap.SHOOTER_MAX_SPEED);
+		shooterRate = new DigitalInputPIDSource(RobotMap.SHOOTER_RATE_PORT);
+		shooterRate.setDistancePerPulse(RobotMap.SHOOTER_DISTANCE_PER_PULSE);
+		shooterRate.setPIDSourceType(PIDSourceType.kRate);
 				
-		pid = new PID(0.0001, 0, 0, enc, talon); //TODO: Get the value for the Shooter PID
+		pid = new PID(0.0001, 0, 0, shooterRate, talon); //TODO: Get the value for the Shooter PID
 
 	}
 	
@@ -114,7 +121,7 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	 * @return the speed of the shooter
 	 */
 	public double getSpeed() {
-		return enc.getRateWithoutScaling();
+		return shooterRate.getRate();
 	}
 	
 	public boolean getRunning() {
@@ -122,7 +129,7 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	}
 	
 	public double getSpeedPercent() {
-		return enc.getRate() / RobotMap.SHOOTER_MAX_SPEED;
+		return shooterRate.getRate() / RobotMap.SHOOTER_MAX_SPEED;
 	}
 	
 	/**
@@ -153,7 +160,6 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	}
 
 	public boolean hasBall() {
-		// TODO Auto-generated method stub
-		return false;
+		return gate.get();
 	}
 }

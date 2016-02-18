@@ -5,6 +5,7 @@ import edu.nr.lib.SmartDashboardSource;
 import edu.nr.lib.TalonEncoder;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -24,7 +25,11 @@ public class LoaderRoller extends Subsystem implements SmartDashboardSource {
 	
 	private static LoaderRoller singleton;
 	
+	DigitalInput gate;
+	
 	private LoaderRoller() {
+		
+		gate = new DigitalInput(RobotMap.LOADER_PHOTO_GATE);
 		
 		loaderTalon = new CANTalon(RobotMap.ROLLER_LOADER_TALON);
 
@@ -78,8 +83,7 @@ public class LoaderRoller extends Subsystem implements SmartDashboardSource {
 	}
 	
 	public boolean hasBall() {
-		// TODO Auto-generated method stub
-		return false;
+		return gate.get();
 	}
 }
 

@@ -6,6 +6,7 @@ import edu.nr.lib.TalonEncoder;
 import edu.nr.robotics.RobotMap;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,8 +21,11 @@ public class IntakeRoller extends Subsystem implements SmartDashboardSource {
 	CANTalon talon;
 	TalonEncoder encoder;
 	PID pid;
+	
+	DigitalInput gate;
 
 	private IntakeRoller() {
+		gate = new DigitalInput(RobotMap.INTAKE_PHOTO_GATE);
 		talon = new CANTalon(RobotMap.ROLLER_INTAKE_TALON);
 		encoder = new TalonEncoder(talon);
 		encoder.setPIDSourceType(PIDSourceType.kRate);
@@ -61,8 +65,7 @@ public class IntakeRoller extends Subsystem implements SmartDashboardSource {
 	}
 	
 	public boolean hasBall() {
-		// TODO Auto-generated method stub
-		return false;
+		return gate.get();
 	}
 }
 

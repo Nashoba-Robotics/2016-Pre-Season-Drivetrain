@@ -10,39 +10,32 @@ public class RobotMap {
 	
 	public static final long LIGHTS_BLINK_PERIOD = 200; //in milliseconds
 
-	public static final int TALON_RIGHT_A = 4;
-	public static final int TALON_RIGHT_B = 16;
-	public static final int TALON_LEFT_A = 14;
-	public static final int TALON_LEFT_B = 15;
+	public static final int TALON_RIGHT_A = -1;
+	public static final int TALON_RIGHT_B = -1;
+	public static final int TALON_LEFT_A = -1;
+	public static final int TALON_LEFT_B = -1;
 
-	public static final int ENCODER_LEFT_A = 9;
-	public static final int ENCODER_LEFT_B = 8;
-	public static final int ENCODER_RIGHT_A = 7;
-	public static final int ENCODER_RIGHT_B = 6;
 	public static final double MAX_SPEED = 3.4; // Meters per second //Actual
 												// value is 3.4 m/s
 	// TODO: Get actual max speed instead of using a placeholder value
+
+	
+	public static final int INTAKE_PHOTO_GATE = -1;
+	public static final int LOADER_PHOTO_GATE = -1;
+	public static final int SHOOTER_PHOTO_GATE = -1;
 	
 	public static final int LIGHTS_SPIKE = 0;
 	
 	//TODO: Get values for ports
 	public static final int INTAKE_ARM_TALON = -1;
 	public static final int INTAKE_ARM_POT = -1;
-	public static final int SHOOTER_ENCODER_A = -1;
-	public static final int SHOOTER_ENCODER_B = -1;
 	public static final int HOOD_TALON = -1;
 	public static final int HOOD_POT = -1;
 	public static final int ELEVATOR_TALON = -1;
 	
 	public static final int ROLLER_LOADER_TALON     = -1;
-	public static final int ROLLER_LOADER_ENCODER_A = -1;
-	public static final int ROLLER_LOADER_ENCODER_B = -1;
-	public static final int ROLLER_LOADER_IR_SENSOR = -1;
 
 	public static final int ROLLER_INTAKE_TALON     = -1;
-	public static final int ROLLER_INTAKE_ENCODER_A = -1;
-	public static final int ROLLER_INTAKE_ENCODER_B = -1;
-	public static final int ROLLER_INTAKE_IR_SENSOR = -1;
 	public static final int SHOOTER_TALON_A = -1;
 	public static final int SHOOTER_TALON_B = -1;
 	
@@ -72,5 +65,8 @@ public class RobotMap {
 	public static final double TURN_THRESHOLD = -1;
 	public static final double SHOOTER_THRESHOLD = -1;
 
+	public static final double SHOOTER_DISTANCE_PER_PULSE = -1;
+
+	public static final int SHOOTER_RATE_PORT = -1;
 
 }
