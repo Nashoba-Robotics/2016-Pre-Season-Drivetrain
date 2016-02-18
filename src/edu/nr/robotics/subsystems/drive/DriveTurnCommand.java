@@ -22,7 +22,7 @@ public class DriveTurnCommand extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	gyro = new AngleGyroCorrection(angle);
+    	gyro = new AngleGyroCorrection(angle, AngleUnit.DEGREE);
     }
 
     // Called repeatedly when this Command is scheduled to run

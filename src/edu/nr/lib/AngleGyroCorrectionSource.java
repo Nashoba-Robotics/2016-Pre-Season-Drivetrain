@@ -8,13 +8,13 @@ public class AngleGyroCorrectionSource extends AngleGyroCorrection implements PI
 
 	PIDSourceType type;
 	
-	public AngleGyroCorrectionSource(double angle, BaseNavX navx) {
-		super(angle, navx);
+	public AngleGyroCorrectionSource(double angle, BaseNavX navx, AngleUnit unit) {
+		super(angle, navx, unit);
 		type = PIDSourceType.kDisplacement;
 	}
 	
-	public AngleGyroCorrectionSource(double angle) {
-		super(angle);
+	public AngleGyroCorrectionSource(double angle, AngleUnit unit) {
+		super(angle, unit);
 	}
 	
 	public AngleGyroCorrectionSource(BaseNavX navx) {

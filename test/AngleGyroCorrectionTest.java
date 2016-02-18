@@ -15,7 +15,7 @@ public class AngleGyroCorrectionTest {
 	@Test
 	public void testReset() {
 		TestNavX navx = new TestNavX();
-		AngleGyroCorrection correction = new AngleGyroCorrection(navx);
+		AngleGyroCorrection correction = new AngleGyroCorrection(navx, AngleUnit.DEGREE);
 		navx.setYaw(5, AngleUnit.DEGREE);
 		assertNotEquals(correction.getAngleErrorDegrees(),0, 0.0001);
 		correction.reset();

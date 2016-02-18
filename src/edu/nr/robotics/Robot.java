@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import edu.nr.lib.*;
 import edu.nr.lib.navx.NavX;
 import edu.nr.robotics.auton.*;
+import edu.nr.robotics.commandgroups.AlignAndShootCommandGroup;
 import edu.nr.robotics.commandgroups.AutoGuillotineCommandGroup;
 import edu.nr.robotics.commandgroups.AutoShovelOfFriesCommandGroup;
+import edu.nr.robotics.commandgroups.ReturnToNormalBackCommandGroup;
+import edu.nr.robotics.commandgroups.ReturnToNormalFrontCommandGroup;
 import edu.nr.robotics.subsystems.drive.Drive;
 import edu.nr.robotics.subsystems.drive.DriveSimpleDistanceCommand;
 import edu.nr.robotics.subsystems.drive.DriveTurnCommand;
@@ -206,33 +209,64 @@ public class Robot extends RobotBase {
 		autoCommandPickerOne.addObject("Drive onto obstacle", new DriveSimpleDistanceCommand(ontoDistance, 1.0));
 		autoCommandPickerOne.addObject("Auto Guillotine", new AutoGuillotineCommandGroup());
 		autoCommandPickerOne.addObject("Auto Shovel of Fries", new AutoShovelOfFriesCommandGroup());
-		autoCommandPickerOne.addObject("Align and shoot", new AutoShovelOfFriesCommandGroup());
-
+		autoCommandPickerOne.addObject("Align and shoot", new AlignAndShootCommandGroup());
+		autoCommandPickerOne.addObject("Return to normal (front)", new ReturnToNormalFrontCommandGroup());
+		autoCommandPickerOne.addObject("Return to normal (back)", new ReturnToNormalBackCommandGroup());
 		SmartDashboard.putData("Picker One", autoCommandPickerOne);
 		
 		autoCommandPickerTwo = new SendableChooser();
 		autoCommandPickerTwo.addDefault("Do nothing", new AutonDoNothingCommand());
-		autoCommandPickerTwo.addObject("Turn one degree", new DriveTurnCommand(1, AngleUnit.DEGREE));
+		autoCommandPickerTwo.addObject("Drive over obstacle", new DriveSimpleDistanceCommand(overDistance, 1.0));
+		autoCommandPickerTwo.addObject("Drive onto obstacle", new DriveSimpleDistanceCommand(ontoDistance, 1.0));
+		autoCommandPickerTwo.addObject("Auto Guillotine", new AutoGuillotineCommandGroup());
+		autoCommandPickerTwo.addObject("Auto Shovel of Fries", new AutoShovelOfFriesCommandGroup());
+		autoCommandPickerTwo.addObject("Align and shoot", new AlignAndShootCommandGroup());
+		autoCommandPickerTwo.addObject("Return to normal (front)", new ReturnToNormalFrontCommandGroup());
+		autoCommandPickerTwo.addObject("Return to normal (back)", new ReturnToNormalBackCommandGroup());
 		SmartDashboard.putData("Picker Two", autoCommandPickerTwo);
 
 		autoCommandPickerThree = new SendableChooser();
 		autoCommandPickerThree.addDefault("Do nothing", new AutonDoNothingCommand());
-		autoCommandPickerThree.addObject("Turn one degree", new DriveTurnCommand(1, AngleUnit.DEGREE));
+		autoCommandPickerThree.addObject("Drive over obstacle", new DriveSimpleDistanceCommand(overDistance, 1.0));
+		autoCommandPickerThree.addObject("Drive onto obstacle", new DriveSimpleDistanceCommand(ontoDistance, 1.0));
+		autoCommandPickerThree.addObject("Auto Guillotine", new AutoGuillotineCommandGroup());
+		autoCommandPickerThree.addObject("Auto Shovel of Fries", new AutoShovelOfFriesCommandGroup());
+		autoCommandPickerThree.addObject("Align and shoot", new AlignAndShootCommandGroup());
+		autoCommandPickerThree.addObject("Return to normal (front)", new ReturnToNormalFrontCommandGroup());
+		autoCommandPickerThree.addObject("Return to normal (back)", new ReturnToNormalBackCommandGroup());
 		SmartDashboard.putData("Picker Three", autoCommandPickerThree);
 
 		autoCommandPickerFour = new SendableChooser();
 		autoCommandPickerFour.addDefault("Do nothing", new AutonDoNothingCommand());
-		autoCommandPickerFour.addObject("Turn one degree", new DriveTurnCommand(1, AngleUnit.DEGREE));
+		autoCommandPickerFour.addObject("Drive over obstacle", new DriveSimpleDistanceCommand(overDistance, 1.0));
+		autoCommandPickerFour.addObject("Drive onto obstacle", new DriveSimpleDistanceCommand(ontoDistance, 1.0));
+		autoCommandPickerFour.addObject("Auto Guillotine", new AutoGuillotineCommandGroup());
+		autoCommandPickerFour.addObject("Auto Shovel of Fries", new AutoShovelOfFriesCommandGroup());
+		autoCommandPickerFour.addObject("Align and shoot", new AlignAndShootCommandGroup());
+		autoCommandPickerFour.addObject("Return to normal (front)", new ReturnToNormalFrontCommandGroup());
+		autoCommandPickerFour.addObject("Return to normal (back)", new ReturnToNormalBackCommandGroup());
 		SmartDashboard.putData("Picker Four", autoCommandPickerFour);
 
 		autoCommandPickerFive = new SendableChooser();
 		autoCommandPickerFive.addDefault("Do nothing", new AutonDoNothingCommand());
-		autoCommandPickerFive.addObject("Turn one degree", new DriveTurnCommand(1, AngleUnit.DEGREE));
+		autoCommandPickerFive.addObject("Drive over obstacle", new DriveSimpleDistanceCommand(overDistance, 1.0));
+		autoCommandPickerFive.addObject("Drive onto obstacle", new DriveSimpleDistanceCommand(ontoDistance, 1.0));
+		autoCommandPickerFive.addObject("Auto Guillotine", new AutoGuillotineCommandGroup());
+		autoCommandPickerFive.addObject("Auto Shovel of Fries", new AutoShovelOfFriesCommandGroup());
+		autoCommandPickerFive.addObject("Align and shoot", new AlignAndShootCommandGroup());
+		autoCommandPickerFive.addObject("Return to normal (front)", new ReturnToNormalFrontCommandGroup());
+		autoCommandPickerFive.addObject("Return to normal (back)", new ReturnToNormalBackCommandGroup());
 		SmartDashboard.putData("Picker Five", autoCommandPickerFive);
 
 		autoCommandPickerSix = new SendableChooser();
 		autoCommandPickerSix.addDefault("Do nothing", new AutonDoNothingCommand());
-		autoCommandPickerSix.addObject("Turn one degree", new DriveTurnCommand(1, AngleUnit.DEGREE));
+		autoCommandPickerSix.addObject("Drive over obstacle", new DriveSimpleDistanceCommand(overDistance, 1.0));
+		autoCommandPickerSix.addObject("Drive onto obstacle", new DriveSimpleDistanceCommand(ontoDistance, 1.0));
+		autoCommandPickerSix.addObject("Auto Guillotine", new AutoGuillotineCommandGroup());
+		autoCommandPickerSix.addObject("Auto Shovel of Fries", new AutoShovelOfFriesCommandGroup());
+		autoCommandPickerSix.addObject("Align and shoot", new AlignAndShootCommandGroup());
+		autoCommandPickerSix.addObject("Return to normal (front)", new ReturnToNormalFrontCommandGroup());
+		autoCommandPickerSix.addObject("Return to normal (back)", new ReturnToNormalBackCommandGroup());
 		SmartDashboard.putData("Picker Six", autoCommandPickerSix);
 		
 		autoCommandChooser = new SendableChooser();

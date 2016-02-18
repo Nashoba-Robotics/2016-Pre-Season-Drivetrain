@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class AutoFollowInstructionsCommand extends CommandGroup {
     
+	
+	
     public  AutoFollowInstructionsCommand() {
         addSequential((Command) Robot.getInstance().autoCommandPickerOne.getSelected());
         addSequential((Command) Robot.getInstance().autoCommandPickerTwo.getSelected());

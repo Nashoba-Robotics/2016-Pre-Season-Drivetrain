@@ -13,13 +13,21 @@ public class DriveAnglePIDCommand extends CMD {
 	PID pid;
 	
 	double angle;
+	AngleGyroCorrectionSource correction;
+	boolean resetCorrection;
 	
     public DriveAnglePIDCommand(double angle) {
-    	this.angle = angle; 
-    	requires(Drive.getInstance());
+    	this(angle, new AngleGyroCorrectionSource(), true);
     }
 
-    // Called repeatedly when this Command is scheduled to run
+    public DriveAnglePIDCommand(double angle, AngleGyroCorrectionSource correction, boolean resetCorrection) {
+    	this.angle = angle;
+    	this.correction = correction;
+    	this.resetCorrection = resetCorrection;
+    	requires(Drive.getInstance());
+	}
+
+	// Called repeatedly when this Command is scheduled to run
     protected void onExecute() {
     	SmartDashboard.putData("Angle PID", pid);
     	SmartDashboard.putNumber("Angle PID Error", pid.getError());
@@ -42,7 +50,9 @@ public class DriveAnglePIDCommand extends CMD {
 	@Override
 	protected void onStart() {
 		pid = new PID(angle*0.001, 0.0005, 0.0001, new AngleGyroCorrectionSource(), new AngleController());
-    	pid.enable();
+		if(resetCorrection) {
+			correction.reset();
+		}
     	pid.setSetpoint(angle);
 	}
 }
