@@ -28,7 +28,7 @@ private ITable table;
 			table.putBoolean("Hood Bottom", Hood.getInstance().isAtPosition(Hood.Position.BOTTOM));
 			table.putBoolean("Hood Top", Hood.getInstance().isAtPosition(Hood.Position.TOP));
 			table.putNumber("Hood Angle", Hood.getInstance().get());
-			table.putBoolean("Hood at Threshold", Math.abs(Hood.getInstance().get() - UDPServer.getInstance().getShootAngle()) > RobotMap.HOOD_ACCURACY_THRESHOLD);
+			table.putBoolean("Hood at Threshold", Math.abs(Hood.getInstance().get() - UDPServer.getInstance().getShootAngle()) > RobotMap.HOOD_THRESHOLD);
 			table.putNumber("Shot distance at angle", Hood.angleToDistance(Hood.getInstance().get()));
 			
 			//Intake Arm

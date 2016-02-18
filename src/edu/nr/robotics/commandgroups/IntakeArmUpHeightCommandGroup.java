@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class IntakeArmUpHeightCommand extends CommandGroup {
+public class IntakeArmUpHeightCommandGroup extends CommandGroup {
 
-    public IntakeArmUpHeightCommand() {
+    public IntakeArmUpHeightCommandGroup() {
         addParallel(new IntakeRollerNeutralCommand());
         addSequential(new IntakeArmPositionCommand(RobotMap.INTAKE_ARM_UP_HEIGHT));
     }

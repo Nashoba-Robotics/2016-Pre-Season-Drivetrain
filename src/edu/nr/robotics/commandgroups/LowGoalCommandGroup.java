@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 public class LowGoalCommandGroup extends CommandGroup {
     
     public  LowGoalCommandGroup() {
-        addSequential(new IntakeArmUpHeightCommand());
+        addSequential(new IntakeArmUpHeightCommandGroup());
         addParallel(new IntakeRollerReverseCommand());
         addParallel(new LoaderRollerReverseCommand());
         addSequential(new WaitCommand(1.5));

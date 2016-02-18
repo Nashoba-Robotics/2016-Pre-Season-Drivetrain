@@ -16,9 +16,9 @@ public class AutoGuillotineCommandGroup extends CommandGroup {
 	//TODO: Confirm the behaviour of auto guillotine
 	
     public  AutoGuillotineCommandGroup() {
-    	addSequential(new IntakeArmBottomHeightCommand());
+    	addSequential(new IntakeArmBottomHeightCommandGroup());
         addSequential(new DriveSimpleDistanceCommand(firstdistance,firstspeed));
-        addSequential(new IntakeArmUpHeightCommand());
+        addSequential(new IntakeArmUpHeightCommandGroup());
         addSequential(new DriveSimpleDistanceCommand(seconddistance,secondspeed));
     }
 }

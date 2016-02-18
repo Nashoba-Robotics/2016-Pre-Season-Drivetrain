@@ -7,6 +7,8 @@ package edu.nr.robotics;
  * floating around.
  */
 public class RobotMap {
+	
+	public static final long LIGHTS_BLINK_PERIOD = 200; //in milliseconds
 
 	public static final int TALON_RIGHT_A = 4;
 	public static final int TALON_RIGHT_B = 16;
@@ -44,38 +46,31 @@ public class RobotMap {
 	public static final int SHOOTER_TALON_A = -1;
 	public static final int SHOOTER_TALON_B = -1;
 	
-	//TODO: Find the shooter fast and slow speeds
-	public static final double SHOOTER_FAST_SPEED = 0.7; //out of 1.0
-	public static final double SHOOTER_SLOW_SPEED = 0.4; //out of 1.0
-	public static final double SHOOTER_MAX_SPEED = 1.0; //In ticks per minute
-	
-	public static final long LIGHTS_BLINK_PERIOD = 200; //in milliseconds
-	
-	//TODO: find the close shot hood position
-	public static final double CLOSE_SHOT_POSITION = 0;
-	public static final double LONG_SHOT_POSITION = 0;
-	
-	//TODO: find the shooter ramp rate
+	//TODO: Find all the values
+	public static final double SHOOTER_FAST_SPEED = -1; //out of 1.0
+	public static final double SHOOTER_SLOW_SPEED = -1; //out of 1.0
+	public static final double SHOOTER_MAX_SPEED = -1; //In ticks per minute
+	public static final double CLOSE_SHOT_POSITION = -1;
+	public static final double LONG_SHOT_POSITION = -1;
 	public static final double SHOOTER_RAMP_RATE = 1;
-	
-	//TODO: find the intake arm heights
-	public static final double INTAKE_ARM_UP_HEIGHT = 0;
-	public static final double INTAKE_ARM_BOTTOM_HEIGHT = 0;
-	public static final double INTAKE_ARM_INTAKE_HEIGHT = 0;
-	public static final double INTAKE_ARM_BUMPER_HEIGHT = 0;
-	
-	//TODO: find the elevator extend distance
-	public static final double ELEVATOR_EXTEND_DISTANCE = 0;
-	
-	//TODO: Find the bottom hood position
-	public static final double BOTTOM_HOOD_POSITION = 0;
-	
-	//TODO: Find the accuracy threshold wanted for the hood position
-	public static final double HOOD_ACCURACY_THRESHOLD = 0;
-	public static final int INTAKE_TOP_POS = 0;
-	public static final int INTAKE_THRESHOLD = 0;
-	public static final int INTAKE_INTAKE_POS = 0;
-	public static final int INTAKE_HOME_POS = 0;
-	public static final int INTAKE_BOTTOM_POS = 0;
+	public static final double INTAKE_ARM_UP_HEIGHT = -1;
+	public static final double INTAKE_ARM_BOTTOM_HEIGHT = -1;
+	public static final double INTAKE_ARM_INTAKE_HEIGHT = -1;
+	public static final double INTAKE_ARM_BUMPER_HEIGHT = -1;
+	public static final double ELEVATOR_EXTEND_DISTANCE = -1;
+	public static final double HOOD_BOTTOM_POSITION = -1;
+	public static final double HOOD_TOP_POSITION = -1;
+	public static final double HOOD_THRESHOLD = -1;
+	public static final int INTAKE_TOP_POS = -1;
+	public static final int INTAKE_THRESHOLD = -1;
+	public static final int INTAKE_INTAKE_POS = -1;
+	public static final int INTAKE_HOME_POS = -1;
+	public static final int INTAKE_BOTTOM_POS = -1;
+	public static final int ELEVATOR_BOTTOM_POSITION = -1;
+	public static final int ELEVATOR_TOP_POSITION = -1;
+	public static final double ELEVATOR_THRESHOLD = -1;
+	public static final double TURN_THRESHOLD = -1;
+	public static final double SHOOTER_THRESHOLD = -1;
+
 
 }

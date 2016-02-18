@@ -1,4 +1,4 @@
-package edu.nr.robotics.commandgroups;
+package edu.nr.robotics.auton;
 
 import edu.nr.lib.AngleGyroCorrectionSource;
 import edu.nr.lib.AngleUnit;
@@ -8,12 +8,12 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class ReturnToNormalBackCommandGroup extends CommandGroup {
+public class AutonReturnToNormalBackCommandGroup extends CommandGroup {
     
 	/**
 	 * Only works in autonomous because of the gyroscope method
 	 */
-    public  ReturnToNormalBackCommandGroup() {
+    public  AutonReturnToNormalBackCommandGroup() {
         AngleGyroCorrectionSource correction = new AngleGyroCorrectionSource(180, AngleUnit.DEGREE);
         addSequential(new DriveAnglePIDCommand(0.0, correction, false));
     }

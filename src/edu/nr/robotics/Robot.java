@@ -8,8 +8,6 @@ import edu.nr.robotics.auton.*;
 import edu.nr.robotics.commandgroups.AlignAndShootCommandGroup;
 import edu.nr.robotics.commandgroups.AutoGuillotineCommandGroup;
 import edu.nr.robotics.commandgroups.AutoShovelOfFriesCommandGroup;
-import edu.nr.robotics.commandgroups.ReturnToNormalBackCommandGroup;
-import edu.nr.robotics.commandgroups.ReturnToNormalFrontCommandGroup;
 import edu.nr.robotics.subsystems.drive.Drive;
 import edu.nr.robotics.subsystems.drive.DriveSimpleDistanceCommand;
 import edu.nr.robotics.subsystems.drive.DriveTurnCommand;
@@ -210,8 +208,8 @@ public class Robot extends RobotBase {
 		autoCommandPickerOne.addObject("Auto Guillotine", new AutoGuillotineCommandGroup());
 		autoCommandPickerOne.addObject("Auto Shovel of Fries", new AutoShovelOfFriesCommandGroup());
 		autoCommandPickerOne.addObject("Align and shoot", new AlignAndShootCommandGroup());
-		autoCommandPickerOne.addObject("Return to normal (front)", new ReturnToNormalFrontCommandGroup());
-		autoCommandPickerOne.addObject("Return to normal (back)", new ReturnToNormalBackCommandGroup());
+		autoCommandPickerOne.addObject("Return to normal (front)", new AutonReturnToNormalFrontCommandGroup());
+		autoCommandPickerOne.addObject("Return to normal (back)", new AutonReturnToNormalBackCommandGroup());
 		SmartDashboard.putData("Picker One", autoCommandPickerOne);
 		
 		autoCommandPickerTwo = new SendableChooser();
@@ -221,8 +219,8 @@ public class Robot extends RobotBase {
 		autoCommandPickerTwo.addObject("Auto Guillotine", new AutoGuillotineCommandGroup());
 		autoCommandPickerTwo.addObject("Auto Shovel of Fries", new AutoShovelOfFriesCommandGroup());
 		autoCommandPickerTwo.addObject("Align and shoot", new AlignAndShootCommandGroup());
-		autoCommandPickerTwo.addObject("Return to normal (front)", new ReturnToNormalFrontCommandGroup());
-		autoCommandPickerTwo.addObject("Return to normal (back)", new ReturnToNormalBackCommandGroup());
+		autoCommandPickerTwo.addObject("Return to normal (front)", new AutonReturnToNormalFrontCommandGroup());
+		autoCommandPickerTwo.addObject("Return to normal (back)", new AutonReturnToNormalBackCommandGroup());
 		SmartDashboard.putData("Picker Two", autoCommandPickerTwo);
 
 		autoCommandPickerThree = new SendableChooser();
@@ -232,8 +230,8 @@ public class Robot extends RobotBase {
 		autoCommandPickerThree.addObject("Auto Guillotine", new AutoGuillotineCommandGroup());
 		autoCommandPickerThree.addObject("Auto Shovel of Fries", new AutoShovelOfFriesCommandGroup());
 		autoCommandPickerThree.addObject("Align and shoot", new AlignAndShootCommandGroup());
-		autoCommandPickerThree.addObject("Return to normal (front)", new ReturnToNormalFrontCommandGroup());
-		autoCommandPickerThree.addObject("Return to normal (back)", new ReturnToNormalBackCommandGroup());
+		autoCommandPickerThree.addObject("Return to normal (front)", new AutonReturnToNormalFrontCommandGroup());
+		autoCommandPickerThree.addObject("Return to normal (back)", new AutonReturnToNormalBackCommandGroup());
 		SmartDashboard.putData("Picker Three", autoCommandPickerThree);
 
 		autoCommandPickerFour = new SendableChooser();
@@ -243,8 +241,8 @@ public class Robot extends RobotBase {
 		autoCommandPickerFour.addObject("Auto Guillotine", new AutoGuillotineCommandGroup());
 		autoCommandPickerFour.addObject("Auto Shovel of Fries", new AutoShovelOfFriesCommandGroup());
 		autoCommandPickerFour.addObject("Align and shoot", new AlignAndShootCommandGroup());
-		autoCommandPickerFour.addObject("Return to normal (front)", new ReturnToNormalFrontCommandGroup());
-		autoCommandPickerFour.addObject("Return to normal (back)", new ReturnToNormalBackCommandGroup());
+		autoCommandPickerFour.addObject("Return to normal (front)", new AutonReturnToNormalFrontCommandGroup());
+		autoCommandPickerFour.addObject("Return to normal (back)", new AutonReturnToNormalBackCommandGroup());
 		SmartDashboard.putData("Picker Four", autoCommandPickerFour);
 
 		autoCommandPickerFive = new SendableChooser();
@@ -254,8 +252,8 @@ public class Robot extends RobotBase {
 		autoCommandPickerFive.addObject("Auto Guillotine", new AutoGuillotineCommandGroup());
 		autoCommandPickerFive.addObject("Auto Shovel of Fries", new AutoShovelOfFriesCommandGroup());
 		autoCommandPickerFive.addObject("Align and shoot", new AlignAndShootCommandGroup());
-		autoCommandPickerFive.addObject("Return to normal (front)", new ReturnToNormalFrontCommandGroup());
-		autoCommandPickerFive.addObject("Return to normal (back)", new ReturnToNormalBackCommandGroup());
+		autoCommandPickerFive.addObject("Return to normal (front)", new AutonReturnToNormalFrontCommandGroup());
+		autoCommandPickerFive.addObject("Return to normal (back)", new AutonReturnToNormalBackCommandGroup());
 		SmartDashboard.putData("Picker Five", autoCommandPickerFive);
 
 		autoCommandPickerSix = new SendableChooser();
@@ -265,13 +263,13 @@ public class Robot extends RobotBase {
 		autoCommandPickerSix.addObject("Auto Guillotine", new AutoGuillotineCommandGroup());
 		autoCommandPickerSix.addObject("Auto Shovel of Fries", new AutoShovelOfFriesCommandGroup());
 		autoCommandPickerSix.addObject("Align and shoot", new AlignAndShootCommandGroup());
-		autoCommandPickerSix.addObject("Return to normal (front)", new ReturnToNormalFrontCommandGroup());
-		autoCommandPickerSix.addObject("Return to normal (back)", new ReturnToNormalBackCommandGroup());
+		autoCommandPickerSix.addObject("Return to normal (front)", new AutonReturnToNormalFrontCommandGroup());
+		autoCommandPickerSix.addObject("Return to normal (back)", new AutonReturnToNormalBackCommandGroup());
 		SmartDashboard.putData("Picker Six", autoCommandPickerSix);
 		
 		autoCommandChooser = new SendableChooser();
 		autoCommandChooser.addDefault("Do Nothing", new AutonDoNothingCommand());
-		autoCommandChooser.addObject("Follow instructions", new AutoFollowInstructionsCommand());
+		autoCommandChooser.addObject("Follow instructions", new AutonFollowInstructionsCommand());
 		// Add more options like:
 		// autoCommandChooser.addObject(String name, Command command);
 		SmartDashboard.putData("Autonomous Chooser", autoCommandChooser);

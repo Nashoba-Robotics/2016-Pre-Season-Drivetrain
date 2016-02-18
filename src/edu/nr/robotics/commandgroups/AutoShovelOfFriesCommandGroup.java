@@ -16,9 +16,9 @@ public class AutoShovelOfFriesCommandGroup extends CommandGroup {
 	//TODO: Confirm the behaviour of auto shovel of fries
 
     public  AutoShovelOfFriesCommandGroup() {
-    	addSequential(new IntakeArmUpHeightCommand());
+    	addSequential(new IntakeArmUpHeightCommandGroup());
         addSequential(new DriveSimpleDistanceCommand(firstdistance,firstspeed));
-        addSequential(new IntakeArmBottomHeightCommand());
+        addSequential(new IntakeArmBottomHeightCommandGroup());
         addSequential(new DriveSimpleDistanceCommand(seconddistance,secondspeed));
 
     }

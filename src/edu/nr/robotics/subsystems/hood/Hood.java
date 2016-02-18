@@ -22,7 +22,7 @@ public class Hood extends Subsystem implements SmartDashboardSource {
 	private static Hood singleton;
 	
 	public enum Position {
-		BOTTOM (0), TOP(1);
+		BOTTOM (RobotMap.HOOD_BOTTOM_POSITION), TOP(RobotMap.HOOD_TOP_POSITION);
 		
 		public final double pos;
 		Position(double position) {
@@ -122,7 +122,7 @@ public class Hood extends Subsystem implements SmartDashboardSource {
 	}
 
 	public static double angleToDistance(double d) {
-		// TODO Auto-generated method stub
+		// TODO: Find the angle to distance function
 		return 0;
 	}
 	
@@ -132,9 +132,16 @@ public class Hood extends Subsystem implements SmartDashboardSource {
 		SmartDashboard.putBoolean("Hood Moving", getMoving());
 	}
 
-	public boolean isAtPosition(Position bottom) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean isAtPosition(Position pos) {
+		return pot.get() + RobotMap.HOOD_THRESHOLD > pos.pos &&  pot.get() - RobotMap.HOOD_THRESHOLD < pos.pos;
+	}
+
+	public boolean isAtBottom() {
+		return isAtPosition(Position.BOTTOM);
+	}
+
+	public boolean isAtTop() {
+		return isAtPosition(Position.TOP);
 	}
 
 	

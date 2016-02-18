@@ -1,6 +1,5 @@
 package edu.nr.robotics.subsystems.loaderroller;
 
-import edu.nr.lib.AnalogIRSensor;
 import edu.nr.lib.PID;
 import edu.nr.lib.SmartDashboardSource;
 import edu.nr.lib.TalonEncoder;
@@ -20,14 +19,12 @@ public class LoaderRoller extends Subsystem implements SmartDashboardSource {
 	
 	TalonEncoder loaderEncoder;
 	
-	AnalogIRSensor irSensor;
 	
 	PID loaderPID;
 	
 	private static LoaderRoller singleton;
 	
 	private LoaderRoller() {
-		irSensor = new AnalogIRSensor(RobotMap.ROLLER_LOADER_IR_SENSOR);
 		
 		loaderTalon = new CANTalon(RobotMap.ROLLER_LOADER_TALON);
 

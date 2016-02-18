@@ -1,8 +1,9 @@
-package edu.nr.robotics.subsystems.drive;
+package edu.nr.robotics.auton;
 
 import edu.nr.lib.UDPServer;
 import edu.nr.robotics.OI;
 import edu.nr.robotics.RobotMap;
+import edu.nr.robotics.subsystems.drive.DriveAngleJetsonPIDCommand;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.hood.HoodJetsonPositionCommand;
 import edu.nr.robotics.subsystems.lights.LightsBlinkCommand;
@@ -14,9 +15,9 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 /**
  *
  */
-public class AlignCommand extends CommandGroup {
+public class AutonAlignCommand extends CommandGroup {
     
-    public  AlignCommand() {
+    public  AutonAlignCommand() {
     	addSequential(new WaitCommand(0.25));
         addParallel(new HoodJetsonPositionCommand());
         addParallel(new ShooterHighCommand());
@@ -27,9 +28,7 @@ public class AlignCommand extends CommandGroup {
     
     @Override
     public void end() {
-    	//TODO: Thresholding
-    	if(Math.abs(Hood.getInstance().get() - UDPServer.getInstance().getShootAngle()) > RobotMap.HOOD_THRESHOLD || Math.abs(UDPServer.getInstance().getTurnAngle()) > 1 || Math.abs(Shooter.getInstance().getSpeed() - RobotMap.SHOOTER_FAST_SPEED) > 0.03)
-    		new AlignCommand();
-    	while(!OI.getInstance().fireButton.get() && OI.getInstance().alignButton.get()) {}
+    	if(Math.abs(Hood.getInstance().get() - UDPServer.getInstance().getShootAngle()) > RobotMap.HOOD_THRESHOLD || Math.abs(UDPServer.getInstance().getTurnAngle()) > RobotMap.TURN_THRESHOLD || Math.abs(Shooter.getInstance().getSpeed() - RobotMap.SHOOTER_FAST_SPEED) > RobotMap.SHOOTER_THRESHOLD)
+    		new AutonAlignCommand();
     }
 }

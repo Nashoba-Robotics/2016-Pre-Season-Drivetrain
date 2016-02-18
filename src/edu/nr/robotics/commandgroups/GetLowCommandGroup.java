@@ -10,6 +10,6 @@ public class GetLowCommandGroup extends CommandGroup {
     
     public  GetLowCommandGroup() {
         addParallel(new HoodBottomCommand());
-        addParallel(new IntakeArmBottomHeightCommand());
+        addParallel(new IntakeArmBottomHeightCommandGroup());
     }
 }

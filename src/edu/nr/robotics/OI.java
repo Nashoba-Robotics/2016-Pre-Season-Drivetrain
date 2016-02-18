@@ -3,7 +3,6 @@ package edu.nr.robotics;
 import edu.nr.lib.CancelAllCommand;
 import edu.nr.lib.Periodic;
 import edu.nr.lib.SmartDashboardSource;
-import edu.nr.lib.UDPServer;
 import edu.nr.robotics.commandgroups.*;
 import edu.nr.robotics.subsystems.drive.*;
 import edu.nr.robotics.subsystems.elevator.*;
@@ -42,6 +41,8 @@ public class OI implements SmartDashboardSource, Periodic {
 	
 	public JoystickButton fireButton;
 	public JoystickButton alignButton;
+	
+	AlignCommand alignCommand;
 
 	/**
 	 * 
@@ -80,7 +81,8 @@ public class OI implements SmartDashboardSource, Periodic {
 		  //->  4: Align
 		  //           Auto align the robot to target, ends when drive joysticks are touched
 		alignButton = new JoystickButton(operatorLeft, 4);
-		alignButton.whileHeld(new AlignCommand());
+		alignCommand = new AlignCommand();
+		alignButton.whileHeld(alignCommand);
 		  //->  5: Brake Light Cutout Switch
 		  //           Disables robot “shot ready” LED sequences (in the event that signifying we are about to shoot enables defense robots to defend more effectively
 		brakeLightCutout = new JoystickButton(operatorLeft, 5);
@@ -110,16 +112,16 @@ public class OI implements SmartDashboardSource, Periodic {
 		operatorRight = new Joystick(3);
 		  //->  1: Up Height (Climb Height)
 		  //           Positions intake arm to vertical height, ensures intake off (also used for climb)
-		new JoystickButton(operatorRight, 1).whenPressed(new IntakeArmUpHeightCommand());
+		new JoystickButton(operatorRight, 1).whenPressed(new IntakeArmUpHeightCommandGroup());
 		  //->  2: Intake Height
 		  //           Positions intake arm to collecting height turns on intake
-		new JoystickButton(operatorRight, 2).whenPressed(new IntakeArmIntakeHeightCommand());
+		new JoystickButton(operatorRight, 2).whenPressed(new IntakeArmIntakeHeightCommandGroup());
 		  //->  3: Bumper Height (Home)
 		  //           Positions intake arm to home height (such that it will contact the bumper of another robot), ensures intake off
-		new JoystickButton(operatorRight, 3).whenPressed(new IntakeArmBumperHeightCommand());
+		new JoystickButton(operatorRight, 3).whenPressed(new IntakeArmBumperHeightCommandGroup());
 		  //->  4: Bottom Height
 		  //           Positions intake arm to bottom height, ensures intake off
-		new JoystickButton(operatorRight, 4).whenPressed(new IntakeArmBottomHeightCommand());
+		new JoystickButton(operatorRight, 4).whenPressed(new IntakeArmBottomHeightCommandGroup());
 		  //->  5: Intake On
 		  //           Overrides intake rollers
 		new JoystickButton(operatorRight, 5).whenPressed(new IntakeRollerForwardCommand());
@@ -301,7 +303,6 @@ public class OI implements SmartDashboardSource, Periodic {
 	}
 
 	public boolean isAutoAlignRunning() {
-		// TODO Auto-generated method stub
-		return false;
+		return alignCommand.isRunning();
 	}
 }

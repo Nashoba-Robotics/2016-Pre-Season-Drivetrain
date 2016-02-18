@@ -7,11 +7,11 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class AutoFollowInstructionsCommand extends CommandGroup {
+public class AutonFollowInstructionsCommand extends CommandGroup {
     
 	
 	
-    public  AutoFollowInstructionsCommand() {
+    public  AutonFollowInstructionsCommand() {
         addSequential((Command) Robot.getInstance().autoCommandPickerOne.getSelected());
         addSequential((Command) Robot.getInstance().autoCommandPickerTwo.getSelected());
         addSequential((Command) Robot.getInstance().autoCommandPickerThree.getSelected());
