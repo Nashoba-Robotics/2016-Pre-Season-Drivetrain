@@ -1,6 +1,7 @@
 package edu.nr.robotics;
 
 import edu.nr.lib.UDPServer;
+import edu.nr.robotics.subsystems.elevator.Elevator;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;
 import edu.nr.robotics.subsystems.intakeroller.IntakeRoller;
@@ -44,6 +45,11 @@ private ITable table;
 			table.putBoolean("Photo 1", IntakeRoller.getInstance().hasBall());
 			table.putBoolean("Photo 2", LoaderRoller.getInstance().hasBall());
 			table.putBoolean("Photo 3", Shooter.getInstance().hasBall());
+			
+			//Elevator
+			table.putBoolean("Elevator Bottom Height", Elevator.getInstance().isAtBottom());
+			table.putBoolean("Elevator Top Height", Elevator.getInstance().isAtTop());
+			table.putBoolean("Elevator Motor Running", Elevator.getInstance().isMoving());
 
 			//Shooter
 			table.putNumber("Shooter Speed", Shooter.getInstance().getSpeed());

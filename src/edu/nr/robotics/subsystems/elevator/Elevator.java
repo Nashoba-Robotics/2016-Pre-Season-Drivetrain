@@ -68,5 +68,15 @@ public class Elevator extends Subsystem implements SmartDashboardSource {
 	public boolean isMoving() {
 		return enc.getRate() > 10;
 	}
+
+	public boolean isAtBottom() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean isAtTop() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
 
