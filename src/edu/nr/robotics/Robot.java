@@ -194,9 +194,12 @@ public class Robot extends RobotBase {
 	}
 	
 	private void initSmartDashboardChoosers() {
+		double overDistance = 12; //The distance to go over the obstacles completely in auto
+		double ontoDistance = 6; //The distance to go onto the obstacles
+		
 		autoCommandPickerOne = new SendableChooser();
 		autoCommandPickerOne.addDefault("Do nothing", new AutonDoNothingCommand());
-		autoCommandPickerOne.addObject("Turn one degree", new DriveTurnCommand(1, AngleUnit.DEGREE));
+///		autoCommandPickerOne.addObject("Drive onto obstacle", new DriveSimpleDistanceCommand(6));
 		SmartDashboard.putData("Picker One", autoCommandPickerOne);
 		
 		autoCommandPickerTwo = new SendableChooser();

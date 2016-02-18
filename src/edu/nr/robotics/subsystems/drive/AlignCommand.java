@@ -27,7 +27,8 @@ public class AlignCommand extends CommandGroup {
     
     @Override
     public void end() {
-    	if(Hood.getInstance().get() != UDPServer.getInstance().getShootAngle() || Math.abs(UDPServer.getInstance().getTurnAngle()) > 1 || Shooter.getInstance().getSpeed() != RobotMap.SHOOTER_FAST_SPEED)
+    	//TODO: Thresholding
+    	if(Math.abs(Hood.getInstance().get() - UDPServer.getInstance().getShootAngle()) > RobotMap.HOOD_ACCURACY_THRESHOLD || Math.abs(UDPServer.getInstance().getTurnAngle()) > 1 || Math.abs(Shooter.getInstance().getSpeed() - RobotMap.SHOOTER_FAST_SPEED) > 0.03)
     		new AlignCommand();
     	while(!OI.getInstance().fireButton.get() && OI.getInstance().alignButton.get()) {}
     }

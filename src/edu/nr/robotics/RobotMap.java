@@ -69,5 +69,8 @@ public class RobotMap {
 	
 	//TODO: Find the bottom hood position
 	public static final double BOTTOM_HOOD_POSITION = 0;
+	
+	//TODO: Find the accuracy threshold wanted for the hood position
+	public static final double HOOD_ACCURACY_THRESHOLD = 0;
 
 }
