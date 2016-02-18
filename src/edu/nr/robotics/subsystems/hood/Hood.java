@@ -3,6 +3,7 @@ package edu.nr.robotics.subsystems.hood;
 import edu.nr.lib.PID;
 import edu.nr.lib.SmartDashboardSource;
 import edu.nr.robotics.RobotMap;
+import edu.nr.robotics.subsystems.hood.Hood.Position;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -19,6 +20,15 @@ public class Hood extends Subsystem implements SmartDashboardSource {
 	PID pid;
 	
 	private static Hood singleton;
+	
+	public enum Position {
+		BOTTOM (0), TOP(1);
+		
+		public final double pos;
+		Position(double position) {
+			this.pos = position;
+		}
+	}
 	
 	private Hood() {
 		talon = new CANTalon(RobotMap.HOOD_TALON);
@@ -111,10 +121,22 @@ public class Hood extends Subsystem implements SmartDashboardSource {
 		//TODO: Find the distance to angle function
 	}
 
+	public static double angleToDistance(double d) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
 	@Override
 	public void smartDashboardInfo() {
 		SmartDashboard.putNumber("Hood Potentiometer", get());
 		SmartDashboard.putBoolean("Hood Moving", getMoving());
 	}
+
+	public boolean isAtPosition(Position bottom) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	
 }
 

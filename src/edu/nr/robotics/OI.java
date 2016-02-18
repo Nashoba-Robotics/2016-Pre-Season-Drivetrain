@@ -299,4 +299,9 @@ public class OI implements SmartDashboardSource, Periodic {
 			}
 		}
 	}
+
+	public boolean isAutoAlignRunning() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

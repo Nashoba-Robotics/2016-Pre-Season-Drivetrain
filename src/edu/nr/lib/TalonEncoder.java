@@ -86,4 +86,12 @@ public class TalonEncoder implements PIDSource {
 		talon.setEncPosition(0);
 	}
 
+	/**
+	 * Still uses the distance per rev and ticks per rev and reverse direction
+	 * @return rate
+	 */
+	public double getRateWithoutScaling() {
+		return talon.getEncVelocity() * (distancePerRev / ticksPerRev) * (reverseDirection ? -1 : 1);
+	}
+
 }

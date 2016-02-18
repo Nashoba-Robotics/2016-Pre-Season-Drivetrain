@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import edu.nr.lib.*;
 import edu.nr.lib.navx.NavX;
 import edu.nr.robotics.auton.*;
+import edu.nr.robotics.commandgroups.AutoGuillotineCommandGroup;
+import edu.nr.robotics.commandgroups.AutoShovelOfFriesCommandGroup;
 import edu.nr.robotics.subsystems.drive.Drive;
+import edu.nr.robotics.subsystems.drive.DriveSimpleDistanceCommand;
 import edu.nr.robotics.subsystems.drive.DriveTurnCommand;
 import edu.nr.robotics.subsystems.elevator.Elevator;
 import edu.nr.robotics.subsystems.hood.Hood;
@@ -199,7 +202,12 @@ public class Robot extends RobotBase {
 		
 		autoCommandPickerOne = new SendableChooser();
 		autoCommandPickerOne.addDefault("Do nothing", new AutonDoNothingCommand());
-///		autoCommandPickerOne.addObject("Drive onto obstacle", new DriveSimpleDistanceCommand(6));
+		autoCommandPickerOne.addObject("Drive over obstacle", new DriveSimpleDistanceCommand(overDistance, 1.0));
+		autoCommandPickerOne.addObject("Drive onto obstacle", new DriveSimpleDistanceCommand(ontoDistance, 1.0));
+		autoCommandPickerOne.addObject("Auto Guillotine", new AutoGuillotineCommandGroup());
+		autoCommandPickerOne.addObject("Auto Shovel of Fries", new AutoShovelOfFriesCommandGroup());
+		autoCommandPickerOne.addObject("Align and shoot", new AutoShovelOfFriesCommandGroup());
+
 		SmartDashboard.putData("Picker One", autoCommandPickerOne);
 		
 		autoCommandPickerTwo = new SendableChooser();

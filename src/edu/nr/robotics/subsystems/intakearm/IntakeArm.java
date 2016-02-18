@@ -97,11 +97,6 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource{
 		return pot.get();
 	}
 	
-	public boolean getBallInIntake() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
 	/**
 	 * Gets whether the motor is still moving
 	 * @return whether the motor is still moving

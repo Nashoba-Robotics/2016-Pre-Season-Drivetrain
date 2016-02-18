@@ -59,5 +59,10 @@ public class IntakeRoller extends Subsystem implements SmartDashboardSource {
 	public void smartDashboardInfo() {
 		SmartDashboard.putNumber("Intake Roller Speed", encoder.getRate());		
 	}
+	
+	public boolean hasBall() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
 

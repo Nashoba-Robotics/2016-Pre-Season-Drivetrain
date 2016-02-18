@@ -16,8 +16,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Shooter extends Subsystem implements SmartDashboardSource{
     
-	private static final double FULL_SPEED = 0; //TODO: Find the full speed of the shooter
-
 	private static Shooter singleton;
 
 	CANTalon talon;
@@ -116,7 +114,7 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	 * @return the speed of the shooter
 	 */
 	public double getSpeed() {
-		return enc.getRate();
+		return enc.getRateWithoutScaling();
 	}
 	
 	public boolean getRunning() {
@@ -124,7 +122,7 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	}
 	
 	public double getSpeedPercent() {
-		return enc.getRate() / FULL_SPEED;
+		return enc.getRate() / RobotMap.SHOOTER_MAX_SPEED;
 	}
 	
 	/**
@@ -144,7 +142,7 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	 * @return
 	 */
 	public boolean getSped() {
-		return getSpeed() > FULL_SPEED;
+		return getSpeedPercent() > getSetpoint();
 	}
 
 	@Override
@@ -152,5 +150,10 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 		SmartDashboard.putNumber("Shooter Speed", getSpeed());
 		SmartDashboard.putBoolean("Shooter Running", getSetpoint() != 0);
 		SmartDashboard.putNumber("Shooter Current", talon.getOutputCurrent());
+	}
+
+	public boolean hasBall() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

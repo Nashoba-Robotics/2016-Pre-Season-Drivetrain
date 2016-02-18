@@ -80,7 +80,7 @@ public class LoaderRoller extends Subsystem implements SmartDashboardSource {
 		SmartDashboard.putNumber("Loader Encoder Speed", loaderEncoder.getRate());
 	}
 	
-	public boolean getBallInLoader() {
+	public boolean hasBall() {
 		// TODO Auto-generated method stub
 		return false;
 	}
