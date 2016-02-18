@@ -1,5 +1,6 @@
 package edu.nr.robotics.subsystems.hood;
 
+import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -7,10 +8,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class HoodBottomCommand extends CommandGroup {
     
-	private static final double bottomHoodPosition = 0;
-	//TODO: Find the bottom hood position
 	
     public  HoodBottomCommand() {
-        addSequential(new HoodPositionCommand(bottomHoodPosition));
+        addSequential(new HoodPositionCommand(RobotMap.BOTTOM_HOOD_POSITION));
     }
 }

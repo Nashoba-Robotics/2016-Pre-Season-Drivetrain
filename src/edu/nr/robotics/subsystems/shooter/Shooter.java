@@ -37,6 +37,7 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 		
 		enc = new TalonEncoder(talon);
 		enc.setPIDSourceType(PIDSourceType.kRate);
+		enc.setScale(RobotMap.SHOOTER_MAX_SPEED);
 				
 		pid = new PID(0.0001, 0, 0, enc, talon); //TODO: Get the value for the Shooter PID
 

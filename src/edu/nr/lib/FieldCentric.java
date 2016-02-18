@@ -15,7 +15,6 @@ public class FieldCentric implements SmartDashboardSource {
 	private double initialGyro = 0;
 	private double x = 0, y = 0, dis = 0, lastEncoderDistance = 0;
 	private long lastUpdateTime;
-	private LIDAR lidar;
 
 	public static FieldCentric getInstance() {
 		init();
@@ -29,8 +28,6 @@ public class FieldCentric implements SmartDashboardSource {
 	}
 
 	public FieldCentric(double initialTheta) {
-		lidar = new LIDAR(I2C.Port.kMXP);
-		lidar.start();
 		lastUpdateTime = System.currentTimeMillis();
 		this.initialTheta = initialTheta;
 	}
@@ -122,6 +119,5 @@ public class FieldCentric implements SmartDashboardSource {
 
 	@Override
 	public void smartDashboardInfo() {
-		SmartDashboard.putNumber("Lidar Distance in cm", lidar.getDistanceCentimeters());
 	}
 }

@@ -9,7 +9,7 @@ import java.net.UnknownHostException;
 
 public class UDPClient {
 	private static final int defaultPort = 1768;
-	private static final String defaultIpAddress = "10.17.68.0";
+	private static final String defaultIpAddress = "GarrisoComputer";
 	
 	public UDPClient(String message, String ipAddress, int port) {
 		DatagramSocket clientSocket = null;

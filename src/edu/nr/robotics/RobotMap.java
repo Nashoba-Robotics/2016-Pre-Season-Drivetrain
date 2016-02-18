@@ -19,9 +19,7 @@ public class RobotMap {
 	public static final int ENCODER_RIGHT_B = 6;
 	public static final double MAX_SPEED = 3.4; // Meters per second //Actual
 												// value is 3.4 m/s
-	public static final double MAX_ACCELERATION = 3.0; // Meters per second per
-														// second
-	// TODO: Get actual max values instead of using a placeholder value
+	// TODO: Get actual max speed instead of using a placeholder value
 	
 	public static final int LIGHTS_SPIKE = 0;
 	
@@ -47,13 +45,15 @@ public class RobotMap {
 	public static final int SHOOTER_TALON_B = -1;
 	
 	//TODO: Find the shooter fast and slow speeds
-	public static final double SHOOTER_FAST_SPEED = 0.7;
-	public static final double SHOOTER_SLOW_SPEED = 0.4;
+	public static final double SHOOTER_FAST_SPEED = 0.7; //out of 1.0
+	public static final double SHOOTER_SLOW_SPEED = 0.4; //out of 1.0
+	public static final double SHOOTER_MAX_SPEED = 1.0; //In ticks per minute
 	
 	public static final long LIGHTS_BLINK_PERIOD = 200; //in milliseconds
 	
 	//TODO: find the close shot hood position
-	public static final double CLOSE_SHOT_POSITION = 5;
+	public static final double CLOSE_SHOT_POSITION = 0;
+	public static final double LONG_SHOT_POSITION = 0;
 	
 	//TODO: find the shooter ramp rate
 	public static final double SHOOTER_RAMP_RATE = 1;
@@ -66,5 +66,8 @@ public class RobotMap {
 	
 	//TODO: find the elevator extend distance
 	public static final double ELEVATOR_EXTEND_DISTANCE = 0;
+	
+	//TODO: Find the bottom hood position
+	public static final double BOTTOM_HOOD_POSITION = 0;
 
 }

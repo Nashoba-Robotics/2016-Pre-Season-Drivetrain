@@ -4,13 +4,15 @@ import java.util.ArrayList;
 
 import edu.nr.lib.*;
 import edu.nr.lib.navx.NavX;
-import edu.nr.robotics.auton.AutonDoNothingCommand;
+import edu.nr.robotics.auton.*;
 import edu.nr.robotics.subsystems.drive.Drive;
+import edu.nr.robotics.subsystems.drive.DriveTurnCommand;
 import edu.nr.robotics.subsystems.elevator.Elevator;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;
 import edu.nr.robotics.subsystems.intakeroller.IntakeRoller;
 import edu.nr.robotics.subsystems.lights.Lights;
+import edu.nr.robotics.subsystems.loaderroller.LaserCannonTriggerCommand;
 import edu.nr.robotics.subsystems.loaderroller.LoaderRoller;
 import edu.nr.robotics.subsystems.shooter.Shooter;
 import edu.wpi.first.wpilibj.CameraServer;
@@ -33,11 +35,25 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends RobotBase {
+	
+	LaserCannonTriggerCommand fireCommand;
 
-	public static OI oi;
-
+	private static Robot singleton;
+	
+	//This is technically unsafe, since it's not guarenteed not to return a null pointer, but we don't have any code that runs before the robot is initialized.
+	public static Robot getInstance() {
+		return singleton; 
+	}
+	
 	Command autonomousCommand;
 	SendableChooser autoCommandChooser;
+	
+	public SendableChooser autoCommandPickerOne;
+	public SendableChooser autoCommandPickerTwo;
+	public SendableChooser autoCommandPickerThree;
+	public SendableChooser autoCommandPickerFour;
+	public SendableChooser autoCommandPickerFive;
+	public SendableChooser autoCommandPickerSix;
 
 	public static ArrayList<Subsystem> subsystems = new ArrayList<Subsystem>();
 	public static ArrayList<SmartDashboardSource> smartDashboardSources = new ArrayList<SmartDashboardSource>();
@@ -58,6 +74,7 @@ public class Robot extends RobotBase {
 	public Mode currentMode;
 	
 	public Robot() {
+		singleton = this;
 	    // set status for initialization of disabled, autonomous, and teleop code.
 	    m_disabledInitialized = false;
 	    m_autonomousInitialized = false;
@@ -164,6 +181,8 @@ public class Robot extends RobotBase {
 	 * used for any initialization code.
 	 */
 	private void robotInit() {
+		new UDPClient("Robot init");
+
 		initCamera();
 		initSubsystems();
 		initSmartDashboardChoosers();
@@ -175,12 +194,43 @@ public class Robot extends RobotBase {
 	}
 	
 	private void initSmartDashboardChoosers() {
+		autoCommandPickerOne = new SendableChooser();
+		autoCommandPickerOne.addDefault("Do nothing", new AutonDoNothingCommand());
+		autoCommandPickerOne.addObject("Turn one degree", new DriveTurnCommand(1, AngleUnit.DEGREE));
+		SmartDashboard.putData("Picker One", autoCommandPickerOne);
+		
+		autoCommandPickerTwo = new SendableChooser();
+		autoCommandPickerTwo.addDefault("Do nothing", new AutonDoNothingCommand());
+		autoCommandPickerTwo.addObject("Turn one degree", new DriveTurnCommand(1, AngleUnit.DEGREE));
+		SmartDashboard.putData("Picker Two", autoCommandPickerTwo);
+
+		autoCommandPickerThree = new SendableChooser();
+		autoCommandPickerThree.addDefault("Do nothing", new AutonDoNothingCommand());
+		autoCommandPickerThree.addObject("Turn one degree", new DriveTurnCommand(1, AngleUnit.DEGREE));
+		SmartDashboard.putData("Picker Three", autoCommandPickerThree);
+
+		autoCommandPickerFour = new SendableChooser();
+		autoCommandPickerFour.addDefault("Do nothing", new AutonDoNothingCommand());
+		autoCommandPickerFour.addObject("Turn one degree", new DriveTurnCommand(1, AngleUnit.DEGREE));
+		SmartDashboard.putData("Picker Four", autoCommandPickerFour);
+
+		autoCommandPickerFive = new SendableChooser();
+		autoCommandPickerFive.addDefault("Do nothing", new AutonDoNothingCommand());
+		autoCommandPickerFive.addObject("Turn one degree", new DriveTurnCommand(1, AngleUnit.DEGREE));
+		SmartDashboard.putData("Picker Five", autoCommandPickerFive);
+
+		autoCommandPickerSix = new SendableChooser();
+		autoCommandPickerSix.addDefault("Do nothing", new AutonDoNothingCommand());
+		autoCommandPickerSix.addObject("Turn one degree", new DriveTurnCommand(1, AngleUnit.DEGREE));
+		SmartDashboard.putData("Picker Six", autoCommandPickerSix);
+		
 		autoCommandChooser = new SendableChooser();
 		autoCommandChooser.addDefault("Do Nothing", new AutonDoNothingCommand());
+		autoCommandChooser.addObject("Follow instructions", new AutoFollowInstructionsCommand());
 		// Add more options like:
 		// autoCommandChooser.addObject(String name, Command command);
 		SmartDashboard.putData("Autonomous Chooser", autoCommandChooser);
-
+		
 		OI.getInstance().drivingModeChooser = new SendableChooser();
 		OI.getInstance().drivingModeChooser.addDefault("arcade", DrivingMode.ARCADE);
 		OI.getInstance().drivingModeChooser.addObject("tank", DrivingMode.TANK);
@@ -198,44 +248,42 @@ public class Robot extends RobotBase {
 	
 	private void initSubsystems() {
 		//Init subsystems
-		OI.init();
 		//Drive.init();
-		NavX.init();
+		//NavX.init();
 		FieldCentric.init();
-		Lights.init();
+		/*Lights.init();
 		Shooter.init();
 		IntakeArm.init();
 		Elevator.init();
 		LoaderRoller.init();
 		Hood.init();
-		IntakeRoller.init();
+		IntakeRoller.init();*/
+		OI.init();
 		
-		//Add subsystems to subsystem array light
-		subsystems.add(Drive.getInstance());
-		subsystems.add(Lights.getInstance());
+		//Add subsystems to subsystem array list
+		//subsystems.add(Drive.getInstance());
+		/*subsystems.add(Lights.getInstance());
 		subsystems.add(Shooter.getInstance());
 		subsystems.add(IntakeArm.getInstance());
 		subsystems.add(LoaderRoller.getInstance());
 		subsystems.add(Elevator.getInstance());
 		subsystems.add(Hood.getInstance());
-		subsystems.add(IntakeRoller.getInstance());
+		subsystems.add(IntakeRoller.getInstance());*/
 		
 		//Add SmartDashboard sources to the smartdashboard source array list
-		smartDashboardSources.add(NavX.getInstance());
-		smartDashboardSources.add(Drive.getInstance());
+		//smartDashboardSources.add(NavX.getInstance());
+		//smartDashboardSources.add(Drive.getInstance());
 		smartDashboardSources.add(FieldCentric.getInstance());
-		smartDashboardSources.add(Lights.getInstance());
+		/*smartDashboardSources.add(Lights.getInstance());
 		smartDashboardSources.add(Shooter.getInstance());
 		smartDashboardSources.add(IntakeArm.getInstance());
 		smartDashboardSources.add(Elevator.getInstance());
 		smartDashboardSources.add(LoaderRoller.getInstance());
 		smartDashboardSources.add(Hood.getInstance());
-		smartDashboardSources.add(IntakeRoller.getInstance());
-		smartDashboardSources.add(OI.getInstance());
+		smartDashboardSources.add(IntakeRoller.getInstance());*/
+		//smartDashboardSources.add(OI.getInstance());
 		
-		periodics.add(Drive.getInstance());
-		
-		subsystems.forEach(SmartDashboard::putData);
+		//periodics.add(Drive.getInstance());
 	}
 
 	/**
@@ -246,14 +294,18 @@ public class Robot extends RobotBase {
 	 *            The name of the mode that is currently occuring
 	 */
 	private void periodic(Mode mode) {
+
+		if(OI.getInstance().fireButton.get() && !OI.getInstance().alignButton.get() && fireCommand != null && !fireCommand.isRunning()) 
+			fireCommand = new LaserCannonTriggerCommand();
+		
 		periodics.forEach(Periodic::periodic);
 		
-		Drive.getInstance().setPIDEnabled(!OI.getInstance().dumbDrive.get());
+		//Drive.getInstance().setPIDEnabled(!OI.getInstance().dumbDrive.get());
 
-		FieldCentric.getInstance().update();
+		//FieldCentric.getInstance().update();
 		Scheduler.getInstance().run();
 
-		smartDashboardSources.forEach(SmartDashboardSource::smartDashboardInfo);
+		//smartDashboardSources.forEach(SmartDashboardSource::smartDashboardInfo);
 	}
 
 	/**

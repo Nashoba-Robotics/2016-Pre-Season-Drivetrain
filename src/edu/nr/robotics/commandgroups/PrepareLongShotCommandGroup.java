@@ -15,7 +15,7 @@ public class PrepareLongShotCommandGroup extends CommandGroup {
     
     public  PrepareLongShotCommandGroup() {
         addParallel(new ShooterHighCommand());
-        addParallel(new HoodPositionCommand(UDPServer.getInstance().getShootAngle()));
+        addParallel(new HoodPositionCommand(RobotMap.LONG_SHOT_POSITION));
         addParallel(new IntakeArmBottomHeightCommand());
         if(!OI.getInstance().getBrakeLightCutout()) {
         	addParallel(new LightsBlinkCommand(RobotMap.LIGHTS_BLINK_PERIOD));

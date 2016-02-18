@@ -1,6 +1,7 @@
 package edu.nr.robotics.subsystems.drive;
 
 import edu.nr.lib.AngleGyroCorrection;
+import edu.nr.lib.AngleUnit;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -11,7 +12,10 @@ public class DriveTurnCommand extends Command {
 	private AngleGyroCorrection gyro;
 	double angle;
 	
-    public DriveTurnCommand(double angle) {
+    public DriveTurnCommand(double angle, AngleUnit unit) {
+    	if(unit == AngleUnit.RADIAN) {
+    		angle = Math.toDegrees(angle);
+    	}
     	this.angle = angle;
         requires(Drive.getInstance());
     }

@@ -39,6 +39,9 @@ public class OI implements SmartDashboardSource, Periodic {
 
 	JoystickButton dumbDrive;
 	JoystickButton brakeLightCutout;
+	
+	public JoystickButton fireButton;
+	public JoystickButton alignButton;
 
 	/**
 	 * 
@@ -64,7 +67,7 @@ public class OI implements SmartDashboardSource, Periodic {
 		  //-> 10: Reset encoders
 		new JoystickButton(driveRight, 10).whenPressed(new ResetEncodersCommand());
 
-		  //Operator Left: (2)
+		//Operator Left: (2)
 		operatorLeft = new Joystick(2);
 		  //->  1: Cancel all commands
 		new JoystickButton(operatorLeft, 1).whenPressed(new CancelAllCommand());
@@ -76,11 +79,12 @@ public class OI implements SmartDashboardSource, Periodic {
 		new JoystickButton(operatorLeft, 3).whenPressed(new AutoShovelOfFriesCommandGroup());
 		  //->  4: Align
 		  //           Auto align the robot to target, ends when drive joysticks are touched
-		new JoystickButton(operatorLeft, 4).whenPressed(new DriveAnglePIDCommand(UDPServer.getInstance().getTurnAngle()));
+		alignButton = new JoystickButton(operatorLeft, 4);
+		alignButton.whileHeld(new AlignCommand());
 		  //->  5: Brake Light Cutout Switch
 		  //           Disables robot “shot ready” LED sequences (in the event that signifying we are about to shoot enables defense robots to defend more effectively
 		brakeLightCutout = new JoystickButton(operatorLeft, 5);
-		  //->  6: Get low
+		//->  6: Get low
 		  //           Puts robot in position to go under low bar (hood down, intake to appropriate height)
 		new JoystickButton(operatorLeft, 6).whenPressed(new GetLowCommandGroup());
 		  //->  7: Prepare Long Shot
@@ -121,7 +125,8 @@ public class OI implements SmartDashboardSource, Periodic {
 		new JoystickButton(operatorRight, 5).whenPressed(new IntakeRollerForwardCommand());
 		  //->  6: Laser Cannon Trigger (Shoot)
 		  //           Forces intake on to shoot (loader auto off based on photo sensor 3, turns off lights)
-		new JoystickButton(operatorRight, 6).whenPressed(new LaserCannonTriggerCommand());
+		fireButton = new JoystickButton(operatorRight, 6);
+		fireButton.whenPressed(new LaserCannonTriggerCommand());
 		  //->  7: Prepare Climb
 		  //           Un-latches elevator (drives the elevator down a little)
 		new JoystickButton(operatorRight, 7).whenPressed(new ElevatorPrepareClimbCommand());

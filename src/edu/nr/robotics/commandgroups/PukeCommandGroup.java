@@ -16,9 +16,9 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
  */
 public class PukeCommandGroup extends CommandGroup {
     
+	double oldRampRate;
+	
     public  PukeCommandGroup() {
-    	double oldRampRate = Shooter.getInstance().getRampRate();
-    	Shooter.getInstance().setRampRate(RobotMap.SHOOTER_RAMP_RATE);
         addParallel(new ShooterReverseCommand());
         addParallel(new LoaderRollerReverseCommand());
         addParallel(new IntakeRollerReverseCommand());
@@ -26,6 +26,16 @@ public class PukeCommandGroup extends CommandGroup {
         addParallel(new ShooterOffCommand());
         addParallel(new LoaderRollerNeutralCommand());
         addParallel(new IntakeRollerNeutralCommand());
+    }
+    
+    @Override
+    public void start() {
+    	oldRampRate = Shooter.getInstance().getRampRate();
+    	Shooter.getInstance().setRampRate(RobotMap.SHOOTER_RAMP_RATE);
+    }
+    
+    @Override
+    public void end() {
         Shooter.getInstance().setRampRate(oldRampRate);
     }
 }

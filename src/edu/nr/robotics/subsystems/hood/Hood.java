@@ -105,6 +105,11 @@ public class Hood extends Subsystem implements SmartDashboardSource {
 		return Math.abs(pid.getError()) > 0.05;
 		//0.05 is a number I just made up
 	}
+	
+	public static double distanceToAngle(double distance) {
+		return distance;
+		//TODO: Find the distance to angle function
+	}
 
 	@Override
 	public void smartDashboardInfo() {

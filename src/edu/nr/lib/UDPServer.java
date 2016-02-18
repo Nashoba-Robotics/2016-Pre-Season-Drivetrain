@@ -5,6 +5,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
+import edu.nr.robotics.subsystems.hood.Hood;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class UDPServer implements Runnable {
@@ -12,11 +13,12 @@ public class UDPServer implements Runnable {
 	char delimiter = ':'; //The information is split distance:beta_h
 	DatagramSocket serverSocket;
 	
-	private double shootAngle;
+	private double hoodAngle;
 	private double turnAngle;
 	
-	private Object lock = new Object();
-	
+	private Object turnLock = new Object();
+	private Object hoodLock = new Object();
+		
 	public static UDPServer getInstance() {
 		if(singleton == null) {
 			singleton = new UDPServer();
@@ -45,6 +47,7 @@ public class UDPServer implements Runnable {
 			}
 			
 			String data = new String( receivePacket.getData() );
+			new UDPClient(data);
 			int p = data.indexOf(delimiter);
 			if (p >= 0) {
 			    String left = data.substring(0, p);
@@ -53,8 +56,11 @@ public class UDPServer implements Runnable {
 			    	double distance = Double.valueOf(left);
 			    	double beta_h = Double.valueOf(right);
 	
-				    synchronized(lock) {
-				    	this.shootAngle = distance;
+			    	synchronized(hoodLock) {
+				    	this.hoodAngle = Hood.distanceToAngle(distance);
+			    	}
+			    	
+				    synchronized(turnLock) {
 						this.turnAngle = beta_h;
 				    }
 			    } catch (NumberFormatException e) {
@@ -69,15 +75,15 @@ public class UDPServer implements Runnable {
 			}
 		}
 	}
-	
+		
 	public double getShootAngle() {
-		synchronized(lock) {
-			return shootAngle;
+		synchronized(hoodLock) {
+			return hoodAngle;
 		}
 	}
 	
 	public double getTurnAngle() {
-		synchronized(lock) {
+		synchronized(turnLock) {
 			return turnAngle;
 		}	
 	}

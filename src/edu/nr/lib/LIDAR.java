@@ -71,6 +71,9 @@ public class LIDAR
 		
 		if(!updater.isAlive() && !updater.isInterrupted())
 			updater.start();
+		
+		new UDPClient("Lidar started");
+
 	}
 	
 	// Start polling for period in milliseconds
@@ -111,9 +114,6 @@ public class LIDAR
 			savedValues[savedValuesIndex % 4] = newValue;
 			savedValuesIndex++;
 			
-			new UDPClient("Lidar read errors: " + readErrors);
-			new UDPClient("Lidar read successes: " + readSuccess);
-
 			SmartDashboard.putNumber("Laser Read Errors", readErrors);
 			SmartDashboard.putNumber("Laser Read Success Num", readSuccess);
 		}
@@ -121,9 +121,6 @@ public class LIDAR
 		previousWriteSuccess = !i2c.write(LIDAR_CONFIG_REGISTER, 0x04);
 		if(!previousWriteSuccess)
 			writeErrors++;
-		
-		new UDPClient("Lidar write errors: " + writeErrors);
-		new UDPClient("Lidar write success: " + previousWriteSuccess);
 		
 		SmartDashboard.putBoolean("Laser Write Success", previousWriteSuccess);
 		SmartDashboard.putNumber("Laser Write Errors", writeErrors);
