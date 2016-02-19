@@ -1,6 +1,6 @@
 package edu.nr.robotics.commandgroups;
 
-import edu.nr.lib.WaitForEncoderGreaterThanCommand;
+import edu.nr.lib.WaitForPIDSourceGreaterThanCommand;
 import edu.nr.robotics.RobotMap;
 import edu.nr.robotics.subsystems.elevator.Elevator;
 import edu.nr.robotics.subsystems.elevator.ElevatorOffCommand;
@@ -15,7 +15,7 @@ public class ExtendAndIntakeUpCommandGroup extends CommandGroup {
     public  ExtendAndIntakeUpCommandGroup() {
         addSequential(new IntakeArmUpHeightCommandGroup());
         addSequential(new ElevatorUpCommand());
-        addSequential(new WaitForEncoderGreaterThanCommand(Elevator.getInstance().enc, RobotMap.ELEVATOR_EXTEND_DISTANCE));
+        addSequential(new WaitForPIDSourceGreaterThanCommand(Elevator.getInstance().enc, RobotMap.ELEVATOR_EXTEND_DISTANCE));
         addSequential(new ElevatorOffCommand());
     }
 }
