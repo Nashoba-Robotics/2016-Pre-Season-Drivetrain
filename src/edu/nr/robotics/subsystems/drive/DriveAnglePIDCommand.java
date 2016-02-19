@@ -1,6 +1,7 @@
 package edu.nr.robotics.subsystems.drive;
 
 import edu.nr.lib.AngleGyroCorrectionSource;
+import edu.nr.lib.AngleUnit;
 import edu.nr.lib.NRCommand;
 import edu.nr.lib.PID;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,8 +17,8 @@ public class DriveAnglePIDCommand extends NRCommand {
 	AngleGyroCorrectionSource correction;
 	boolean resetCorrection;
 	
-    public DriveAnglePIDCommand(double angle) {
-    	this(angle, new AngleGyroCorrectionSource(), true);
+    public DriveAnglePIDCommand(double angle, AngleUnit unit) {
+    	this(angle, new AngleGyroCorrectionSource(unit), true);
     }
 
     public DriveAnglePIDCommand(double angle, AngleGyroCorrectionSource correction, boolean resetCorrection) {

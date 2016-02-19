@@ -25,6 +25,10 @@ public class AngleGyroCorrectionSource extends AngleGyroCorrection implements PI
 		super();
 	}
 	
+	public AngleGyroCorrectionSource(AngleUnit unit) {
+		super(unit);
+	}
+
 	@Override
 	public void setPIDSourceType(PIDSourceType pidSource) {
 		type = pidSource;
@@ -39,5 +43,9 @@ public class AngleGyroCorrectionSource extends AngleGyroCorrection implements PI
 	@Override
 	public double pidGet() {
 		return super.getAngleErrorDegrees();
+	}
+
+	public AngleUnit getUnit() {
+		return unit;
 	}
 }

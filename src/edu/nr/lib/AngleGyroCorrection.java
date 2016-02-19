@@ -26,6 +26,10 @@ public class AngleGyroCorrection extends GyroCorrection {
 		this(angle, NavX.getInstance(), unit);
 	}
 	
+	public AngleGyroCorrection(AngleUnit unit) {
+		this(0, unit);
+	}
+	
 	public AngleGyroCorrection(BaseNavX navx) {
 		this(0, navx, AngleUnit.DEGREE);
 	}

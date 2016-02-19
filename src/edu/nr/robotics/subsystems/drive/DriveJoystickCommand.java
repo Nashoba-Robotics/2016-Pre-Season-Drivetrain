@@ -18,11 +18,11 @@ public class DriveJoystickCommand extends NRCommand {
 
 	public DriveJoystickCommand() {
 		requires(Drive.getInstance());
-        gyroCorrection = new AngleGyroCorrection();
 	}
 
 	@Override
 	protected void onStart() {
+        gyroCorrection = new AngleGyroCorrection();
 		oldTurn = OI.getInstance().getArcadeMoveValue();
 	}
 

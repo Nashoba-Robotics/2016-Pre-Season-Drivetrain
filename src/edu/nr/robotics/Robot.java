@@ -205,14 +205,11 @@ public class Robot extends RobotBase {
 		(new Thread(UDPServer.getInstance())).start();
 	}
 	
-	private void initSmartDashboardChoosers() {
-		double overDistance = 12; //The distance to go over the obstacles completely in auto
-		double ontoDistance = 6; //The distance to go onto the obstacles
-		
+	private void initSmartDashboardChoosers() {		
 		autoCommandPickerOne = new SendableChooser();
 		autoCommandPickerOne.addDefault("Do nothing", new AutonDoNothingCommand());
-		autoCommandPickerOne.addObject("Drive over obstacle", new DriveSimpleDistanceCommand(overDistance, 1.0));
-		autoCommandPickerOne.addObject("Drive onto obstacle", new DriveSimpleDistanceCommand(ontoDistance, 1.0));
+		autoCommandPickerOne.addObject("Drive over obstacle", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE, 1.0));
+		autoCommandPickerOne.addObject("Drive onto obstacle", new DriveSimpleDistanceCommand(RobotMap.ONTO_DISTANCE, 1.0));
 		autoCommandPickerOne.addObject("Auto Guillotine", new AutoGuillotineCommandGroup());
 		autoCommandPickerOne.addObject("Auto Shovel of Fries", new AutoShovelOfFriesCommandGroup());
 		autoCommandPickerOne.addObject("Align and shoot", new AlignAndShootCommandGroup());
@@ -222,8 +219,8 @@ public class Robot extends RobotBase {
 		
 		autoCommandPickerTwo = new SendableChooser();
 		autoCommandPickerTwo.addDefault("Do nothing", new AutonDoNothingCommand());
-		autoCommandPickerTwo.addObject("Drive over obstacle", new DriveSimpleDistanceCommand(overDistance, 1.0));
-		autoCommandPickerTwo.addObject("Drive onto obstacle", new DriveSimpleDistanceCommand(ontoDistance, 1.0));
+		autoCommandPickerTwo.addObject("Drive over obstacle", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE, 1.0));
+		autoCommandPickerTwo.addObject("Drive onto obstacle", new DriveSimpleDistanceCommand(RobotMap.ONTO_DISTANCE, 1.0));
 		autoCommandPickerTwo.addObject("Auto Guillotine", new AutoGuillotineCommandGroup());
 		autoCommandPickerTwo.addObject("Auto Shovel of Fries", new AutoShovelOfFriesCommandGroup());
 		autoCommandPickerTwo.addObject("Align and shoot", new AlignAndShootCommandGroup());
@@ -233,8 +230,8 @@ public class Robot extends RobotBase {
 
 		autoCommandPickerThree = new SendableChooser();
 		autoCommandPickerThree.addDefault("Do nothing", new AutonDoNothingCommand());
-		autoCommandPickerThree.addObject("Drive over obstacle", new DriveSimpleDistanceCommand(overDistance, 1.0));
-		autoCommandPickerThree.addObject("Drive onto obstacle", new DriveSimpleDistanceCommand(ontoDistance, 1.0));
+		autoCommandPickerThree.addObject("Drive over obstacle", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE, 1.0));
+		autoCommandPickerThree.addObject("Drive onto obstacle", new DriveSimpleDistanceCommand(RobotMap.ONTO_DISTANCE, 1.0));
 		autoCommandPickerThree.addObject("Auto Guillotine", new AutoGuillotineCommandGroup());
 		autoCommandPickerThree.addObject("Auto Shovel of Fries", new AutoShovelOfFriesCommandGroup());
 		autoCommandPickerThree.addObject("Align and shoot", new AlignAndShootCommandGroup());
@@ -244,8 +241,8 @@ public class Robot extends RobotBase {
 
 		autoCommandPickerFour = new SendableChooser();
 		autoCommandPickerFour.addDefault("Do nothing", new AutonDoNothingCommand());
-		autoCommandPickerFour.addObject("Drive over obstacle", new DriveSimpleDistanceCommand(overDistance, 1.0));
-		autoCommandPickerFour.addObject("Drive onto obstacle", new DriveSimpleDistanceCommand(ontoDistance, 1.0));
+		autoCommandPickerFour.addObject("Drive over obstacle", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE, 1.0));
+		autoCommandPickerFour.addObject("Drive onto obstacle", new DriveSimpleDistanceCommand(RobotMap.ONTO_DISTANCE, 1.0));
 		autoCommandPickerFour.addObject("Auto Guillotine", new AutoGuillotineCommandGroup());
 		autoCommandPickerFour.addObject("Auto Shovel of Fries", new AutoShovelOfFriesCommandGroup());
 		autoCommandPickerFour.addObject("Align and shoot", new AlignAndShootCommandGroup());
@@ -255,8 +252,8 @@ public class Robot extends RobotBase {
 
 		autoCommandPickerFive = new SendableChooser();
 		autoCommandPickerFive.addDefault("Do nothing", new AutonDoNothingCommand());
-		autoCommandPickerFive.addObject("Drive over obstacle", new DriveSimpleDistanceCommand(overDistance, 1.0));
-		autoCommandPickerFive.addObject("Drive onto obstacle", new DriveSimpleDistanceCommand(ontoDistance, 1.0));
+		autoCommandPickerFive.addObject("Drive over obstacle", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE, 1.0));
+		autoCommandPickerFive.addObject("Drive onto obstacle", new DriveSimpleDistanceCommand(RobotMap.ONTO_DISTANCE, 1.0));
 		autoCommandPickerFive.addObject("Auto Guillotine", new AutoGuillotineCommandGroup());
 		autoCommandPickerFive.addObject("Auto Shovel of Fries", new AutoShovelOfFriesCommandGroup());
 		autoCommandPickerFive.addObject("Align and shoot", new AlignAndShootCommandGroup());
@@ -266,8 +263,8 @@ public class Robot extends RobotBase {
 
 		autoCommandPickerSix = new SendableChooser();
 		autoCommandPickerSix.addDefault("Do nothing", new AutonDoNothingCommand());
-		autoCommandPickerSix.addObject("Drive over obstacle", new DriveSimpleDistanceCommand(overDistance, 1.0));
-		autoCommandPickerSix.addObject("Drive onto obstacle", new DriveSimpleDistanceCommand(ontoDistance, 1.0));
+		autoCommandPickerSix.addObject("Drive over obstacle", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE, 1.0));
+		autoCommandPickerSix.addObject("Drive onto obstacle", new DriveSimpleDistanceCommand(RobotMap.ONTO_DISTANCE, 1.0));
 		autoCommandPickerSix.addObject("Auto Guillotine", new AutoGuillotineCommandGroup());
 		autoCommandPickerSix.addObject("Auto Shovel of Fries", new AutoShovelOfFriesCommandGroup());
 		autoCommandPickerSix.addObject("Align and shoot", new AlignAndShootCommandGroup());
@@ -278,6 +275,10 @@ public class Robot extends RobotBase {
 		autoCommandChooser = new SendableChooser();
 		autoCommandChooser.addDefault("Do Nothing", new AutonDoNothingCommand());
 		autoCommandChooser.addObject("Follow instructions", new AutonFollowInstructionsCommand());
+		autoCommandChooser.addObject("Align and shoot", new AlignAndShootCommandGroup());
+		autoCommandChooser.addObject("Forward over obstacle, align, shoot", new AutonOverAlignShootCommandGroup());
+		autoCommandChooser.addObject("Forward over obstacle, align, shoot, return to obstacle", new AutonOverAlignShootReturnCommandGroup());
+
 		// Add more options like:
 		// autoCommandChooser.addObject(String name, Command command);
 		SmartDashboard.putData("Autonomous Chooser", autoCommandChooser);

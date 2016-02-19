@@ -8,6 +8,10 @@ package edu.nr.robotics;
  */
 public class RobotMap {
 	
+	public static final double OVER_DISTANCE = 18; //The distance to go over the obstacles completely in auto
+	public static final double ONTO_DISTANCE = 10; //The distance to go onto the obstacles from completely in auto
+
+	
 	public static final long LIGHTS_BLINK_PERIOD = 200; //in milliseconds
 
 	public static final int TALON_RIGHT_A = -1;
