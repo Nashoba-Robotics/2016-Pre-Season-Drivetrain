@@ -1,6 +1,7 @@
 package edu.nr.robotics;
 
 import edu.nr.lib.network.UDPServer;
+import edu.nr.robotics.commandgroups.AlignCommandGroup;
 import edu.nr.robotics.subsystems.elevator.Elevator;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;
@@ -22,7 +23,8 @@ private ITable table;
 		if (table != null) {
 			table.putString("~TYPE~", "robo-diagram");
 
-			table.putBoolean("Auto Align Happening", OI.getInstance().isAutoAlignRunning());
+			table.putBoolean("Auto Align Happening", Robot.getInstance().state == AlignCommandGroup.State.ALIGNING);
+			table.putBoolean("All Systems Go", Robot.getInstance().state == AlignCommandGroup.State.WAITING);
 			
 			//Hood
 			table.putBoolean("Hood Bottom", Hood.getInstance().isAtPosition(Hood.Position.BOTTOM));

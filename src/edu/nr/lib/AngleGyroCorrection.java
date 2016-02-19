@@ -1,5 +1,6 @@
 package edu.nr.lib;
 
+import edu.nr.lib.interfaces.GyroCorrection;
 import edu.nr.lib.navx.BaseNavX;
 import edu.nr.lib.navx.NavX;
 

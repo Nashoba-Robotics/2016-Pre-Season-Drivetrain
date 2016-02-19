@@ -3,6 +3,7 @@ package edu.nr.lib.navx;
 import edu.nr.lib.AngleUnit;
 import edu.nr.lib.SmartDashboardSource;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class NavX implements BaseNavX, SmartDashboardSource {
@@ -121,9 +122,32 @@ public class NavX implements BaseNavX, SmartDashboardSource {
 		SmartDashboard.putNumber("NavX Roll", getRoll(AngleUnit.DEGREE));
 		SmartDashboard.putNumber("NavX Pitch", getPitch(AngleUnit.DEGREE));
 		
-		SmartDashboard.putNumber("NavX X Accel", imu.getWorldLinearAccelX());
-		SmartDashboard.putNumber("NavX Y Accel", imu.getWorldLinearAccelY());
-		SmartDashboard.putNumber("NavX Z Accel", imu.getWorldLinearAccelZ());
+		SmartDashboard.putNumber("NavX X Accel", getX());
+		SmartDashboard.putNumber("NavX Y Accel", getY());
+		SmartDashboard.putNumber("NavX Z Accel", getZ());
 		SmartDashboard.putNumber("NavX XY Hypot Accel", Math.hypot(imu.getWorldLinearAccelX(), imu.getWorldLinearAccelY()));
+	}
+
+	/**
+	 * Not implemented
+	 */
+	@Override
+	public void setRange(Range range) {
+		System.err.println("NavX doesn't support setting the range");
+	}
+
+	@Override
+	public double getX() {
+		return imu.getWorldLinearAccelX();
+	}
+
+	@Override
+	public double getY() {
+		return imu.getWorldLinearAccelY();
+	}
+
+	@Override
+	public double getZ() {
+		return imu.getWorldLinearAccelZ();
 	}
 }

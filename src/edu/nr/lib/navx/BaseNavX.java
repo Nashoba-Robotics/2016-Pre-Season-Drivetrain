@@ -1,8 +1,9 @@
 package edu.nr.lib.navx;
 
 import edu.nr.lib.AngleUnit;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 
-public interface BaseNavX {
+public interface BaseNavX extends Accelerometer {
 
 	/**
 	 * Gets the current yaw of the robot in the given units

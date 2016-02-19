@@ -3,13 +3,16 @@ package edu.nr.robotics;
 import java.util.ArrayList;
 
 import edu.nr.lib.*;
+import edu.nr.lib.interfaces.Periodic;
 import edu.nr.lib.navx.NavX;
 import edu.nr.lib.network.UDPClient;
 import edu.nr.lib.network.UDPServer;
 import edu.nr.robotics.auton.*;
 import edu.nr.robotics.commandgroups.AlignAndShootCommandGroup;
+import edu.nr.robotics.commandgroups.AlignCommandGroup;
 import edu.nr.robotics.commandgroups.AutoGuillotineCommandGroup;
 import edu.nr.robotics.commandgroups.AutoShovelOfFriesCommandGroup;
+import edu.nr.robotics.commandgroups.AlignCommandGroup.State;
 import edu.nr.robotics.subsystems.drive.Drive;
 import edu.nr.robotics.subsystems.drive.DriveSimpleDistanceCommand;
 import edu.nr.robotics.subsystems.drive.DriveTurnCommand;
@@ -41,6 +44,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends RobotBase {
+	
+	public AlignCommandGroup.State state;
+
 	
 	LaserCannonTriggerCommand fireCommand;
 

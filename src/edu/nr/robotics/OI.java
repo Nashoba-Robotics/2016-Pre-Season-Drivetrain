@@ -1,8 +1,8 @@
 package edu.nr.robotics;
 
 import edu.nr.lib.CancelAllCommand;
-import edu.nr.lib.Periodic;
 import edu.nr.lib.SmartDashboardSource;
+import edu.nr.lib.interfaces.Periodic;
 import edu.nr.robotics.commandgroups.*;
 import edu.nr.robotics.subsystems.drive.*;
 import edu.nr.robotics.subsystems.elevator.*;
