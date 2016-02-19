@@ -106,11 +106,6 @@ public class TestNavX implements BaseNavX {
 	}
 
 	@Override
-	public void setRange(Range range) {
-		
-	}
-
-	@Override
 	public double getX() {
 		return x;
 	}

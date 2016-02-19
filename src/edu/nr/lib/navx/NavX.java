@@ -128,14 +128,6 @@ public class NavX implements BaseNavX, SmartDashboardSource {
 		SmartDashboard.putNumber("NavX XY Hypot Accel", Math.hypot(imu.getWorldLinearAccelX(), imu.getWorldLinearAccelY()));
 	}
 
-	/**
-	 * Not implemented
-	 */
-	@Override
-	public void setRange(Range range) {
-		System.err.println("NavX doesn't support setting the range");
-	}
-
 	@Override
 	public double getX() {
 		return imu.getWorldLinearAccelX();
