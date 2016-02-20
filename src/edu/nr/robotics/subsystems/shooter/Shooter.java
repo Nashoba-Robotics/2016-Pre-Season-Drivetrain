@@ -1,6 +1,6 @@
 package edu.nr.robotics.subsystems.shooter;
 
-import edu.nr.lib.DigitalInputPIDSource;
+import edu.nr.lib.CounterPIDSource;
 import edu.nr.lib.PID;
 import edu.nr.lib.SmartDashboardSource;
 import edu.nr.robotics.RobotMap;
@@ -26,7 +26,7 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	
 	DigitalInput gate;
 	
-	DigitalInputPIDSource shooterRate;
+	CounterPIDSource shooterRate;
 	
 	private Shooter() {
 		gate = new DigitalInput(RobotMap.SHOOTER_PHOTO_GATE);
@@ -40,9 +40,10 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 		
 		talonOutput = new MotorSetter(talonA, talonB);
 		
-		shooterRate = new DigitalInputPIDSource(RobotMap.SHOOTER_RATE_PORT);
+		shooterRate = new CounterPIDSource(RobotMap.SHOOTER_RATE_PORT);
 		shooterRate.setDistancePerPulse(RobotMap.SHOOTER_DISTANCE_PER_PULSE);
 		shooterRate.setPIDSourceType(PIDSourceType.kRate);
+		shooterRate.setSamplesToAverage(6);
 				
 		pid = new PID(0.0001, 0, 0, shooterRate, talonOutput); //TODO: Get the value for the Shooter PID
 
