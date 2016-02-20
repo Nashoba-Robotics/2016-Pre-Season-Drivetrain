@@ -271,7 +271,7 @@ public class OI implements SmartDashboardSource, Periodic {
 	public void periodic() {
 		try {
 			if(isCurrentModeNonZero()) {
-				if(Drive.getInstance().getCurrentCommand().getName() != "DriveJoystickCommand") {
+				if(!Drive.getInstance().getCurrentCommand().getName().equals("DriveJoystickCommand")) {
 					Drive.getInstance().getCurrentCommand().cancel();
 					//TODO: Test drive joystick cancel functionality
 				}
@@ -281,28 +281,28 @@ public class OI implements SmartDashboardSource, Periodic {
 		}
 		
 		if(getLoaderRollerMoveValue() != 0) {
-			if(LoaderRoller.getInstance().getCurrentCommand().getName() != "LoaderRollerJoystickCommand") {
+			if(!LoaderRoller.getInstance().getCurrentCommand().getName().equals("LoaderRollerJoystickCommand")) {
 				LoaderRoller.getInstance().getCurrentCommand().cancel();
 				//TODO: Test loader roller joystick cancel functionality
 			}
 		}
 		
 		if(getIntakeArmMoveValue() != 0) {
-			if(IntakeArm.getInstance().getCurrentCommand().getName() != "IntakeArmJoystickCommand") {
+			if(!IntakeArm.getInstance().getCurrentCommand().getName().equals("IntakeArmJoystickCommand")) {
 				IntakeArm.getInstance().getCurrentCommand().cancel();
 				//TODO: Test intake arm joystick cancel functionality
 			}
 		}
 		
 		if(getHoodMoveValue() != 0) {
-			if(Hood.getInstance().getCurrentCommand().getName() != "HoodJoystickCommand") {
+			if(!Hood.getInstance().getCurrentCommand().getName().equals("HoodJoystickCommand")) {
 				Hood.getInstance().getCurrentCommand().cancel();
 				//TODO: Test hood joystick cancel functionality
 			}
 		}
 		
 		if(getElevatorMoveValue() != 0) {
-			if(Elevator.getInstance().getCurrentCommand().getName() != "ElevatorJoystickCommand") {
+			if(!Elevator.getInstance().getCurrentCommand().getName().equals("ElevatorJoystickCommand")) {
 				Elevator.getInstance().getCurrentCommand().cancel();
 				//TODO: Test elevator joystick cancel functionality
 			}

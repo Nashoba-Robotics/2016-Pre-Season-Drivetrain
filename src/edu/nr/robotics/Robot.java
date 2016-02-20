@@ -326,42 +326,46 @@ public class Robot extends RobotBase {
 	
 	private void initSubsystems() {
 		//Init subsystems
-		//Drive.init();
-		//NavX.init();
+		Drive.init();
+		NavX.init();
 		FieldCentric.init();
-		/*Lights.init();
+		Lights.init();
 		Shooter.init();
 		IntakeArm.init();
 		Elevator.init();
 		LoaderRoller.init();
 		Hood.init();
-		IntakeRoller.init();*/
+		IntakeRoller.init();
 		OI.init();
 		
 		//Add subsystems to subsystem array list
 		//subsystems.add(Drive.getInstance());
-		/*subsystems.add(Lights.getInstance());
+		subsystems.add(Lights.getInstance());
 		subsystems.add(Shooter.getInstance());
 		subsystems.add(IntakeArm.getInstance());
 		subsystems.add(LoaderRoller.getInstance());
 		subsystems.add(Elevator.getInstance());
 		subsystems.add(Hood.getInstance());
-		subsystems.add(IntakeRoller.getInstance());*/
+		subsystems.add(IntakeRoller.getInstance());
 		
 		//Add SmartDashboard sources to the smartdashboard source array list
-		//smartDashboardSources.add(NavX.getInstance());
-		//smartDashboardSources.add(Drive.getInstance());
+		smartDashboardSources.add(NavX.getInstance());
+		smartDashboardSources.add(Drive.getInstance());
 		smartDashboardSources.add(FieldCentric.getInstance());
-		/*smartDashboardSources.add(Lights.getInstance());
+		smartDashboardSources.add(Lights.getInstance());
 		smartDashboardSources.add(Shooter.getInstance());
 		smartDashboardSources.add(IntakeArm.getInstance());
 		smartDashboardSources.add(Elevator.getInstance());
 		smartDashboardSources.add(LoaderRoller.getInstance());
 		smartDashboardSources.add(Hood.getInstance());
-		smartDashboardSources.add(IntakeRoller.getInstance());*/
-		//smartDashboardSources.add(OI.getInstance());
+		smartDashboardSources.add(IntakeRoller.getInstance());
+		smartDashboardSources.add(OI.getInstance());
 		
-		//periodics.add(Drive.getInstance());
+		periodics.add(Drive.getInstance());
+		periodics.add(UDPServer.getInstance());
+		periodics.add(OI.getInstance());
+		periodics.add(Hood.getInstance());
+		periodics.add(IntakeArm.getInstance());
 	}
 
 	/**

@@ -5,13 +5,17 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
+import edu.nr.lib.interfaces.Periodic;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class UDPServer implements Runnable {
+public class UDPServer implements Runnable, Periodic {
 	public static UDPServer singleton;
 	char delimiter = ':'; //The information is split distance:beta_h
 	DatagramSocket serverSocket;
+	
+	long lastUpdateTime;
+	long lastPrintTime;
 	
 	private double hoodAngle;
 	private double turnAngle;
@@ -37,15 +41,17 @@ public class UDPServer implements Runnable {
 	}
 
 	public void run() {
+		lastUpdateTime = System.currentTimeMillis();
 		while(true) {
 			byte[] receiveData = new byte[1024];
 			DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+			
 			try {
 				serverSocket.receive(receivePacket);
+				lastUpdateTime = System.currentTimeMillis();
 			} catch (IOException e) {
 				System.err.println("Couldn't get a packet");
 			}
-			
 			String data = new String( receivePacket.getData() );
 			new UDPClient(data);
 			int p = data.indexOf(delimiter);
@@ -68,8 +74,7 @@ public class UDPServer implements Runnable {
 			    }
 			    System.out.println("Shoot: " + getShootAngle() + " Angle: " + getTurnAngle());
 			    SmartDashboard.putNumber("Shoot angle", getShootAngle());
-			    SmartDashboard.putNumber("Angle from camera", getTurnAngle());
-	
+			    SmartDashboard.putNumber("Angle from camera", getTurnAngle());	
 			} else {
 			  System.err.println("Packet received doesn't have a delimiter");
 			}
@@ -86,5 +91,14 @@ public class UDPServer implements Runnable {
 		synchronized(turnLock) {
 			return turnAngle;
 		}	
+	}
+
+	@Override
+	public void periodic() {
+		SmartDashboard.putNumber("Time since last packet", (System.currentTimeMillis() - lastUpdateTime)/1000.0);
+		if(System.currentTimeMillis() - lastUpdateTime > 1000 && System.currentTimeMillis() - lastPrintTime > 300) {
+			lastPrintTime = System.currentTimeMillis();
+			System.err.println("TIME SINCE LAST JETSON PACKET IS TOO MUCH!!!");
+		}
 	}
 }
