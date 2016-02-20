@@ -7,6 +7,7 @@ import edu.nr.robotics.commandgroups.*;
 import edu.nr.robotics.subsystems.drive.*;
 import edu.nr.robotics.subsystems.elevator.*;
 import edu.nr.robotics.subsystems.hood.Hood;
+import edu.nr.robotics.subsystems.hood.HoodResetEncoderCommand;
 import edu.nr.robotics.subsystems.intakearm.*;
 import edu.nr.robotics.subsystems.intakeroller.*;
 import edu.nr.robotics.subsystems.lights.*;
@@ -65,8 +66,12 @@ public class OI implements SmartDashboardSource, Periodic {
         //Drive Right: (1)
 		driveRight = new Joystick(1);
 		  //->  1: Slow Turn
-		  //-> 10: Reset encoders
-		new JoystickButton(driveRight, 10).whenPressed(new ResetEncodersCommand());
+		  //-> 10: Reset drive encoders
+		new JoystickButton(driveRight, 10).whenPressed(new DriveResetEncodersCommand());
+		  //-> 11: Reset hood encoder
+		new JoystickButton(driveRight, 11).whenPressed(new HoodResetEncoderCommand());
+		  //-> 12: Reset intake potentiomer
+		new JoystickButton(driveRight, 12).whenPressed(new IntakeArmResetPotentiometerCommand());
 
 		//Operator Left: (2)
 		operatorLeft = new Joystick(2);
@@ -98,6 +103,8 @@ public class OI implements SmartDashboardSource, Periodic {
 		  //->  9: Dumb Drive switch
 		  //           Switch closed loop drive off (in case of sensor failure)
 		dumbDrive = new JoystickButton(operatorLeft, 9);
+		dumbDrive.whenPressed(new DumbDriveOnCommand());
+		dumbDrive.whenReleased(new DumbDriveOffCommand());
 		  //-> 10: Prepare Low Goal
 		  //           Prepares low goal dump (positions intake to proper height)
 		new JoystickButton(operatorLeft, 10).whenPressed(new IntakeArmPrepareLowGoalCommand());

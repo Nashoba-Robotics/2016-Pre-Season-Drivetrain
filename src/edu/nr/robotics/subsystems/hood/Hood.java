@@ -2,9 +2,9 @@ package edu.nr.robotics.subsystems.hood;
 
 import edu.nr.lib.PID;
 import edu.nr.lib.SmartDashboardSource;
+import edu.nr.lib.TalonEncoder;
+import edu.nr.lib.interfaces.Periodic;
 import edu.nr.robotics.RobotMap;
-import edu.nr.robotics.subsystems.hood.Hood.Position;
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -13,10 +13,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class Hood extends Subsystem implements SmartDashboardSource {
+public class Hood extends Subsystem implements SmartDashboardSource, Periodic {
     
 	CANTalon talon;	
-	AnalogPotentiometer pot;
+	TalonEncoder enc;
 	PID pid;
 	
 	private static Hood singleton;
@@ -32,13 +32,17 @@ public class Hood extends Subsystem implements SmartDashboardSource {
 	
 	private Hood() {
 		talon = new CANTalon(RobotMap.HOOD_TALON);
-		pot = new AnalogPotentiometer(RobotMap.HOOD_POT);
-		pot.setPIDSourceType(PIDSourceType.kDisplacement);
-		pid = new PID(0.0001, 0, 0, pot, talon); //TODO: Get the value for the Hood PID
+		enc = new TalonEncoder(talon);
+		enc.setPIDSourceType(PIDSourceType.kDisplacement);
+		pid = new PID(0.0001, 0, 0, enc, talon); //TODO: Get the value for the Hood PID
 	}
 
 	@Override
 	protected void initDefaultCommand() {
+	}
+	
+	public void resetEncoder() {
+		enc.reset();
 	}
 	
 	public static Hood getInstance() {
@@ -100,11 +104,11 @@ public class Hood extends Subsystem implements SmartDashboardSource {
 	}
 	
 	/**
-	 * Gets the value of the potentiometer
-	 * @return the value of the potentiometer
+	 * Gets the value of the encoder
+	 * @return the value of the encoder
 	 */
 	public double get() {
-		return pot.get();
+		return enc.get();
 	}
 	
 	/**
@@ -133,7 +137,7 @@ public class Hood extends Subsystem implements SmartDashboardSource {
 	}
 
 	public boolean isAtPosition(Position pos) {
-		return pot.get() + RobotMap.HOOD_THRESHOLD > pos.pos &&  pot.get() - RobotMap.HOOD_THRESHOLD < pos.pos;
+		return enc.get() + RobotMap.HOOD_THRESHOLD > pos.pos &&  enc.get() - RobotMap.HOOD_THRESHOLD < pos.pos;
 	}
 
 	public boolean isAtBottom() {
@@ -142,6 +146,13 @@ public class Hood extends Subsystem implements SmartDashboardSource {
 
 	public boolean isAtTop() {
 		return isAtPosition(Position.TOP);
+	}
+
+	@Override
+	public void periodic() {
+		if(talon.isRevLimitSwitchClosed()) {
+			enc.reset();
+		}
 	}
 
 	

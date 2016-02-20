@@ -26,7 +26,7 @@ public class IntakeRoller extends Subsystem implements SmartDashboardSource {
 
 	private IntakeRoller() {
 		gate = new DigitalInput(RobotMap.INTAKE_PHOTO_GATE);
-		talon = new CANTalon(RobotMap.ROLLER_INTAKE_TALON);
+		talon = new CANTalon(RobotMap.INTAKE_ROLLER_TALON);
 		encoder = new TalonEncoder(talon);
 		encoder.setPIDSourceType(PIDSourceType.kRate);
 		pid = new PID(0, 0, 0, encoder, talon); //TODO: Get the PID value for the intake roller

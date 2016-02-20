@@ -12,11 +12,31 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class AutonOverAlignShootCommandGroup extends CommandGroup {
     
-    public  AutonOverAlignShootCommandGroup() {
-        addSequential(new DriveSimpleDistanceWithGyroCommand(RobotMap.OVER_DISTANCE, 1.0));
-        addSequential(new DriveAnglePIDCommand(50, AngleUnit.DEGREE));
+	public enum Positions {
+		two, five, threefour, one
+	}
+	
+    public  AutonOverAlignShootCommandGroup(final Positions pos) {
+    	
+    	final double overDistance;
+    	final double ontoDistance;
+    	
+    	if(pos == Positions.two || pos == Positions.five) {
+    		overDistance = RobotMap.OVER_DISTANCE_25;
+    		ontoDistance = RobotMap.ONTO_DISTANCE_25;
+    	} else {
+    		overDistance = RobotMap.OVER_DISTANCE_134;
+    		ontoDistance = RobotMap.ONTO_DISTANCE_134;
+    	}
+    	
+        addSequential(new DriveSimpleDistanceWithGyroCommand(overDistance, 1.0));
+        if(pos == Positions.one) {
+        	addSequential(new DriveAnglePIDCommand(50, AngleUnit.DEGREE));
+        } else if (pos == Positions.two) {
+        	addSequential(new DriveAnglePIDCommand(30, AngleUnit.DEGREE));
+        } else if (pos == Positions.five) {
+        	addSequential(new DriveAnglePIDCommand(-30, AngleUnit.DEGREE));
+        }
         addSequential(new AlignAndShootCommandGroup());
-        addSequential(new AutonReturnToNormalBackCommandGroup());
-        addSequential(new DriveSimpleDistanceWithGyroCommand(RobotMap.ONTO_DISTANCE, 1.0));
     }
 }

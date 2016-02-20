@@ -8,12 +8,14 @@ import edu.nr.lib.navx.NavX;
 import edu.nr.lib.network.UDPClient;
 import edu.nr.lib.network.UDPServer;
 import edu.nr.robotics.auton.*;
+import edu.nr.robotics.auton.AutonOverAlignShootCommandGroup.Positions;
 import edu.nr.robotics.commandgroups.AlignAndShootCommandGroup;
 import edu.nr.robotics.commandgroups.AlignCommandGroup;
 import edu.nr.robotics.commandgroups.AutoGuillotineCommandGroup;
 import edu.nr.robotics.commandgroups.AutoShovelOfFriesCommandGroup;
 import edu.nr.robotics.commandgroups.AlignCommandGroup.State;
 import edu.nr.robotics.subsystems.drive.Drive;
+import edu.nr.robotics.subsystems.drive.DriveAnglePIDCommand;
 import edu.nr.robotics.subsystems.drive.DriveSimpleDistanceCommand;
 import edu.nr.robotics.subsystems.drive.DriveTurnCommand;
 import edu.nr.robotics.subsystems.elevator.Elevator;
@@ -208,76 +210,100 @@ public class Robot extends RobotBase {
 	private void initSmartDashboardChoosers() {		
 		autoCommandPickerOne = new SendableChooser();
 		autoCommandPickerOne.addDefault("Do nothing", new AutonDoNothingCommand());
-		autoCommandPickerOne.addObject("Drive over obstacle", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE, 1.0));
-		autoCommandPickerOne.addObject("Drive onto obstacle", new DriveSimpleDistanceCommand(RobotMap.ONTO_DISTANCE, 1.0));
+		autoCommandPickerOne.addObject("Drive over obstacle25", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE_25, 1.0));
+		autoCommandPickerOne.addObject("Drive onto obstacle25", new DriveSimpleDistanceCommand(RobotMap.ONTO_DISTANCE_25, 1.0));
+		autoCommandPickerOne.addObject("Drive over obstacle134", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE_134, 1.0));
+		autoCommandPickerOne.addObject("Drive onto obstacle134", new DriveSimpleDistanceCommand(RobotMap.ONTO_DISTANCE_134, 1.0));
 		autoCommandPickerOne.addObject("Auto Guillotine", new AutoGuillotineCommandGroup());
 		autoCommandPickerOne.addObject("Auto Shovel of Fries", new AutoShovelOfFriesCommandGroup());
 		autoCommandPickerOne.addObject("Align and shoot", new AlignAndShootCommandGroup());
 		autoCommandPickerOne.addObject("Return to normal (front)", new AutonReturnToNormalFrontCommandGroup());
 		autoCommandPickerOne.addObject("Return to normal (back)", new AutonReturnToNormalBackCommandGroup());
+		autoCommandPickerOne.addObject("Rotate 180", new DriveAnglePIDCommand(180, AngleUnit.DEGREE));
 		SmartDashboard.putData("Picker One", autoCommandPickerOne);
 		
 		autoCommandPickerTwo = new SendableChooser();
 		autoCommandPickerTwo.addDefault("Do nothing", new AutonDoNothingCommand());
-		autoCommandPickerTwo.addObject("Drive over obstacle", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE, 1.0));
-		autoCommandPickerTwo.addObject("Drive onto obstacle", new DriveSimpleDistanceCommand(RobotMap.ONTO_DISTANCE, 1.0));
+		autoCommandPickerTwo.addObject("Drive over obstacle25", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE_25, 1.0));
+		autoCommandPickerTwo.addObject("Drive onto obstacle25", new DriveSimpleDistanceCommand(RobotMap.ONTO_DISTANCE_25, 1.0));
+		autoCommandPickerTwo.addObject("Drive over obstacle134", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE_134, 1.0));
+		autoCommandPickerTwo.addObject("Drive onto obstacle134", new DriveSimpleDistanceCommand(RobotMap.ONTO_DISTANCE_134, 1.0));
 		autoCommandPickerTwo.addObject("Auto Guillotine", new AutoGuillotineCommandGroup());
 		autoCommandPickerTwo.addObject("Auto Shovel of Fries", new AutoShovelOfFriesCommandGroup());
 		autoCommandPickerTwo.addObject("Align and shoot", new AlignAndShootCommandGroup());
 		autoCommandPickerTwo.addObject("Return to normal (front)", new AutonReturnToNormalFrontCommandGroup());
 		autoCommandPickerTwo.addObject("Return to normal (back)", new AutonReturnToNormalBackCommandGroup());
+		autoCommandPickerOne.addObject("Rotate 180", new DriveAnglePIDCommand(180, AngleUnit.DEGREE));
 		SmartDashboard.putData("Picker Two", autoCommandPickerTwo);
 
 		autoCommandPickerThree = new SendableChooser();
 		autoCommandPickerThree.addDefault("Do nothing", new AutonDoNothingCommand());
-		autoCommandPickerThree.addObject("Drive over obstacle", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE, 1.0));
-		autoCommandPickerThree.addObject("Drive onto obstacle", new DriveSimpleDistanceCommand(RobotMap.ONTO_DISTANCE, 1.0));
+		autoCommandPickerThree.addObject("Drive over obstacle25", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE_25, 1.0));
+		autoCommandPickerThree.addObject("Drive onto obstacle25", new DriveSimpleDistanceCommand(RobotMap.ONTO_DISTANCE_25, 1.0));
+		autoCommandPickerThree.addObject("Drive over obstacle134", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE_134, 1.0));
+		autoCommandPickerThree.addObject("Drive onto obstacle134", new DriveSimpleDistanceCommand(RobotMap.ONTO_DISTANCE_134, 1.0));
 		autoCommandPickerThree.addObject("Auto Guillotine", new AutoGuillotineCommandGroup());
 		autoCommandPickerThree.addObject("Auto Shovel of Fries", new AutoShovelOfFriesCommandGroup());
 		autoCommandPickerThree.addObject("Align and shoot", new AlignAndShootCommandGroup());
 		autoCommandPickerThree.addObject("Return to normal (front)", new AutonReturnToNormalFrontCommandGroup());
 		autoCommandPickerThree.addObject("Return to normal (back)", new AutonReturnToNormalBackCommandGroup());
+		autoCommandPickerThree.addObject("Rotate 180", new DriveAnglePIDCommand(180, AngleUnit.DEGREE));
 		SmartDashboard.putData("Picker Three", autoCommandPickerThree);
 
 		autoCommandPickerFour = new SendableChooser();
 		autoCommandPickerFour.addDefault("Do nothing", new AutonDoNothingCommand());
-		autoCommandPickerFour.addObject("Drive over obstacle", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE, 1.0));
-		autoCommandPickerFour.addObject("Drive onto obstacle", new DriveSimpleDistanceCommand(RobotMap.ONTO_DISTANCE, 1.0));
+		autoCommandPickerFour.addObject("Drive over obstacle25", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE_25, 1.0));
+		autoCommandPickerFour.addObject("Drive onto obstacle25", new DriveSimpleDistanceCommand(RobotMap.ONTO_DISTANCE_25, 1.0));
+		autoCommandPickerFour.addObject("Drive over obstacle134", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE_134, 1.0));
+		autoCommandPickerFour.addObject("Drive onto obstacle134", new DriveSimpleDistanceCommand(RobotMap.ONTO_DISTANCE_134, 1.0));
 		autoCommandPickerFour.addObject("Auto Guillotine", new AutoGuillotineCommandGroup());
 		autoCommandPickerFour.addObject("Auto Shovel of Fries", new AutoShovelOfFriesCommandGroup());
 		autoCommandPickerFour.addObject("Align and shoot", new AlignAndShootCommandGroup());
 		autoCommandPickerFour.addObject("Return to normal (front)", new AutonReturnToNormalFrontCommandGroup());
 		autoCommandPickerFour.addObject("Return to normal (back)", new AutonReturnToNormalBackCommandGroup());
+		autoCommandPickerFour.addObject("Rotate 180", new DriveAnglePIDCommand(180, AngleUnit.DEGREE));
 		SmartDashboard.putData("Picker Four", autoCommandPickerFour);
 
 		autoCommandPickerFive = new SendableChooser();
 		autoCommandPickerFive.addDefault("Do nothing", new AutonDoNothingCommand());
-		autoCommandPickerFive.addObject("Drive over obstacle", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE, 1.0));
-		autoCommandPickerFive.addObject("Drive onto obstacle", new DriveSimpleDistanceCommand(RobotMap.ONTO_DISTANCE, 1.0));
+		autoCommandPickerFive.addObject("Drive over obstacle25", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE_25, 1.0));
+		autoCommandPickerFive.addObject("Drive onto obstacle25", new DriveSimpleDistanceCommand(RobotMap.ONTO_DISTANCE_25, 1.0));
+		autoCommandPickerFive.addObject("Drive over obstacle134", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE_134, 1.0));
+		autoCommandPickerFive.addObject("Drive onto obstacle134", new DriveSimpleDistanceCommand(RobotMap.ONTO_DISTANCE_134, 1.0));
 		autoCommandPickerFive.addObject("Auto Guillotine", new AutoGuillotineCommandGroup());
 		autoCommandPickerFive.addObject("Auto Shovel of Fries", new AutoShovelOfFriesCommandGroup());
 		autoCommandPickerFive.addObject("Align and shoot", new AlignAndShootCommandGroup());
 		autoCommandPickerFive.addObject("Return to normal (front)", new AutonReturnToNormalFrontCommandGroup());
 		autoCommandPickerFive.addObject("Return to normal (back)", new AutonReturnToNormalBackCommandGroup());
+		autoCommandPickerFive.addObject("Rotate 180", new DriveAnglePIDCommand(180, AngleUnit.DEGREE));
 		SmartDashboard.putData("Picker Five", autoCommandPickerFive);
 
 		autoCommandPickerSix = new SendableChooser();
 		autoCommandPickerSix.addDefault("Do nothing", new AutonDoNothingCommand());
-		autoCommandPickerSix.addObject("Drive over obstacle", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE, 1.0));
-		autoCommandPickerSix.addObject("Drive onto obstacle", new DriveSimpleDistanceCommand(RobotMap.ONTO_DISTANCE, 1.0));
+		autoCommandPickerSix.addObject("Drive over obstacle25", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE_25, 1.0));
+		autoCommandPickerSix.addObject("Drive onto obstacle25", new DriveSimpleDistanceCommand(RobotMap.ONTO_DISTANCE_25, 1.0));
+		autoCommandPickerSix.addObject("Drive over obstacle134", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE_134, 1.0));
+		autoCommandPickerSix.addObject("Drive onto obstacle134", new DriveSimpleDistanceCommand(RobotMap.ONTO_DISTANCE_134, 1.0));
 		autoCommandPickerSix.addObject("Auto Guillotine", new AutoGuillotineCommandGroup());
 		autoCommandPickerSix.addObject("Auto Shovel of Fries", new AutoShovelOfFriesCommandGroup());
 		autoCommandPickerSix.addObject("Align and shoot", new AlignAndShootCommandGroup());
 		autoCommandPickerSix.addObject("Return to normal (front)", new AutonReturnToNormalFrontCommandGroup());
 		autoCommandPickerSix.addObject("Return to normal (back)", new AutonReturnToNormalBackCommandGroup());
+		autoCommandPickerSix.addObject("Rotate 180", new DriveAnglePIDCommand(180, AngleUnit.DEGREE));
 		SmartDashboard.putData("Picker Six", autoCommandPickerSix);
 		
 		autoCommandChooser = new SendableChooser();
 		autoCommandChooser.addDefault("Do Nothing", new AutonDoNothingCommand());
 		autoCommandChooser.addObject("Follow instructions", new AutonFollowInstructionsCommand());
 		autoCommandChooser.addObject("Align and shoot", new AlignAndShootCommandGroup());
-		autoCommandChooser.addObject("Forward over obstacle, align, shoot", new AutonOverAlignShootCommandGroup());
-		autoCommandChooser.addObject("Forward over obstacle, align, shoot, return to obstacle", new AutonOverAlignShootReturnCommandGroup());
+		autoCommandChooser.addObject("Forward over obstacle, align, shoot 2", new AutonOverAlignShootCommandGroup(Positions.two));
+		autoCommandChooser.addObject("Forward over obstacle, align, shoot, return to obstacle 2", new AutonOverAlignShootReturnCommandGroup(Positions.two));
+		autoCommandChooser.addObject("Forward over obstacle, align, shoot 5", new AutonOverAlignShootCommandGroup(Positions.five));
+		autoCommandChooser.addObject("Forward over obstacle, align, shoot, return to obstacle 5", new AutonOverAlignShootReturnCommandGroup(Positions.five));
+		autoCommandChooser.addObject("Forward over obstacle, align, shoot 1", new AutonOverAlignShootCommandGroup(Positions.one));
+		autoCommandChooser.addObject("Forward over obstacle, align, shoot, return to obstacle 1", new AutonOverAlignShootReturnCommandGroup(Positions.one));
+		autoCommandChooser.addObject("Forward over obstacle, align, shoot 34", new AutonOverAlignShootCommandGroup(Positions.threefour));
+		autoCommandChooser.addObject("Forward over obstacle, align, shoot, return to obstacle 34", new AutonOverAlignShootReturnCommandGroup(Positions.threefour));
 
 		// Add more options like:
 		// autoCommandChooser.addObject(String name, Command command);
@@ -352,12 +378,10 @@ public class Robot extends RobotBase {
 		
 		periodics.forEach(Periodic::periodic);
 		
-		//Drive.getInstance().setPIDEnabled(!OI.getInstance().dumbDrive.get());
-
-		//FieldCentric.getInstance().update();
+		FieldCentric.getInstance().update();
 		Scheduler.getInstance().run();
 
-		//smartDashboardSources.forEach(SmartDashboardSource::smartDashboardInfo);
+		smartDashboardSources.forEach(SmartDashboardSource::smartDashboardInfo);
 	}
 
 	/**
@@ -369,5 +393,8 @@ public class Robot extends RobotBase {
 	 */
 	private void initialize(Mode mode) {
 		currentMode = mode;
+		if(mode == Mode.AUTONOMOUS) {
+			Hood.getInstance().resetEncoder();
+		}
 	}
 }

@@ -1,10 +1,10 @@
 package edu.nr.robotics.subsystems.intakearm;
 
+import edu.nr.ResettableAnalogPotentiometer;
 import edu.nr.lib.PID;
 import edu.nr.lib.SmartDashboardSource;
-import edu.nr.lib.TalonEncoder;
+import edu.nr.lib.interfaces.Periodic;
 import edu.nr.robotics.RobotMap;
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -13,18 +13,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class IntakeArm extends Subsystem implements SmartDashboardSource{
+public class IntakeArm extends Subsystem implements SmartDashboardSource, Periodic {
     
 	private static IntakeArm singleton;
 
 	CANTalon talon;
-	AnalogPotentiometer pot;
+	ResettableAnalogPotentiometer pot;
 	PID pid;
-	
+		
 	private IntakeArm() {		
 
 		talon = new CANTalon(RobotMap.INTAKE_ARM_TALON);
-		pot = new AnalogPotentiometer(RobotMap.INTAKE_ARM_POT);
+		pot = new ResettableAnalogPotentiometer(RobotMap.INTAKE_ARM_POT);
 		pot.setPIDSourceType(PIDSourceType.kDisplacement);
 		pid = new PID(0.0001, 0, 0, pot, talon); //TODO: Get the value for the Intake Arm PID
 	}
@@ -96,20 +96,22 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource{
 	public double get() {
 		return pot.get();
 	}
-	
-	/**
-	 * Gets whether the motor is still moving
-	 * @return whether the motor is still moving
-	 */
-	public boolean getMoving() {
-		return Math.abs(pid.getError()) > 0.05;
-		//0.05 is a number I just made up
-	}
 
 	@Override
 	public void smartDashboardInfo() {
 		SmartDashboard.putNumber("Intake Arm Potentiometer", get());
 		SmartDashboard.putBoolean("Intake Arm Moving", Math.abs(pid.getError()) > 0.05);
+	}
+
+	@Override
+	public void periodic() {
+		if(talon.isRevLimitSwitchClosed()) {
+			pot.reset();
+		}
+	}
+
+	public void reset() {
+		pot.reset();
 	}
 }
 

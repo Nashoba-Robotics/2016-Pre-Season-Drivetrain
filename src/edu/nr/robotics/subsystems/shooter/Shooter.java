@@ -3,12 +3,9 @@ package edu.nr.robotics.subsystems.shooter;
 import edu.nr.lib.DigitalInputPIDSource;
 import edu.nr.lib.PID;
 import edu.nr.lib.SmartDashboardSource;
-import edu.nr.lib.TalonEncoder;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,10 +17,12 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
     
 	private static Shooter singleton;
 
-	CANTalon talon;
+	CANTalon talonA, talonB;
 	PID pid;
 	
 	double talonRampRate = 100000;
+	
+	MotorSetter talonOutput;
 	
 	DigitalInput gate;
 	
@@ -32,19 +31,20 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	private Shooter() {
 		gate = new DigitalInput(RobotMap.SHOOTER_PHOTO_GATE);
 		
-		talon = new CANTalon(RobotMap.SHOOTER_TALON_A);
-		talon.enableBrakeMode(true);
+		talonA = new CANTalon(RobotMap.SHOOTER_TALON_A);
+		talonA.enableBrakeMode(true);
 		
-		CANTalon talonTemp = new CANTalon(RobotMap.SHOOTER_TALON_B);
-		talonTemp.changeControlMode(TalonControlMode.Follower);
-		talonTemp.set(talon.getDeviceID());
-		talonTemp.enableBrakeMode(true);
+		talonB = new CANTalon(RobotMap.SHOOTER_TALON_B);
+		talonB.enableBrakeMode(true);
+		talonB.setInverted(true);
+		
+		talonOutput = new MotorSetter(talonA, talonB);
 		
 		shooterRate = new DigitalInputPIDSource(RobotMap.SHOOTER_RATE_PORT);
 		shooterRate.setDistancePerPulse(RobotMap.SHOOTER_DISTANCE_PER_PULSE);
 		shooterRate.setPIDSourceType(PIDSourceType.kRate);
 				
-		pid = new PID(0.0001, 0, 0, shooterRate, talon); //TODO: Get the value for the Shooter PID
+		pid = new PID(0.0001, 0, 0, shooterRate, talonOutput); //TODO: Get the value for the Shooter PID
 
 	}
 	
@@ -69,7 +69,7 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	 */
 	public void setMotor(double speed) {
 		pid.disable();
-		talon.set(speed);
+		talonOutput.write(speed);
 	}
 	
 	/**
@@ -136,7 +136,7 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	 * Sets the ramp rate in volts/s
 	 */
 	public void setRampRate(double voltsPerSec) {
-		talon.setVoltageRampRate(voltsPerSec);
+		talonOutput.setTalonRampRate(voltsPerSec);
 		talonRampRate = voltsPerSec;
 	}
 	
@@ -156,7 +156,7 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	public void smartDashboardInfo() {
 		SmartDashboard.putNumber("Shooter Speed", getSpeed());
 		SmartDashboard.putBoolean("Shooter Running", getSetpoint() != 0);
-		SmartDashboard.putNumber("Shooter Current", talon.getOutputCurrent());
+		SmartDashboard.putNumber("Shooter Current", talonOutput.getOutputCurrent());
 	}
 
 	public boolean hasBall() {

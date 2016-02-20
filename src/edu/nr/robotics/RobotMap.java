@@ -8,16 +8,19 @@ package edu.nr.robotics;
  */
 public class RobotMap {
 	
-	public static final double OVER_DISTANCE = 18; //The distance to go over the obstacles completely in auto
-	public static final double ONTO_DISTANCE = 10; //The distance to go onto the obstacles from completely in auto
+	//TODO: Find over and onto distances for 2,5
+	public static final double OVER_DISTANCE_25 = 0; //The distance to go over the obstacles completely in auto
+	public static final double ONTO_DISTANCE_25 = 0; //The distance to go onto the obstacles from completely in auto
 
+	public static final double OVER_DISTANCE_134 = 18; //The distance to go over the obstacles completely in auto
+	public static final double ONTO_DISTANCE_134 = 10; //The distance to go onto the obstacles from completely in auto
 	
 	public static final long LIGHTS_BLINK_PERIOD = 200; //in milliseconds
 
-	public static final int TALON_RIGHT_A = -1;
-	public static final int TALON_RIGHT_B = -1;
-	public static final int TALON_LEFT_A = -1;
-	public static final int TALON_LEFT_B = -1;
+	public static final int TALON_RIGHT_A = 8;
+	public static final int TALON_RIGHT_B = 9;
+	public static final int TALON_LEFT_A = 4;
+	public static final int TALON_LEFT_B = 3;
 
 	public static final double MAX_SPEED = 3.4; // Meters per second //Actual
 												// value is 3.4 m/s
@@ -31,17 +34,16 @@ public class RobotMap {
 	public static final int LIGHTS_SPIKE = 0;
 	
 	//TODO: Get values for ports
-	public static final int INTAKE_ARM_TALON = -1;
-	public static final int INTAKE_ARM_POT = -1;
-	public static final int HOOD_TALON = -1;
-	public static final int HOOD_POT = -1;
-	public static final int ELEVATOR_TALON = -1;
+	public static final int INTAKE_ARM_TALON = 11;
+	public static final int INTAKE_ARM_POT = 0;
+	public static final int HOOD_TALON = 6;
+	public static final int ELEVATOR_TALON = 2;
 	
-	public static final int ROLLER_LOADER_TALON     = -1;
+	public static final int LOADER_ROLLER_TALON     = 10;
 
-	public static final int ROLLER_INTAKE_TALON     = -1;
-	public static final int SHOOTER_TALON_A = -1;
-	public static final int SHOOTER_TALON_B = -1;
+	public static final int INTAKE_ROLLER_TALON     = 1;
+	public static final int SHOOTER_TALON_A = 7;
+	public static final int SHOOTER_TALON_B = 5;
 	
 	//TODO: Find all the values
 	public static final double SHOOTER_FAST_SPEED = -1; //out of 1.0

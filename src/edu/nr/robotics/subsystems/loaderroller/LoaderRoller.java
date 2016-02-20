@@ -31,7 +31,7 @@ public class LoaderRoller extends Subsystem implements SmartDashboardSource {
 		
 		gate = new DigitalInput(RobotMap.LOADER_PHOTO_GATE);
 		
-		loaderTalon = new CANTalon(RobotMap.ROLLER_LOADER_TALON);
+		loaderTalon = new CANTalon(RobotMap.LOADER_ROLLER_TALON);
 
 
 		loaderEncoder = new TalonEncoder(loaderTalon);
