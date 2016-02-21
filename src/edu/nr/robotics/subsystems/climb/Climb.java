@@ -68,7 +68,7 @@ public class Climb extends Subsystem implements SmartDashboardSource {
 
 	
     public void initDefaultCommand() {
-		setDefaultCommand(new ClimbJoystickCommand());
+		//setDefaultCommand(new ClimbJoystickCommand());
     }
 
 	@Override

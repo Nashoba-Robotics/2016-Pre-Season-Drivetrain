@@ -12,6 +12,6 @@ public class IntakeArmUpHeightCommandGroup extends CommandGroup {
 
     public IntakeArmUpHeightCommandGroup() {
         addParallel(new IntakeRollerNeutralCommand());
-        addSequential(new IntakeArmPositionCommand(RobotMap.INTAKE_ARM_UP_HEIGHT));
+        addSequential(new IntakeArmPositionCommand(RobotMap.INTAKE_TOP_POS));
     }
 }

@@ -28,11 +28,12 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 		pot = new ResettableAnalogPotentiometer(RobotMap.INTAKE_ARM_POT);
 		pot.setPIDSourceType(PIDSourceType.kDisplacement);
 		pot.scale(RobotMap.INTAKE_ARM_TICK_TO_ANGLE_MULTIPLIER);
-		pid = new PID(0.0001, 0, 0, pot, talon); //TODO: Get the value for the Intake Arm PID
+		pot.setBottomPos(0.776);
+		pid = new PID(0.03, 0.0002, 0, pot, talon); //TODO: Get the value for the Intake Arm PID
 	}
 	
     public void initDefaultCommand() {
-		setDefaultCommand(new IntakeArmJoystickCommand());
+		//setDefaultCommand(new IntakeArmJoystickCommand());
 
     }
     
@@ -52,7 +53,8 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	 * @param speed the speed to set the motor to, from -1 to 1
 	 */
 	public void setMotor(double speed) {
-		pid.disable();
+		if(pid.isEnable())
+			pid.disable();
 		talon.set(speed);
 	}
 	
@@ -60,7 +62,7 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	 * Set the arm PID setpoint
 	 * @param value the value to set the setpoint to
 	 */
-	public void setArmSetpoint(double value) {
+	public void setSetpoint(double value) {
 		pid.setSetpoint(value);	
 	}
 	
@@ -106,6 +108,8 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 		SmartDashboard.putNumber("Intake Arm Potentiometer", get());
 		SmartDashboard.putBoolean("Intake Arm Moving", Math.abs(pid.getError()) > 0.05);
 		SmartDashboard.putData(this);
+		SmartDashboard.putData("Intake Arm PID", pid);
+		SmartDashboard.putNumber("Intake arm pid output", pid.get());
 	}
 
 	@Override

@@ -23,7 +23,6 @@ public class RobotMap {
 	public static final int TALON_LEFT_B = 3;
 
 	public static final double MAX_SPEED = 11; // Feet per second
-	// TODO: Get actual max speed instead of using a placeholder value
 
 	
 	public static final int INTAKE_PHOTO_GATE = 9; //Label is D - Banner 1
@@ -33,7 +32,6 @@ public class RobotMap {
 
 	public static final int LIGHTS_SPIKE = 0;
 	
-	//TODO: Get values for ports
 	public static final int INTAKE_ARM_TALON = 11;
 	public static final int INTAKE_ARM_POT = 0;
 	public static final int HOOD_TALON = 6;
@@ -45,32 +43,30 @@ public class RobotMap {
 	public static final int SHOOTER_TALON_A = 7;
 	public static final int SHOOTER_TALON_B = 5;
 	
-	//TODO: Find all the values
 	public static final double SHOOTER_FAST_SPEED = 0.75; //out of 1.0
 	public static final double SHOOTER_SLOW_SPEED = 0.3; //out of 1.0
 	public static final double SHOOTER_MAX_SPEED = 300; //In rotations per second
-	public static final double CLOSE_SHOT_POSITION = -1;
-	public static final double LONG_SHOT_POSITION = -1;
-	public static final double SHOOTER_RAMP_RATE = 1;
-	public static final double INTAKE_ARM_UP_HEIGHT = -1;
-	public static final double INTAKE_ARM_BOTTOM_HEIGHT = -1;
-	public static final double INTAKE_ARM_INTAKE_HEIGHT = -1;
-	public static final double INTAKE_ARM_BUMPER_HEIGHT = -1;
-	public static final double ELEVATOR_EXTEND_DISTANCE = -1;
+	public static final double CLOSE_SHOT_POSITION = 0;
+	public static final double LONG_SHOT_POSITION = 55;
+	public static final double SHOOTER_RAMP_RATE = 2.5;
 	public static final double HOOD_BOTTOM_POSITION = 0;
 	public static final double HOOD_TOP_POSITION = 75.46;
 	public static final double HOOD_TICK_TO_ANGLE_MULTIPLIER = 0.031934;
-	public static final double HOOD_THRESHOLD = -1;
-	public static final double INTAKE_THRESHOLD = 2;
+	public static final double HOOD_THRESHOLD = 2;
+	public static final double INTAKE_THRESHOLD = 1;
 	public static final double INTAKE_TOP_POS = 102.5;
 	public static final double INTAKE_INTAKE_POS = 24.7;
 	public static final double INTAKE_HOME_POS = 13.1;
 	public static final double INTAKE_BOTTOM_POS = 0;
 	public static final double INTAKE_ARM_TICK_TO_ANGLE_MULTIPLIER = -0.00222;
+	public static final double TURN_THRESHOLD = .5;
+	public static final double SHOOTER_THRESHOLD = 0.05;
+	
+	//TODO: Find all the elevator values
+	public static final double ELEVATOR_EXTEND_DISTANCE = -1;
 	public static final int ELEVATOR_BOTTOM_POSITION = -1;
 	public static final int ELEVATOR_TOP_POSITION = -1;
 	public static final double ELEVATOR_THRESHOLD = -1;
-	public static final double TURN_THRESHOLD = -1;
-	public static final double SHOOTER_THRESHOLD = -1;
+
 
 }

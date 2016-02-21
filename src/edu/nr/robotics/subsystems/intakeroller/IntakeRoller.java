@@ -1,13 +1,9 @@
 package edu.nr.robotics.subsystems.intakeroller;
 
-import edu.nr.lib.PID;
 import edu.nr.lib.SmartDashboardSource;
-import edu.nr.lib.TalonEncoder;
 import edu.nr.robotics.RobotMap;
-import edu.nr.robotics.subsystems.intakearm.IntakeArm;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -42,11 +38,11 @@ public class IntakeRoller extends Subsystem implements SmartDashboardSource {
 	 * @param value the value to set the setpoint to
 	 */
 	public void setRollerSpeed(double value) {
-		talon.set(value);	
+		//talon.set(value);	
 	}
 
     public void initDefaultCommand() {
-    	setDefaultCommand(new IntakeRollerJoystickCommand());
+    	//setDefaultCommand(new IntakeRollerJoystickCommand());
     }
 
 	@Override
@@ -57,6 +53,10 @@ public class IntakeRoller extends Subsystem implements SmartDashboardSource {
 	
 	public boolean hasBall() {
 		return !gate.get();
+	}
+
+	public double getRollerSpeed() {
+		return talon.get();
 	}
 }
 

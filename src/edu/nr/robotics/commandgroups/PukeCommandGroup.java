@@ -27,15 +27,4 @@ public class PukeCommandGroup extends CommandGroup {
         addParallel(new LoaderRollerNeutralCommand());
         addParallel(new IntakeRollerNeutralCommand());
     }
-    
-    @Override
-    public void start() {
-    	oldRampRate = Shooter.getInstance().getRampRate();
-    	Shooter.getInstance().setRampRate(RobotMap.SHOOTER_RAMP_RATE);
-    }
-    
-    @Override
-    public void end() {
-        Shooter.getInstance().setRampRate(oldRampRate);
-    }
 }

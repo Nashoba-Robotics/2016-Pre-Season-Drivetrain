@@ -1,6 +1,7 @@
 package edu.nr.robotics.commandgroups;
 
 import edu.nr.robotics.subsystems.drive.DriveSimpleDistanceCommand;
+import edu.nr.robotics.subsystems.hood.HoodBottomCommand;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -16,6 +17,7 @@ public class AutoShovelOfFriesCommandGroup extends CommandGroup {
 	//TODO: Confirm the behaviour of auto shovel of fries
 
     public  AutoShovelOfFriesCommandGroup() {
+    	addParallel(new HoodBottomCommand());
     	addSequential(new IntakeArmUpHeightCommandGroup());
         addSequential(new DriveSimpleDistanceCommand(firstdistance,firstspeed));
         addSequential(new IntakeArmBottomHeightCommandGroup());

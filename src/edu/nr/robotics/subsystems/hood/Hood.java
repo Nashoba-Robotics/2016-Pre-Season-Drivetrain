@@ -39,12 +39,12 @@ public class Hood extends Subsystem implements SmartDashboardSource, Periodic {
 		enc = new TalonEncoder(talon);
 		enc.setPIDSourceType(PIDSourceType.kDisplacement);
 		enc.setDistancePerRev(RobotMap.HOOD_TICK_TO_ANGLE_MULTIPLIER);
-		pid = new PID(0.5, 0, 0, enc, talon); //TODO: Get the value for the Hood PID
+		pid = new PID(0.25, 0.00, 0.001, enc, talon); //TODO: Get the value for the Hood PID
 	}
 
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new HoodJoystickCommand());
+		//setDefaultCommand(new HoodJoystickCommand());
 	}
 	
 	public void resetEncoder() {

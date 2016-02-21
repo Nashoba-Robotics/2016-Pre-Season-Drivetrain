@@ -12,7 +12,7 @@ public class IntakeArmBottomHeightCommandGroup extends CommandGroup {
 
     public IntakeArmBottomHeightCommandGroup() {
         addParallel(new IntakeRollerNeutralCommand());
-    	addSequential(new IntakeArmPositionCommand(RobotMap.INTAKE_ARM_BOTTOM_HEIGHT));
+    	addSequential(new IntakeArmPositionCommand(RobotMap.INTAKE_BOTTOM_POS));
         
     }
 }

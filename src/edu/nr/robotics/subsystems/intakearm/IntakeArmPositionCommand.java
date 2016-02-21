@@ -18,7 +18,7 @@ public class IntakeArmPositionCommand extends NRCommand {
 
 	@Override
 	protected void onExecute() {
-		IntakeArm.getInstance().setArmSetpoint(val);
+		IntakeArm.getInstance().setSetpoint(val);
 	}
 
 	@Override

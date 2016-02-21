@@ -19,7 +19,6 @@ import edu.nr.robotics.subsystems.drive.Drive;
 import edu.nr.robotics.subsystems.drive.DriveAnglePIDCommand;
 import edu.nr.robotics.subsystems.drive.DriveResetEncodersCommand;
 import edu.nr.robotics.subsystems.drive.DriveSimpleDistanceCommand;
-import edu.nr.robotics.subsystems.drive.DriveTurnCommand;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.hood.HoodBottomCommand;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;
@@ -48,6 +47,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends RobotBase {
+	
+	//TODO: Update talon firmware and test shooter ramp rate
 	
 	public AlignCommandGroup.State state;
 
@@ -342,7 +343,7 @@ public class Robot extends RobotBase {
 		OI.init();
 		
 		//Add subsystems to subsystem array list
-		//subsystems.add(Drive.getInstance());
+		subsystems.add(Drive.getInstance());
 		subsystems.add(Lights.getInstance());
 		subsystems.add(Shooter.getInstance());
 		subsystems.add(IntakeArm.getInstance());
@@ -387,6 +388,8 @@ public class Robot extends RobotBase {
 		SmartDashboard.putBoolean("Hood bot limit switch", Hood.getInstance().isBotLimitSwitchClosed());
 		SmartDashboard.putBoolean("Intake Arm bot limit switch", IntakeArm.getInstance().isBotLimitSwitchClosed());
 		SmartDashboard.putBoolean("Intake Arm top limit switch", IntakeArm.getInstance().isTopLimitSwitchClosed());
+		
+		Drive.getInstance().setPIDEnabled(!OI.getInstance().dumbDrive.get());
 
 		if(OI.getInstance().fireButton.get() && !OI.getInstance().alignButton.get() && fireCommand != null && !fireCommand.isRunning()) 
 			fireCommand = new LaserCannonTriggerCommand();

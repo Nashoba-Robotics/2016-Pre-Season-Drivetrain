@@ -23,4 +23,8 @@ public class ResettableAnalogPotentiometer extends AnalogPotentiometer {
 	public void scale(double scale) {
 		this.scale = scale;
 	}
+	
+	public void setBottomPos(double pos) {
+		bottomPos = pos;
+	}
 }

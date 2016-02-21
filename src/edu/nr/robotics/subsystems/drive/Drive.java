@@ -372,6 +372,8 @@ public class Drive extends Subsystem implements SmartDashboardSource, Periodic{
 		SmartDashboard.putNumber("Drive Left Main Talon Current", leftTalon.getOutputCurrent());
 		SmartDashboard.putNumber("Drive Right Temp Talon Current", tempRightTalon.getOutputCurrent());
 		SmartDashboard.putNumber("Drive Left Temp Talon Current", tempLeftTalon.getOutputCurrent());
+		
+		SmartDashboard.putData("Drive", this);
 
 	}
 

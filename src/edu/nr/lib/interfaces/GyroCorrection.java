@@ -2,7 +2,7 @@ package edu.nr.lib.interfaces;
 
 public abstract class GyroCorrection
 {
-	private static final double ANGLE_CORRECTION_INTENSITY = 0.005, MAX_ANGLE_CORRECTION_SPEED = 0.2;
+	private static final double ANGLE_CORRECTION_INTENSITY = 0.05, MAX_ANGLE_CORRECTION_SPEED = 0.2;
 	private boolean initialized = false;
 	
 	public double getTurnValue(double correctionIntensity)

@@ -1,18 +1,32 @@
 package edu.nr.lib;
 
-import edu.nr.robotics.Robot;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.nr.robotics.subsystems.climb.Climb;
+import edu.nr.robotics.subsystems.drive.Drive;
+import edu.nr.robotics.subsystems.hood.Hood;
+import edu.nr.robotics.subsystems.intakearm.IntakeArm;
+import edu.nr.robotics.subsystems.intakeroller.IntakeRoller;
+import edu.nr.robotics.subsystems.lights.Lights;
+import edu.nr.robotics.subsystems.loaderroller.LoaderRoller;
+import edu.nr.robotics.subsystems.shooter.Shooter;
 
 public class CancelAllCommand extends NRCommand {
 
 	public CancelAllCommand() {
-		for (Subsystem subsystem : Robot.subsystems) {
-			subsystem.getCurrentCommand().cancel();
-			requires(subsystem);
-		}
+		requires(Drive.getInstance());
+		requires(Lights.getInstance());
+		requires(Shooter.getInstance());
+		requires(IntakeArm.getInstance());
+		requires(LoaderRoller.getInstance());
+		requires(Climb.getInstance());
+		requires(Hood.getInstance());
+		requires(IntakeRoller.getInstance());
 	}
 	
-	public void onExecute() {
-		System.out.println("Cancelling all commands");
+	public void onStart() {
+		IntakeArm.getInstance().disable();
+		IntakeRoller.getInstance().setRollerSpeed(0);
+		LoaderRoller.getInstance().setLoaderSpeed(0);
+		Hood.getInstance().disable();
+		Shooter.getInstance().disable();
 	}
 }
