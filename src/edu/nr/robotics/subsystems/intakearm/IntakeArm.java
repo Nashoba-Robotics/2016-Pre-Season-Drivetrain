@@ -29,7 +29,7 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 		pot.setPIDSourceType(PIDSourceType.kDisplacement);
 		pot.scale(RobotMap.INTAKE_ARM_TICK_TO_ANGLE_MULTIPLIER);
 		pot.setBottomPos(0.776);
-		pid = new PID(0.03, 0.0002, 0, pot, talon); //TODO: Get the value for the Intake Arm PID
+		pid = new PID(0.03, 0.0002, 0, pot, talon);
 	}
 	
     public void initDefaultCommand() {
@@ -108,8 +108,9 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 		SmartDashboard.putNumber("Intake Arm Potentiometer", get());
 		SmartDashboard.putBoolean("Intake Arm Moving", Math.abs(pid.getError()) > 0.05);
 		SmartDashboard.putData(this);
-		SmartDashboard.putData("Intake Arm PID", pid);
-		SmartDashboard.putNumber("Intake arm pid output", pid.get());
+		SmartDashboard.putBoolean("Intake Arm bot limit switch", isBotLimitSwitchClosed());
+		SmartDashboard.putBoolean("Intake Arm top limit switch", isTopLimitSwitchClosed());
+
 	}
 
 	@Override

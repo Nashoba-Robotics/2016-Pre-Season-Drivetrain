@@ -6,11 +6,11 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 /**
  *
  */
-public class ClimbUnlatchCommand extends CommandGroup {
+public class ElevatorUnlatchCommand extends CommandGroup {
 
-    public ClimbUnlatchCommand() {
-        addParallel(new ClimbDownCommand());
+    public ElevatorUnlatchCommand() {
+        addParallel(new ElevatorDownCommand());
         addSequential(new WaitCommand(0.1));
-        addSequential(new ClimbOffCommand());
+        addSequential(new ElevatorOffCommand());
     }
 }

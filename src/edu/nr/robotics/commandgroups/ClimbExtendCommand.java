@@ -2,9 +2,9 @@ package edu.nr.robotics.commandgroups;
 
 import edu.nr.lib.WaitForPIDSourceGreaterThanCommand;
 import edu.nr.robotics.RobotMap;
-import edu.nr.robotics.subsystems.climb.Climb;
-import edu.nr.robotics.subsystems.climb.ClimbOffCommand;
-import edu.nr.robotics.subsystems.climb.ClimbUpCommand;
+import edu.nr.robotics.subsystems.climb.Elevator;
+import edu.nr.robotics.subsystems.climb.ElevatorOffCommand;
+import edu.nr.robotics.subsystems.climb.ElevatorUpCommand;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -14,8 +14,8 @@ public class ClimbExtendCommand extends CommandGroup {
     
     public  ClimbExtendCommand() {
         addSequential(new IntakeArmUpHeightCommandGroup());
-        addSequential(new ClimbUpCommand());
-        addSequential(new WaitForPIDSourceGreaterThanCommand(Climb.getInstance().enc, RobotMap.ELEVATOR_EXTEND_DISTANCE));
-        addSequential(new ClimbOffCommand());
+        addSequential(new ElevatorUpCommand());
+        addSequential(new WaitForPIDSourceGreaterThanCommand(Elevator.getInstance().enc, RobotMap.ELEVATOR_EXTEND_DISTANCE));
+        addSequential(new ElevatorOffCommand());
     }
 }

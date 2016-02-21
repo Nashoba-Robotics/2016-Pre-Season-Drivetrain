@@ -2,6 +2,7 @@ package edu.nr.robotics;
 
 import edu.nr.lib.AngleUnit;
 import edu.nr.lib.CancelAllCommand;
+import edu.nr.lib.DoubleJoystickButton;
 import edu.nr.lib.SmartDashboardSource;
 import edu.nr.lib.interfaces.Periodic;
 import edu.nr.robotics.commandgroups.*;
@@ -15,7 +16,6 @@ import edu.nr.robotics.subsystems.intakeroller.*;
 import edu.nr.robotics.subsystems.lights.*;
 import edu.nr.robotics.subsystems.loaderroller.*;
 import edu.nr.robotics.subsystems.shooter.ShooterHighCommand;
-import edu.nr.robotics.subsystems.shooter.ShooterLowCommand;
 import edu.nr.robotics.subsystems.shooter.ShooterOffCommand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
@@ -47,7 +47,7 @@ public class OI implements SmartDashboardSource, Periodic {
 	JoystickButton LEDCutout;
 	
 	public JoystickButton fireButton;
-	public JoystickButton alignButton;
+	public DoubleJoystickButton alignButton;
 	
 	AlignCommandGroup alignCommand;
 
@@ -98,7 +98,7 @@ public class OI implements SmartDashboardSource, Periodic {
 
 		  //->  2 + 3: Align
 		  //           Auto align the robot to target, ends when drive joysticks are touched
-		alignButton = new JoystickButton(operatorLeft, 2);
+		alignButton = new DoubleJoystickButton(operatorLeft, 2, 3);
 		alignCommand = new AlignCommandGroup();
 		alignButton.whileHeld(alignCommand);
 		  //=>  9: Get low
@@ -145,13 +145,13 @@ public class OI implements SmartDashboardSource, Periodic {
 		new JoystickButton(operatorRight, 7).whenPressed(new CancelAllCommand());
 		  //->  8: Climb
 		  //           Fully retracts elevator, stops after 1 second of motor stall
-		new JoystickButton(operatorRight, 9).whenPressed(new ClimbRetractCommand());
+		new JoystickButton(operatorRight, 9).whenPressed(new ElevatorRetractCommand());
 		  //->  9: Extend & Intake Up
 		  //           Extends elevator completely, brings intake to up position
 		new JoystickButton(operatorRight, 8).whenPressed(new ClimbExtendCommand());
 		  //-> 10: Prepare Climb
 		  //           Un-latches elevator (drives the elevator down a little)
-		new JoystickButton(operatorRight, 7).whenPressed(new ClimbUnlatchCommand());
+		new JoystickButton(operatorRight, 7).whenPressed(new ElevatorUnlatchCommand());
 		  //=>  11: Dumb Drive switch
 		  //           Switch closed loop drive off (in case of sensor failure)
 		dumbDrive = new JoystickButton(operatorRight, 11);
@@ -202,7 +202,7 @@ public class OI implements SmartDashboardSource, Periodic {
 	}
 	
 	public double getHoodMoveValue() {
-		return -1 * (new JoystickButton(driveRight, 10).get() ? driveRight.getAxis(AxisType.kY) : 0); //TODO: When hood is fixed, change to -1 multiplier
+		return -1 * (new JoystickButton(driveRight, 10).get() ? driveRight.getAxis(AxisType.kY) : 0);
 		//return snapCoffinJoysticks(operatorRight.getRawAxis(2));
 	}
 	
@@ -298,11 +298,11 @@ public class OI implements SmartDashboardSource, Periodic {
 		
 	@Override
 	public void periodic() {
-		/*try {
+		//TODO: Test joystick cancel functionality
+		try {
 			if(isCurrentModeNonZero()) {
-				if(!Drive.getInstance().getCurrentCommand().getName().equals("DriveJoystickCommand")) {
+				if(Drive.getInstance().getCurrentCommand() != null && !Drive.getInstance().getCurrentCommand().getName().equals("DriveJoystickCommand")) {
 					Drive.getInstance().getCurrentCommand().cancel();
-					//TODO: Test drive joystick cancel functionality
 				}
 			}
 		} catch (DrivingModeException e) {
@@ -310,32 +310,28 @@ public class OI implements SmartDashboardSource, Periodic {
 		}
 		
 		if(getLoaderRollerMoveValue() != 0) {
-			if(!LoaderRoller.getInstance().getCurrentCommand().getName().equals("LoaderRollerJoystickCommand")) {
-				LoaderRoller.getInstance().getCurrentCommand().cancel();
-				//TODO: Test loader roller joystick cancel functionality
+			if(LoaderRoller.getInstance().getCurrentCommand() != null && !LoaderRoller.getInstance().getCurrentCommand().getName().equals("LoaderRollerJoystickCommand")) {
+				LoaderRoller.getInstance().setLoaderSpeed(0);
 			}
 		}
 		
 		if(getIntakeArmMoveValue() != 0) {
-			if(!IntakeArm.getInstance().getCurrentCommand().getName().equals("IntakeArmJoystickCommand")) {
-				IntakeArm.getInstance().getCurrentCommand().cancel();
-				//TODO: Test intake arm joystick cancel functionality
+			if(IntakeArm.getInstance().getCurrentCommand() != null && !IntakeArm.getInstance().getCurrentCommand().getName().equals("IntakeArmJoystickCommand")) {
+				IntakeArm.getInstance().disable();
 			}
 		}
 		
 		if(getHoodMoveValue() != 0) {
-			if(!Hood.getInstance().getCurrentCommand().getName().equals("HoodJoystickCommand")) {
-				Hood.getInstance().getCurrentCommand().cancel();
-				//TODO: Test hood joystick cancel functionality
+			if(Hood.getInstance().getCurrentCommand() != null && !Hood.getInstance().getCurrentCommand().getName().equals("HoodJoystickCommand")) {
+				Hood.getInstance().disable();
 			}
 		}
 		
 		if(getElevatorMoveValue() != 0) {
-			if(!Climb.getInstance().getCurrentCommand().getName().equals("ElevatorJoystickCommand")) {
-				Climb.getInstance().getCurrentCommand().cancel();
-				//TODO: Test elevator joystick cancel functionality
+			if(Elevator.getInstance().getCurrentCommand() != null && !Elevator.getInstance().getCurrentCommand().getName().equals("ElevatorJoystickCommand")) {
+				Elevator.getInstance().setMotorValue(0);
 			}
-		}*/
+		}
 	}
 
 	public boolean isAutoAlignRunning() {

@@ -1,6 +1,6 @@
 package edu.nr.lib;
 
-import edu.nr.robotics.subsystems.climb.Climb;
+import edu.nr.robotics.subsystems.climb.Elevator;
 import edu.nr.robotics.subsystems.drive.Drive;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;
@@ -17,7 +17,7 @@ public class CancelAllCommand extends NRCommand {
 		requires(Shooter.getInstance());
 		requires(IntakeArm.getInstance());
 		requires(LoaderRoller.getInstance());
-		requires(Climb.getInstance());
+		requires(Elevator.getInstance());
 		requires(Hood.getInstance());
 		requires(IntakeRoller.getInstance());
 	}

@@ -54,6 +54,7 @@ public class UDPServer implements Runnable, Periodic {
 			}
 			String data = new String( receivePacket.getData() );
 			new UDPClient(data);
+			System.out.println("Received: " + data);
 			int p = data.indexOf(delimiter);
 			if (p >= 0) {
 			    String left = data.substring(0, p);

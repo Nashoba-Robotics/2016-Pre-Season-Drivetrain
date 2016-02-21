@@ -5,17 +5,17 @@ import edu.nr.lib.NRCommand;
 /**
  *
  */
-public class ClimbSpeedCommand extends NRCommand {
+public class ElevatorSpeedCommand extends NRCommand {
 
 	double val;
 	
-    public ClimbSpeedCommand(double val) {
+    public ElevatorSpeedCommand(double val) {
     	this.val = val;
-    	requires(Climb.getInstance());
+    	requires(Elevator.getInstance());
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Climb.getInstance().setMotorValue(val);
+    	Elevator.getInstance().setMotorValue(val);
     }
 }

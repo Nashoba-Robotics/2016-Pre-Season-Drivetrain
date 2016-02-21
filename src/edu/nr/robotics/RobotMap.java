@@ -8,12 +8,11 @@ package edu.nr.robotics;
  */
 public class RobotMap {
 	
-	//TODO: Find over and onto distances for 2,5
-	public static final double OVER_DISTANCE_25 = 0; //The distance to go over the obstacles completely in auto
-	public static final double ONTO_DISTANCE_25 = 0; //The distance to go onto the obstacles from completely in auto
+	public static final double OVER_DISTANCE_25 = 15; //The distance to go over obstacles 2 and 5 completely in auto
+	public static final double ONTO_DISTANCE_25 = 7; //The distance to go onto obstacles 2 and 5 completely in auto
 
-	public static final double OVER_DISTANCE_134 = 18; //The distance to go over the obstacles completely in auto
-	public static final double ONTO_DISTANCE_134 = 10; //The distance to go onto the obstacles from completely in auto
+	public static final double OVER_DISTANCE_134 = 18; //The distance to go over obstacles 1, 3, and 4 completely in auto
+	public static final double ONTO_DISTANCE_134 = 10; //The distance to go onto obstacles  1, 3, and 4 completely in auto
 	
 	public static final long LIGHTS_BLINK_PERIOD = 200; //in milliseconds
 

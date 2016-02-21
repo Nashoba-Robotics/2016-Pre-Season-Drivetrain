@@ -14,7 +14,7 @@ import edu.nr.robotics.commandgroups.AlignCommandGroup;
 import edu.nr.robotics.commandgroups.AutoGuillotineCommandGroup;
 import edu.nr.robotics.commandgroups.AutoShovelOfFriesCommandGroup;
 import edu.nr.robotics.commandgroups.AlignCommandGroup.State;
-import edu.nr.robotics.subsystems.climb.Climb;
+import edu.nr.robotics.subsystems.climb.Elevator;
 import edu.nr.robotics.subsystems.drive.Drive;
 import edu.nr.robotics.subsystems.drive.DriveAnglePIDCommand;
 import edu.nr.robotics.subsystems.drive.DriveResetEncodersCommand;
@@ -22,6 +22,7 @@ import edu.nr.robotics.subsystems.drive.DriveSimpleDistanceCommand;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.hood.HoodBottomCommand;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;
+import edu.nr.robotics.subsystems.intakearm.IntakeArmMoveDownUntilLimitSwitchCommand;
 import edu.nr.robotics.subsystems.intakeroller.IntakeRoller;
 import edu.nr.robotics.subsystems.lights.Lights;
 import edu.nr.robotics.subsystems.loaderroller.LaserCannonTriggerCommand;
@@ -47,9 +48,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends RobotBase {
-	
-	//TODO: Update talon firmware and test shooter ramp rate
-	
+		
 	public AlignCommandGroup.State state;
 
 	
@@ -213,7 +212,7 @@ public class Robot extends RobotBase {
 	
 	private void initSmartDashboardChoosers() {		
 		autoCommandPickerOne = new SendableChooser();
-		autoCommandPickerOne.addDefault("Do nothing", new AutonDoNothingCommand());
+		autoCommandPickerOne.addDefault("1-Do nothing", new AutonDoNothingCommand());
 		autoCommandPickerOne.addObject("Drive over obstacle25", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE_25, 1.0));
 		autoCommandPickerOne.addObject("Drive onto obstacle25", new DriveSimpleDistanceCommand(RobotMap.ONTO_DISTANCE_25, 1.0));
 		autoCommandPickerOne.addObject("Drive over obstacle134", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE_134, 1.0));
@@ -227,7 +226,7 @@ public class Robot extends RobotBase {
 		SmartDashboard.putData("Picker One", autoCommandPickerOne);
 		
 		autoCommandPickerTwo = new SendableChooser();
-		autoCommandPickerTwo.addDefault("Do nothing", new AutonDoNothingCommand());
+		autoCommandPickerTwo.addDefault("2-Do nothing", new AutonDoNothingCommand());
 		autoCommandPickerTwo.addObject("Drive over obstacle25", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE_25, 1.0));
 		autoCommandPickerTwo.addObject("Drive onto obstacle25", new DriveSimpleDistanceCommand(RobotMap.ONTO_DISTANCE_25, 1.0));
 		autoCommandPickerTwo.addObject("Drive over obstacle134", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE_134, 1.0));
@@ -241,7 +240,7 @@ public class Robot extends RobotBase {
 		SmartDashboard.putData("Picker Two", autoCommandPickerTwo);
 
 		autoCommandPickerThree = new SendableChooser();
-		autoCommandPickerThree.addDefault("Do nothing", new AutonDoNothingCommand());
+		autoCommandPickerThree.addDefault("3-Do nothing", new AutonDoNothingCommand());
 		autoCommandPickerThree.addObject("Drive over obstacle25", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE_25, 1.0));
 		autoCommandPickerThree.addObject("Drive onto obstacle25", new DriveSimpleDistanceCommand(RobotMap.ONTO_DISTANCE_25, 1.0));
 		autoCommandPickerThree.addObject("Drive over obstacle134", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE_134, 1.0));
@@ -255,7 +254,7 @@ public class Robot extends RobotBase {
 		SmartDashboard.putData("Picker Three", autoCommandPickerThree);
 
 		autoCommandPickerFour = new SendableChooser();
-		autoCommandPickerFour.addDefault("Do nothing", new AutonDoNothingCommand());
+		autoCommandPickerFour.addDefault("4-Do nothing", new AutonDoNothingCommand());
 		autoCommandPickerFour.addObject("Drive over obstacle25", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE_25, 1.0));
 		autoCommandPickerFour.addObject("Drive onto obstacle25", new DriveSimpleDistanceCommand(RobotMap.ONTO_DISTANCE_25, 1.0));
 		autoCommandPickerFour.addObject("Drive over obstacle134", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE_134, 1.0));
@@ -269,7 +268,7 @@ public class Robot extends RobotBase {
 		SmartDashboard.putData("Picker Four", autoCommandPickerFour);
 
 		autoCommandPickerFive = new SendableChooser();
-		autoCommandPickerFive.addDefault("Do nothing", new AutonDoNothingCommand());
+		autoCommandPickerFive.addDefault("5-Do nothing", new AutonDoNothingCommand());
 		autoCommandPickerFive.addObject("Drive over obstacle25", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE_25, 1.0));
 		autoCommandPickerFive.addObject("Drive onto obstacle25", new DriveSimpleDistanceCommand(RobotMap.ONTO_DISTANCE_25, 1.0));
 		autoCommandPickerFive.addObject("Drive over obstacle134", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE_134, 1.0));
@@ -283,7 +282,7 @@ public class Robot extends RobotBase {
 		SmartDashboard.putData("Picker Five", autoCommandPickerFive);
 
 		autoCommandPickerSix = new SendableChooser();
-		autoCommandPickerSix.addDefault("Do nothing", new AutonDoNothingCommand());
+		autoCommandPickerSix.addDefault("6-Do nothing", new AutonDoNothingCommand());
 		autoCommandPickerSix.addObject("Drive over obstacle25", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE_25, 1.0));
 		autoCommandPickerSix.addObject("Drive onto obstacle25", new DriveSimpleDistanceCommand(RobotMap.ONTO_DISTANCE_25, 1.0));
 		autoCommandPickerSix.addObject("Drive over obstacle134", new DriveSimpleDistanceCommand(RobotMap.OVER_DISTANCE_134, 1.0));
@@ -336,7 +335,7 @@ public class Robot extends RobotBase {
 		Lights.init();
 		Shooter.init();
 		IntakeArm.init();
-		Climb.init();
+		Elevator.init();
 		LoaderRoller.init();
 		Hood.init();
 		IntakeRoller.init();
@@ -348,7 +347,7 @@ public class Robot extends RobotBase {
 		subsystems.add(Shooter.getInstance());
 		subsystems.add(IntakeArm.getInstance());
 		subsystems.add(LoaderRoller.getInstance());
-		subsystems.add(Climb.getInstance());
+		subsystems.add(Elevator.getInstance());
 		subsystems.add(Hood.getInstance());
 		subsystems.add(IntakeRoller.getInstance());
 		
@@ -359,7 +358,7 @@ public class Robot extends RobotBase {
 		smartDashboardSources.add(Lights.getInstance());
 		smartDashboardSources.add(Shooter.getInstance());
 		smartDashboardSources.add(IntakeArm.getInstance());
-		smartDashboardSources.add(Climb.getInstance());
+		smartDashboardSources.add(Elevator.getInstance());
 		smartDashboardSources.add(LoaderRoller.getInstance());
 		smartDashboardSources.add(Hood.getInstance());
 		smartDashboardSources.add(IntakeRoller.getInstance());
@@ -382,12 +381,7 @@ public class Robot extends RobotBase {
 
 		SmartDashboard.putBoolean("Banner 1", IntakeRoller.getInstance().hasBall());
 		SmartDashboard.putBoolean("Banner 2", LoaderRoller.getInstance().hasBall());
-		SmartDashboard.putBoolean("Banner 3", Shooter.getInstance().hasBall());
-		
-		SmartDashboard.putBoolean("Hood top limit switch", Hood.getInstance().isTopLimitSwitchClosed());
-		SmartDashboard.putBoolean("Hood bot limit switch", Hood.getInstance().isBotLimitSwitchClosed());
-		SmartDashboard.putBoolean("Intake Arm bot limit switch", IntakeArm.getInstance().isBotLimitSwitchClosed());
-		SmartDashboard.putBoolean("Intake Arm top limit switch", IntakeArm.getInstance().isTopLimitSwitchClosed());
+		SmartDashboard.putBoolean("Banner 3", Shooter.getInstance().hasBall());		
 		
 		Drive.getInstance().setPIDEnabled(!OI.getInstance().dumbDrive.get());
 
@@ -413,6 +407,7 @@ public class Robot extends RobotBase {
 		currentMode = mode;
 		if(mode == Mode.AUTONOMOUS) {
 			new HoodBottomCommand(0.1);
+			new IntakeArmMoveDownUntilLimitSwitchCommand();
 		}
 	}
 }

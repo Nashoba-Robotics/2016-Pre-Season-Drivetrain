@@ -42,7 +42,7 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 		
 		shooterRate = new CounterPIDSource(RobotMap.SHOOTER_RATE_PORT);
 		shooterRate.setPIDSourceType(PIDSourceType.kRate);
-		shooterRate.setSamplesToAverage(6);
+		shooterRate.setSamplesToAverage(24);
 		shooterRate.scale(2 * RobotMap.SHOOTER_MAX_SPEED);
 		
     	talonOutput.setTalonRampRate(RobotMap.SHOOTER_RAMP_RATE);
@@ -124,12 +124,16 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	 * Gets the speed of the shooter
 	 * @return the speed of the shooter
 	 */
-	public double getSpeed() {
+	public double getScaledSpeed() {
 		return shooterRate.pidGet();
 	}
 	
+	public double getSpeed() {
+		return getScaledSpeed() * RobotMap.SHOOTER_MAX_SPEED;
+	}
+	
 	public boolean getRunning() {
-		return getSpeed() > 0.1;
+		return getScaledSpeed() > 0.1;
 	}
 	
 	public double getSpeedPercent() {
@@ -146,11 +150,8 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 
 	@Override
 	public void smartDashboardInfo() {
-		SmartDashboard.putData("Shooter PID", pid);
-		SmartDashboard.putNumber("Shooter PID Output", pid.get());
-
 		SmartDashboard.putNumber("Shooter Speed", getSpeed());
-		SmartDashboard.putBoolean("Shooter Running", getSetpoint() != 0);
+		SmartDashboard.putBoolean("Shooter Running", getRunning());
 		SmartDashboard.putNumber("Shooter Current", talonOutput.getOutputCurrent());
 		SmartDashboard.putData(this);
 	}

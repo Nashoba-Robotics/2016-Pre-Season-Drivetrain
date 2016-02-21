@@ -350,28 +350,9 @@ public class Drive extends Subsystem implements SmartDashboardSource, Periodic{
 	public void smartDashboardInfo() {
 		SmartDashboard.putNumber("Encoders Distance Ave", getEncoderAverageDistance());
 		SmartDashboard.putNumber("Encoders Speed Ave", getEncoderAverageSpeed());
-		
-		SmartDashboard.putNumber("Encoder left speed", getEncoderLeftSpeed());
-		SmartDashboard.putNumber("Encoder right speed", getEncoderRightSpeed());
-		
-		SmartDashboard.putNumber("Encoder left dist", getEncoderLeftDistance());
-		SmartDashboard.putNumber("Encoder right dist", getEncoderRightDistance());
-
-
-		SmartDashboard.putData("PID Left", leftPid);
-		SmartDashboard.putData("PID Right", rightPid);
-		
-		SmartDashboard.putNumber("pidMaxVal", pidMaxVal);
-		
-		SmartDashboard.putNumber("Drive Talon Left Out", leftTalon.get());
-		SmartDashboard.putNumber("Drive Talon Right Out", rightTalon.get());
 
 		SmartDashboard.putNumber("Drive Talon Average Current Draw", (rightTalon.getOutputCurrent() 
 				+ rightTalon.getOutputCurrent() + tempLeftTalon.getOutputCurrent() + tempRightTalon.getOutputCurrent())/4);
-		SmartDashboard.putNumber("Drive Right Main Talon Current", rightTalon.getOutputCurrent());
-		SmartDashboard.putNumber("Drive Left Main Talon Current", leftTalon.getOutputCurrent());
-		SmartDashboard.putNumber("Drive Right Temp Talon Current", tempRightTalon.getOutputCurrent());
-		SmartDashboard.putNumber("Drive Left Temp Talon Current", tempLeftTalon.getOutputCurrent());
 		
 		SmartDashboard.putData("Drive", this);
 

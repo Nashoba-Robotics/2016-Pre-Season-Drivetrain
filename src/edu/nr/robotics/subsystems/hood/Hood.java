@@ -39,7 +39,7 @@ public class Hood extends Subsystem implements SmartDashboardSource, Periodic {
 		enc = new TalonEncoder(talon);
 		enc.setPIDSourceType(PIDSourceType.kDisplacement);
 		enc.setDistancePerRev(RobotMap.HOOD_TICK_TO_ANGLE_MULTIPLIER);
-		pid = new PID(0.25, 0.00, 0.001, enc, talon); //TODO: Get the value for the Hood PID
+		pid = new PID(0.25, 0.00, 0.001, enc, talon);
 	}
 
 	@Override
@@ -148,8 +148,9 @@ public class Hood extends Subsystem implements SmartDashboardSource, Periodic {
 		SmartDashboard.putNumber("Hood Encoder", get());
 		SmartDashboard.putBoolean("Hood Moving", getMoving());
 		SmartDashboard.putData(this);
-		SmartDashboard.putData("Hood PID", pid);
-		SmartDashboard.putNumber("Hood PID Output", pid.get());
+		
+		SmartDashboard.putBoolean("Hood top limit switch", isTopLimitSwitchClosed());
+		SmartDashboard.putBoolean("Hood bot limit switch", isBotLimitSwitchClosed());
 
 	}
 

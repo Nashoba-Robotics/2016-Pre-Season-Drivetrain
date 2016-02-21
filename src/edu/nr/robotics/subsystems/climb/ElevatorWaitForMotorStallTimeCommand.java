@@ -5,7 +5,7 @@ import edu.nr.lib.NRCommand;
 /**
  *
  */
-public class ClimbWaitForMotorStallTimeCommand extends NRCommand {
+public class ElevatorWaitForMotorStallTimeCommand extends NRCommand {
 
 	long timeStalling = 0;
 	
@@ -13,7 +13,7 @@ public class ClimbWaitForMotorStallTimeCommand extends NRCommand {
 	
 	long reqTime;
 	
-    public ClimbWaitForMotorStallTimeCommand(long reqTime) {
+    public ElevatorWaitForMotorStallTimeCommand(long reqTime) {
     	this.reqTime = reqTime;
     }
 
@@ -24,7 +24,7 @@ public class ClimbWaitForMotorStallTimeCommand extends NRCommand {
 
     // Called repeatedly when this Command is scheduled to run
     protected void onExecute() {
-    	if(!Climb.getInstance().isMoving()) {
+    	if(!Elevator.getInstance().isMoving()) {
     		timeStalling = System.currentTimeMillis() - prevTime;
     	} else {
     		timeStalling = 0;

@@ -125,7 +125,6 @@ public class NavX implements BaseNavX, SmartDashboardSource {
 		SmartDashboard.putNumber("NavX X Accel", getX());
 		SmartDashboard.putNumber("NavX Y Accel", getY());
 		SmartDashboard.putNumber("NavX Z Accel", getZ());
-		SmartDashboard.putNumber("NavX XY Hypot Accel", Math.hypot(imu.getWorldLinearAccelX(), imu.getWorldLinearAccelY()));
 	}
 
 	@Override

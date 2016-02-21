@@ -12,12 +12,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class Climb extends Subsystem implements SmartDashboardSource {
+public class Elevator extends Subsystem implements SmartDashboardSource {
     
 	CANTalon talon;
 	public TalonEncoder enc;
 	
-	private static Climb singleton;
+	private static Elevator singleton;
 	
 	public enum Position {
 		BOTTOM (RobotMap.ELEVATOR_BOTTOM_POSITION), TOP(RobotMap.ELEVATOR_TOP_POSITION);
@@ -28,20 +28,20 @@ public class Climb extends Subsystem implements SmartDashboardSource {
 		}
 	}
 	
-	private Climb() {
+	private Elevator() {
 		talon = new CANTalon(RobotMap.ELEVATOR_TALON);
 		talon.enableBrakeMode(true);
 		enc = new TalonEncoder(talon);
 	}
 	
-	public static Climb getInstance() {
+	public static Elevator getInstance() {
 		init();
 		return singleton;
 	}
 
 	public static void init() {
 		if (singleton == null) {
-			singleton = new Climb();
+			singleton = new Elevator();
 		}
 	}
 	
@@ -75,6 +75,8 @@ public class Climb extends Subsystem implements SmartDashboardSource {
 	public void smartDashboardInfo() {
 		SmartDashboard.putNumber("Elevator Speed", enc.getRate());
 		SmartDashboard.putData(this);
+		SmartDashboard.putBoolean("Elevator limit switch", isLimitSwitchClosed());
+
 	}
 
 	public boolean isMoving() {
@@ -91,6 +93,11 @@ public class Climb extends Subsystem implements SmartDashboardSource {
 
 	public boolean isAtTop() {
 		return isAtPosition(Position.TOP);
+	}
+
+	public boolean isLimitSwitchClosed() {
+		return talon.isFwdLimitSwitchClosed();
+		//TODO: Is it the fwd limit switch or the back limit switch?
 	}
 	
 	

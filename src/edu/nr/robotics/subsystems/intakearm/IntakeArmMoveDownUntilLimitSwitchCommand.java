@@ -31,5 +31,6 @@ public class IntakeArmMoveDownUntilLimitSwitchCommand extends NRCommand {
 
     // Called once after isFinished returns true
     protected void onEnd() {
+    	IntakeArm.getInstance().enable();
     }
 }

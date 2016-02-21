@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class IntakeRollerSwapCommand extends CommandGroup {
     
     public  IntakeRollerSwapCommand() {
+    	requires(IntakeRoller.getInstance());
     }
     
     public void onStart() {
