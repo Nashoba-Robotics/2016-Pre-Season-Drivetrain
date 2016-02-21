@@ -1,11 +1,11 @@
-package edu.nr.robotics.subsystems.elevator;
+package edu.nr.robotics.subsystems.climb;
 
 import edu.nr.lib.NRCommand;
 
 /**
  *
  */
-public class ElevatorWaitForMotorStallTimeCommand extends NRCommand {
+public class ClimbWaitForMotorStallTimeCommand extends NRCommand {
 
 	long timeStalling = 0;
 	
@@ -13,7 +13,7 @@ public class ElevatorWaitForMotorStallTimeCommand extends NRCommand {
 	
 	long reqTime;
 	
-    public ElevatorWaitForMotorStallTimeCommand(long reqTime) {
+    public ClimbWaitForMotorStallTimeCommand(long reqTime) {
     	this.reqTime = reqTime;
     }
 
@@ -24,7 +24,7 @@ public class ElevatorWaitForMotorStallTimeCommand extends NRCommand {
 
     // Called repeatedly when this Command is scheduled to run
     protected void onExecute() {
-    	if(!Elevator.getInstance().isMoving()) {
+    	if(!Climb.getInstance().isMoving()) {
     		timeStalling = System.currentTimeMillis() - prevTime;
     	} else {
     		timeStalling = 0;

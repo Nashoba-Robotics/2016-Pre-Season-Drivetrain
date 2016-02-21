@@ -2,7 +2,7 @@ package edu.nr.robotics;
 
 import edu.nr.lib.network.UDPServer;
 import edu.nr.robotics.commandgroups.AlignCommandGroup;
-import edu.nr.robotics.subsystems.elevator.Elevator;
+import edu.nr.robotics.subsystems.climb.Climb;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;
 import edu.nr.robotics.subsystems.intakeroller.IntakeRoller;
@@ -49,9 +49,9 @@ private ITable table;
 			table.putBoolean("Photo 3", Shooter.getInstance().hasBall());
 			
 			//Elevator
-			table.putBoolean("Elevator Bottom Height", Elevator.getInstance().isAtBottom());
-			table.putBoolean("Elevator Top Height", Elevator.getInstance().isAtTop());
-			table.putBoolean("Elevator Motor Running", Elevator.getInstance().isMoving());
+			table.putBoolean("Elevator Bottom Height", Climb.getInstance().isAtBottom());
+			table.putBoolean("Elevator Top Height", Climb.getInstance().isAtTop());
+			table.putBoolean("Elevator Motor Running", Climb.getInstance().isMoving());
 
 			//Shooter
 			table.putNumber("Shooter Speed", Shooter.getInstance().getSpeed());

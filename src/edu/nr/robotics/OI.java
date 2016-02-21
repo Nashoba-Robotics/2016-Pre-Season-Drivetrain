@@ -4,8 +4,8 @@ import edu.nr.lib.CancelAllCommand;
 import edu.nr.lib.SmartDashboardSource;
 import edu.nr.lib.interfaces.Periodic;
 import edu.nr.robotics.commandgroups.*;
+import edu.nr.robotics.subsystems.climb.*;
 import edu.nr.robotics.subsystems.drive.*;
-import edu.nr.robotics.subsystems.elevator.*;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.hood.HoodResetEncoderCommand;
 import edu.nr.robotics.subsystems.intakearm.*;
@@ -131,20 +131,20 @@ public class OI implements SmartDashboardSource, Periodic {
 		new JoystickButton(operatorRight, 4).whenPressed(new IntakeArmBottomHeightCommandGroup());
 		  //->  5: Intake On
 		  //           Overrides intake rollers
-		new JoystickButton(operatorRight, 5).whenPressed(new IntakeRollerForwardCommand());
+		new JoystickButton(operatorRight, 5).toggleWhenPressed(new IntakeRollerForwardCommand());
 		  //->  6: Laser Cannon Trigger (Shoot)
 		  //           Forces intake on to shoot (loader auto off based on photo sensor 3, turns off lights)
 		fireButton = new JoystickButton(operatorRight, 6);
 		fireButton.whenPressed(new LaserCannonTriggerCommand());
 		  //->  7: Prepare Climb
 		  //           Un-latches elevator (drives the elevator down a little)
-		new JoystickButton(operatorRight, 7).whenPressed(new ElevatorPrepareClimbCommand());
+		new JoystickButton(operatorRight, 7).whenPressed(new ClimbUnlatchCommand());
 		  //->  8: Extend & Intake Up
 		  //           Extends elevator completely, brings intake to up position
-		new JoystickButton(operatorRight, 8).whenPressed(new ExtendAndIntakeUpCommandGroup());
+		new JoystickButton(operatorRight, 8).whenPressed(new ClimbExtendCommand());
 		  //->  9: Climb
 		  //           Fully retracts elevator, stops after 1 second of motor stall
-		new JoystickButton(operatorRight, 9).whenPressed(new ElevatorClimbCommand());
+		new JoystickButton(operatorRight, 9).whenPressed(new ClimbRetractCommand());
 		  //-> 10: Cancel all commands
 		new JoystickButton(operatorRight, 10).whenPressed(new CancelAllCommand());
 		  //-> Joy1: Arm Position Joystick
@@ -302,8 +302,8 @@ public class OI implements SmartDashboardSource, Periodic {
 		}
 		
 		if(getElevatorMoveValue() != 0) {
-			if(!Elevator.getInstance().getCurrentCommand().getName().equals("ElevatorJoystickCommand")) {
-				Elevator.getInstance().getCurrentCommand().cancel();
+			if(!Climb.getInstance().getCurrentCommand().getName().equals("ElevatorJoystickCommand")) {
+				Climb.getInstance().getCurrentCommand().cancel();
 				//TODO: Test elevator joystick cancel functionality
 			}
 		}

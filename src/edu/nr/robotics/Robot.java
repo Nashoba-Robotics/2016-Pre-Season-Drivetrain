@@ -14,11 +14,11 @@ import edu.nr.robotics.commandgroups.AlignCommandGroup;
 import edu.nr.robotics.commandgroups.AutoGuillotineCommandGroup;
 import edu.nr.robotics.commandgroups.AutoShovelOfFriesCommandGroup;
 import edu.nr.robotics.commandgroups.AlignCommandGroup.State;
+import edu.nr.robotics.subsystems.climb.Climb;
 import edu.nr.robotics.subsystems.drive.Drive;
 import edu.nr.robotics.subsystems.drive.DriveAnglePIDCommand;
 import edu.nr.robotics.subsystems.drive.DriveSimpleDistanceCommand;
 import edu.nr.robotics.subsystems.drive.DriveTurnCommand;
-import edu.nr.robotics.subsystems.elevator.Elevator;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;
 import edu.nr.robotics.subsystems.intakeroller.IntakeRoller;
@@ -332,7 +332,7 @@ public class Robot extends RobotBase {
 		Lights.init();
 		Shooter.init();
 		IntakeArm.init();
-		Elevator.init();
+		Climb.init();
 		LoaderRoller.init();
 		Hood.init();
 		IntakeRoller.init();
@@ -344,7 +344,7 @@ public class Robot extends RobotBase {
 		subsystems.add(Shooter.getInstance());
 		subsystems.add(IntakeArm.getInstance());
 		subsystems.add(LoaderRoller.getInstance());
-		subsystems.add(Elevator.getInstance());
+		subsystems.add(Climb.getInstance());
 		subsystems.add(Hood.getInstance());
 		subsystems.add(IntakeRoller.getInstance());
 		
@@ -355,7 +355,7 @@ public class Robot extends RobotBase {
 		smartDashboardSources.add(Lights.getInstance());
 		smartDashboardSources.add(Shooter.getInstance());
 		smartDashboardSources.add(IntakeArm.getInstance());
-		smartDashboardSources.add(Elevator.getInstance());
+		smartDashboardSources.add(Climb.getInstance());
 		smartDashboardSources.add(LoaderRoller.getInstance());
 		smartDashboardSources.add(Hood.getInstance());
 		smartDashboardSources.add(IntakeRoller.getInstance());

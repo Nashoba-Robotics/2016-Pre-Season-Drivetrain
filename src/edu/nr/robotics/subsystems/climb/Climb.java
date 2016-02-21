@@ -1,4 +1,4 @@
-package edu.nr.robotics.subsystems.elevator;
+package edu.nr.robotics.subsystems.climb;
 
 import edu.nr.lib.NRMath;
 import edu.nr.lib.SmartDashboardSource;
@@ -11,12 +11,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class Elevator extends Subsystem implements SmartDashboardSource {
+public class Climb extends Subsystem implements SmartDashboardSource {
     
 	CANTalon talon;
 	public TalonEncoder enc;
 	
-	private static Elevator singleton;
+	private static Climb singleton;
 	
 	public enum Position {
 		BOTTOM (RobotMap.ELEVATOR_BOTTOM_POSITION), TOP(RobotMap.ELEVATOR_TOP_POSITION);
@@ -27,20 +27,20 @@ public class Elevator extends Subsystem implements SmartDashboardSource {
 		}
 	}
 	
-	private Elevator() {
+	private Climb() {
 		talon = new CANTalon(RobotMap.ELEVATOR_TALON);
 		talon.enableBrakeMode(true);
 		enc = new TalonEncoder(talon);
 	}
 	
-	public static Elevator getInstance() {
+	public static Climb getInstance() {
 		init();
 		return singleton;
 	}
 
 	public static void init() {
 		if (singleton == null) {
-			singleton = new Elevator();
+			singleton = new Climb();
 		}
 	}
 	
