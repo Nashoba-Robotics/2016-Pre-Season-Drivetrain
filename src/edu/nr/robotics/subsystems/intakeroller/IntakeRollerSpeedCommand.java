@@ -16,7 +16,7 @@ public class IntakeRollerSpeedCommand extends NRCommand {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	IntakeRoller.getInstance().setRollerSetpoint(val);
+    	IntakeRoller.getInstance().setRollerSpeed(val);
     }
 
     // Make this return true when this Command no longer needs to run execute()

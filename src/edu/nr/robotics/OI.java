@@ -7,12 +7,17 @@ import edu.nr.robotics.commandgroups.*;
 import edu.nr.robotics.subsystems.climb.*;
 import edu.nr.robotics.subsystems.drive.*;
 import edu.nr.robotics.subsystems.hood.Hood;
+import edu.nr.robotics.subsystems.hood.HoodIncreaseDegreeCommand;
 import edu.nr.robotics.subsystems.hood.HoodResetEncoderCommand;
 import edu.nr.robotics.subsystems.intakearm.*;
 import edu.nr.robotics.subsystems.intakeroller.*;
 import edu.nr.robotics.subsystems.lights.*;
 import edu.nr.robotics.subsystems.loaderroller.*;
+import edu.nr.robotics.subsystems.shooter.ShooterHighCommand;
+import edu.nr.robotics.subsystems.shooter.ShooterLowCommand;
+import edu.nr.robotics.subsystems.shooter.ShooterOffCommand;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -38,7 +43,7 @@ public class OI implements SmartDashboardSource, Periodic {
 	Joystick operatorLeft, operatorRight;
 
 	JoystickButton dumbDrive;
-	JoystickButton brakeLightCutout;
+	JoystickButton LEDCutout;
 	
 	public JoystickButton fireButton;
 	public JoystickButton alignButton;
@@ -62,6 +67,12 @@ public class OI implements SmartDashboardSource, Periodic {
 		new JoystickButton(driveLeft, 4).whenPressed(new LightsOffCommand());
           //->  5: Lights blink
 		new JoystickButton(driveLeft, 5).whenPressed(new LightsBlinkCommand(200));
+		
+		new JoystickButton(driveLeft, 10).whenPressed(new ShooterHighCommand());
+		new JoystickButton(driveLeft, 9).whenPressed(new ShooterOffCommand());
+
+		new JoystickButton(driveLeft, 8).whenPressed(new HoodIncreaseDegreeCommand(0.2));
+
 
         //Drive Right: (1)
 		driveRight = new Joystick(1);
@@ -71,82 +82,82 @@ public class OI implements SmartDashboardSource, Periodic {
 		  //-> 11: Reset hood encoder
 		new JoystickButton(driveRight, 11).whenPressed(new HoodResetEncoderCommand());
 		  //-> 12: Reset intake potentiomer
-		new JoystickButton(driveRight, 12).whenPressed(new IntakeArmResetPotentiometerCommand());
+		new JoystickButton(driveRight, 9).whenPressed(new IntakeArmResetPotentiometerCommand());
 
-		//Operator Left: (2)
-		operatorLeft = new Joystick(2);
-		  //->  1: Cancel all commands
-		new JoystickButton(operatorLeft, 1).whenPressed(new CancelAllCommand());
+		//Operator Left: (3)
+		operatorLeft = new Joystick(3);
+		  //->  4: Auto Shovel of Fries
+		  //           Auto shovel of fries routine, ends when drive joysticks are touched
+		new JoystickButton(operatorLeft, 4).whenPressed(new AutoShovelOfFriesCommandGroup());
 		  //->  2: Auto Guillotine
 		  //           Auto guillotine routine, ends when drive joysticks are touched
-		new JoystickButton(operatorLeft, 2).whenPressed(new AutoGuillotineCommandGroup());
-		  //->  3: Auto Shovel of Fries
-		  //           Auto shovel of fries routine, ends when drive joysticks are touched
-		new JoystickButton(operatorLeft, 3).whenPressed(new AutoShovelOfFriesCommandGroup());
-		  //->  4: Align
+		new JoystickButton(operatorLeft, 6).whenPressed(new AutoGuillotineCommandGroup());
+
+		  //->  2 + 3: Align
 		  //           Auto align the robot to target, ends when drive joysticks are touched
-		alignButton = new JoystickButton(operatorLeft, 4);
+		alignButton = new JoystickButton(operatorLeft, 2);
 		alignCommand = new AlignCommandGroup();
 		alignButton.whileHeld(alignCommand);
-		  //->  5: Brake Light Cutout Switch
-		  //           Disables robot “shot ready” LED sequences (in the event that signifying we are about to shoot enables defense robots to defend more effectively
-		brakeLightCutout = new JoystickButton(operatorLeft, 5);
-		//->  6: Get low
+		//->  9: Get low
 		  //           Puts robot in position to go under low bar (hood down, intake to appropriate height)
-		new JoystickButton(operatorLeft, 6).whenPressed(new GetLowCommandGroup());
-		  //->  7: Prepare Long Shot
+		new JoystickButton(operatorLeft, 9).whenPressed(new GetLowCommandGroup());
+		  //->  11: Prepare Long Shot
 		  //           Prepares long shot (shooter wheels to speed, hood up to approximate angle, drops intake to position where it does not block shot, turns on lights)
-		new JoystickButton(operatorLeft, 7).whenPressed(new PrepareLongShotCommandGroup());
-		  //->  8: Prepare Close Shot
+		new JoystickButton(operatorLeft, 11).whenPressed(new PrepareLongShotCommandGroup());
+		  //->  10: Prepare Close Shot
 		  //           Prepares close shot (shooter wheels to speed, hood up to approximate angle, drops intake to position where it does not block shot, turns on lights)
-		new JoystickButton(operatorLeft, 8).whenPressed(new PrepareCloseShotCommandGroup());
-		  //->  9: Dumb Drive switch
-		  //           Switch closed loop drive off (in case of sensor failure)
-		dumbDrive = new JoystickButton(operatorLeft, 9);
-		dumbDrive.whenPressed(new DumbDriveOnCommand());
-		dumbDrive.whenReleased(new DumbDriveOffCommand());
-		  //-> 10: Prepare Low Goal
+		new JoystickButton(operatorLeft, 10).whenPressed(new PrepareCloseShotCommandGroup());
+		  //-> 5: Prepare Low Goal
 		  //           Prepares low goal dump (positions intake to proper height)
-		new JoystickButton(operatorLeft, 10).whenPressed(new IntakeArmPrepareLowGoalCommand());
-		  //-> 11: Low Goal
+		new JoystickButton(operatorLeft, 5).whenPressed(new IntakeArmPrepareLowGoalCommand());
+		  //-> 8: Low Goal
 		  //           Double checks intake height, reverses intake and loader to spit ball into low goal.
-		new JoystickButton(operatorLeft, 11).whenPressed(new LowGoalCommandGroup());
+		new JoystickButton(operatorLeft, 8).whenPressed(new LowGoalCommandGroup());
 		  //-> 12: Puke
 		  //           Reverses all ball handling systems (shooter, loader, intake) (SHOOTER RAMPING REQUIRED)
-		new JoystickButton(operatorLeft, 12).whenPressed(new PukeCommandGroup());
-
-		  //Operator Right: (3)
-		operatorRight = new Joystick(3);
+		new JoystickButton(operatorLeft, 12).whenPressed(new LoaderRollerNeutralCommand());//.whenPressed(new PukeCommandGroup());
+		  //->  1: Laser Cannon Trigger (Shoot)
+		  //           Forces intake on to shoot (loader auto off based on photo sensor 3, turns off lights)
+		fireButton = new JoystickButton(operatorLeft, 1);
+		//fireButton.whenPressed(new LaserCannonTriggerCommand());
+		fireButton.whenPressed(new LoaderRollerIntakeCommand());
+		
+		  //Operator Right: (2)
+		operatorRight = new Joystick(2);
+		  //->  11: Dumb Drive switch
+		  //           Switch closed loop drive off (in case of sensor failure)
+		dumbDrive = new JoystickButton(operatorRight, 11);
+		dumbDrive.whenPressed(new DumbDriveOnCommand());
+		dumbDrive.whenReleased(new DumbDriveOffCommand());
+		  //-> 11: Brake Light Cutout Switch
+		  //           Disables robot “shot ready” LED sequences (in the event that signifying we are about to shoot enables defense robots to defend more effectively
+		LEDCutout = new JoystickButton(operatorRight, 11);
+		  //->  7: Cancel all commands
+		new JoystickButton(operatorRight, 7).whenPressed(new CancelAllCommand());
 		  //->  1: Up Height (Climb Height)
 		  //           Positions intake arm to vertical height, ensures intake off (also used for climb)
-		new JoystickButton(operatorRight, 1).whenPressed(new IntakeArmUpHeightCommandGroup());
+		new JoystickButton(operatorRight, 4).whenPressed(new IntakeArmUpHeightCommandGroup());
 		  //->  2: Intake Height
 		  //           Positions intake arm to collecting height turns on intake
-		new JoystickButton(operatorRight, 2).whenPressed(new IntakeArmIntakeHeightCommandGroup());
+		new JoystickButton(operatorRight, 3).whenPressed(new IntakeArmIntakeHeightCommandGroup());
 		  //->  3: Bumper Height (Home)
 		  //           Positions intake arm to home height (such that it will contact the bumper of another robot), ensures intake off
-		new JoystickButton(operatorRight, 3).whenPressed(new IntakeArmBumperHeightCommandGroup());
+		new JoystickButton(operatorRight, 2).whenPressed(new IntakeArmBumperHeightCommandGroup());
 		  //->  4: Bottom Height
 		  //           Positions intake arm to bottom height, ensures intake off
-		new JoystickButton(operatorRight, 4).whenPressed(new IntakeArmBottomHeightCommandGroup());
+		new JoystickButton(operatorRight, 1).whenPressed(new IntakeArmBottomHeightCommandGroup());
 		  //->  5: Intake On
 		  //           Overrides intake rollers
-		new JoystickButton(operatorRight, 5).toggleWhenPressed(new IntakeRollerForwardCommand());
-		  //->  6: Laser Cannon Trigger (Shoot)
-		  //           Forces intake on to shoot (loader auto off based on photo sensor 3, turns off lights)
-		fireButton = new JoystickButton(operatorRight, 6);
-		fireButton.whenPressed(new LaserCannonTriggerCommand());
-		  //->  7: Prepare Climb
+		new JoystickButton(operatorRight, 5).toggleWhenPressed(new IntakeRollerOuttakeCommand());
+		  //->  10: Prepare Climb
 		  //           Un-latches elevator (drives the elevator down a little)
 		new JoystickButton(operatorRight, 7).whenPressed(new ClimbUnlatchCommand());
-		  //->  8: Extend & Intake Up
+		  //->  9: Extend & Intake Up
 		  //           Extends elevator completely, brings intake to up position
 		new JoystickButton(operatorRight, 8).whenPressed(new ClimbExtendCommand());
-		  //->  9: Climb
+		  //->  8: Climb
 		  //           Fully retracts elevator, stops after 1 second of motor stall
 		new JoystickButton(operatorRight, 9).whenPressed(new ClimbRetractCommand());
-		  //-> 10: Cancel all commands
-		new JoystickButton(operatorRight, 10).whenPressed(new CancelAllCommand());
 		  //-> Joy1: Arm Position Joystick
 		  //           Overrides intake arm position (overrides pot, not limit switches)
 		  //  snapCoffinJoysticks(operatorRight.getRawAxis(0))
@@ -176,26 +187,43 @@ public class OI implements SmartDashboardSource, Periodic {
 	}
 	
 	public double getIntakeArmMoveValue() {
-		return snapCoffinJoysticks(operatorRight.getRawAxis(0));
+		return -1 * (new JoystickButton(driveRight, 6).get() ? driveRight.getAxis(AxisType.kY) : 0);
+		//return snapCoffinJoysticks(operatorRight.getRawAxis(0));
 	}
 	
 	public double getLoaderRollerMoveValue() {
-		return snapCoffinJoysticks(operatorRight.getRawAxis(1));
+		return new JoystickButton(driveRight, 7).get() ? driveRight.getAxis(AxisType.kY) : 0;
+		//return snapCoffinJoysticks(operatorRight.getRawAxis(1));
+	}
+	
+	public double getIntakeRollerMoveValue() {
+		return new JoystickButton(driveRight, 8).get() ? driveRight.getAxis(AxisType.kY) : 0;
+		//return snapCoffinJoysticks(operatorRight.getRawAxis(1));
 	}
 	
 	public double getHoodMoveValue() {
-		return snapCoffinJoysticks(operatorRight.getRawAxis(2));
+		return 1 * (new JoystickButton(driveRight, 10).get() ? driveRight.getAxis(AxisType.kY) : 0); //TODO: When hood is fixed, change to -1 multiplier
+		//return snapCoffinJoysticks(operatorRight.getRawAxis(2));
 	}
 	
 	public double getElevatorMoveValue() {
-		return snapCoffinJoysticks(operatorRight.getRawAxis(3));
+		return new JoystickButton(driveRight, 11).get() ? driveRight.getAxis(AxisType.kY) : 0;
+		//return snapCoffinJoysticks(operatorRight.getRawAxis(3));
+	}
+	
+	public double getShooterMoveValue() {
+		return -1 * (new JoystickButton(driveRight, 9).get() ? driveRight.getAxis(AxisType.kY) : 0);
+		//return snapCoffinJoysticks(operatorRight.getRawAxis(0));
 	}
 
 	public double getArcadeMoveValue() {
-		return snapDriveJoysticks(driveLeft.getY()) * (driveLeft.getRawButton(2) ? -1 : 1);
+		return snapDriveJoysticks(driveLeft.getY()) * (driveLeft.getRawButton(2) ? 1 : -1);
 	}
 
 	public double getArcadeTurnValue() {
+		if(new JoystickButton(driveRight, 6).get() || new JoystickButton(driveRight, 7).get() || new JoystickButton(driveRight, 10).get() || new JoystickButton(driveRight, 11).get() || new JoystickButton(driveRight, 8).get()  || new JoystickButton(driveRight, 9).get())
+			return 0;
+
 		return -snapDriveJoysticks(driveRight.getX());
 	}
 
@@ -243,6 +271,7 @@ public class OI implements SmartDashboardSource, Periodic {
 	@Override
 	public void smartDashboardInfo() {
 		speedMultiplier = SmartDashboard.getNumber("Speed Multiplier");
+		SmartDashboard.putBoolean("Dumb Drive", dumbDrive.get());
 	}
 	
 	public boolean isTankNonZero() {
@@ -254,9 +283,9 @@ public class OI implements SmartDashboardSource, Periodic {
 	}
 
 	public boolean isCurrentModeNonZero() throws DrivingModeException {
-		if(drivingModeChooser.getSelected().equals("arcade")) {
+		if(drivingModeChooser.getSelected() == DrivingMode.ARCADE) {
 			return isArcadeNonZero();
-		} else if(drivingModeChooser.getSelected().equals("tank")) {
+		} else if(drivingModeChooser.getSelected() == DrivingMode.TANK) {
 			return isTankNonZero();
 		} else {
 			throw new DrivingModeException((DrivingMode) drivingModeChooser.getSelected());
@@ -264,12 +293,12 @@ public class OI implements SmartDashboardSource, Periodic {
 	}
 	
 	public boolean getBrakeLightCutout() {
-		return brakeLightCutout.get();
+		return LEDCutout.get();
 	}
 		
 	@Override
 	public void periodic() {
-		try {
+		/*try {
 			if(isCurrentModeNonZero()) {
 				if(!Drive.getInstance().getCurrentCommand().getName().equals("DriveJoystickCommand")) {
 					Drive.getInstance().getCurrentCommand().cancel();
@@ -306,7 +335,7 @@ public class OI implements SmartDashboardSource, Periodic {
 				Climb.getInstance().getCurrentCommand().cancel();
 				//TODO: Test elevator joystick cancel functionality
 			}
-		}
+		}*/
 	}
 
 	public boolean isAutoAlignRunning() {

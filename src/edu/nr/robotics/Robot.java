@@ -17,9 +17,11 @@ import edu.nr.robotics.commandgroups.AlignCommandGroup.State;
 import edu.nr.robotics.subsystems.climb.Climb;
 import edu.nr.robotics.subsystems.drive.Drive;
 import edu.nr.robotics.subsystems.drive.DriveAnglePIDCommand;
+import edu.nr.robotics.subsystems.drive.DriveResetEncodersCommand;
 import edu.nr.robotics.subsystems.drive.DriveSimpleDistanceCommand;
 import edu.nr.robotics.subsystems.drive.DriveTurnCommand;
 import edu.nr.robotics.subsystems.hood.Hood;
+import edu.nr.robotics.subsystems.hood.HoodBottomCommand;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;
 import edu.nr.robotics.subsystems.intakeroller.IntakeRoller;
 import edu.nr.robotics.subsystems.lights.Lights;
@@ -197,14 +199,15 @@ public class Robot extends RobotBase {
 	private void robotInit() {
 		new UDPClient("Robot init");
 
-		initCamera();
+		//initCamera();
 		initSubsystems();
 		initSmartDashboardChoosers();
-		initServer();
+		//initServer();
 	}
 	
 	private void initServer() {
 		(new Thread(UDPServer.getInstance())).start();
+		periodics.add(UDPServer.getInstance());
 	}
 	
 	private void initSmartDashboardChoosers() {		
@@ -362,7 +365,6 @@ public class Robot extends RobotBase {
 		smartDashboardSources.add(OI.getInstance());
 		
 		periodics.add(Drive.getInstance());
-		periodics.add(UDPServer.getInstance());
 		periodics.add(OI.getInstance());
 		periodics.add(Hood.getInstance());
 		periodics.add(IntakeArm.getInstance());
@@ -376,6 +378,15 @@ public class Robot extends RobotBase {
 	 *            The name of the mode that is currently occuring
 	 */
 	private void periodic(Mode mode) {
+
+		SmartDashboard.putBoolean("Banner 1", IntakeRoller.getInstance().hasBall());
+		SmartDashboard.putBoolean("Banner 2", LoaderRoller.getInstance().hasBall());
+		SmartDashboard.putBoolean("Banner 3", Shooter.getInstance().hasBall());
+		
+		SmartDashboard.putBoolean("Hood top limit switch", Hood.getInstance().isTopLimitSwitchClosed());
+		SmartDashboard.putBoolean("Hood bot limit switch", Hood.getInstance().isBotLimitSwitchClosed());
+		SmartDashboard.putBoolean("Intake Arm bot limit switch", IntakeArm.getInstance().isBotLimitSwitchClosed());
+		SmartDashboard.putBoolean("Intake Arm top limit switch", IntakeArm.getInstance().isTopLimitSwitchClosed());
 
 		if(OI.getInstance().fireButton.get() && !OI.getInstance().alignButton.get() && fireCommand != null && !fireCommand.isRunning()) 
 			fireCommand = new LaserCannonTriggerCommand();
@@ -398,7 +409,7 @@ public class Robot extends RobotBase {
 	private void initialize(Mode mode) {
 		currentMode = mode;
 		if(mode == Mode.AUTONOMOUS) {
-			Hood.getInstance().resetEncoder();
+			new HoodBottomCommand(0.1);
 		}
 	}
 }

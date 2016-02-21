@@ -4,6 +4,7 @@ import edu.nr.lib.NRMath;
 import edu.nr.lib.SmartDashboardSource;
 import edu.nr.lib.TalonEncoder;
 import edu.nr.robotics.RobotMap;
+import edu.nr.robotics.subsystems.loaderroller.LoaderRollerJoystickCommand;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -67,11 +68,13 @@ public class Climb extends Subsystem implements SmartDashboardSource {
 
 	
     public void initDefaultCommand() {
+		setDefaultCommand(new ClimbJoystickCommand());
     }
 
 	@Override
 	public void smartDashboardInfo() {
 		SmartDashboard.putNumber("Elevator Speed", enc.getRate());
+		SmartDashboard.putData(this);
 	}
 
 	public boolean isMoving() {
@@ -89,5 +92,7 @@ public class Climb extends Subsystem implements SmartDashboardSource {
 	public boolean isAtTop() {
 		return isAtPosition(Position.TOP);
 	}
+	
+	
 }
 

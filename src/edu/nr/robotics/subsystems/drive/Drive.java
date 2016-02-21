@@ -32,9 +32,10 @@ public class Drive extends Subsystem implements SmartDashboardSource, Periodic{
 
 	// These values are right so that one distance  
 	// unit given by the encoders is one meter
-	private final int ticksPerRev = 360;
-	private final double wheelDiameter = 0.33333;
-	private final double distancePerRev = Math.PI * wheelDiameter;
+	private final int ticksPerRev = 256 * 60 / 24;
+	private final double wheelDiameter = 0.6375; //Feet
+	private final double distancePerRev = Math.PI * wheelDiameter / 4.04;
+	//The 4.04 is a scaling factor we found...
 
 	private Drive() {
 		leftTalon = new CANTalon(RobotMap.TALON_LEFT_A);
@@ -289,7 +290,7 @@ public class Drive extends Subsystem implements SmartDashboardSource, Periodic{
 	 * @return The distance the left encoder has driven since the last reset as scaled by the value from setDistancePerPulse().
 	 */
 	public double getEncoderLeftDistance() {
-		return leftTalonEncoder.getDisplacement();
+		return -leftTalonEncoder.getDisplacement();
 	}
 
 	/**
@@ -298,7 +299,7 @@ public class Drive extends Subsystem implements SmartDashboardSource, Periodic{
 	 * @return The distance the right encoder has driven since the last reset as scaled by the value from setDistancePerPulse().
 	 */
 	public double getEncoderRightDistance() {
-		return rightTalonEncoder.getDisplacement();
+		return -rightTalonEncoder.getDisplacement();
 	}
 
 	/**
@@ -318,7 +319,7 @@ public class Drive extends Subsystem implements SmartDashboardSource, Periodic{
 	 * @return The current rate of the encoder
 	 */
 	public double getEncoderRightSpeed() {
-		return rightTalonEncoder.getRate();
+		return -rightTalonEncoder.getRate();
 	}
 
 	/**
@@ -349,6 +350,13 @@ public class Drive extends Subsystem implements SmartDashboardSource, Periodic{
 	public void smartDashboardInfo() {
 		SmartDashboard.putNumber("Encoders Distance Ave", getEncoderAverageDistance());
 		SmartDashboard.putNumber("Encoders Speed Ave", getEncoderAverageSpeed());
+		
+		SmartDashboard.putNumber("Encoder left speed", getEncoderLeftSpeed());
+		SmartDashboard.putNumber("Encoder right speed", getEncoderRightSpeed());
+		
+		SmartDashboard.putNumber("Encoder left dist", getEncoderLeftDistance());
+		SmartDashboard.putNumber("Encoder right dist", getEncoderRightDistance());
+
 
 		SmartDashboard.putData("PID Left", leftPid);
 		SmartDashboard.putData("PID Right", rightPid);

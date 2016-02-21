@@ -5,6 +5,7 @@ import edu.nr.lib.SmartDashboardSource;
 import edu.nr.lib.TalonEncoder;
 import edu.nr.lib.interfaces.Periodic;
 import edu.nr.robotics.RobotMap;
+import edu.nr.robotics.subsystems.loaderroller.LoaderRollerJoystickCommand;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -19,6 +20,8 @@ public class Hood extends Subsystem implements SmartDashboardSource, Periodic {
 	TalonEncoder enc;
 	PID pid;
 	
+	double maxSpeed = 1.0;
+	
 	private static Hood singleton;
 	
 	public enum Position {
@@ -32,13 +35,16 @@ public class Hood extends Subsystem implements SmartDashboardSource, Periodic {
 	
 	private Hood() {
 		talon = new CANTalon(RobotMap.HOOD_TALON);
+		talon.enableBrakeMode(true);
 		enc = new TalonEncoder(talon);
 		enc.setPIDSourceType(PIDSourceType.kDisplacement);
-		pid = new PID(0.0001, 0, 0, enc, talon); //TODO: Get the value for the Hood PID
+		enc.setDistancePerRev(RobotMap.HOOD_TICK_TO_ANGLE_MULTIPLIER);
+		pid = new PID(0.5, 0, 0, enc, talon); //TODO: Get the value for the Hood PID
 	}
 
 	@Override
 	protected void initDefaultCommand() {
+		setDefaultCommand(new HoodJoystickCommand());
 	}
 	
 	public void resetEncoder() {
@@ -70,6 +76,8 @@ public class Hood extends Subsystem implements SmartDashboardSource, Periodic {
 	 * @param value the value to set the setpoint to
 	 */
 	public void setSetpoint(double value) {
+		if(!pid.isEnable())
+			pid.enable();
 		pid.setSetpoint(value);	
 	}
 	
@@ -108,7 +116,7 @@ public class Hood extends Subsystem implements SmartDashboardSource, Periodic {
 	 * @return the value of the encoder
 	 */
 	public double get() {
-		return enc.get();
+		return enc.get() ;
 	}
 	
 	/**
@@ -130,10 +138,19 @@ public class Hood extends Subsystem implements SmartDashboardSource, Periodic {
 		return 0;
 	}
 	
+	public void setMaxSpeedPID(double speed) {
+		maxSpeed = speed;
+		pid.setOutputRange(-speed, speed);
+	}
+	
 	@Override
 	public void smartDashboardInfo() {
-		SmartDashboard.putNumber("Hood Potentiometer", get());
+		SmartDashboard.putNumber("Hood Encoder", get());
 		SmartDashboard.putBoolean("Hood Moving", getMoving());
+		SmartDashboard.putData(this);
+		SmartDashboard.putData("Hood PID", pid);
+		SmartDashboard.putNumber("Hood PID Output", pid.get());
+
 	}
 
 	public boolean isAtPosition(Position pos) {
@@ -150,9 +167,21 @@ public class Hood extends Subsystem implements SmartDashboardSource, Periodic {
 
 	@Override
 	public void periodic() {
-		if(talon.isRevLimitSwitchClosed()) {
+		if(isBotLimitSwitchClosed()) {
 			enc.reset();
 		}
+	}
+
+	public boolean isTopLimitSwitchClosed() {
+		return talon.isRevLimitSwitchClosed();
+	}
+	
+	public boolean isBotLimitSwitchClosed() {
+		return talon.isFwdLimitSwitchClosed();
+	}
+
+	public double getMaxSpeed() {
+		return maxSpeed;
 	}
 
 	

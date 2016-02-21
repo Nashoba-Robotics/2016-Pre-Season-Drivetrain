@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class LoaderRollerForwardCommand extends CommandGroup {
+public class LoaderRollerIntakeCommand extends CommandGroup {
     
-    public  LoaderRollerForwardCommand() {
+    public  LoaderRollerIntakeCommand() {
         addSequential(new LoaderRollerSpeedCommand(1));
     }
 }

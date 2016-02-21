@@ -14,7 +14,7 @@ public class ShooterOffCommand extends NRCommand {
 	@Override
 	protected void onStart() {
 		if(Shooter.getInstance().isPIDEnable()) {
-			Shooter.getInstance().setSetpoint(0);
+			Shooter.getInstance().pid.disable();
 		} else {
 			Shooter.getInstance().setMotor(0);
 		}

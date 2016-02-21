@@ -25,32 +25,33 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	MotorSetter talonOutput;
 	
 	DigitalInput gate;
+
 	
+	//In rotations per second
 	CounterPIDSource shooterRate;
 	
 	private Shooter() {
 		gate = new DigitalInput(RobotMap.SHOOTER_PHOTO_GATE);
 		
 		talonA = new CANTalon(RobotMap.SHOOTER_TALON_A);
-		talonA.enableBrakeMode(true);
+		talonA.enableBrakeMode(false);
 		
 		talonB = new CANTalon(RobotMap.SHOOTER_TALON_B);
-		talonB.enableBrakeMode(true);
+		talonB.enableBrakeMode(false);
 		talonB.setInverted(true);
-		
+
 		talonOutput = new MotorSetter(talonA, talonB);
 		
 		shooterRate = new CounterPIDSource(RobotMap.SHOOTER_RATE_PORT);
-		shooterRate.setDistancePerPulse(RobotMap.SHOOTER_DISTANCE_PER_PULSE);
 		shooterRate.setPIDSourceType(PIDSourceType.kRate);
 		shooterRate.setSamplesToAverage(6);
-				
-		pid = new PID(0.0001, 0, 0, shooterRate, talonOutput); //TODO: Get the value for the Shooter PID
-
+		shooterRate.scale(2 * RobotMap.SHOOTER_MAX_SPEED);
+						
+		pid = new PID(0.75, 0.0001, 0, 1, shooterRate, talonOutput);
 	}
 	
     public void initDefaultCommand() {
-    	setDefaultCommand(new ShooterOffCommand());
+    	//setDefaultCommand(new ShooterJoystickCommand());
     }
     
     public static Shooter getInstance() {
@@ -69,7 +70,8 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	 * @param speed the speed to set the motor to, from -1 to 1
 	 */
 	public void setMotor(double speed) {
-		pid.disable();
+		if(pid.isEnable())
+			pid.disable();
 		talonOutput.write(speed);
 	}
 	
@@ -122,7 +124,7 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	 * @return the speed of the shooter
 	 */
 	public double getSpeed() {
-		return shooterRate.getRate();
+		return shooterRate.pidGet();
 	}
 	
 	public boolean getRunning() {
@@ -155,9 +157,13 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 
 	@Override
 	public void smartDashboardInfo() {
+		SmartDashboard.putData("Shooter PID", pid);
+		SmartDashboard.putNumber("Shooter PID Output", pid.get());
+
 		SmartDashboard.putNumber("Shooter Speed", getSpeed());
 		SmartDashboard.putBoolean("Shooter Running", getSetpoint() != 0);
 		SmartDashboard.putNumber("Shooter Current", talonOutput.getOutputCurrent());
+		SmartDashboard.putData(this);
 	}
 
 	public boolean hasBall() {

@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class IntakeRollerForwardCommand extends CommandGroup {
+public class IntakeRollerOuttakeCommand extends CommandGroup {
     
-    public  IntakeRollerForwardCommand() {
+    public  IntakeRollerOuttakeCommand() {
         addSequential(new IntakeRollerSpeedCommand(1));
     }
 }

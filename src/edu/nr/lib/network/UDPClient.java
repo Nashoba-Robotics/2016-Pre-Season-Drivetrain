@@ -12,7 +12,8 @@ public class UDPClient {
 	private static final String defaultIpAddress = "GarrisoComputer";
 	
 	public UDPClient(String message, String ipAddress, int port) {
-		DatagramSocket clientSocket = null;
+		//TODO: this
+		/*DatagramSocket clientSocket = null;
 		try {
 			clientSocket = new DatagramSocket();
 		} catch (SocketException e) {
@@ -32,7 +33,7 @@ public class UDPClient {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		clientSocket.close();
+		clientSocket.close();*/
 	}
 	
 	public UDPClient(String message) {

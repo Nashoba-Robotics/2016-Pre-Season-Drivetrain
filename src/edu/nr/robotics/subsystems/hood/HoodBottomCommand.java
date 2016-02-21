@@ -12,4 +12,8 @@ public class HoodBottomCommand extends CommandGroup {
     public  HoodBottomCommand() {
         addSequential(new HoodPositionCommand(RobotMap.HOOD_BOTTOM_POSITION));
     }
+
+	public HoodBottomCommand(double d) {
+        addSequential(new HoodPositionCommand(RobotMap.HOOD_BOTTOM_POSITION, d));
+	}
 }

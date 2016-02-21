@@ -16,6 +16,6 @@ public class LoaderRollerSpeedCommand extends NRCommand {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	LoaderRoller.getInstance().setLoaderSetpoint(val);
+    	LoaderRoller.getInstance().setLoaderSpeed(val);
     }
 }

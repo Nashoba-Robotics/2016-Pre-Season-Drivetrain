@@ -8,6 +8,8 @@ public class CounterPIDSource extends Counter implements PIDSource {
 	
 	PIDSourceType PIDtype = PIDSourceType.kRate;
 	
+	double scale = 1;
+	
 	public CounterPIDSource(int port) {
 		this(port, 1);
 	}
@@ -30,8 +32,12 @@ public class CounterPIDSource extends Counter implements PIDSource {
 	@Override
 	public double pidGet() {
 		if(PIDtype == PIDSourceType.kRate)
-			return getRate();
+			return getRate()/scale;
 		else
 			return getDistance();
+	}
+
+	public void scale(double scaleVal) {
+		scale = scaleVal;
 	}
 }

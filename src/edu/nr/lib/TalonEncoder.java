@@ -13,6 +13,8 @@ public class TalonEncoder implements PIDSource {
 	int ticksPerRev = 1;
 	boolean reverseDirection = false;
 	
+	double pos = 0;
+	
 	public TalonEncoder(CANTalon talon) {
 		this.talon = talon;
 	}
@@ -43,11 +45,11 @@ public class TalonEncoder implements PIDSource {
 	}
 	
 	public double getDisplacement() {
-		return talon.getEncPosition() * (distancePerRev / ticksPerRev)  * (reverseDirection ? -1 : 1);
+		return (talon.getEncPosition() - pos) * (distancePerRev / ticksPerRev)  * (reverseDirection ? -1 : 1);
 	}
 	
 	public double getRate() {
-		return talon.getEncVelocity() * (distancePerRev / ticksPerRev) / scale * (reverseDirection ? -1 : 1);
+		return talon.getEncVelocity() * (distancePerRev / ticksPerRev) / scale * (reverseDirection ? -1 : 1) * 10;//The times 10 is because the enc velocity is per 100 ms
 	}
 
 	public void setReverseDirection(boolean b) {
@@ -83,7 +85,7 @@ public class TalonEncoder implements PIDSource {
 	}
 
 	public void reset() {
-		talon.setEncPosition(0);
+		pos = talon.getEncPosition();
 	}
 
 	/**

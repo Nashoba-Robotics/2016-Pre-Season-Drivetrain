@@ -29,7 +29,7 @@ public class HoodJetsonPositionCommand extends NRCommand {
 
 	@Override
 	protected boolean isFinished() {
-		return Hood.getInstance().get() == val;
+		return Math.abs(Hood.getInstance().get() - val) < 0.25;
 	}
 
 }

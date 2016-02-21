@@ -1,4 +1,4 @@
-package edu.nr.robotics.subsystems.loaderroller;
+package edu.nr.robotics.subsystems.intakeroller;
 
 import edu.nr.lib.NRCommand;
 import edu.nr.robotics.OI;
@@ -6,15 +6,15 @@ import edu.nr.robotics.OI;
 /**
  *
  */
-public class LoaderRollerJoystickCommand extends NRCommand {
+public class IntakeRollerJoystickCommand extends NRCommand {
 
-    public LoaderRollerJoystickCommand() {
-        requires(LoaderRoller.getInstance());
+    public IntakeRollerJoystickCommand() {
+        requires(IntakeRoller.getInstance());
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void onExecute() {
-    	LoaderRoller.getInstance().setLoaderSpeed(OI.getInstance().getLoaderRollerMoveValue());
+    	IntakeRoller.getInstance().setRollerSpeed(OI.getInstance().getIntakeRollerMoveValue());
     }
 
     // Make this return true when this Command no longer needs to run execute()

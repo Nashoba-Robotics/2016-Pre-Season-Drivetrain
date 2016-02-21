@@ -1,10 +1,11 @@
 package edu.nr.robotics.subsystems.intakearm;
 
-import edu.nr.ResettableAnalogPotentiometer;
 import edu.nr.lib.PID;
+import edu.nr.lib.ResettableAnalogPotentiometer;
 import edu.nr.lib.SmartDashboardSource;
 import edu.nr.lib.interfaces.Periodic;
 import edu.nr.robotics.RobotMap;
+import edu.nr.robotics.subsystems.loaderroller.LoaderRollerJoystickCommand;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -26,10 +27,13 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 		talon = new CANTalon(RobotMap.INTAKE_ARM_TALON);
 		pot = new ResettableAnalogPotentiometer(RobotMap.INTAKE_ARM_POT);
 		pot.setPIDSourceType(PIDSourceType.kDisplacement);
+		pot.scale(RobotMap.INTAKE_ARM_TICK_TO_ANGLE_MULTIPLIER);
 		pid = new PID(0.0001, 0, 0, pot, talon); //TODO: Get the value for the Intake Arm PID
 	}
 	
     public void initDefaultCommand() {
+		setDefaultCommand(new IntakeArmJoystickCommand());
+
     }
     
     public static IntakeArm getInstance() {
@@ -101,17 +105,26 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	public void smartDashboardInfo() {
 		SmartDashboard.putNumber("Intake Arm Potentiometer", get());
 		SmartDashboard.putBoolean("Intake Arm Moving", Math.abs(pid.getError()) > 0.05);
+		SmartDashboard.putData(this);
 	}
 
 	@Override
 	public void periodic() {
-		if(talon.isRevLimitSwitchClosed()) {
+		if(isBotLimitSwitchClosed()) {
 			pot.reset();
 		}
 	}
 
 	public void reset() {
 		pot.reset();
+	}
+
+	public boolean isTopLimitSwitchClosed() {
+		return talon.isFwdLimitSwitchClosed();
+	}
+	
+	public boolean isBotLimitSwitchClosed() {
+		return talon.isRevLimitSwitchClosed();
 	}
 }
 

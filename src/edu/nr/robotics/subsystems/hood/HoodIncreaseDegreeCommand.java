@@ -2,39 +2,29 @@ package edu.nr.robotics.subsystems.hood;
 
 import edu.nr.lib.NRCommand;
 
-public class HoodPositionCommand extends NRCommand {
+public class HoodIncreaseDegreeCommand extends NRCommand {
 
 	double val;
-	double speed;
+	double prevVal;
 	
-	double prevSpeed;
-	
-	public HoodPositionCommand(double val) {
-		this(val, 1);
-	}
-	
-	public HoodPositionCommand(double val, double d) {
+	public HoodIncreaseDegreeCommand(double val) {
 		this.val = val;
-		this.speed = d;
 		requires(Hood.getInstance());
-
 	}
 
 	@Override
 	protected void onStart() {
+		prevVal = Hood.getInstance().get();
 		Hood.getInstance().enable();
-		prevSpeed = Hood.getInstance().getMaxSpeed();
-		Hood.getInstance().setMaxSpeedPID(speed);
 	}
 
 	@Override
 	protected void onExecute() {
-		Hood.getInstance().setSetpoint(val);
+		Hood.getInstance().setSetpoint(val + prevVal);
 	}
 
 	@Override
 	protected void onEnd(boolean interrupted) {
-		Hood.getInstance().setMaxSpeedPID(prevSpeed);
 	}
 
 	@Override
