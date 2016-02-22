@@ -40,7 +40,7 @@ public class DriveAnglePIDCommand extends NRCommand {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Math.abs(pid.getError()) < 0.25;
+        return Math.abs(pid.getError()) < 0.5;
     }
 
 	@Override

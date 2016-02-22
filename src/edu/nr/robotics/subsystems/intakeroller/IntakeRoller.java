@@ -42,13 +42,14 @@ public class IntakeRoller extends Subsystem implements SmartDashboardSource {
 	}
 
     public void initDefaultCommand() {
-    	setDefaultCommand(new IntakeRollerJoystickCommand());
+    	//setDefaultCommand(new IntakeRollerJoystickCommand());
     }
 
 	@Override
 	public void smartDashboardInfo() {
 		SmartDashboard.putNumber("Intake Roller Speed", talon.get());	
 		SmartDashboard.putData(this);
+		SmartDashboard.putBoolean("Intake Roller Is Running", isRunning());
 	}
 	
 	public boolean hasBall() {
@@ -57,6 +58,10 @@ public class IntakeRoller extends Subsystem implements SmartDashboardSource {
 
 	public double getRollerSpeed() {
 		return talon.get();
+	}
+
+	public boolean isRunning() {
+		return Math.abs(talon.get()) > 0.1 ;
 	}
 }
 

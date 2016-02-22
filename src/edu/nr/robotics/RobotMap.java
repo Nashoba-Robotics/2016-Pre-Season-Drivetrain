@@ -47,7 +47,7 @@ public class RobotMap {
 	public static final double SHOOTER_MAX_SPEED = 300; //In rotations per second
 	public static final double CLOSE_SHOT_POSITION = 0;
 	public static final double LONG_SHOT_POSITION = 55;
-	public static final double SHOOTER_RAMP_RATE = 2.5;
+	public static final double SHOOTER_RAMP_RATE = 5;
 	public static final double HOOD_BOTTOM_POSITION = 0;
 	public static final double HOOD_TOP_POSITION = 75.46;
 	public static final double HOOD_TICK_TO_ANGLE_MULTIPLIER = 0.031934;

@@ -76,8 +76,6 @@ public class UDPServer implements Runnable, Periodic {
 			    System.out.println("Shoot: " + getShootAngle() + " Angle: " + getTurnAngle());
 			    SmartDashboard.putNumber("Shoot angle", getShootAngle());
 			    SmartDashboard.putNumber("Angle from camera", getTurnAngle());	
-			} else {
-			  System.err.println("Packet received doesn't have a delimiter");
 			}
 		}
 	}

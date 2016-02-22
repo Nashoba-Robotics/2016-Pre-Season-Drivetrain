@@ -21,6 +21,7 @@ import edu.nr.robotics.subsystems.drive.DriveResetEncodersCommand;
 import edu.nr.robotics.subsystems.drive.DriveSimpleDistanceCommand;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.hood.HoodBottomCommand;
+import edu.nr.robotics.subsystems.hood.HoodMoveDownUntilLimitSwitchCommand;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;
 import edu.nr.robotics.subsystems.intakearm.IntakeArmMoveDownUntilLimitSwitchCommand;
 import edu.nr.robotics.subsystems.intakeroller.IntakeRoller;
@@ -405,9 +406,9 @@ public class Robot extends RobotBase {
 	 */
 	private void initialize(Mode mode) {
 		currentMode = mode;
-		if(mode == Mode.AUTONOMOUS) {
-			new HoodBottomCommand(0.1);
-			new IntakeArmMoveDownUntilLimitSwitchCommand();
+		if(mode == Mode.TELEOP) {
+			new HoodMoveDownUntilLimitSwitchCommand().start();
+			new IntakeArmMoveDownUntilLimitSwitchCommand().start();
 		}
 	}
 }

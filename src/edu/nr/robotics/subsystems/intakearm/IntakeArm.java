@@ -29,11 +29,11 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 		pot.setPIDSourceType(PIDSourceType.kDisplacement);
 		pot.scale(RobotMap.INTAKE_ARM_TICK_TO_ANGLE_MULTIPLIER);
 		pot.setBottomPos(0.776);
-		pid = new PID(0.03, 0.0002, 0, pot, talon);
+		pid = new PID(0.015, 0.0002, 0, pot, talon);
 	}
 	
     public void initDefaultCommand() {
-		setDefaultCommand(new IntakeArmJoystickCommand());
+		//setDefaultCommand(new IntakeArmJoystickCommand());
 
     }
     
@@ -117,6 +117,12 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	public void periodic() {
 		if(isBotLimitSwitchClosed()) {
 			pot.reset();
+		}
+		if(Math.abs(pid.getError()) < 1 && pid.isEnable()) {
+			pid.disable();
+		}
+		if(Math.abs(pid.getError()) > 1 && !pid.isEnable()) {
+			pid.enable();
 		}
 	}
 

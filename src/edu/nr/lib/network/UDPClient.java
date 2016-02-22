@@ -13,6 +13,7 @@ public class UDPClient {
 	private static final String defaultIpAddress = "GarrisoComputer";
 	
 	public UDPClient(String message, String ipAddress, int port) {
+		/*
 		DatagramSocket clientSocket = null;
 		try {
 			clientSocket = new DatagramSocket();
@@ -35,7 +36,7 @@ public class UDPClient {
 			}
 		} catch (SocketException e) {
 			System.err.println("Couldn't initialize client socket");
-		}
+		}*/
 	}
 	
 	public UDPClient(String message) {

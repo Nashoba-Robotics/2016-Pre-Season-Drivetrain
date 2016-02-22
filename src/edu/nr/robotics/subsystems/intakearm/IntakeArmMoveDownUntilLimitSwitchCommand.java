@@ -10,10 +10,6 @@ public class IntakeArmMoveDownUntilLimitSwitchCommand extends NRCommand {
     public IntakeArmMoveDownUntilLimitSwitchCommand() {
     	requires(IntakeArm.getInstance());
     }
-
-    // Called just before this Command runs the first time
-    protected void initialize() {
-    }
     
     protected void onStart() {
     	IntakeArm.getInstance().disable();

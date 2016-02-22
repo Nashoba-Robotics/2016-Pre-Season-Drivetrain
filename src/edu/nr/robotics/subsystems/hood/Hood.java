@@ -44,7 +44,7 @@ public class Hood extends Subsystem implements SmartDashboardSource, Periodic {
 
 	@Override
 	protected void initDefaultCommand() {
-		//setDefaultCommand(new HoodJoystickCommand());
+		setDefaultCommand(new HoodJoystickCommand());
 	}
 	
 	public void resetEncoder() {
@@ -174,11 +174,11 @@ public class Hood extends Subsystem implements SmartDashboardSource, Periodic {
 	}
 
 	public boolean isTopLimitSwitchClosed() {
-		return talon.isRevLimitSwitchClosed();
+		return talon.isFwdLimitSwitchClosed();
 	}
 	
 	public boolean isBotLimitSwitchClosed() {
-		return talon.isFwdLimitSwitchClosed();
+		return talon.isRevLimitSwitchClosed();
 	}
 
 	public double getMaxSpeed() {

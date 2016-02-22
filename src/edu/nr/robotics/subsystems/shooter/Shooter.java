@@ -154,6 +154,8 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 		SmartDashboard.putBoolean("Shooter Running", getRunning());
 		SmartDashboard.putNumber("Shooter Current", talonOutput.getOutputCurrent());
 		SmartDashboard.putData(this);
+		SmartDashboard.putData("Shooter PID", pid);
+		SmartDashboard.putNumber("Shooter Output", pid.get());
 	}
 
 	public boolean hasBall() {
