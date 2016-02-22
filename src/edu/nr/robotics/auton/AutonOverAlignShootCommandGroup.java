@@ -19,14 +19,11 @@ public class AutonOverAlignShootCommandGroup extends CommandGroup {
     public  AutonOverAlignShootCommandGroup(final Positions pos) {
     	
     	final double overDistance;
-    	final double ontoDistance;
     	
     	if(pos == Positions.two || pos == Positions.five) {
     		overDistance = RobotMap.OVER_DISTANCE_25;
-    		ontoDistance = RobotMap.ONTO_DISTANCE_25;
     	} else {
     		overDistance = RobotMap.OVER_DISTANCE_134;
-    		ontoDistance = RobotMap.ONTO_DISTANCE_134;
     	}
     	
         addSequential(new DriveSimpleDistanceWithGyroCommand(overDistance, 1.0));

@@ -27,6 +27,6 @@ public class AutonAlignCommand extends CommandGroup {
     @Override
     public void end() {
     	if(Math.abs(Hood.getInstance().get() - UDPServer.getInstance().getShootAngle()) > RobotMap.HOOD_THRESHOLD || Math.abs(UDPServer.getInstance().getTurnAngle()) > RobotMap.TURN_THRESHOLD || Math.abs(Shooter.getInstance().getScaledSpeed() - RobotMap.SHOOTER_FAST_SPEED) > RobotMap.SHOOTER_THRESHOLD)
-    		new AutonAlignCommand();
+    		new AutonAlignCommand().start();
     }
 }

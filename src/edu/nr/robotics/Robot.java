@@ -203,7 +203,7 @@ public class Robot extends RobotBase {
 		//initCamera();
 		initSubsystems();
 		initSmartDashboardChoosers();
-		//initServer();
+		initServer();
 	}
 	
 	private void initServer() {
@@ -386,8 +386,10 @@ public class Robot extends RobotBase {
 		
 		Drive.getInstance().setPIDEnabled(!OI.getInstance().dumbDrive.get());
 
-		if(OI.getInstance().fireButton.get() && !OI.getInstance().alignButton.get() && fireCommand != null && !fireCommand.isRunning()) 
+		if(OI.getInstance().fireButton.get() && !OI.getInstance().alignButton.get() && fireCommand != null && !fireCommand.isRunning()) {
 			fireCommand = new LaserCannonTriggerCommand();
+			fireCommand.start();
+		}
 		
 		periodics.forEach(Periodic::periodic);
 		

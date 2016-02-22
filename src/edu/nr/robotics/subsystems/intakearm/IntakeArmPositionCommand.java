@@ -20,15 +20,4 @@ public class IntakeArmPositionCommand extends NRCommand {
 	protected void onExecute() {
 		IntakeArm.getInstance().setSetpoint(val);
 	}
-
-	@Override
-	protected void onEnd(boolean interrupted) {
-
-	}
-
-	@Override
-	protected boolean isFinished() {
-		return true;
-	}
-
 }

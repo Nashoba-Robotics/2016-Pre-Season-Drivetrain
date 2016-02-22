@@ -18,9 +18,4 @@ public class IntakeRollerSpeedCommand extends NRCommand {
     protected void initialize() {
     	IntakeRoller.getInstance().setRollerSpeed(val);
     }
-
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-        return true;
-    }
 }

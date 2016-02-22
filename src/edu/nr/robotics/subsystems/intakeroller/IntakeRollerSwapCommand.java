@@ -14,11 +14,11 @@ public class IntakeRollerSwapCommand extends NRCommand {
     
     public void onStart() {
     	if(IntakeRoller.getInstance().isRunning()) {
-        	IntakeRoller.getInstance().setRollerSpeed(0);
+        	new IntakeRollerNeutralCommand().start();
         	System.out.println("Set roller speed to 0");
     	} else {
-        	IntakeRoller.getInstance().setRollerSpeed(-1);
-        	System.out.println("Set roller speed to -1");
+    		new IntakeRollerIntakeCommand().start();
+    		System.out.println("Set roller speed to -1");
     	}
     }
 }

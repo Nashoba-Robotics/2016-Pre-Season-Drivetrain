@@ -24,19 +24,4 @@ public class ShooterOnCommand extends NRCommand {
 			Shooter.getInstance().setMotor(val);
 		}
 	}
-
-	@Override
-	protected void onExecute() {
-		
-	}
-
-	@Override
-	protected void onEnd(boolean interrupted) {
-		
-	}
-
-	@Override
-	protected boolean isFinished() {
-		return true;
-	}
 }

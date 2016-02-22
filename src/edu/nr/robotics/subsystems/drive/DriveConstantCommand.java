@@ -33,10 +33,10 @@ public class DriveConstantCommand extends NRCommand {
 
 	@Override
 	protected void onEnd(boolean interrupted) {
-		/*if(PID)
+		if(PID)
 			Drive.getInstance().setPIDSetpoint(0, 0);
 		else
-			Drive.getInstance().setRawMotorSpeed(0, 0);	*/
+			Drive.getInstance().setRawMotorSpeed(0, 0);
 	}
 
 	@Override
