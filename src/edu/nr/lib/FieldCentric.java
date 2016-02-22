@@ -110,6 +110,7 @@ public class FieldCentric implements SmartDashboardSource {
 	public void reset() {
 		x = 0;
 		y = 0;
+		dis = 0;
 		lastEncoderDistance = Drive.getInstance().getEncoderAverageDistance();
 		initialGyro = NavX.getInstance().getYaw(AngleUnit.RADIAN);
 	}

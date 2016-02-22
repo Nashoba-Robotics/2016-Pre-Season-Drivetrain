@@ -20,6 +20,7 @@ public class DriveSimpleDistanceCommand extends NRCommand {
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
+		System.out.println("Distance: " + FieldCentric.getInstance().getDistance());
 		return FieldCentric.getInstance().getDistance() > distance;
 	}
 

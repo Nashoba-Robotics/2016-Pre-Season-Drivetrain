@@ -167,15 +167,15 @@ public class OI implements SmartDashboardSource, Periodic {
 		new JoystickButton(operatorRight, 5).whenPressed(new IntakeRollerSwapCommand());
 		// => 7: Cancel all commands
 		new JoystickButton(operatorRight, 7).whenPressed(new CancelAllCommand());
-		// -> 8: Climb
+		// => 8: Climb
 		// Fully retracts elevator, stops after 1 second of motor stall
-		new JoystickButton(operatorRight, 9).whenPressed(new ElevatorRetractCommand());
-		// -> 9: Extend & Intake Up
+		new JoystickButton(operatorRight, 8).whenPressed(new ElevatorRetractCommand());
+		// => 9: Extend & Intake Up
 		// Extends elevator completely, brings intake to up position
-		new JoystickButton(operatorRight, 8).whenPressed(new ClimbExtendCommand());
-		// -> 10: Prepare Climb
+		new JoystickButton(operatorRight, 9).whenPressed(new ClimbExtendCommand());
+		// => 10: Prepare Climb
 		// Un-latches elevator (drives the elevator down a little)
-		new JoystickButton(operatorRight, 7).whenPressed(new ElevatorUnlatchCommand());
+		new JoystickButton(operatorRight, 10).whenPressed(new ElevatorUnlatchCommand());
 		// => 11: Dumb Drive switch
 		// Switch closed loop drive off (in case of sensor failure)
 		dumbDrive = new JoystickButton(operatorRight, 11);

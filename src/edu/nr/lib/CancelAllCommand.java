@@ -24,9 +24,11 @@ public class CancelAllCommand extends NRCommand {
 	
 	public void onStart() {
 		IntakeArm.getInstance().disable();
+		//Fix intake arm cancelling
 		IntakeRoller.getInstance().setRollerSpeed(0);
 		LoaderRoller.getInstance().setLoaderSpeed(0);
 		Hood.getInstance().disable();
 		Shooter.getInstance().disable();
+		Elevator.getInstance().setMotorValue(0);
 	}
 }

@@ -137,5 +137,9 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	public boolean isBotLimitSwitchClosed() {
 		return talon.isRevLimitSwitchClosed();
 	}
+
+	public void setMaxSpeed(double maxSpeed) {
+		pid.setOutputRange(-maxSpeed, maxSpeed);
+	}
 }
 
