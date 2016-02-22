@@ -38,11 +38,11 @@ public class IntakeRoller extends Subsystem implements SmartDashboardSource {
 	 * @param value the value to set the setpoint to
 	 */
 	public void setRollerSpeed(double value) {
-		//talon.set(value);	
+		talon.set(value);	
 	}
 
     public void initDefaultCommand() {
-    	//setDefaultCommand(new IntakeRollerJoystickCommand());
+    	setDefaultCommand(new IntakeRollerJoystickCommand());
     }
 
 	@Override

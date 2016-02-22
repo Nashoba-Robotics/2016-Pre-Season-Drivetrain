@@ -33,7 +33,7 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	}
 	
     public void initDefaultCommand() {
-		//setDefaultCommand(new IntakeArmJoystickCommand());
+		setDefaultCommand(new IntakeArmJoystickCommand());
 
     }
     
