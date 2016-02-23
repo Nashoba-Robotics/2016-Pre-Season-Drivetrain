@@ -49,6 +49,8 @@ public class OI implements SmartDashboardSource, Periodic {
 	public JoystickButton fireButton;
 	public DoubleJoystickButton alignButton;
 	
+	public AlignCommandGroup alignCommand;
+	
 	private OI() {
 		SmartDashboard.putNumber("Speed Multiplier", speedMultiplier);
 
@@ -106,7 +108,7 @@ public class OI implements SmartDashboardSource, Periodic {
 		// Auto align the robot to target, ends when drive joysticks are touched
 		alignButton = new DoubleJoystickButton(operatorLeft, 2, 3);
 		
-		AlignCommandGroup alignCommand = new AlignCommandGroup();
+		alignCommand = new AlignCommandGroup();
 		alignButton.whenPressed(alignCommand);
 		alignButton.whenReleased(new AlignEndCommandGroup());
 		// => 9: Get low

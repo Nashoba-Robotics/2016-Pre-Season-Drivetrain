@@ -26,5 +26,7 @@ public class AlignEndCommandGroup extends CommandGroup {
     public void start() {
     	IntakeArm.getInstance().disable();
     	Hood.getInstance().disable();
+    	Shooter.getInstance().disable();
+    	OI.getInstance().alignCommand.cancel();
     }
 }

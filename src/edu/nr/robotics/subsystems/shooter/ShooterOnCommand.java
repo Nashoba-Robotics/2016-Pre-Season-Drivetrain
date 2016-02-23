@@ -16,7 +16,7 @@ public class ShooterOnCommand extends NRCommand {
 
 	@Override
 	protected void onStart() {
-		Shooter.getInstance().talonOutputSpeed = val;
+		Shooter.getInstance().enable();
 		Shooter.getInstance().setSetpoint(val);
 
 	}

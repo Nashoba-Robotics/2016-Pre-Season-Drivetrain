@@ -32,7 +32,7 @@ public class DriveAnglePIDCommand extends NRCommand {
     protected void onExecute() {
     	SmartDashboard.putData("Angle PID", pid);
     	SmartDashboard.putNumber("Angle PID Error", pid.getError());
-    	pid.setPID(pid.getError()*0.0007, pid.getI(), pid.getD());
+    	//pid.setPID(pid.getError()*0.0007, pid.getI(), pid.getD());
 		if(Math.signum(pid.getError()) != Math.signum(pid.getTotalError())) {
 			pid.resetTotalError();
 		}
@@ -50,7 +50,7 @@ public class DriveAnglePIDCommand extends NRCommand {
 
 	@Override
 	protected void onStart() {
-		pid = new PID(angle*0.0007, 0.0005, 0.0001, new AngleGyroCorrectionSource(), new AngleController());
+		pid = new PID(/* angle* */0.0007, 0.0001, 0.0001, new AngleGyroCorrectionSource(), new AngleController());
 		pid.enable();
 		if(resetCorrection) {
 			correction.reset();

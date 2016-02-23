@@ -26,12 +26,16 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 		
 	private IntakeArm() {		
 
-		talon = new CANTalon(RobotMap.INTAKE_ARM_TALON);
+		//talon = new CANTalon(RobotMap.INTAKE_ARM_TALON);
+		
+		talon = new CANTalon(RobotMap.ELEVATOR_TALON);
+		
 		pot = new ResettableAnalogPotentiometer(RobotMap.INTAKE_ARM_POT);
 		pot.setPIDSourceType(PIDSourceType.kDisplacement);
 		pot.scale(RobotMap.INTAKE_ARM_TICK_TO_ANGLE_MULTIPLIER);
 		pot.setBottomPos(0.776);
-		pid = new PID(0.015, 0.0002, 0.00, pot, talon);
+		//pid = new PID(0.015, 0.0002, 0.00, pot, talon);
+		pid = new PID(0,0,0,pot,talon);
 	}
 	
     public void initDefaultCommand() {
@@ -57,7 +61,7 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	public void setMotor(double speed) {
 		if(pid.isEnable())
 			pid.disable();
-		talon.set(speed);
+		//talon.set(speed);
 	}
 	
 	/**
@@ -65,7 +69,7 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	 * @param value the value to set the setpoint to
 	 */
 	public void setSetpoint(double value) {
-		pid.setSetpoint(value);	
+		//pid.setSetpoint(value);	
 	}
 	
 	/**

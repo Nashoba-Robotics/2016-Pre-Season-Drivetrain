@@ -42,7 +42,7 @@ public class RobotMap {
 	public static final int SHOOTER_TALON_A = 7;
 	public static final int SHOOTER_TALON_B = 5;
 	
-	public static final double SHOOTER_FAST_SPEED = 0.75; //out of 1.0
+	public static final double SHOOTER_FAST_SPEED = 0.87; //out of 1.0
 	public static final double SHOOTER_SLOW_SPEED = 0.3; //out of 1.0
 	public static final double SHOOTER_MAX_SPEED = 300; //In rotations per second
 	public static final double CLOSE_SHOT_POSITION = 16;

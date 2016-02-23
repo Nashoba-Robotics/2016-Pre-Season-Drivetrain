@@ -12,6 +12,10 @@ public class ShooterJoystickCommand extends NRCommand {
         requires(Shooter.getInstance());
     }
     
+    public void onStart() {
+    	Shooter.getInstance().enable();
+    }
+    
     // Called repeatedly when this Command is scheduled to run
     protected void onExecute() {
     	Shooter.getInstance().setSetpoint(OI.getInstance().getShooterMoveValue());

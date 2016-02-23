@@ -4,6 +4,9 @@ import edu.nr.lib.AngleGyroCorrectionSource;
 import edu.nr.lib.NRCommand;
 import edu.nr.lib.PID;
 import edu.nr.lib.network.UDPServer;
+import edu.nr.robotics.OI;
+import edu.nr.robotics.Robot;
+import edu.nr.robotics.commandgroups.AlignCommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -31,7 +34,7 @@ public class DriveAngleJetsonPIDCommand extends NRCommand {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Math.abs(pid.getError()) < 0.5;
+        return !(Robot.getInstance().state == AlignCommandGroup.State.ALIGNING);
     }
 
 	@Override

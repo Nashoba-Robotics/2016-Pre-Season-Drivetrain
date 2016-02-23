@@ -13,7 +13,7 @@ public class ShooterOffCommand extends NRCommand {
 
 	@Override
 	protected void onStart() {
-		Shooter.getInstance().talonOutputSpeed = 0;
 		Shooter.getInstance().setSetpoint(0);
+		Shooter.getInstance().disable();
 	}
 }

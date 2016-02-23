@@ -10,6 +10,8 @@ public class CounterPIDSource extends Counter implements PIDSource {
 	
 	double scale = 1;
 	
+	boolean inverted = false;
+	
 	public CounterPIDSource(int port) {
 		this(port, 1);
 	}
@@ -32,12 +34,16 @@ public class CounterPIDSource extends Counter implements PIDSource {
 	@Override
 	public double pidGet() {
 		if(PIDtype == PIDSourceType.kRate)
-			return getRate()/scale;
+			return getRate()/scale * (inverted ? -1 : 1);
 		else
 			return getDistance();
 	}
 
 	public void scale(double scaleVal) {
 		scale = scaleVal;
+	}
+
+	public void setInverted() {
+		inverted = true;
 	}
 }

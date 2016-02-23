@@ -14,8 +14,7 @@ public class MotorSetter implements PIDOutput {
 	
 	@Override
 	public void pidWrite(double output) {
-		talon1.set(output);
-		talon2.set(output);
+		write(output);
 	}
 	
 	public void write(double output) {

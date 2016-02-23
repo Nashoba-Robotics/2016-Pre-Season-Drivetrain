@@ -18,6 +18,7 @@ import edu.nr.robotics.subsystems.climb.Elevator;
 import edu.nr.robotics.subsystems.drive.Drive;
 import edu.nr.robotics.subsystems.drive.DriveAngleJetsonPIDCommand;
 import edu.nr.robotics.subsystems.drive.DriveAnglePIDCommand;
+import edu.nr.robotics.subsystems.drive.DrivePulseCommand;
 import edu.nr.robotics.subsystems.drive.DriveResetEncodersCommand;
 import edu.nr.robotics.subsystems.drive.DriveSimpleDistanceCommand;
 import edu.nr.robotics.subsystems.hood.Hood;
@@ -320,6 +321,12 @@ public class Robot extends RobotBase {
 		OI.getInstance().drivingModeChooser.addDefault("arcade", DrivingMode.ARCADE);
 		OI.getInstance().drivingModeChooser.addObject("tank", DrivingMode.TANK);
 		SmartDashboard.putData("Driving Mode Chooser", OI.getInstance().drivingModeChooser);
+		
+		SmartDashboard.putData(new HoodJetsonPositionCommand());
+		SmartDashboard.putData(new DriveAnglePIDCommand(-20, AngleUnit.DEGREE));
+		SmartDashboard.putData(new DrivePulseCommand());
+		SmartDashboard.putData(new DriveAngleJetsonPIDCommand());
+
 	}
 	
 	private void initCamera() {
@@ -387,11 +394,6 @@ public class Robot extends RobotBase {
 		SmartDashboard.putBoolean("Banner 2", LoaderRoller.getInstance().hasBall());
 		SmartDashboard.putBoolean("Banner 3", Shooter.getInstance().hasBall());	
 		
-		SmartDashboard.putData(new HoodJetsonPositionCommand());
-		
-		SmartDashboard.putData(new DriveAngleJetsonPIDCommand());
-
-		
 		Drive.getInstance().setPIDEnabled(!OI.getInstance().dumbDrive.get());
 
 		if(OI.getInstance().fireButton.get() && !OI.getInstance().alignButton.get() && fireCommand != null && !fireCommand.isRunning()) {
@@ -418,10 +420,19 @@ public class Robot extends RobotBase {
 		currentMode = mode;
 		if(mode == Mode.TELEOP) {
 			if(!doneFirstTime) {
-				new HoodMoveDownUntilLimitSwitchCommand().start();
-				new IntakeArmMoveDownUntilLimitSwitchCommand().start();
+				//new HoodMoveDownUntilLimitSwitchCommand().start();
+				//new IntakeArmMoveDownUntilLimitSwitchCommand().start();
 				doneFirstTime = true;
 			}
+		} else if (mode == Mode.AUTONOMOUS ) {
+			IntakeArm.getInstance().disable();
+			//Fix intake arm cancelling
+			IntakeRoller.getInstance().setRollerSpeed(0);
+			LoaderRoller.getInstance().setLoaderSpeed(0);
+			Hood.getInstance().disable();
+			Shooter.getInstance().setSetpoint(0);
+			Shooter.getInstance().disable();
+			Elevator.getInstance().setMotorValue(0);
 		}
 	}
 }

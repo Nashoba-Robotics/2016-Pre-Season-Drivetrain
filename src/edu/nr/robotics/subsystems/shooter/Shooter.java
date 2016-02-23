@@ -3,7 +3,6 @@ package edu.nr.robotics.subsystems.shooter;
 import edu.nr.lib.CounterPIDSource;
 import edu.nr.lib.PID;
 import edu.nr.lib.SmartDashboardSource;
-import edu.nr.lib.interfaces.Periodic;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -14,18 +13,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class Shooter extends Subsystem implements SmartDashboardSource, Periodic{
+public class Shooter extends Subsystem implements SmartDashboardSource{
     
 	private static Shooter singleton;
 
 	CANTalon talonA, talonB;
+	PID pid;
 		
 	MotorSetter talonOutput;
 	
 	DigitalInput gate;
-	
-	double shooterGoal = 0;
-	public double talonOutputSpeed = 0;
 
 	
 	//In rotations per second
@@ -49,6 +46,9 @@ public class Shooter extends Subsystem implements SmartDashboardSource, Periodic
 		shooterRate.scale(2 * RobotMap.SHOOTER_MAX_SPEED);
 		
     	talonOutput.setTalonRampRate(RobotMap.SHOOTER_RAMP_RATE);
+
+						
+		pid = new PID(0.75, 0.0001, 0, 1, shooterRate, talonOutput);
 	}
 	
     public void initDefaultCommand() {
@@ -67,11 +67,22 @@ public class Shooter extends Subsystem implements SmartDashboardSource, Periodic
 	}
 	
 	/**
+	 * Disable the PID and set the motor to the given speed
+	 * @param speed the speed to set the motor to, from -1 to 1
+	 */
+	public void setMotor(double speed) {
+		if(pid.isEnable())
+			pid.disable();
+		talonOutput.write(speed);
+	}
+	
+	/**
 	 * Set the PID setpoint and enables the PID
 	 * @param value the value to set the setpoint to
 	 */
 	public void setSetpoint(double value) {
-		shooterGoal = value;
+		pid.enable();
+		pid.setSetpoint(value);	
 	}
 	
 	/**
@@ -79,7 +90,34 @@ public class Shooter extends Subsystem implements SmartDashboardSource, Periodic
 	 * @return the PID setpoint
 	 */
 	public double getSetpoint() {
-		return shooterGoal;
+		return pid.getSetpoint();
+	}
+	
+	/**
+	 * Enable the PID
+	 */
+	public void enable() {
+		if(!pid.isEnable()) {
+			pid.enable();
+		}
+	}
+	
+	/**
+	 * Disable the PID
+	 */
+	public void disable() {
+		if(pid.isEnable()) {
+			pid.disable();
+		}
+	}
+	
+	/**
+	 * Gets whether the PIDs are enabled or not
+	 * technically only checks one of the PIDs, but they should be the same
+	 * @return whether the PIDs are enabled
+	 */
+	public boolean isPIDEnable() {
+		return pid.isEnable();
 	}
 	
 	/**
@@ -109,26 +147,18 @@ public class Shooter extends Subsystem implements SmartDashboardSource, Periodic
 	public boolean getSped() {
 		return getSpeedPercent() > getSetpoint();
 	}
-	
+
 	@Override
 	public void smartDashboardInfo() {
 		SmartDashboard.putNumber("Shooter Speed", getSpeed());
 		SmartDashboard.putBoolean("Shooter Running", getRunning());
 		SmartDashboard.putNumber("Shooter Current", talonOutput.getOutputCurrent());
 		SmartDashboard.putData(this);
-		SmartDashboard.putNumber("Shooter Output", talonOutputSpeed);
+		SmartDashboard.putData("Shooter PID", pid);
+		SmartDashboard.putNumber("Shooter Output", pid.get());
 	}
 
 	public boolean hasBall() {
 		return !gate.get();
-	}
-
-	@Override
-	public void periodic() {
-		if(shooterRate.get() < (shooterGoal - 0.05)) {
-			talonOutputSpeed += 0.05;
-		} else if(shooterRate.get() > (shooterGoal + 0.05)) {
-			talonOutputSpeed -= 0.05;
-		}
 	}
 }
