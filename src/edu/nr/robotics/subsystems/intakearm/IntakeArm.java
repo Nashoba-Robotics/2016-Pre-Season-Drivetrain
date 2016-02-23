@@ -21,6 +21,8 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	CANTalon talon;
 	ResettableAnalogPotentiometer pot;
 	PID pid;
+	
+	boolean pidDisabled = false;
 		
 	private IntakeArm() {		
 
@@ -29,7 +31,7 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 		pot.setPIDSourceType(PIDSourceType.kDisplacement);
 		pot.scale(RobotMap.INTAKE_ARM_TICK_TO_ANGLE_MULTIPLIER);
 		pot.setBottomPos(0.776);
-		pid = new PID(0.015, 0.0002, 0, pot, talon);
+		pid = new PID(0.015, 0.0002, 0.00, pot, talon);
 	}
 	
     public void initDefaultCommand() {
@@ -78,6 +80,7 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	 * Enable the PID
 	 */
 	public void enable() {
+		pidDisabled = false;
 		pid.enable();
 	}
 	
@@ -85,6 +88,7 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	 * Disable the PID
 	 */
 	public void disable() {
+		pidDisabled = true;
 		pid.disable();
 	}
 	
@@ -121,7 +125,7 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 		if(Math.abs(pid.getError()) < 1 && pid.isEnable()) {
 			pid.disable();
 		}
-		if(Math.abs(pid.getError()) > 1 && !pid.isEnable()) {
+		if(Math.abs(pid.getError()) > 1 && !pid.isEnable() && !pidDisabled) {
 			pid.enable();
 		}
 	}

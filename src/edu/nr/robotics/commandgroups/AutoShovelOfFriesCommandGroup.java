@@ -18,7 +18,7 @@ public class AutoShovelOfFriesCommandGroup extends CommandGroup {
     public  AutoShovelOfFriesCommandGroup() {
         addSequential(new IntakeArmBottomHeightCommandGroup());
         addSequential(new IntakeArmWaitForBottomCommand());
-        addSequential(new IntakeArmSetMaxSpeedCommand(0.5));
+        addSequential(new IntakeArmSetMaxSpeedCommand(1));
         addSequential(new IntakeArmUpHeightCommandGroup());
         addSequential(new DriveSimpleDistanceCommand(distance,speed));
         addSequential(new IntakeArmSetMaxSpeedCommand(1));

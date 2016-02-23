@@ -49,11 +49,6 @@ public class OI implements SmartDashboardSource, Periodic {
 	public JoystickButton fireButton;
 	public DoubleJoystickButton alignButton;
 	
-	AlignCommandGroup alignCommand;
-
-	/**
-	 * 
-	 */
 	private OI() {
 		SmartDashboard.putNumber("Speed Multiplier", speedMultiplier);
 
@@ -75,6 +70,8 @@ public class OI implements SmartDashboardSource, Periodic {
 		new JoystickButton(driveLeft, 4).whenPressed(new LightsOffCommand());
 		//->  5: Lights blink
 		new JoystickButton(driveLeft, 5).whenPressed(new LightsBlinkCommand(200));
+		
+		new JoystickButton(driveLeft, 6).whenPressed(new DriveAnglePIDCommand(10, AngleUnit.DEGREE));
 
 		new JoystickButton(driveLeft, 11).whenPressed(new ShooterHighCommand());
 		new JoystickButton(driveLeft, 10).whenPressed(new ShooterOffCommand());
@@ -109,10 +106,9 @@ public class OI implements SmartDashboardSource, Periodic {
 		// Auto align the robot to target, ends when drive joysticks are touched
 		alignButton = new DoubleJoystickButton(operatorLeft, 2, 3);
 		
-		alignCommand = new AlignCommandGroup();
+		AlignCommandGroup alignCommand = new AlignCommandGroup();
 		alignButton.whenPressed(alignCommand);
 		alignButton.whenReleased(new AlignEndCommandGroup());
-		SmartDashboard.putData(alignCommand);
 		// => 9: Get low
 		// Puts robot in position to go under low bar (hood down, intake to
 		// appropriate height)
@@ -137,7 +133,8 @@ public class OI implements SmartDashboardSource, Periodic {
 		// -> 12: Puke
 		// Reverses all ball handling systems (shooter, loader, intake) (SHOOTER
 		// RAMPING REQUIRED)
-		new JoystickButton(operatorLeft, 12) .whenPressed(new PukeCommandGroup());
+		new JoystickButton(operatorLeft, 12).whenPressed(new PukeCommandGroup());
+		new JoystickButton(operatorLeft, 12).whenReleased(new PukeFinishCommandGroup());
 		// => 1: Laser Cannon Trigger (Shoot)
 		// Forces intake on to shoot (loader auto off based on photo sensor 3,
 		// turns off lights)
@@ -359,9 +356,5 @@ public class OI implements SmartDashboardSource, Periodic {
 				Elevator.getInstance().setMotorValue(0);
 			}
 		}
-	}
-
-	public boolean isAutoAlignRunning() {
-		return alignCommand.isRunning();
 	}
 }

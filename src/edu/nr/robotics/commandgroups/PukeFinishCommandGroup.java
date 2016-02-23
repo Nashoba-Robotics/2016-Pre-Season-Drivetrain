@@ -17,15 +17,13 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 /**
  *
  */
-public class PukeCommandGroup extends CommandGroup {
+public class PukeFinishCommandGroup extends CommandGroup {
     
 	double oldRampRate;
 	
-    public  PukeCommandGroup() {
-        addParallel(new IntakeArmPositionCommand(RobotMap.INTAKE_INTAKE_POS));
-        addSequential(new WaitCommand(1));
-        addParallel(new ShooterReverseCommand());
-        addParallel(new LoaderRollerOuttakeCommand());
-        addParallel(new IntakeRollerOuttakeCommand());
+    public  PukeFinishCommandGroup() {
+        addParallel(new ShooterOffCommand());
+        addParallel(new LoaderRollerNeutralCommand());
+        addParallel(new IntakeRollerNeutralCommand());
     }
 }

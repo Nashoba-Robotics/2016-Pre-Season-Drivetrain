@@ -70,12 +70,13 @@ public class UDPServer implements Runnable, Periodic {
 				    synchronized(turnLock) {
 						this.turnAngle = beta_h;
 				    }
+				    System.out.println("Shoot: " + getShootAngle() + " Angle: " + getTurnAngle() + " Distance: " + distance);
+				    SmartDashboard.putNumber("Shoot angle", getShootAngle());
+				    SmartDashboard.putNumber("Angle from camera", getTurnAngle());	
 			    } catch (NumberFormatException e) {
 			    	System.err.println("Coudln't parse number from Jetson. Recieved Message: " + data);
 			    }
-			    System.out.println("Shoot: " + getShootAngle() + " Angle: " + getTurnAngle());
-			    SmartDashboard.putNumber("Shoot angle", getShootAngle());
-			    SmartDashboard.putNumber("Angle from camera", getTurnAngle());	
+
 			}
 		}
 	}

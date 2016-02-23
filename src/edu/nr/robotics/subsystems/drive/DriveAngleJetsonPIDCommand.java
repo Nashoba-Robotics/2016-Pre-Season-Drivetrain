@@ -41,8 +41,8 @@ public class DriveAngleJetsonPIDCommand extends NRCommand {
 
 	@Override
 	protected void onStart() {
-		angle = UDPServer.getInstance().getTurnAngle();
-		pid = new PID(angle*0.0007, 0.0005, 0.0001, new AngleGyroCorrectionSource(), new AngleController());
+		angle = -UDPServer.getInstance().getTurnAngle();
+		pid = new PID(angle*0.0007, 0.0001, 0.0001, new AngleGyroCorrectionSource(), new AngleController());
     	pid.enable();
     	pid.setSetpoint(angle);
 	}

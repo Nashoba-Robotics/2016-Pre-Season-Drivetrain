@@ -16,11 +16,13 @@ import edu.nr.robotics.commandgroups.AutoShovelOfFriesCommandGroup;
 import edu.nr.robotics.commandgroups.AlignCommandGroup.State;
 import edu.nr.robotics.subsystems.climb.Elevator;
 import edu.nr.robotics.subsystems.drive.Drive;
+import edu.nr.robotics.subsystems.drive.DriveAngleJetsonPIDCommand;
 import edu.nr.robotics.subsystems.drive.DriveAnglePIDCommand;
 import edu.nr.robotics.subsystems.drive.DriveResetEncodersCommand;
 import edu.nr.robotics.subsystems.drive.DriveSimpleDistanceCommand;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.hood.HoodBottomCommand;
+import edu.nr.robotics.subsystems.hood.HoodJetsonPositionCommand;
 import edu.nr.robotics.subsystems.hood.HoodMoveDownUntilLimitSwitchCommand;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;
 import edu.nr.robotics.subsystems.intakearm.IntakeArmMoveDownUntilLimitSwitchCommand;
@@ -52,6 +54,7 @@ public class Robot extends RobotBase {
 		
 	public AlignCommandGroup.State state;
 
+	boolean doneFirstTime = false;
 	
 	LaserCannonTriggerCommand fireCommand;
 
@@ -382,7 +385,12 @@ public class Robot extends RobotBase {
 
 		SmartDashboard.putBoolean("Banner 1", IntakeRoller.getInstance().hasBall());
 		SmartDashboard.putBoolean("Banner 2", LoaderRoller.getInstance().hasBall());
-		SmartDashboard.putBoolean("Banner 3", Shooter.getInstance().hasBall());		
+		SmartDashboard.putBoolean("Banner 3", Shooter.getInstance().hasBall());	
+		
+		SmartDashboard.putData(new HoodJetsonPositionCommand());
+		
+		SmartDashboard.putData(new DriveAngleJetsonPIDCommand());
+
 		
 		Drive.getInstance().setPIDEnabled(!OI.getInstance().dumbDrive.get());
 
@@ -409,8 +417,11 @@ public class Robot extends RobotBase {
 	private void initialize(Mode mode) {
 		currentMode = mode;
 		if(mode == Mode.TELEOP) {
-			new HoodMoveDownUntilLimitSwitchCommand().start();
-			new IntakeArmMoveDownUntilLimitSwitchCommand().start();
+			if(!doneFirstTime) {
+				new HoodMoveDownUntilLimitSwitchCommand().start();
+				new IntakeArmMoveDownUntilLimitSwitchCommand().start();
+				doneFirstTime = true;
+			}
 		}
 	}
 }
