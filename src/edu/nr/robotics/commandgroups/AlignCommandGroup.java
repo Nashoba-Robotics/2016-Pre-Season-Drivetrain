@@ -40,9 +40,9 @@ public class AlignCommandGroup extends CommandGroup {
     	System.out.println("Ended align correction");
 		Robot.getInstance().state = State.WAITING;
     	//while(!OI.getInstance().fireButton.get() && OI.getInstance().alignButton.get()) {SmartDashboard.putBoolean("Ready to shoot", true);}
-    	/*Robot.getInstance().state = State.OFF;
+    	Robot.getInstance().state = State.OFF;
     	System.out.println("Ended align waiting");
-    	SmartDashboard.putBoolean("Ready to shoot", false);*/
+    	SmartDashboard.putBoolean("Ready to shoot", false);
     }
     
     public void start() {
