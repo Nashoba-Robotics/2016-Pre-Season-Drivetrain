@@ -73,8 +73,6 @@ public class OI implements SmartDashboardSource, Periodic {
 		//->  5: Lights blink
 		new JoystickButton(driveLeft, 5).whenPressed(new LightsBlinkCommand(200));
 		
-		new JoystickButton(driveLeft, 6).whenPressed(new DriveAnglePIDCommand(10, AngleUnit.DEGREE));
-
 		new JoystickButton(driveLeft, 11).whenPressed(new ShooterHighCommand());
 		new JoystickButton(driveLeft, 10).whenPressed(new ShooterOffCommand());
 
@@ -90,8 +88,6 @@ public class OI implements SmartDashboardSource, Periodic {
 		new JoystickButton(driveRight, 10).whenPressed(new DriveResetEncodersCommand());
 		// => 11: Reset hood encoder
 		new JoystickButton(driveRight, 11).whenPressed(new HoodResetEncoderCommand());
-		// -> 12: Reset intake potentiomer
-		new JoystickButton(driveRight, 9).whenPressed(new IntakeArmResetPotentiometerCommand());
 	}
 
 	public void initOperatorLeft() {
@@ -141,7 +137,6 @@ public class OI implements SmartDashboardSource, Periodic {
 		// Forces intake on to shoot (loader auto off based on photo sensor 3,
 		// turns off lights)
 		fireButton = new JoystickButton(operatorLeft, 1);
-		fireButton.whenPressed(new LaserCannonTriggerCommand());
 	}
 
 	public void initOperatorRight() {

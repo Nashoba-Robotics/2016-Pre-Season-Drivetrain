@@ -370,8 +370,8 @@ public class Drive extends Subsystem implements SmartDashboardSource, Periodic{
 			pidMaxVal -= 0.03;
 		}
 
-		leftPid.setOutputRange(-pidMaxVal, pidMaxVal);
-		rightPid.setOutputRange(-pidMaxVal, pidMaxVal);
+		leftPid.setOutputRange(-Math.abs(pidMaxVal), Math.abs(pidMaxVal));
+		rightPid.setOutputRange(-Math.abs(pidMaxVal), Math.abs(pidMaxVal));
 	}
 
 }

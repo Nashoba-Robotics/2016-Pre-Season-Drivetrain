@@ -323,9 +323,11 @@ public class Robot extends RobotBase {
 		SmartDashboard.putData("Driving Mode Chooser", OI.getInstance().drivingModeChooser);
 		
 		SmartDashboard.putData(new HoodJetsonPositionCommand());
-		SmartDashboard.putData(new DriveAnglePIDCommand(-20, AngleUnit.DEGREE));
+		SmartDashboard.putData(new DriveAnglePIDCommand(20, AngleUnit.DEGREE));
 		SmartDashboard.putData(new DrivePulseCommand());
 		SmartDashboard.putData(new DriveAngleJetsonPIDCommand());
+		
+		SmartDashboard.putBoolean("Ready to shoot", true);
 
 	}
 	
@@ -396,7 +398,7 @@ public class Robot extends RobotBase {
 		
 		Drive.getInstance().setPIDEnabled(!OI.getInstance().dumbDrive.get());
 
-		if(OI.getInstance().fireButton.get() && !OI.getInstance().alignButton.get() && fireCommand != null && !fireCommand.isRunning()) {
+		if(OI.getInstance().fireButton.get() && (!OI.getInstance().alignButton.get() || state == AlignCommandGroup.State.WAITING)) {
 			fireCommand = new LaserCannonTriggerCommand();
 			fireCommand.start();
 		}
@@ -407,6 +409,7 @@ public class Robot extends RobotBase {
 		Scheduler.getInstance().run();
 
 		smartDashboardSources.forEach(SmartDashboardSource::smartDashboardInfo);
+		SmartDashboard.putNumber("Joystick turn value", OI.getInstance().getArcadeTurnValue());
 	}
 
 	/**
@@ -420,7 +423,7 @@ public class Robot extends RobotBase {
 		currentMode = mode;
 		if(mode == Mode.TELEOP) {
 			if(!doneFirstTime) {
-				//new HoodMoveDownUntilLimitSwitchCommand().start();
+				new HoodMoveDownUntilLimitSwitchCommand().start();
 				//new IntakeArmMoveDownUntilLimitSwitchCommand().start();
 				doneFirstTime = true;
 			}

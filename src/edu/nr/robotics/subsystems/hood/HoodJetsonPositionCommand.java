@@ -29,6 +29,7 @@ public class HoodJetsonPositionCommand extends NRCommand {
 
 	@Override
 	protected boolean isFinished() {
+		System.out.println("Hood jetson pos test " + Math.abs(Hood.getInstance().get() - val));
 		return Math.abs(Hood.getInstance().get() - val) < 0.25;
 	}
 

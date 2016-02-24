@@ -19,27 +19,21 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	private static IntakeArm singleton;
 
 	CANTalon talon;
-	ResettableAnalogPotentiometer pot;
-	PID pid;
+	private ResettableAnalogPotentiometer pot;
+	//PID pid;
 	
 	boolean pidDisabled = false;
 		
 	private IntakeArm() {		
 
-		//talon = new CANTalon(RobotMap.INTAKE_ARM_TALON);
-		
-		talon = new CANTalon(RobotMap.ELEVATOR_TALON);
-		
+		talon = new CANTalon(RobotMap.INTAKE_ARM_TALON);
 		pot = new ResettableAnalogPotentiometer(RobotMap.INTAKE_ARM_POT);
 		pot.setPIDSourceType(PIDSourceType.kDisplacement);
-		pot.scale(RobotMap.INTAKE_ARM_TICK_TO_ANGLE_MULTIPLIER);
-		pot.setBottomPos(0.776);
 		//pid = new PID(0.015, 0.0002, 0.00, pot, talon);
-		pid = new PID(0,0,0,pot,talon);
 	}
 	
     public void initDefaultCommand() {
-		//setDefaultCommand(new IntakeArmJoystickCommand());
+		setDefaultCommand(new IntakeArmJoystickCommand());
 
     }
     
@@ -59,9 +53,9 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	 * @param speed the speed to set the motor to, from -1 to 1
 	 */
 	public void setMotor(double speed) {
-		if(pid.isEnable())
-			pid.disable();
-		//talon.set(speed);
+		//if(pid.isEnable())
+			//pid.disable();
+		talon.set(speed);
 	}
 	
 	/**
@@ -77,7 +71,8 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	 * @return the PID setpoint
 	 */
 	public double getSetpoint() {
-		return pid.getSetpoint();
+		//return pid.getSetpoint();
+		return 0;
 	}
 	
 	/**
@@ -85,7 +80,7 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	 */
 	public void enable() {
 		pidDisabled = false;
-		pid.enable();
+		//pid.enable();
 	}
 	
 	/**
@@ -93,7 +88,7 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	 */
 	public void disable() {
 		pidDisabled = true;
-		pid.disable();
+		//pid.disable();
 	}
 	
 	/**
@@ -101,7 +96,8 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	 * @return whether the PID is enabled
 	 */
 	public boolean isEnable() {
-		return pid.isEnable();
+		//return pid.isEnable();
+		return true;
 	}
 	/**
 	 * Gets the value of the potentiometer
@@ -114,28 +110,21 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	@Override
 	public void smartDashboardInfo() {
 		SmartDashboard.putNumber("Intake Arm Potentiometer", get());
-		SmartDashboard.putBoolean("Intake Arm Moving", Math.abs(pid.getError()) > 0.05);
+		//SmartDashboard.putBoolean("Intake Arm Moving", Math.abs(pid.getError()) > 0.05);
 		SmartDashboard.putData(this);
 		SmartDashboard.putBoolean("Intake Arm bot limit switch", isBotLimitSwitchClosed());
 		SmartDashboard.putBoolean("Intake Arm top limit switch", isTopLimitSwitchClosed());
-
+		//SmartDashboard.putData("Intake Arm PID", pid);
 	}
 
 	@Override
 	public void periodic() {
-		if(isBotLimitSwitchClosed()) {
-			pot.reset();
-		}
-		if(Math.abs(pid.getError()) < 1 && pid.isEnable()) {
+		/*if(Math.abs(pid.getError()) < 1 && pid.isEnable()) {
 			pid.disable();
 		}
 		if(Math.abs(pid.getError()) > 1 && !pid.isEnable() && !pidDisabled) {
 			pid.enable();
-		}
-	}
-
-	public void reset() {
-		pot.reset();
+		}*/
 	}
 
 	public boolean isTopLimitSwitchClosed() {
@@ -147,7 +136,7 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	}
 
 	public void setMaxSpeed(double maxSpeed) {
-		pid.setOutputRange(-maxSpeed, maxSpeed);
+		//pid.setOutputRange(-maxSpeed, maxSpeed);
 	}
 }
 

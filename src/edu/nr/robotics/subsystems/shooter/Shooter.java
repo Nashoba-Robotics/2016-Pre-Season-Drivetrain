@@ -43,7 +43,7 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 		shooterRate = new CounterPIDSource(RobotMap.SHOOTER_RATE_PORT);
 		shooterRate.setPIDSourceType(PIDSourceType.kRate);
 		shooterRate.setSamplesToAverage(24);
-		shooterRate.scale(2 * RobotMap.SHOOTER_MAX_SPEED);
+		shooterRate.scale(3 * RobotMap.SHOOTER_MAX_SPEED);
 		
     	talonOutput.setTalonRampRate(RobotMap.SHOOTER_RAMP_RATE);
 

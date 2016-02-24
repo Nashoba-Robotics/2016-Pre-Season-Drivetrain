@@ -15,16 +15,4 @@ public class ResettableAnalogPotentiometer extends AnalogPotentiometer {
 	public double get() {
 		return (super.get() - bottomPos) / scale;
 	}
-	
-	public void reset() {
-		bottomPos = super.get();
-	}
-	
-	public void scale(double scale) {
-		this.scale = scale;
-	}
-	
-	public void setBottomPos(double pos) {
-		bottomPos = pos;
-	}
 }

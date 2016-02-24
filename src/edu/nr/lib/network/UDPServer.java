@@ -54,7 +54,7 @@ public class UDPServer implements Runnable, Periodic {
 			}
 			String data = new String( receivePacket.getData() );
 			new UDPClient(data);
-			System.out.println("Received: " + data);
+			//System.out.println("Received: " + data);
 			int p = data.indexOf(delimiter);
 			if (p >= 0) {
 			    String left = data.substring(0, p);
@@ -70,7 +70,7 @@ public class UDPServer implements Runnable, Periodic {
 				    synchronized(turnLock) {
 						this.turnAngle = beta_h;
 				    }
-				    System.out.println("Shoot: " + getShootAngle() + " Angle: " + getTurnAngle() + " Distance: " + distance);
+				    //System.out.println("Shoot: " + getShootAngle() + " Angle: " + getTurnAngle() + " Distance: " + distance);
 				    SmartDashboard.putNumber("Shoot angle", getShootAngle());
 				    SmartDashboard.putNumber("Angle from camera", getTurnAngle());	
 			    } catch (NumberFormatException e) {

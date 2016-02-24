@@ -12,12 +12,11 @@ public class IntakeArmMoveDownUntilLimitSwitchCommand extends NRCommand {
     }
     
     protected void onStart() {
-    	IntakeArm.getInstance().disable();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void onExecute() {
-    	IntakeArm.getInstance().setMotor(-0.5);
+    	IntakeArm.getInstance().setSetpoint(IntakeArm.getInstance().getSetpoint() - 10);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -27,6 +26,6 @@ public class IntakeArmMoveDownUntilLimitSwitchCommand extends NRCommand {
 
     // Called once after isFinished returns true
     protected void onEnd() {
-    	IntakeArm.getInstance().enable();
+    	IntakeArm.getInstance().setSetpoint(0);
     }
 }
