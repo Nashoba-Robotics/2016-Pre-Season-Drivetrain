@@ -57,7 +57,7 @@ public class Robot extends RobotBase {
 
 	boolean doneFirstTime = false;
 	
-	LaserCannonTriggerCommand fireCommand;
+	public LaserCannonTriggerCommand fireCommand;
 
 	private static Robot singleton;
 	
@@ -398,7 +398,7 @@ public class Robot extends RobotBase {
 		
 		Drive.getInstance().setPIDEnabled(!OI.getInstance().dumbDrive.get());
 
-		if(OI.getInstance().fireButton.get() && (!OI.getInstance().alignButton.get() || state == AlignCommandGroup.State.WAITING)) {
+		if(OI.getInstance().fireButton.get() && (!OI.getInstance().alignButton.get())) {
 			fireCommand = new LaserCannonTriggerCommand();
 			fireCommand.start();
 		}

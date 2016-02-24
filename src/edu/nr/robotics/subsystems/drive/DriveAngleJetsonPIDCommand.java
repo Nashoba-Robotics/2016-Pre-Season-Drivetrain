@@ -38,7 +38,7 @@ public class DriveAngleJetsonPIDCommand extends NRCommand {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return Math.abs(pid.getError()) < .5;
+    	return Math.abs(pid.getError()) < 2;
     }
 
 	@Override
@@ -52,11 +52,11 @@ public class DriveAngleJetsonPIDCommand extends NRCommand {
 	protected void onStart() {
 		System.out.println("Drive angle Jetson PID start");
 		angle = -UDPServer.getInstance().getTurnAngle();
-		if(Math.abs(angle) < .5) {
+		/*if(Math.abs(angle) < .5) {
 			angle = 0;
 		} else {
 			angle = angle - (0.2768*angle - 3.1668) * Math.signum(angle);
-		}
+		}*/
 		correction = new AngleGyroCorrectionSource(AngleUnit.DEGREE);
 		pid = new PID(0.0007, 0.0001, 0.0001, new AngleGyroCorrectionSource(), new AngleController());
 		System.out.println("I'm starting to turn");
