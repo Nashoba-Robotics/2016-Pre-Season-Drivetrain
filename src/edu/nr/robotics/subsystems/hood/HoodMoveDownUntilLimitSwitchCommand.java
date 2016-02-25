@@ -27,7 +27,8 @@ public class HoodMoveDownUntilLimitSwitchCommand extends NRCommand {
     }
 
     // Called once after isFinished returns true
-    protected void onEnd() {
+    @Override
+    protected void onEnd(boolean interrupted) {
     	Hood.getInstance().enable();
     }
 }

@@ -11,6 +11,12 @@ public class HoodJoystickCommand extends NRCommand {
     public HoodJoystickCommand() {
         requires(Hood.getInstance());
     }
+    
+    @Override
+    protected void onStart() {
+    	if(Hood.getInstance().isEnable())
+    		Hood.getInstance().disable();
+    }
 
     // Called repeatedly when this Command is scheduled to run
     protected void onExecute() {
@@ -20,5 +26,9 @@ public class HoodJoystickCommand extends NRCommand {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         return false;
+    }
+    
+    protected void onEnd(boolean interrupted) {
+    	Hood.getInstance().enable();
     }
 }

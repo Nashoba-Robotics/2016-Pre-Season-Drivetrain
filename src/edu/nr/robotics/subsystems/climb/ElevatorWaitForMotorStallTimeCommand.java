@@ -15,6 +15,7 @@ public class ElevatorWaitForMotorStallTimeCommand extends NRCommand {
 	
     public ElevatorWaitForMotorStallTimeCommand(long reqTime) {
     	this.reqTime = reqTime;
+    	requires(Elevator.getInstance());
     }
 
     // Called just before this Command runs the first time

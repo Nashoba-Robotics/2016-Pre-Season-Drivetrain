@@ -11,5 +11,11 @@ public class HoodNeutralCommand extends NRCommand {
 	@Override
 	protected void onStart() {
 		Hood.getInstance().disable();
+		Hood.getInstance().setMotor(0);
+	}
+	
+	@Override
+	protected boolean isFinished() {
+		return false;
 	}
 }

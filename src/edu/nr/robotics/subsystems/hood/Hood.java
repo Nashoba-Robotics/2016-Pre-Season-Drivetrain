@@ -44,7 +44,7 @@ public class Hood extends Subsystem implements SmartDashboardSource, Periodic {
 
 	@Override
 	protected void initDefaultCommand() {
-		//setDefaultCommand(new HoodJoystickCommand());
+		setDefaultCommand(new HoodJoystickCommand());
 	}
 	
 	public void resetEncoder() {

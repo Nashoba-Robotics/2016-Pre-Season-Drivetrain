@@ -12,6 +12,7 @@ public class IntakeArmMoveDownUntilLimitSwitchCommand extends NRCommand {
     }
     
     protected void onStart() {
+    	IntakeArm.getInstance().enable();
     }
 
     // Called repeatedly when this Command is scheduled to run

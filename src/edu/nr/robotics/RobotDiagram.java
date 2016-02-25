@@ -34,15 +34,15 @@ private ITable table;
 			table.putNumber("Shot distance at angle", Hood.angleToDistance(Hood.getInstance().get()));
 			
 			//Intake Arm
-			table.putBoolean("Intake Top Stop", IntakeArm.getInstance().get() > RobotMap.INTAKE_TOP_POS + RobotMap.INTAKE_THRESHOLD);
-			table.putBoolean("Intake Top", IntakeArm.getInstance().get() < RobotMap.INTAKE_TOP_POS + RobotMap.INTAKE_THRESHOLD || IntakeArm.getInstance().get() > RobotMap.INTAKE_TOP_POS - RobotMap.INTAKE_THRESHOLD);
-			table.putBoolean("Intake Top Intake", IntakeArm.getInstance().get() < RobotMap.INTAKE_TOP_POS - RobotMap.INTAKE_THRESHOLD || IntakeArm.getInstance().get() > RobotMap.INTAKE_INTAKE_POS + RobotMap.INTAKE_THRESHOLD);
-			table.putBoolean("Intake Intake", IntakeArm.getInstance().get() < RobotMap.INTAKE_INTAKE_POS + RobotMap.INTAKE_THRESHOLD || IntakeArm.getInstance().get() > RobotMap.INTAKE_INTAKE_POS - RobotMap.INTAKE_THRESHOLD);
-			table.putBoolean("Intake Intake Home", IntakeArm.getInstance().get() < RobotMap.INTAKE_INTAKE_POS - RobotMap.INTAKE_THRESHOLD || IntakeArm.getInstance().get() > RobotMap.INTAKE_HOME_POS + RobotMap.INTAKE_THRESHOLD);
-			table.putBoolean("Intake Home", IntakeArm.getInstance().get() < RobotMap.INTAKE_HOME_POS + RobotMap.INTAKE_THRESHOLD || IntakeArm.getInstance().get() > RobotMap.INTAKE_HOME_POS - RobotMap.INTAKE_THRESHOLD);
-			table.putBoolean("Intake Home Bottom", IntakeArm.getInstance().get() < RobotMap.INTAKE_HOME_POS - RobotMap.INTAKE_THRESHOLD || IntakeArm.getInstance().get() > RobotMap.INTAKE_BOTTOM_POS + RobotMap.INTAKE_THRESHOLD);
-			table.putBoolean("Intake Bottom", IntakeArm.getInstance().get() < RobotMap.INTAKE_BOTTOM_POS + RobotMap.INTAKE_THRESHOLD || IntakeArm.getInstance().get() > RobotMap.INTAKE_BOTTOM_POS - RobotMap.INTAKE_THRESHOLD);
-			table.putBoolean("Intake Bottom Stop", IntakeArm.getInstance().get() < RobotMap.INTAKE_BOTTOM_POS - RobotMap.INTAKE_THRESHOLD);
+			table.putBoolean("Intake Top Stop", IntakeArm.getInstance().get() > RobotMap.INTAKE_TOP_POS + RobotMap.INTAKE_ARM_THRESHOLD);
+			table.putBoolean("Intake Top", IntakeArm.getInstance().get() < RobotMap.INTAKE_TOP_POS + RobotMap.INTAKE_ARM_THRESHOLD || IntakeArm.getInstance().get() > RobotMap.INTAKE_TOP_POS - RobotMap.INTAKE_ARM_THRESHOLD);
+			table.putBoolean("Intake Top Intake", IntakeArm.getInstance().get() < RobotMap.INTAKE_TOP_POS - RobotMap.INTAKE_ARM_THRESHOLD || IntakeArm.getInstance().get() > RobotMap.INTAKE_INTAKE_POS + RobotMap.INTAKE_ARM_THRESHOLD);
+			table.putBoolean("Intake Intake", IntakeArm.getInstance().get() < RobotMap.INTAKE_INTAKE_POS + RobotMap.INTAKE_ARM_THRESHOLD || IntakeArm.getInstance().get() > RobotMap.INTAKE_INTAKE_POS - RobotMap.INTAKE_ARM_THRESHOLD);
+			table.putBoolean("Intake Intake Home", IntakeArm.getInstance().get() < RobotMap.INTAKE_INTAKE_POS - RobotMap.INTAKE_ARM_THRESHOLD || IntakeArm.getInstance().get() > RobotMap.INTAKE_HOME_POS + RobotMap.INTAKE_ARM_THRESHOLD);
+			table.putBoolean("Intake Home", IntakeArm.getInstance().get() < RobotMap.INTAKE_HOME_POS + RobotMap.INTAKE_ARM_THRESHOLD || IntakeArm.getInstance().get() > RobotMap.INTAKE_HOME_POS - RobotMap.INTAKE_ARM_THRESHOLD);
+			table.putBoolean("Intake Home Bottom", IntakeArm.getInstance().get() < RobotMap.INTAKE_HOME_POS - RobotMap.INTAKE_ARM_THRESHOLD || IntakeArm.getInstance().get() > RobotMap.INTAKE_BOTTOM_POS + RobotMap.INTAKE_ARM_THRESHOLD);
+			table.putBoolean("Intake Bottom", IntakeArm.getInstance().get() < RobotMap.INTAKE_BOTTOM_POS + RobotMap.INTAKE_ARM_THRESHOLD || IntakeArm.getInstance().get() > RobotMap.INTAKE_BOTTOM_POS - RobotMap.INTAKE_ARM_THRESHOLD);
+			table.putBoolean("Intake Bottom Stop", IntakeArm.getInstance().get() < RobotMap.INTAKE_BOTTOM_POS - RobotMap.INTAKE_ARM_THRESHOLD);
 			
 			table.putBoolean("Photo 1", IntakeRoller.getInstance().hasBall());
 			table.putBoolean("Photo 2", LoaderRoller.getInstance().hasBall());
