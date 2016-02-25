@@ -51,7 +51,7 @@ public class LoaderRoller extends Subsystem implements SmartDashboardSource {
 	}
 	
     public void initDefaultCommand() {
-		setDefaultCommand(new LoaderRollerJoystickCommand());
+		//setDefaultCommand(new LoaderRollerJoystickCommand());
     }
 
 	@Override

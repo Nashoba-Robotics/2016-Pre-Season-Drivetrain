@@ -70,7 +70,7 @@ public class AlignCommandGroup extends CommandGroup {
     public class AlignStartCommand extends NRCommand {
     	
     	public AlignStartCommand() {
-    		//addSequential(new IntakeArmBottomHeightCommandGroup());
+    		//addSequential(new IntakeArmHomeHeightCommandGroup());
     	}
     	
     	@Override

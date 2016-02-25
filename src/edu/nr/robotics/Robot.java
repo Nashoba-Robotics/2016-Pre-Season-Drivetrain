@@ -204,7 +204,7 @@ public class Robot extends RobotBase {
 	private void robotInit() {
 		new UDPClient("Robot init");
 
-		//initCamera();
+		initCamera();
 		initSubsystems();
 		initSmartDashboardChoosers();
 		initServer();
