@@ -1,5 +1,6 @@
 package edu.nr.robotics.commandgroups;
 
+import edu.nr.robotics.subsystems.drive.DriveDistanceCommand;
 import edu.nr.robotics.subsystems.drive.DriveSimpleDistanceCommand;
 import edu.nr.robotics.subsystems.intakearm.IntakeArmSetMaxSpeedCommand;
 import edu.nr.robotics.subsystems.intakearm.IntakeArmWaitForBottomCommand;
@@ -20,7 +21,7 @@ public class AutoShovelOfFriesCommandGroup extends CommandGroup {
         addSequential(new IntakeArmWaitForBottomCommand());
         addSequential(new IntakeArmSetMaxSpeedCommand(1));
         addSequential(new IntakeArmUpHeightCommandGroup());
-        addSequential(new DriveSimpleDistanceCommand(distance,speed));
+        addSequential(new DriveDistanceCommand(distance,speed));
         addSequential(new IntakeArmSetMaxSpeedCommand(1));
     }
 }

@@ -1,6 +1,7 @@
 package edu.nr.robotics.commandgroups;
 
 import edu.nr.lib.NRCommand;
+import edu.nr.lib.network.JetsonImagePacket;
 import edu.nr.lib.network.UDPServer;
 import edu.nr.robotics.OI;
 import edu.nr.robotics.Robot;
@@ -32,15 +33,18 @@ public class AlignCommandGroup extends CommandGroup {
     
     @Override
     public void end() {
+    	
+    	JetsonImagePacket packet = UDPServer.getInstance().getLastPacket();
+    	
     	System.out.println("Align command group started ending");
-		System.out.println("Hood: " + (Math.abs(Hood.getInstance().get() - UDPServer.getInstance().getShootAngle()) > RobotMap.HOOD_THRESHOLD));
-		System.out.println("Turn:  " + Math.abs(UDPServer.getInstance().getTurnAngle()) + " " + (Math.abs(UDPServer.getInstance().getTurnAngle()) > RobotMap.TURN_THRESHOLD));
+		System.out.println("Hood: " + (Math.abs(Hood.getInstance().get() - packet.getHoodAngle()) > RobotMap.HOOD_THRESHOLD));
+		System.out.println("Turn:  " + Math.abs(packet.getTurnAngle()) + " " + (Math.abs(packet.getTurnAngle()) > RobotMap.TURN_THRESHOLD));
 		System.out.println("Shooter: " + Shooter.getInstance().getScaledSpeed() + " " + (Shooter.getInstance().getScaledSpeed() < RobotMap.SHOOTER_FAST_SPEED - RobotMap.SHOOTER_THRESHOLD));
 
     	if(OI.getInstance().alignButton.get()) {
     		boolean flag = false;
-    		if(Math.abs(Hood.getInstance().get() - UDPServer.getInstance().getShootAngle()) > RobotMap.HOOD_THRESHOLD ) {flag = true;}
-    		if(Math.abs(UDPServer.getInstance().getTurnAngle()) > RobotMap.TURN_THRESHOLD) {flag = true;}
+    		if(Math.abs(Hood.getInstance().get() - packet.getHoodAngle()) > RobotMap.HOOD_THRESHOLD ) {flag = true;}
+    		if(Math.abs(packet.getTurnAngle()) > RobotMap.TURN_THRESHOLD) {flag = true;}
 			if(Shooter.getInstance().getScaledSpeed() < RobotMap.SHOOTER_FAST_SPEED - RobotMap.SHOOTER_THRESHOLD) {flag = true;}
     		if(flag) {
 	    		System.out.println("Starting align again");

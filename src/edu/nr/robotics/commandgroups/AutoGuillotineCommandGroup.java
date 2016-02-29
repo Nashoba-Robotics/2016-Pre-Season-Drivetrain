@@ -1,5 +1,6 @@
 package edu.nr.robotics.commandgroups;
 
+import edu.nr.robotics.subsystems.drive.DriveDistanceCommand;
 import edu.nr.robotics.subsystems.drive.DriveSimpleDistanceCommand;
 import edu.nr.robotics.subsystems.hood.HoodBottomCommand;
 import edu.nr.robotics.subsystems.hood.HoodWaitForBottomCommand;
@@ -24,9 +25,9 @@ public class AutoGuillotineCommandGroup extends CommandGroup {
     	addParallel(new IntakeArmBottomHeightCommandGroup());
     	addSequential(new IntakeArmWaitForBottomCommand());
     	addSequential(new HoodWaitForBottomCommand());
-        addSequential(new DriveSimpleDistanceCommand(firstdistance,firstspeed));
+        addSequential(new DriveDistanceCommand(firstdistance,firstspeed));
         addSequential(new IntakeArmUpHeightCommandGroup());
     	addSequential(new IntakeArmWaitForTopCommand());
-        addSequential(new DriveSimpleDistanceCommand(seconddistance,secondspeed));
+        addSequential(new DriveDistanceCommand(seconddistance,secondspeed));
     }
 }

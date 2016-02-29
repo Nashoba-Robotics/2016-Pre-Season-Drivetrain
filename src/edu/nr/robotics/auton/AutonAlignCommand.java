@@ -1,5 +1,6 @@
 package edu.nr.robotics.auton;
 
+import edu.nr.lib.network.JetsonImagePacket;
 import edu.nr.lib.network.UDPServer;
 import edu.nr.robotics.OI;
 import edu.nr.robotics.RobotMap;
@@ -26,7 +27,10 @@ public class AutonAlignCommand extends CommandGroup {
     
     @Override
     public void end() {
-    	if(Math.abs(Hood.getInstance().get() - UDPServer.getInstance().getShootAngle()) > RobotMap.HOOD_THRESHOLD || Math.abs(UDPServer.getInstance().getTurnAngle()) > RobotMap.TURN_THRESHOLD || Math.abs(Shooter.getInstance().getScaledSpeed() - RobotMap.SHOOTER_FAST_SPEED) > RobotMap.SHOOTER_THRESHOLD)
+    	JetsonImagePacket packet = UDPServer.getInstance().getLastPacket();
+
+    	
+    	if(Math.abs(Hood.getInstance().get() - packet.getHoodAngle()) > RobotMap.HOOD_THRESHOLD || Math.abs(packet.getTurnAngle()) > RobotMap.TURN_THRESHOLD || Math.abs(Shooter.getInstance().getScaledSpeed() - RobotMap.SHOOTER_FAST_SPEED) > RobotMap.SHOOTER_THRESHOLD)
     		new AutonAlignCommand().start();
     }
 }

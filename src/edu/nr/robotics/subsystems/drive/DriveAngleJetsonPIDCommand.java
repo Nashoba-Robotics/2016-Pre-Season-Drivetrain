@@ -8,6 +8,7 @@ import edu.nr.lib.network.UDPServer;
 import edu.nr.robotics.OI;
 import edu.nr.robotics.Robot;
 import edu.nr.robotics.commandgroups.AlignCommandGroup;
+import edu.nr.robotics.commandgroups.AlignSubcommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -20,7 +21,11 @@ public class DriveAngleJetsonPIDCommand extends NRCommand {
 	double angle;
 	AngleGyroCorrectionSource correction;
 	boolean resetCorrection;
+	
+	double integralDisableDistance = 10; //TODO: Find the integral disable distance
 
+	double accuracyFinishCount = 3;
+	double currentCount = 0;
 	
     public DriveAngleJetsonPIDCommand() {
     	requires(Drive.getInstance());
@@ -30,15 +35,23 @@ public class DriveAngleJetsonPIDCommand extends NRCommand {
     protected void onExecute() {
     	SmartDashboard.putData("Jetson Angle PID", pid);
     	SmartDashboard.putNumber("Jetson Angle PID Error", pid.getError());
-		if(Math.signum(pid.getError()) != Math.signum(pid.getTotalError())) {
-			System.out.println("Jetson PID error resetting");
+		
+		if(Math.abs(pid.getError()) > integralDisableDistance) {
+			pid.setPID(SmartDashboard.getNumber("Turn Angle P"), 0, SmartDashboard.getNumber("Turn Angle D"));
 			pid.resetTotalError();
+		} else {
+			pid.setPID(SmartDashboard.getNumber("Turn Angle P"), SmartDashboard.getNumber("Turn Angle I"), SmartDashboard.getNumber("Turn Angle D"));
 		}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return Math.abs(pid.getError()) < 2;
+    	if(Math.abs(pid.getError()) < 2) {
+    		currentCount++;
+    	} else {
+    		currentCount = 0;
+    	}
+    	return currentCount > accuracyFinishCount;
     }
 
 	@Override
@@ -51,16 +64,19 @@ public class DriveAngleJetsonPIDCommand extends NRCommand {
 	@Override
 	protected void onStart() {
 		System.out.println("Drive angle Jetson PID start");
-		angle = -UDPServer.getInstance().getTurnAngle();
+		if(this.getGroup() instanceof AlignSubcommandGroup) {
+			angle = -((AlignSubcommandGroup )this.getGroup()).getJetsonPacket().getTurnAngle();
+		} else {
+			angle = -UDPServer.getInstance().getLastPacket().getTurnAngle();
+		}
 		/*if(Math.abs(angle) < .5) {
 			angle = 0;
 		} else {
 			angle = angle - (0.2768*angle - 3.1668) * Math.signum(angle);
 		}*/
 		correction = new AngleGyroCorrectionSource(AngleUnit.DEGREE);
-		pid = new PID(0.0007, 0.0001, 0.0001, new AngleGyroCorrectionSource(), new AngleController());
-		System.out.println("I'm starting to turn");
-    	pid.enable();
+		pid = new PID(SmartDashboard.getNumber("Turn Angle P"),SmartDashboard.getNumber("Turn Angle I"),SmartDashboard.getNumber("Turn Angle D"), correction, new AngleController());
     	pid.setSetpoint(angle);
+    	pid.enable();
 	}
 }

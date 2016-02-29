@@ -2,6 +2,7 @@ package edu.nr.robotics.subsystems.hood;
 
 import edu.nr.lib.NRCommand;
 import edu.nr.lib.network.UDPServer;
+import edu.nr.robotics.commandgroups.AlignSubcommandGroup;
 
 public class HoodJetsonPositionCommand extends NRCommand {
 
@@ -13,7 +14,11 @@ public class HoodJetsonPositionCommand extends NRCommand {
 	
 	@Override
 	protected void onStart() {
-		val = UDPServer.getInstance().getShootAngle();
+		if(this.getGroup() instanceof AlignSubcommandGroup) {
+			val = ((AlignSubcommandGroup )this.getGroup()).getJetsonPacket().getHoodAngle();
+		} else {
+			val = UDPServer.getInstance().getLastPacket().getHoodAngle();
+		}
 		Hood.getInstance().enable();
 		Hood.getInstance().setSetpoint(val);
 	}
