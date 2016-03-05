@@ -17,6 +17,11 @@ public class DriveAnglePIDCommand extends NRCommand {
 	AngleGyroCorrectionSource correction;
 	boolean resetCorrection;
 	
+	double integralDisableDistance = 0; //TODO: Find the integral disable distance
+
+	double accuracyFinishCount = 3;
+	double currentCount = 0;
+	
     public DriveAnglePIDCommand(double angle, AngleUnit unit) {
     	this(angle, new AngleGyroCorrectionSource(unit), true);    	
     }
@@ -33,14 +38,22 @@ public class DriveAnglePIDCommand extends NRCommand {
     protected void onExecute() {
     	SmartDashboard.putData("Angle PID", pid);
     	SmartDashboard.putNumber("Angle PID Error", pid.getError());
-		if(Math.signum(pid.getError()) != Math.signum(pid.getTotalError())) {
-			pid.resetTotalError();
+		
+		if(Math.abs(pid.getError()) > integralDisableDistance) {
+			pid.setPID(SmartDashboard.getNumber("Turn Angle P"), 0, SmartDashboard.getNumber("Turn Angle D"));
+		} else {
+			pid.setPID(SmartDashboard.getNumber("Turn Angle P"), SmartDashboard.getNumber("Turn Angle I"), SmartDashboard.getNumber("Turn Angle D"));
 		}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return Math.abs(pid.getError()) < 0.25;
+    	if(Math.abs(pid.getError()) < 2) {
+    		currentCount++;
+    	} else {
+    		currentCount = 0;
+    	}
+    	return currentCount > accuracyFinishCount;
     }
 
 	@Override
@@ -50,7 +63,7 @@ public class DriveAnglePIDCommand extends NRCommand {
 
 	@Override
 	protected void onStart() {
-		pid = new PID( 0.0007, 0.0001, 0.0001, new AngleGyroCorrectionSource(), new AngleController());
+		pid = new PID(SmartDashboard.getNumber("Turn Angle P"),SmartDashboard.getNumber("Turn Angle I"),SmartDashboard.getNumber("Turn Angle D"), new AngleGyroCorrectionSource(), new AngleController());
 		pid.enable();
     	pid.setSetpoint(angle);
 	}
