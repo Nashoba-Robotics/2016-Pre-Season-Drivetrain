@@ -1,11 +1,10 @@
 package edu.nr.robotics.subsystems.intakearm;
 
 import edu.nr.lib.PID;
-import edu.nr.lib.ResettableAnalogPotentiometer;
 import edu.nr.lib.SmartDashboardSource;
 import edu.nr.lib.interfaces.Periodic;
 import edu.nr.robotics.RobotMap;
-import edu.nr.robotics.subsystems.loaderroller.LoaderRollerJoystickCommand;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -19,7 +18,7 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	private static IntakeArm singleton;
 
 	CANTalon talon;
-	private ResettableAnalogPotentiometer pot;
+	private AnalogPotentiometer pot;
 	PID pid;
 	
 	boolean pidDisabled = false;
@@ -28,9 +27,9 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 
 		talon = new CANTalon(RobotMap.INTAKE_ARM_TALON);
 		talon.setInverted(true);
-		pot = new ResettableAnalogPotentiometer(RobotMap.INTAKE_ARM_POT);
+		pot = new AnalogPotentiometer(RobotMap.INTAKE_ARM_POT);
 		pot.setPIDSourceType(PIDSourceType.kDisplacement);
-		pid = new PID(8, 0.005, 0.00, pot, talon);
+		pid = new PID(421.8*0.015, 421.8*0.0002, 0.00, pot, talon);
 	}
 	
     public void initDefaultCommand() {
@@ -118,16 +117,6 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 		
 	}
 
-	@Override
-	public void periodic() {
-		/*if(Math.abs(pid.getError()) < 1 && pid.isEnable()) {
-			pid.disable();
-		}
-		if(Math.abs(pid.getError()) > 1 && !pid.isEnable() && !pidDisabled) {
-			pid.enable();
-		}*/
-	}
-
 	public boolean isTopLimitSwitchClosed() {
 		return talon.isFwdLimitSwitchClosed();
 	}
@@ -138,6 +127,13 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 
 	public void setMaxSpeed(double maxSpeed) {
 		pid.setOutputRange(-maxSpeed, maxSpeed);
+	}
+
+	@Override
+	public void periodic() {
+		if(pid.getError() < 0.005) {
+			pid.disable();
+		}
 	}
 }
 

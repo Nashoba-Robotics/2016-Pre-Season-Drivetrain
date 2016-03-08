@@ -394,7 +394,6 @@ public class Robot extends RobotBase {
 		periodics.add(Drive.getInstance());
 		periodics.add(OI.getInstance());
 		periodics.add(Hood.getInstance());
-		periodics.add(IntakeArm.getInstance());
 	}
 
 	/**
