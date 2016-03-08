@@ -15,7 +15,7 @@ public class HoodNeutralCommand extends NRCommand {
 	}
 	
 	@Override
-	protected boolean isFinished() {
+	protected boolean isFinishedNR() {
 		return false;
 	}
 }

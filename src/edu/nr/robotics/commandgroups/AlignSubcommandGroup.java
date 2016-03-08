@@ -23,7 +23,11 @@ public class AlignSubcommandGroup extends CommandGroup {
     
     @Override
     public void start() {
-    	this.packet = UDPServer.getInstance().getLastPacket();
+    	try {
+    		this.packet = UDPServer.getInstance().getLastPacket();
+    	} catch(NullPointerException e) {
+    		this.packet = new JetsonImagePacket(0,0,0);
+    	}
     }
 
 	public JetsonImagePacket getJetsonPacket() {

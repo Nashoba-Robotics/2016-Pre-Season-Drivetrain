@@ -8,7 +8,7 @@ public class ElevatorRequirerCommand extends NRCommand {
 		requires(Elevator.getInstance());
 	}
 	
-	public boolean isFinished() {
+	public boolean isFinishedNR() {
 		return false;
 	}
 	

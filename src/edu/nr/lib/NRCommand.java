@@ -8,6 +8,9 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class NRCommand extends Command {
+
+	boolean forceCancel = false;
+	
 	public NRCommand() {
 		super();
 	}
@@ -68,17 +71,47 @@ public class NRCommand extends Command {
 	@Override
 	protected final void end() {
 		reset = true;
+		forceCancel = false;
 		onEnd(false);
 	}
 
 	@Override
 	protected final void interrupted() {
 		reset = true;
+		forceCancel = false;
 		onEnd(true);
 	}
 
 	@Override
-	protected boolean isFinished() {
-		return true;
+	protected final boolean isFinished() {
+		return forceCancel || isFinishedNR();
+	}
+	
+	protected boolean isFinishedNR() {return true;}
+	
+	protected final void makeFinish() {
+		System.out.println(getName() + " was made to finish");
+		if(getGroup() == null) 
+			cancel();
+		forceCancel = true;
+	}
+	
+	public static void cancelCommand(Command command) {
+		
+		if(command == null)
+			return;
+		
+		System.out.println("Cancelling " + command.getName());
+
+		
+		if(command instanceof NRCommand)
+			((NRCommand) command).makeFinish();
+		else {
+			if(command.getGroup() != null)
+				cancelCommand(command.getGroup());
+			else { 
+				command.cancel();
+			}
+		}
 	}
 }

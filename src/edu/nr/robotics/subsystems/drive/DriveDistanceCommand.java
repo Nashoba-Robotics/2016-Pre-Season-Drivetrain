@@ -109,7 +109,8 @@ public class DriveDistanceCommand extends NRCommand implements PIDOutput
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
-	protected boolean isFinished() 
+	@Override
+	protected boolean isFinishedNR() 
 	{
 		if(roughEnabled)
 		{

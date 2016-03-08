@@ -23,7 +23,7 @@ public class IntakeArmPositionCommand extends NRCommand {
 	}
 	
 	@Override
-	protected boolean isFinished() {
+	protected boolean isFinishedNR() {
 		return Math.abs(IntakeArm.getInstance().get() - val) < RobotMap.INTAKE_ARM_THRESHOLD;
 	}
 }

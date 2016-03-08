@@ -33,13 +33,14 @@ public class FieldCentric implements SmartDashboardSource {
 	 * Updates the model based on the current Drive values
 	 */
 	public void update() {
-		if (System.currentTimeMillis() - lastUpdateTime > 300) {
+		if (System.currentTimeMillis() - lastUpdateTime > 500) {
 			System.err.println("WARNING: FieldCentric not being called often enough: ("
 					+ (System.currentTimeMillis() - lastUpdateTime) / 1000f + "s)");
 		}
 
 		double angle = getAngle(AngleUnit.RADIAN);
 
+		
 		double ave = Drive.getInstance().getEncoderAverageDistance();
 		double delta_x_r = ave - lastEncoderDistance;
 		double deltax = delta_x_r * Math.sin(angle);

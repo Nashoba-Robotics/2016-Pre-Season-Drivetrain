@@ -20,15 +20,15 @@ public class DriveConstantCommand extends NRCommand {
 
 	@Override
 	protected void onStart() {
-		if(PID)
-			Drive.getInstance().setPIDSetpoint(left, right);
-		else
-			Drive.getInstance().setRawMotorSpeed(left, right);
+		Drive.getInstance().setPIDEnabled(PID);
 	}
 
 	@Override
 	protected void onExecute() {
-		
+		if(PID)
+			Drive.getInstance().setPIDSetpoint(left, right);
+		else
+			Drive.getInstance().setRawMotorSpeed(left, right);
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class DriveConstantCommand extends NRCommand {
 	}
 
 	@Override
-	protected boolean isFinished() {
+	protected boolean isFinishedNR() {
 		return false;
 	}
     

@@ -629,6 +629,7 @@ public class PID implements LiveWindowSendable {
 			table.putNumber("i", getI());
 			table.putNumber("d", getD());
 			table.putNumber("f", getF());
+			table.putNumber("Current Output", get());
 			table.putNumber("setpoint", getSetpoint());
 			table.putBoolean("enabled", isEnable());
 			table.addTableListener(listener, false);

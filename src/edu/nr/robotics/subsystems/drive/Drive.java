@@ -351,6 +351,7 @@ public class Drive extends Subsystem implements SmartDashboardSource, Periodic{
 		SmartDashboard.putNumber("Encoders Distance Ave", getEncoderAverageDistance());
 		SmartDashboard.putNumber("Encoders Speed Ave", getEncoderAverageSpeed());
 
+		
 		SmartDashboard.putNumber("Drive Talon Average Current Draw", (rightTalon.getOutputCurrent() 
 				+ rightTalon.getOutputCurrent() + tempLeftTalon.getOutputCurrent() + tempRightTalon.getOutputCurrent())/4);
 		
@@ -372,6 +373,11 @@ public class Drive extends Subsystem implements SmartDashboardSource, Periodic{
 
 		leftPid.setOutputRange(-Math.abs(pidMaxVal), Math.abs(pidMaxVal));
 		rightPid.setOutputRange(-Math.abs(pidMaxVal), Math.abs(pidMaxVal));
+	}
+
+	public void setPID(double p, double i, double d, double f) {
+		leftPid.setPID(p, i, d, f);
+		rightPid.setPID(p, i, d, f);
 	}
 
 }

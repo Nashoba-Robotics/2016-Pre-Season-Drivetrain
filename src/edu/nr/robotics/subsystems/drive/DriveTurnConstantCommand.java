@@ -20,19 +20,5 @@ public class DriveTurnConstantCommand extends NRCommand {
 	protected void onStart() {
 			Drive.getInstance().setRawMotorSpeed(-val, val);
 	}
-
-	@Override
-	protected void onExecute() {
-		
-	}
-
-	@Override
-	protected void onEnd(boolean interrupted) {
-	}
-
-	@Override
-	protected boolean isFinished() {
-		return true;
-	}
     
 }

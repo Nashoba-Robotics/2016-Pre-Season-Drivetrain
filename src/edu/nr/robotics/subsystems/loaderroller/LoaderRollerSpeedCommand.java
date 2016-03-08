@@ -18,7 +18,7 @@ public class LoaderRollerSpeedCommand extends NRCommand {
     	LoaderRoller.getInstance().setLoaderSpeed(val);
     }
     
-    public boolean isFinished() {
+    public boolean isFinishedNR() {
     	return false;
     }
 }

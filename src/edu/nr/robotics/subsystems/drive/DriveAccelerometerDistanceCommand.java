@@ -23,7 +23,7 @@ public class DriveAccelerometerDistanceCommand extends NRCommand {
 
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
-	protected boolean isFinished() {
+	protected boolean isFinishedNR() {
 		return distCurrent > distance;
 	}
 

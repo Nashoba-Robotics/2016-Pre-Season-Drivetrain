@@ -19,7 +19,7 @@ public class IntakeRollerSpeedCommand extends NRCommand {
     	IntakeRoller.getInstance().setRollerSpeed(val);
     }
     
-    public boolean isFinished() {
+    public boolean isFinishedNR() {
     	return false;
     }
 }

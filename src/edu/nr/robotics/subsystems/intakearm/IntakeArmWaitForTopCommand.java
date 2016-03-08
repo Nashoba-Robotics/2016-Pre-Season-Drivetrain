@@ -4,7 +4,7 @@ import edu.nr.lib.NRCommand;
 
 public class IntakeArmWaitForTopCommand extends NRCommand {
 
-	public boolean isFinished() {
+	public boolean isFinishedNR() {
 		return IntakeArm.getInstance().isTopLimitSwitchClosed();
 	}
 

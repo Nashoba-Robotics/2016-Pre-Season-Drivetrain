@@ -68,7 +68,7 @@ public class Elevator extends Subsystem implements SmartDashboardSource {
 
 	
     public void initDefaultCommand() {
-		setDefaultCommand(new ElevatorJoystickCommand());
+		//setDefaultCommand(new ElevatorJoystickCommand());
     }
 
 	@Override

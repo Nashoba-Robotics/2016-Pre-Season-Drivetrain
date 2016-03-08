@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class LoaderRoller extends Subsystem implements SmartDashboardSource {
     
-	CANTalon loaderTalon;
+	CANTalon talon;
 		
 	private static LoaderRoller singleton;
 	
@@ -26,8 +26,8 @@ public class LoaderRoller extends Subsystem implements SmartDashboardSource {
 		
 		gate = new DigitalInput(RobotMap.LOADER_PHOTO_GATE);
 		
-		loaderTalon = new CANTalon(RobotMap.LOADER_ROLLER_TALON);
-		loaderTalon.enableBrakeMode(true);
+		talon = new CANTalon(RobotMap.LOADER_ROLLER_TALON);
+		talon.enableBrakeMode(true);
 
 	}
 	
@@ -47,11 +47,11 @@ public class LoaderRoller extends Subsystem implements SmartDashboardSource {
 	 * @param val the value to set the loader setpoint to
 	 */
 	public void setLoaderSpeed(double val) {
-		loaderTalon.set(val);
+		talon.set(val);
 	}
 	
     public void initDefaultCommand() {
-		setDefaultCommand(new LoaderRollerJoystickCommand());
+		//setDefaultCommand(new LoaderRollerJoystickCommand());
     }
 
 	@Override
@@ -61,6 +61,10 @@ public class LoaderRoller extends Subsystem implements SmartDashboardSource {
 	
 	public boolean hasBall() {
 		return !gate.get();
+	}
+
+	public boolean isRunning() {
+		return Math.abs(talon.get()) > 0.1 ;
 	}
 }
 

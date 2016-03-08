@@ -28,7 +28,7 @@ public class HoodIncreaseDegreeCommand extends NRCommand {
 	}
 
 	@Override
-	protected boolean isFinished() {
+	protected boolean isFinishedNR() {
 		return Math.abs(Hood.getInstance().get() - (val + prevVal)) < 0.3 || ((val > 0) ? Hood.getInstance().isTopLimitSwitchClosed() : Hood.getInstance().isBotLimitSwitchClosed());
 	}
 

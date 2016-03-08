@@ -8,7 +8,7 @@ public class HoodWaitForBottomCommand extends NRCommand {
 		requires(Hood.getInstance());
 	}
 	
-	public boolean isFinished() {
+	public boolean isFinishedNR() {
 		return Hood.getInstance().isBotLimitSwitchClosed();
 	}
 
