@@ -1,6 +1,7 @@
 package edu.nr.robotics.subsystems.intakearm;
 
 import edu.nr.lib.NRCommand;
+import edu.nr.robotics.RobotMap;
 
 public class IntakeArmPositionCommand extends NRCommand {
 
@@ -19,5 +20,10 @@ public class IntakeArmPositionCommand extends NRCommand {
 	@Override
 	protected void onExecute() {
 		IntakeArm.getInstance().setSetpoint(val);
+	}
+	
+	@Override
+	protected boolean isFinishedNR() {
+		return Math.abs(IntakeArm.getInstance().get() - val) < RobotMap.INTAKE_ARM_THRESHOLD;
 	}
 }

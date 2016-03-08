@@ -4,7 +4,11 @@ import edu.nr.lib.NRCommand;
 
 public class HoodWaitForTopCommand extends NRCommand {
 
-	public boolean isFinished() {
+	public HoodWaitForTopCommand() {
+		requires(Hood.getInstance());
+	}
+	
+	public boolean isFinishedNR() {
 		return Hood.getInstance().isTopLimitSwitchClosed();
 	}
 

@@ -11,9 +11,15 @@ public class HoodBottomCommand extends CommandGroup {
 	
     public  HoodBottomCommand() {
         addSequential(new HoodPositionCommand(RobotMap.HOOD_BOTTOM_POSITION));
+        requires(Hood.getInstance());
     }
 
-	public HoodBottomCommand(double d) {
-        addSequential(new HoodPositionCommand(RobotMap.HOOD_BOTTOM_POSITION, d));
+	public HoodBottomCommand(double speed) {
+        addSequential(new HoodPositionCommand(RobotMap.HOOD_BOTTOM_POSITION, speed));
+        requires(Hood.getInstance());
+	}
+	
+	public boolean isFinished() {
+		return Hood.getInstance().isAtBottom();
 	}
 }

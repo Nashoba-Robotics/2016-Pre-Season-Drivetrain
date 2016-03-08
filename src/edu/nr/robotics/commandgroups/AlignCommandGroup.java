@@ -33,11 +33,17 @@ public class AlignCommandGroup extends CommandGroup {
     
     @Override
     public void end() {
-    	
-    	JetsonImagePacket packet = UDPServer.getInstance().getLastPacket();
-    	
+    	JetsonImagePacket packet;
+    	try {
+    		packet = UDPServer.getInstance().getLastPacket();
+    	} catch(NullPointerException e) {
+    		System.out.println("Couldn't get a packet from the Jetson for " + getName());
+    		return;
+    	}
+
     	System.out.println("Align command group started ending");
-		System.out.println("Hood: " + (Math.abs(Hood.getInstance().get() - packet.getHoodAngle()) > RobotMap.HOOD_THRESHOLD));
+		System.out.println("Hood: " + (Math.abs(Hood.getInstance().get() - 
+				packet.getHoodAngle()) > RobotMap.HOOD_THRESHOLD));
 		System.out.println("Turn:  " + Math.abs(packet.getTurnAngle()) + " " + (Math.abs(packet.getTurnAngle()) > RobotMap.TURN_THRESHOLD));
 		System.out.println("Shooter: " + Shooter.getInstance().getScaledSpeed() + " " + (Shooter.getInstance().getScaledSpeed() < RobotMap.SHOOTER_FAST_SPEED - RobotMap.SHOOTER_THRESHOLD));
 

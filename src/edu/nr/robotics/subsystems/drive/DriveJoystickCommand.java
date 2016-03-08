@@ -43,7 +43,8 @@ public class DriveJoystickCommand extends NRCommand {
 	    	{
 	    		if (Math.abs(moveValue) > .1)
 	    		{
-	    			rotateValue = gyroCorrection.getTurnValue();
+	    			//rotateValue = gyroCorrection.getTurnValue();
+	    			//TODO:  Fix gyro rotation 
 	    			SmartDashboard.putBoolean("Using gyro correction", true);
 	    		}
 		    	else
@@ -104,7 +105,7 @@ public class DriveJoystickCommand extends NRCommand {
 
 	// Always return false for a default command
 	@Override
-	protected boolean isFinished() {
+	protected boolean isFinishedNR() {
 		return false;
 	}
 

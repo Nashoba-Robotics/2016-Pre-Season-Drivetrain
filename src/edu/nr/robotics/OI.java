@@ -3,6 +3,7 @@ package edu.nr.robotics;
 import edu.nr.lib.AngleUnit;
 import edu.nr.lib.CancelAllCommand;
 import edu.nr.lib.DoubleJoystickButton;
+import edu.nr.lib.NRCommand;
 import edu.nr.lib.SmartDashboardSource;
 import edu.nr.lib.interfaces.Periodic;
 import edu.nr.robotics.commandgroups.*;
@@ -174,26 +175,10 @@ public class OI implements SmartDashboardSource, Periodic {
 		// Switch closed loop drive off (in case of sensor failure)
 		dumbDrive = new JoystickButton(operatorRight, 11);
 		// -> 12: Brake Light Cutout Switch
-		// Disables robot “shot ready” LED sequences (in the event that
+		// Disables robot "shot ready" LED sequences (in the event that
 		// signifying we are about to shoot enables defense robots to defend
 		// more effectively
 		LEDCutout = new JoystickButton(operatorRight, 12);
-		// -> Joy1: Arm Position Joystick
-		// Overrides intake arm position (overrides pot, not limit switches)
-		// snapCoffinJoysticks(operatorRight.getRawAxis(0))
-
-		// -> Joy2: Loader Joystick
-		// Overrides loader motor power
-		// snapCoffinJoysticks(operatorRight.getRawAxis(1))
-
-		// -> Joy3: Hood Joystick
-		// Overrides hood angle (undone if another auto hood angle command is
-		// sent)
-		// snapCoffinJoysticks(operatorRight.getRawAxis(2))
-
-		// -> Joy4: Elevator Joystick
-		// Overrides elevator (limit switches still operate)
-		// snapCoffinJoysticks(operatorRight.getRawAxis(3))
 	}
 
 	public static OI getInstance() {
@@ -206,35 +191,38 @@ public class OI implements SmartDashboardSource, Periodic {
 			singleton = new OI();
 		}
 	}
-	
+
+	// -> Joy1: Arm Position Joystick
+	// Overrides intake arm position (overrides pot, not limit switches)
+	// snapCoffinJoysticks(operatorRight.getRawAxis(0))
 	public double getIntakeArmMoveValue() {
-		return -1 * (new JoystickButton(driveRight, 6).get() ? driveRight.getAxis(AxisType.kY) : 0);
-		//return snapCoffinJoysticks(operatorRight.getRawAxis(0));
+		return snapCoffinJoysticks(operatorRight.getAxis(AxisType.kY));
 	}
 	
+	// -> Joy2: Loader Roller + Intake Roller Joystick
+	// Overrides loader motor power
+	// snapCoffinJoysticks(operatorRight.getRawAxis(1))
 	public double getLoaderRollerMoveValue() {
-		return -1 * (new JoystickButton(driveRight, 7).get() ? driveRight.getAxis(AxisType.kY) : 0);
-		//return snapCoffinJoysticks(operatorRight.getRawAxis(1));
+		return snapCoffinJoysticks(operatorRight.getAxis(AxisType.kZ));
 	}
 	
 	public double getIntakeRollerMoveValue() {
-		return new JoystickButton(driveRight, 8).get() ? driveRight.getAxis(AxisType.kY) : 0;
-		//return snapCoffinJoysticks(operatorRight.getRawAxis(1));
+		return snapCoffinJoysticks(operatorRight.getAxis(AxisType.kZ));
 	}
-	
+
+	// -> Joy3: Hood Joystick
+	// Overrides hood angle (undone if another auto hood angle command is
+	// sent)
+	// snapCoffinJoysticks(operatorRight.getRawAxis(2))
 	public double getHoodMoveValue() {
-		return -1 * (new JoystickButton(driveRight, 10).get() ? driveRight.getAxis(AxisType.kY) : 0);
-		//return snapCoffinJoysticks(operatorRight.getRawAxis(2));
+		return snapCoffinJoysticks(operatorRight.getAxis(AxisType.kX));
 	}
 	
+	// -> Joy4: Elevator Joystick
+	// Overrides elevator (limit switches still operate)
+	// snapCoffinJoysticks(operatorRight.getRawAxis(3))
 	public double getElevatorMoveValue() {
-		return new JoystickButton(driveRight, 11).get() ? driveRight.getAxis(AxisType.kY) : 0;
-		//return snapCoffinJoysticks(operatorRight.getRawAxis(3));
-	}
-	
-	public double getShooterMoveValue() {
-		return -1 * (new JoystickButton(driveRight, 9).get() ? driveRight.getAxis(AxisType.kY) : 0);
-		//return snapCoffinJoysticks(operatorRight.getRawAxis(0));
+		return snapCoffinJoysticks(operatorRight.getAxis(AxisType.kThrottle));
 	}
 
 	public double getArcadeMoveValue() {
@@ -256,6 +244,22 @@ public class OI implements SmartDashboardSource, Periodic {
 		return snapDriveJoysticks(driveRight.getY());
 	}
 
+	public double getDriveLeftXValue() {
+		return snapDriveJoysticks(driveLeft.getX());
+	}
+	
+	public double getDriveLeftYValue() {
+		return snapDriveJoysticks(driveLeft.getY());
+	}
+	
+	public double getDriveRightXValue() {
+		return snapDriveJoysticks(driveRight.getX());
+	}
+	
+	public double getDriveRightYValue() {
+		return snapDriveJoysticks(driveRight.getY());
+	}
+	
 	private double snapDriveJoysticks(double value) {
 		if (Math.abs(value) < JOYSTICK_DEAD_ZONE) {
 			value = 0;
@@ -313,45 +317,59 @@ public class OI implements SmartDashboardSource, Periodic {
 		}
 	}
 	
+	public boolean isDriveNonZero() {
+		return getDriveLeftXValue() != 0 || getDriveRightXValue() != 0 || getDriveLeftYValue() != 0 || getDriveRightYValue() != 0;
+	}
+	
 	public boolean getBrakeLightCutout() {
 		return LEDCutout.get();
 	}
 		
 	@Override
 	public void periodic() {
-		//TODO: Test joystick cancel functionality
-		try {
-			if(isCurrentModeNonZero()) {
-				if(Drive.getInstance().getCurrentCommand() != null && !Drive.getInstance().getCurrentCommand().getName().equals("DriveJoystickCommand")) {
-					Drive.getInstance().getCurrentCommand().cancel();
-				}
+		if(isDriveNonZero()) {
+	
+			if(Drive.getInstance().getCurrentCommand() != null && !Drive.getInstance().getCurrentCommand().getName().equals("DriveJoystickCommand")) {
+				System.out.println("Drive Left X " + getDriveLeftXValue());
+				System.out.println("Drive Right X " + getDriveRightXValue());
+				System.out.println("Drive Left Y " + getDriveLeftYValue());
+				System.out.println("Drive Right Y " + getDriveRightYValue());
+				System.out.println("Cancelling because of drive joystick");
+
+				NRCommand.cancelCommand(Drive.getInstance().getCurrentCommand());
 			}
-		} catch (DrivingModeException e) {
-			System.out.println("Driving Mode " + e.getMode() + " is not supported by OI drive subsystem cancel");
 		}
 		
-		if(getLoaderRollerMoveValue() != 0) {
+		/*if(getLoaderRollerMoveValue() != 0) {
 			if(LoaderRoller.getInstance().getCurrentCommand() != null && !LoaderRoller.getInstance().getCurrentCommand().getName().equals("LoaderRollerJoystickCommand")) {
+				NRCommand.cancelCommand(LoaderRoller.getInstance().getCurrentCommand());
+				NRCommand.cancelCommand(IntakeRoller.getInstance().getCurrentCommand());
 				LoaderRoller.getInstance().setLoaderSpeed(0);
+				IntakeRoller.getInstance().setRollerSpeed(0);
 			}
-		}
+		}*/
 		
 		if(getIntakeArmMoveValue() != 0) {
 			if(IntakeArm.getInstance().getCurrentCommand() != null && !IntakeArm.getInstance().getCurrentCommand().getName().equals("IntakeArmJoystickCommand")) {
-				IntakeArm.getInstance().disable();
+				NRCommand.cancelCommand(IntakeArm.getInstance().getCurrentCommand());
+				System.out.println("Intake arm joystick value " + getIntakeArmMoveValue());
+				System.out.println("Cancelling because of intake arm joystick");
 			}
 		}
 		
 		if(getHoodMoveValue() != 0) {
 			if(Hood.getInstance().getCurrentCommand() != null && !Hood.getInstance().getCurrentCommand().getName().equals("HoodJoystickCommand")) {
-				Hood.getInstance().disable();
+				NRCommand.cancelCommand(Hood.getInstance().getCurrentCommand());
+				System.out.println("Hood joystick value " + getHoodMoveValue());
+				System.out.println("Cancelling because of hood joystick");
+
 			}
 		}
 		
-		if(getElevatorMoveValue() != 0) {
+		/*if(getElevatorMoveValue() != 0) {
 			if(Elevator.getInstance().getCurrentCommand() != null && !Elevator.getInstance().getCurrentCommand().getName().equals("ElevatorJoystickCommand")) {
-				Elevator.getInstance().setMotorValue(0);
+				NRCommand.cancelCommand(Elevator.getInstance().getCurrentCommand());
 			}
-		}
+		}*/
 	}
 }

@@ -22,6 +22,7 @@ import edu.nr.robotics.subsystems.drive.DriveDistanceCommand;
 import edu.nr.robotics.subsystems.drive.DrivePulseCommand;
 import edu.nr.robotics.subsystems.drive.DriveResetEncodersCommand;
 import edu.nr.robotics.subsystems.drive.DriveSimpleDistanceCommand;
+import edu.nr.robotics.subsystems.drive.DriveSmartDashboardCommand;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.hood.HoodBottomCommand;
 import edu.nr.robotics.subsystems.hood.HoodJetsonPositionCommand;
@@ -55,6 +56,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends RobotBase {
 		
 	public AlignCommandGroup.State state;
+	RobotDiagram robotDiagram;
+
 
 	boolean doneFirstTime = false;
 	
@@ -209,6 +212,8 @@ public class Robot extends RobotBase {
 		initSubsystems();
 		initSmartDashboard();
 		initServer();
+		robotDiagram = new RobotDiagram();
+
 	}
 	
 	private void initServer() {
@@ -324,13 +329,19 @@ public class Robot extends RobotBase {
 		SmartDashboard.putData("Driving Mode Chooser", OI.getInstance().drivingModeChooser);
 		
 		SmartDashboard.putData(new HoodJetsonPositionCommand());
-		SmartDashboard.putData(new DriveAnglePIDCommand(20, AngleUnit.DEGREE));
+		SmartDashboard.putData(new DriveAnglePIDCommand(10, AngleUnit.DEGREE));
 		SmartDashboard.putData(new DrivePulseCommand());
 		SmartDashboard.putData(new DriveAngleJetsonPIDCommand());
 		
 		SmartDashboard.putNumber("Turn Angle P", 0.0007);
 		SmartDashboard.putNumber("Turn Angle I", 0.0001);
 		SmartDashboard.putNumber("Turn Angle D", 0.0001);
+		
+		Drive.getInstance();
+		SmartDashboard.putNumber("Drive P", Drive.JOYSTICK_DRIVE_P);
+		SmartDashboard.putNumber("TurnSpeed", 0);
+		
+		SmartDashboard.putData(new DriveSmartDashboardCommand());
 
 		SmartDashboard.putBoolean("Ready to shoot", true);
 
@@ -339,10 +350,8 @@ public class Robot extends RobotBase {
 	private void initCamera() {
 		CameraServer server = CameraServer.getInstance();
 		server.setQuality(50);
-		// the camera name (ex "cam0") can be found through the roborio web
-		// interface
+		// the camera name (ex "cam0") can be found through the roborio web interface
 		server.startAutomaticCapture("cam2");
-		// TODO: Get potentially the camera name with the real one we use
 	}
 	
 	private void initSubsystems() {
@@ -396,7 +405,6 @@ public class Robot extends RobotBase {
 	 *            The name of the mode that is currently occuring
 	 */
 	private void periodic(Mode mode) {
-
 		SmartDashboard.putBoolean("Banner 1", IntakeRoller.getInstance().hasBall());
 		SmartDashboard.putBoolean("Banner 2", LoaderRoller.getInstance().hasBall());
 		SmartDashboard.putBoolean("Banner 3", Shooter.getInstance().hasBall());	
@@ -409,12 +417,15 @@ public class Robot extends RobotBase {
 		}
 		
 		periodics.forEach(Periodic::periodic);
+		OI.getInstance().periodic();
 		
 		FieldCentric.getInstance().update();
 		Scheduler.getInstance().run();
 
 		smartDashboardSources.forEach(SmartDashboardSource::smartDashboardInfo);
 		SmartDashboard.putNumber("Joystick turn value", OI.getInstance().getArcadeTurnValue());
+		
+		SmartDashboard.putData(robotDiagram);
 	}
 
 	/**

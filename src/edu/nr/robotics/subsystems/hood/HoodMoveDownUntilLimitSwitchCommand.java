@@ -22,12 +22,13 @@ public class HoodMoveDownUntilLimitSwitchCommand extends NRCommand {
     }
 
     // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
+    protected boolean isFinishedNR() {
         return Hood.getInstance().isBotLimitSwitchClosed();
     }
 
     // Called once after isFinished returns true
-    protected void onEnd() {
+    @Override
+    protected void onEnd(boolean interrupted) {
     	Hood.getInstance().enable();
     }
 }

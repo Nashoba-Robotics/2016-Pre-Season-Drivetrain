@@ -15,7 +15,8 @@ public class WaitForPIDSourceGreaterThanCommand extends NRCommand {
     	this.value = value;
     }
 
-    protected boolean isFinished() {
+    @Override
+    protected boolean isFinishedNR() {
         return source.pidGet() > value;
     }
 }

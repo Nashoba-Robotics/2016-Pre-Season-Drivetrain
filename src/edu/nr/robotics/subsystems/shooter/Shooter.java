@@ -52,7 +52,6 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	}
 	
     public void initDefaultCommand() {
-    	//setDefaultCommand(new ShooterJoystickCommand());
     }
     
     public static Shooter getInstance() {

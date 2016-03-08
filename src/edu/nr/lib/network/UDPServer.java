@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class UDPServer implements Runnable, Periodic {
 	public static UDPServer singleton;
 	
-	char delimiter1 = ':';
-	char delimiter2 = ';'; 
+	char delimiter1 = ';';
+	char delimiter2 = ':'; 
 	//The information is split packet_number;distance:angle
 	
 	DatagramSocket serverSocket;
@@ -55,7 +55,7 @@ public class UDPServer implements Runnable, Periodic {
 				serverSocket.receive(receivePacket);
 				lastUpdateTime = System.currentTimeMillis();
 			} catch (IOException e) {
-				System.err.println("Couldn't get a packet");
+				//System.err.println("Couldn't get a packet");
 			}
 			String data = new String( receivePacket.getData() );
 			new UDPClient(data);
@@ -68,7 +68,7 @@ public class UDPServer implements Runnable, Periodic {
 			    String right = data.substring(p + 1);
 			    try {
 			    	final int count = Integer.valueOf(count_s);
-			    	if(lastCount != 0) {
+			    	if(lastCount != count - 1 && lastCount != 0) {
 			    		System.out.println("We dropped a Jetson packet");
 			    		droppedPackets += count - lastCount - 1;
 			    	}
@@ -97,9 +97,12 @@ public class UDPServer implements Runnable, Periodic {
 		}
 	}
 	
+	
 	public JetsonImagePacket getLastPacket() {
 		synchronized(lock) {
-			return lastPacket;
+			if(lastPacket != null)
+				return lastPacket;
+			throw new NullPointerException();
 		}
 	}
 
@@ -109,7 +112,7 @@ public class UDPServer implements Runnable, Periodic {
 		SmartDashboard.putNumber("Dropped packet count", droppedPackets);
 		if(System.currentTimeMillis() - lastUpdateTime > 1000 && System.currentTimeMillis() - lastPrintTime > 300) {
 			lastPrintTime = System.currentTimeMillis();
-			System.err.println("TIME SINCE LAST JETSON PACKET IS TOO MUCH!!!");
+			//System.err.println("TIME SINCE LAST JETSON PACKET IS TOO MUCH!!!");
 		}
 	}
 }

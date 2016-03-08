@@ -38,7 +38,7 @@ public class HoodPositionCommand extends NRCommand {
 	}
 
 	@Override
-	protected boolean isFinished() {
+	protected boolean isFinishedNR() {
 		return Math.abs(Hood.getInstance().get() - val) < 0.01;
 	}
 
