@@ -54,7 +54,7 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	 */
 	public void setMotor(double speed) {
 		if(pid.isEnable())
-			pid.disable();
+			//pid.disable();
 		talon.set(speed);
 	}
 	
@@ -87,7 +87,7 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	 */
 	public void disable() {
 		pidDisabled = true;
-		pid.disable();
+		//pid.disable();
 	}
 	
 	/**
@@ -131,7 +131,7 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 
 	@Override
 	public void periodic() {
-		if(pid.getError() < 0.005) {
+		if(Math.abs(pid.getError()) < 0.005) {
 			pid.disable();
 		}
 	}

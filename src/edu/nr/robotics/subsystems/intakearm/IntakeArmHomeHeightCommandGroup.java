@@ -1,7 +1,6 @@
-package edu.nr.robotics.commandgroups;
+package edu.nr.robotics.subsystems.intakearm;
 
 import edu.nr.robotics.RobotMap;
-import edu.nr.robotics.subsystems.intakearm.IntakeArmPositionCommand;
 import edu.nr.robotics.subsystems.intakeroller.IntakeRollerNeutralCommand;
 import edu.nr.robotics.subsystems.loaderroller.LoaderRollerNeutralCommand;
 import edu.wpi.first.wpilibj.command.CommandGroup;

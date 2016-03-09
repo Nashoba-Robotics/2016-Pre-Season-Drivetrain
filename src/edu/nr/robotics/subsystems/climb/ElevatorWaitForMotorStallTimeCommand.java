@@ -13,17 +13,23 @@ public class ElevatorWaitForMotorStallTimeCommand extends NRCommand {
 	
 	long reqTime;
 	
+	/**
+	 * 
+	 * @param reqTime in seconds
+	 */
     public ElevatorWaitForMotorStallTimeCommand(long reqTime) {
-    	this.reqTime = reqTime;
+    	this.reqTime = reqTime*1000;
     	requires(Elevator.getInstance());
     }
 
     // Called just before this Command runs the first time
-    protected void initialize() {
+    @Override
+    protected void onStart() {
     	prevTime = System.currentTimeMillis();
     }
 
     // Called repeatedly when this Command is scheduled to run
+    @Override
     protected void onExecute() {
     	if(!Elevator.getInstance().isMoving()) {
     		timeStalling = System.currentTimeMillis() - prevTime;
@@ -35,6 +41,7 @@ public class ElevatorWaitForMotorStallTimeCommand extends NRCommand {
     }
 
     // Make this return true when this Command no longer needs to run execute()
+    @Override
     protected boolean isFinishedNR() {
         return timeStalling > reqTime;
     }

@@ -101,7 +101,7 @@ public class NRCommand extends Command {
 		if(command == null)
 			return;
 		
-		System.out.println("Cancelling " + command.getName());
+		System.err.println("Cancelling " + command.getName());
 
 		
 		if(command instanceof NRCommand)

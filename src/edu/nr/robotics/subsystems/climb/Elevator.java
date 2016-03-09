@@ -3,6 +3,7 @@ package edu.nr.robotics.subsystems.climb;
 import edu.nr.lib.NRMath;
 import edu.nr.lib.SmartDashboardSource;
 import edu.nr.lib.TalonEncoder;
+import edu.nr.lib.interfaces.Periodic;
 import edu.nr.robotics.RobotMap;
 import edu.nr.robotics.subsystems.loaderroller.LoaderRollerJoystickCommand;
 import edu.wpi.first.wpilibj.CANTalon;
@@ -12,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class Elevator extends Subsystem implements SmartDashboardSource {
+public class Elevator extends Subsystem implements SmartDashboardSource, Periodic {
     
 	CANTalon talon;
 	public TalonEncoder enc;
@@ -68,7 +69,7 @@ public class Elevator extends Subsystem implements SmartDashboardSource {
 
 	
     public void initDefaultCommand() {
-		//setDefaultCommand(new ElevatorJoystickCommand());
+		setDefaultCommand(new ElevatorJoystickCommand());
     }
 
 	@Override
@@ -98,6 +99,12 @@ public class Elevator extends Subsystem implements SmartDashboardSource {
 	public boolean isLimitSwitchClosed() {
 		return talon.isFwdLimitSwitchClosed();
 		//TODO: Is it the fwd limit switch or the back limit switch?
+	}
+
+	@Override
+	public void periodic() {
+		if(isLimitSwitchClosed())
+			resetEncoder();
 	}
 	
 	

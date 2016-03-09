@@ -18,4 +18,9 @@ public class ElevatorSpeedCommand extends NRCommand {
     protected void onStart() {
     	Elevator.getInstance().setMotorValue(val);
     }
+
+    // Make this return true when this Command no longer needs to run execute()
+    protected boolean isFinishedNR() {
+        return false;
+    }
 }

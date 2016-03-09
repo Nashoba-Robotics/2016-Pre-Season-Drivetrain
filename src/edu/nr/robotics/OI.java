@@ -167,7 +167,7 @@ public class OI implements SmartDashboardSource, Periodic {
 		new JoystickButton(operatorRight, 8).whenPressed(new ElevatorRetractCommand());
 		// => 9: Extend & Intake Up
 		// Extends elevator completely, brings intake to up position
-		new JoystickButton(operatorRight, 9).whenPressed(new ClimbExtendCommand());
+		new JoystickButton(operatorRight, 9).whenPressed(new ElevatorExtendCommand());
 		// => 10: Prepare Climb
 		// Un-latches elevator (drives the elevator down a little)
 		new JoystickButton(operatorRight, 10).whenPressed(new ElevatorUnlatchCommand());
@@ -194,35 +194,31 @@ public class OI implements SmartDashboardSource, Periodic {
 
 	// -> Joy1: Arm Position Joystick
 	// Overrides intake arm position (overrides pot, not limit switches)
-	// snapCoffinJoysticks(operatorRight.getRawAxis(0))
+	// snapCoffinJoysticks(operatorRight.getAxis(AxisType.kY))
 	public double getIntakeArmMoveValue() {
 		return snapCoffinJoysticks(operatorRight.getAxis(AxisType.kY));
 	}
 	
-	// -> Joy2: Loader Roller + Intake Roller Joystick
+	// -> Joy2: Loader Roller Joystick
 	// Overrides loader motor power
-	// snapCoffinJoysticks(operatorRight.getRawAxis(1))
+	// snapCoffinJoysticks(operatorRight.getAxis(AxisType.kX))
 	public double getLoaderRollerMoveValue() {
-		return snapCoffinJoysticks(operatorRight.getAxis(AxisType.kZ));
-	}
-	
-	public double getIntakeRollerMoveValue() {
-		return snapCoffinJoysticks(operatorRight.getAxis(AxisType.kZ));
+		return snapCoffinJoysticks(operatorRight.getAxis(AxisType.kX));
 	}
 
 	// -> Joy3: Hood Joystick
 	// Overrides hood angle (undone if another auto hood angle command is
 	// sent)
-	// snapCoffinJoysticks(operatorRight.getRawAxis(2))
+	// snapCoffinJoysticks(operatorRight.getAxis(AxisType.kZ))
 	public double getHoodMoveValue() {
-		return snapCoffinJoysticks(operatorRight.getAxis(AxisType.kX));
+		return snapCoffinJoysticks(operatorRight.getAxis(AxisType.kThrottle));
 	}
 	
 	// -> Joy4: Elevator Joystick
 	// Overrides elevator (limit switches still operate)
-	// snapCoffinJoysticks(operatorRight.getRawAxis(3))
+	// snapCoffinJoysticks(operatorRight.getAxis(AxisType.kThrottle))
 	public double getElevatorMoveValue() {
-		return snapCoffinJoysticks(operatorRight.getAxis(AxisType.kThrottle));
+		return snapCoffinJoysticks(operatorRight.getAxis(AxisType.kZ));
 	}
 
 	public double getArcadeMoveValue() {
@@ -275,10 +271,10 @@ public class OI implements SmartDashboardSource, Periodic {
 	
 	private double snapCoffinJoysticks(double value)
 	{
-		if(value > -0.1 && value < 0.1)
+		if(value > -0.3 && value < 0.3)
 			return 0;
 		
-		return (value-0.1) / 0.9;
+		return (value-0.3) / 0.9;
 	}
 
 	public double getRawMove() {
@@ -340,14 +336,12 @@ public class OI implements SmartDashboardSource, Periodic {
 			}
 		}
 		
-		/*if(getLoaderRollerMoveValue() != 0) {
+		if(getLoaderRollerMoveValue() != 0) {
 			if(LoaderRoller.getInstance().getCurrentCommand() != null && !LoaderRoller.getInstance().getCurrentCommand().getName().equals("LoaderRollerJoystickCommand")) {
 				NRCommand.cancelCommand(LoaderRoller.getInstance().getCurrentCommand());
-				NRCommand.cancelCommand(IntakeRoller.getInstance().getCurrentCommand());
 				LoaderRoller.getInstance().setLoaderSpeed(0);
-				IntakeRoller.getInstance().setRollerSpeed(0);
 			}
-		}*/
+		}
 		
 		if(getIntakeArmMoveValue() != 0) {
 			if(IntakeArm.getInstance().getCurrentCommand() != null && !IntakeArm.getInstance().getCurrentCommand().getName().equals("IntakeArmJoystickCommand")) {
@@ -366,10 +360,10 @@ public class OI implements SmartDashboardSource, Periodic {
 			}
 		}
 		
-		/*if(getElevatorMoveValue() != 0) {
+		if(getElevatorMoveValue() != 0) {
 			if(Elevator.getInstance().getCurrentCommand() != null && !Elevator.getInstance().getCurrentCommand().getName().equals("ElevatorJoystickCommand")) {
 				NRCommand.cancelCommand(Elevator.getInstance().getCurrentCommand());
 			}
-		}*/
+		}
 	}
 }

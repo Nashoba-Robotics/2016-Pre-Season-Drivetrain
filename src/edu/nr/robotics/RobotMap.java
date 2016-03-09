@@ -66,6 +66,7 @@ public class RobotMap {
 	public static final int ELEVATOR_BOTTOM_POSITION = -1;
 	public static final int ELEVATOR_TOP_POSITION = -1;
 	public static final double ELEVATOR_THRESHOLD = -1;
+	public static final double ELEVATOR_UP_SPEED = 1;
 
 
 }

@@ -394,6 +394,8 @@ public class Robot extends RobotBase {
 		periodics.add(Drive.getInstance());
 		periodics.add(OI.getInstance());
 		periodics.add(Hood.getInstance());
+		periodics.add(IntakeArm.getInstance());
+		periodics.add(Elevator.getInstance());
 	}
 
 	/**
@@ -416,7 +418,6 @@ public class Robot extends RobotBase {
 		}
 		
 		periodics.forEach(Periodic::periodic);
-		OI.getInstance().periodic();
 		
 		FieldCentric.getInstance().update();
 		Scheduler.getInstance().run();

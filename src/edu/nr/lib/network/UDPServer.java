@@ -55,7 +55,7 @@ public class UDPServer implements Runnable, Periodic {
 				serverSocket.receive(receivePacket);
 				lastUpdateTime = System.currentTimeMillis();
 			} catch (IOException e) {
-				//System.err.println("Couldn't get a packet");
+				System.err.println("Couldn't get a packet");
 			}
 			String data = new String( receivePacket.getData() );
 			new UDPClient(data);
@@ -108,11 +108,10 @@ public class UDPServer implements Runnable, Periodic {
 
 	@Override
 	public void periodic() {
-		SmartDashboard.putNumber("Time since last packet", (System.currentTimeMillis() - lastUpdateTime)/1000.0);
+		SmartDashboard.putNumber("Time since last packet", (System.currentTimeMillis() - lastPrintTime)/1000.0);
 		SmartDashboard.putNumber("Dropped packet count", droppedPackets);
 		if(System.currentTimeMillis() - lastUpdateTime > 1000 && System.currentTimeMillis() - lastPrintTime > 300) {
 			lastPrintTime = System.currentTimeMillis();
-			//System.err.println("TIME SINCE LAST JETSON PACKET IS TOO MUCH!!!");
 		}
 	}
 }

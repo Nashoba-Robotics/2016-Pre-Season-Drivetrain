@@ -42,7 +42,6 @@ public class IntakeRoller extends Subsystem implements SmartDashboardSource {
 	}
 
     public void initDefaultCommand() {
-    	//setDefaultCommand(new IntakeRollerJoystickCommand());
     }
 
 	@Override
