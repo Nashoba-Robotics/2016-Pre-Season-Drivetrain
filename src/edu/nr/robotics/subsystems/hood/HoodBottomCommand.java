@@ -19,6 +19,7 @@ public class HoodBottomCommand extends CommandGroup {
         requires(Hood.getInstance());
 	}
 	
+	@Override
 	public boolean isFinished() {
 		return Hood.getInstance().isAtBottom();
 	}

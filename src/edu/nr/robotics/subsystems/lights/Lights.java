@@ -20,7 +20,8 @@ public class Lights extends Subsystem implements SmartDashboardSource {
 		lights.set(Relay.Value.kOff);
 	}
 
-    public void initDefaultCommand() {
+    @Override
+	public void initDefaultCommand() {
         setDefaultCommand(new LightsOffCommand());
     }
     

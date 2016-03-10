@@ -13,6 +13,7 @@ public class IntakeArmOffCommand extends NRCommand {
 		IntakeArm.getInstance().disable();
 	}
 	
+	@Override
 	public boolean isFinishedNR() {
 		return false;
 	}

@@ -14,11 +14,13 @@ public class LoaderRollerSpeedCommand extends NRCommand {
     	requires(LoaderRoller.getInstance());
     }
 
-    protected void onStart() {
+    @Override
+	protected void onStart() {
     	LoaderRoller.getInstance().setLoaderSpeed(val);
     }
     
-    public boolean isFinishedNR() {
+    @Override
+	public boolean isFinishedNR() {
     	return false;
     }
 }

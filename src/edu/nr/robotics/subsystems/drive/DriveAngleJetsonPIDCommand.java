@@ -32,7 +32,8 @@ public class DriveAngleJetsonPIDCommand extends NRCommand {
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void onExecute() {
+    @Override
+	protected void onExecute() {
     	if(canRun) {
     		SmartDashboard.putData("Jetson Angle PID", pid);
 	    	SmartDashboard.putNumber("Jetson Angle PID Error", pid.getError());
@@ -51,7 +52,8 @@ public class DriveAngleJetsonPIDCommand extends NRCommand {
     }
 
     // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinishedNR() {
+    @Override
+	protected boolean isFinishedNR() {
     	if(!canRun)
     		return true;
     	if(Math.abs(pid.getError()) < 0.5) {

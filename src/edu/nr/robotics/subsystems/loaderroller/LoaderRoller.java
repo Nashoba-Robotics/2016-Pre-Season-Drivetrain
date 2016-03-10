@@ -46,7 +46,8 @@ public class LoaderRoller extends Subsystem implements SmartDashboardSource {
 		talon.set(val);
 	}
 	
-    public void initDefaultCommand() {
+    @Override
+	public void initDefaultCommand() {
 		setDefaultCommand(new LoaderRollerJoystickCommand());
     }
 

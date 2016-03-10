@@ -16,8 +16,9 @@ public class RobotDiagram implements NamedSendable {
 	public RobotDiagram() {
 	}
 
-private ITable table;
+	private ITable table;
 
+	@Override
 	public void initTable(ITable table) {
 		this.table = table;
 		if (table != null) {

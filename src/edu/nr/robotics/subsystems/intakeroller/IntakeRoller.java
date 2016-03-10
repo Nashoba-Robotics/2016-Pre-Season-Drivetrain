@@ -41,7 +41,9 @@ public class IntakeRoller extends Subsystem implements SmartDashboardSource {
 		talon.set(value);	
 	}
 
-    public void initDefaultCommand() {
+    @Override
+	public void initDefaultCommand() {
+    	setDefaultCommand(new IntakeRollerNeutralCommand());
     }
 
 	@Override

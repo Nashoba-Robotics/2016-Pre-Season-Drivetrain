@@ -32,7 +32,8 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 		pid = new PID(421.8*0.015, 421.8*0.0002, 0.00, pot, talon);
 	}
 	
-    public void initDefaultCommand() {
+    @Override
+	public void initDefaultCommand() {
 		setDefaultCommand(new IntakeArmJoystickCommand());
 
     }

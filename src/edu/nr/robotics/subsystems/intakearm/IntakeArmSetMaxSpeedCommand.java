@@ -10,6 +10,7 @@ public class IntakeArmSetMaxSpeedCommand extends NRCommand {
 		this.maxSpeed = maxSpeed;
 	}
 	
+	@Override
 	public void onStart() {
 		IntakeArm.getInstance().setMaxSpeed(maxSpeed);
 	}

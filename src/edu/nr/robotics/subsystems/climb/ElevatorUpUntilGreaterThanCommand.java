@@ -1,12 +1,12 @@
 package edu.nr.robotics.subsystems.climb;
 
+import edu.nr.lib.NRCommand;
 import edu.nr.robotics.RobotMap;
-import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class ElevatorUpUntilGreaterThanCommand extends CommandGroup {
+public class ElevatorUpUntilGreaterThanCommand extends NRCommand {
     
    	double value;
 		
@@ -16,12 +16,14 @@ public class ElevatorUpUntilGreaterThanCommand extends CommandGroup {
     }
     
  // Called just before this Command runs the first time
-    protected void onStart() {
+    @Override
+	protected void onStart() {
     	Elevator.getInstance().setMotorValue(RobotMap.ELEVATOR_UP_SPEED);
     }
 
     // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinishedNR() {
+    @Override
+	protected boolean isFinishedNR() {
         return Elevator.getInstance().getEncoder() > value;
     }
 }

@@ -35,7 +35,8 @@ public class DriveAnglePIDCommand extends NRCommand {
 	}
 
 	// Called repeatedly when this Command is scheduled to run
-    protected void onExecute() {
+    @Override
+	protected void onExecute() {
     	SmartDashboard.putData("Angle PID", pid);
     	SmartDashboard.putNumber("Angle PID Error", pid.getError());
 		
@@ -52,7 +53,8 @@ public class DriveAnglePIDCommand extends NRCommand {
     }
 
     // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinishedNR() {
+    @Override
+	protected boolean isFinishedNR() {
     	if(Math.abs(pid.getError()) < 0.5) {
     		currentCount++;
     		if(currentCount > 3)

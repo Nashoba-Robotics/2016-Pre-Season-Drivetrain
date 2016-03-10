@@ -117,6 +117,7 @@ public class Position {
     	return this;
     }
 	
+	@Override
 	public Position clone() {
 		return new Position(x, y);
 	}

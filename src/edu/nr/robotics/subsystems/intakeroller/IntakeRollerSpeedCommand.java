@@ -15,11 +15,13 @@ public class IntakeRollerSpeedCommand extends NRCommand {
     }
 
     // Called just before this Command runs the first time
-    protected void onStart() {
+    @Override
+	protected void onStart() {
     	IntakeRoller.getInstance().setRollerSpeed(val);
     }
     
-    public boolean isFinishedNR() {
+    @Override
+	public boolean isFinishedNR() {
     	return false;
     }
 }

@@ -51,7 +51,8 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 		pid = new PID(0.75, 0.0001, 0, 1, shooterRate, talonOutput);
 	}
 	
-    public void initDefaultCommand() {
+    @Override
+	public void initDefaultCommand() {
     }
     
     public static Shooter getInstance() {

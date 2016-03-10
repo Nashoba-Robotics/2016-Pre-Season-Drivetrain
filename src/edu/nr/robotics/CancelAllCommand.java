@@ -23,6 +23,7 @@ public class CancelAllCommand extends NRCommand {
 		requires(IntakeRoller.getInstance());
 	}
 	
+	@Override
 	public void onStart() {
 		IntakeArm.getInstance().disable();
 		//Fix intake arm cancelling

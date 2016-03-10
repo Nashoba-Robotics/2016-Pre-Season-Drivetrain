@@ -67,7 +67,8 @@ public class Elevator extends Subsystem implements SmartDashboardSource, Periodi
 	}
 
 	
-    public void initDefaultCommand() {
+    @Override
+	public void initDefaultCommand() {
 		setDefaultCommand(new ElevatorJoystickCommand());
     }
 

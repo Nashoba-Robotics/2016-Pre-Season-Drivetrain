@@ -26,6 +26,7 @@ public class NavX implements BaseNavX, SmartDashboardSource {
 	 * @param unit the {@link AngleUnit} to return in
 	 * @return the yaw
 	 */
+	@Override
 	public double getYaw(AngleUnit unit) {
 		if (imu != null && imu.isConnected()) {
 			double currentYaw = imu.getYaw();
@@ -49,6 +50,7 @@ public class NavX implements BaseNavX, SmartDashboardSource {
 		return 0;
 	}
 	
+	@Override
 	public double getYawAbsolute(AngleUnit unit) {
 		if (imu != null && imu.isConnected()) {
 			float yaw = imu.getYaw();
@@ -67,6 +69,7 @@ public class NavX implements BaseNavX, SmartDashboardSource {
 	 * @param unit the {@link AngleUnit} to return in
 	 * @return the roll
 	 */
+	@Override
 	public double getRoll(AngleUnit unit) {
 		if (imu != null && imu.isConnected()) {
 			float roll = imu.getRoll();
@@ -85,6 +88,7 @@ public class NavX implements BaseNavX, SmartDashboardSource {
 	 * @param unit the {@link AngleUnit} to return in
 	 * @return the pitch
 	 */
+	@Override
 	public double getPitch(AngleUnit unit) {
 		if (imu != null && imu.isConnected()) {
 			if(unit == AngleUnit.DEGREE) {

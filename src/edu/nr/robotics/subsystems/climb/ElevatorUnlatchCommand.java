@@ -14,13 +14,15 @@ public class ElevatorUnlatchCommand extends NRCommand {
     }
 
     // Called just before this Command runs the first time
-    protected void onStart() {
+    @Override
+	protected void onStart() {
     	Elevator.getInstance().setMotorValue(-1);
     	startTime = System.currentTimeMillis();
     }
 
     // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinishedNR() {
+    @Override
+	protected boolean isFinishedNR() {
         return System.currentTimeMillis() - startTime > 1000;
     }
 }

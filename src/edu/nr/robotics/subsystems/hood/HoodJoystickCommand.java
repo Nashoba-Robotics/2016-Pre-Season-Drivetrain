@@ -19,16 +19,19 @@ public class HoodJoystickCommand extends NRCommand {
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void onExecute() {
+    @Override
+	protected void onExecute() {
     	Hood.getInstance().setMotor(OI.getInstance().getHoodMoveValue());
     }
 
     // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinishedNR() {
+    @Override
+	protected boolean isFinishedNR() {
         return false;
     }
     
-    protected void onEnd(boolean interrupted) {
+    @Override
+	protected void onEnd(boolean interrupted) {
     	Hood.getInstance().enable();
     }
 }

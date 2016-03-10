@@ -71,7 +71,8 @@ public class AlignCommandGroup extends CommandGroup {
     	SmartDashboard.putBoolean("Ready to shoot", false);
     }
     
-    public void start() {
+    @Override
+	public void start() {
     	System.out.println("Align just started");
     	super.start();
     }

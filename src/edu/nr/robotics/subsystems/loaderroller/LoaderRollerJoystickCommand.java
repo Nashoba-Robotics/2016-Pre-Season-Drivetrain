@@ -13,12 +13,14 @@ public class LoaderRollerJoystickCommand extends NRCommand {
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void onExecute() {
+    @Override
+	protected void onExecute() {
     	LoaderRoller.getInstance().setLoaderSpeed(OI.getInstance().getLoaderRollerMoveValue());
     }
 
     // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinishedNR() {
+    @Override
+	protected boolean isFinishedNR() {
         return false;
     }
 }

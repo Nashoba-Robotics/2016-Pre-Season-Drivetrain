@@ -13,12 +13,14 @@ public class ElevatorJoystickCommand extends NRCommand {
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void onExecute() {
+    @Override
+	protected void onExecute() {
     	Elevator.getInstance().setMotorValue(OI.getInstance().getElevatorMoveValue());
     }
 
     // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinishedNR() {
+    @Override
+	protected boolean isFinishedNR() {
         return false;
     }
 }

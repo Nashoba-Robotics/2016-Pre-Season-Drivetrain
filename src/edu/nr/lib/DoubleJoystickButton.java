@@ -15,6 +15,7 @@ public class DoubleJoystickButton extends Button {
 		m_buttonNumberTwo = buttonNumberTwo;
 	}
 	
+	@Override
 	public boolean get() {
 		return m_joystick.getRawButton(m_buttonNumberOne) && m_joystick.getRawButton(m_buttonNumberTwo);
 	}

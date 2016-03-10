@@ -46,12 +46,14 @@ public class AngleGyroCorrection extends GyroCorrection {
 		return getAngleErrorDegrees();
 	}
 	
+	@Override
 	public double getAngleErrorDegrees()
 	{
 		//Error is just based off initial angle
     	return (navx.getYaw(unit) - initialAngle) + goalAngle;
 	}
 	
+	@Override
 	public void reset()
 	{
 		initialAngle = navx.getYaw(unit);

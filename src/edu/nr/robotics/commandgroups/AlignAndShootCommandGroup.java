@@ -15,7 +15,8 @@ public class AlignAndShootCommandGroup extends CommandGroup {
     	addSequential(new LaserCannonTriggerCommand());
     }
     
-    public void end() {
+    @Override
+	public void end() {
     	Shooter.getInstance().setSetpoint(0);
     }
 }

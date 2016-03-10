@@ -50,7 +50,9 @@ public class NRCommand extends Command {
 	 * @param interrupted
 	 *            True if the command was interrupted
 	 */
-	protected void onEnd(boolean interrupted) {}
+	protected void onEnd(boolean interrupted) {onEnd();}
+	
+	protected void onEnd() {}
 
 	@Override
 	protected void initialize() {
