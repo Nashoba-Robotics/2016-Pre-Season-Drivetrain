@@ -3,7 +3,6 @@ package edu.nr.lib.navx;
 import edu.nr.lib.AngleUnit;
 import edu.nr.lib.SmartDashboardSource;
 import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class NavX implements BaseNavX, SmartDashboardSource {
@@ -12,15 +11,11 @@ public class NavX implements BaseNavX, SmartDashboardSource {
 	private IMUAdvanced imu;
 
 	protected NavX() {
-		try {
-			serial_port = new SerialPort(57600, SerialPort.Port.kMXP);
+		serial_port = new SerialPort(57600, SerialPort.Port.kMXP);
 
-			byte update_rate_hz = 100;
-			// imu = new IMU(serial_port,update_rate_hz);
-			imu = new IMUAdvanced(serial_port, update_rate_hz);
-		} catch (Exception e) {
-			System.out.println("ERROR: An error occured while initializing the MXP Board");
-		}
+		byte update_rate_hz = 100;
+		// imu = new IMU(serial_port,update_rate_hz);
+		imu = new IMUAdvanced(serial_port, update_rate_hz);
 	}
 
 	int fullRotationCount = 0;

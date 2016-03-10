@@ -1,7 +1,6 @@
 package edu.nr.robotics.subsystems.climb;
 
 import edu.nr.robotics.RobotMap;
-import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**

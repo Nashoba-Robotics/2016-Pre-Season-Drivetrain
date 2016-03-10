@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import edu.nr.lib.*;
 import edu.nr.lib.interfaces.Periodic;
 import edu.nr.lib.navx.NavX;
-import edu.nr.lib.network.UDPClient;
 import edu.nr.lib.network.UDPServer;
 import edu.nr.robotics.auton.*;
 import edu.nr.robotics.auton.AutonOverAlignShootCommandGroup.Positions;
@@ -13,22 +12,18 @@ import edu.nr.robotics.commandgroups.AlignAndShootCommandGroup;
 import edu.nr.robotics.commandgroups.AlignCommandGroup;
 import edu.nr.robotics.commandgroups.AutoGuillotineCommandGroup;
 import edu.nr.robotics.commandgroups.AutoShovelOfFriesCommandGroup;
-import edu.nr.robotics.commandgroups.AlignCommandGroup.State;
 import edu.nr.robotics.subsystems.climb.Elevator;
 import edu.nr.robotics.subsystems.drive.Drive;
 import edu.nr.robotics.subsystems.drive.DriveAngleJetsonPIDCommand;
 import edu.nr.robotics.subsystems.drive.DriveAnglePIDCommand;
 import edu.nr.robotics.subsystems.drive.DriveDistanceCommand;
 import edu.nr.robotics.subsystems.drive.DrivePulseCommand;
-import edu.nr.robotics.subsystems.drive.DriveResetEncodersCommand;
-import edu.nr.robotics.subsystems.drive.DriveSimpleDistanceCommand;
 import edu.nr.robotics.subsystems.drive.DriveSmartDashboardCommand;
+import edu.nr.robotics.subsystems.drive.FieldCentric;
 import edu.nr.robotics.subsystems.hood.Hood;
-import edu.nr.robotics.subsystems.hood.HoodBottomCommand;
 import edu.nr.robotics.subsystems.hood.HoodJetsonPositionCommand;
 import edu.nr.robotics.subsystems.hood.HoodMoveDownUntilLimitSwitchCommand;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;
-import edu.nr.robotics.subsystems.intakearm.IntakeArmMoveDownUntilLimitSwitchCommand;
 import edu.nr.robotics.subsystems.intakeroller.IntakeRoller;
 import edu.nr.robotics.subsystems.lights.Lights;
 import edu.nr.robotics.subsystems.loaderroller.LaserCannonTriggerCommand;
@@ -80,9 +75,9 @@ public class Robot extends RobotBase {
 	public SendableChooser autoCommandPickerFive;
 	public SendableChooser autoCommandPickerSix;
 
-	public static ArrayList<Subsystem> subsystems = new ArrayList<Subsystem>();
-	public static ArrayList<SmartDashboardSource> smartDashboardSources = new ArrayList<SmartDashboardSource>();
-	public static ArrayList<Periodic> periodics = new ArrayList<Periodic>();
+	public ArrayList<Subsystem> subsystems = new ArrayList<Subsystem>();
+	public ArrayList<SmartDashboardSource> smartDashboardSources = new ArrayList<SmartDashboardSource>();
+	public ArrayList<Periodic> periodics = new ArrayList<Periodic>();
 	
 	private boolean m_disabledInitialized;
 	private boolean m_autonomousInitialized;
@@ -141,7 +136,7 @@ public class Robot extends RobotBase {
 				// from either a different mode or from power-on
 				if (!m_disabledInitialized) {
 					LiveWindow.setEnabled(false);
-					initialize(Mode.DISABLED);
+					initialize();
 					m_disabledInitialized = true;
 					// reset the initialization flags for the other modes
 					m_autonomousInitialized = false;
@@ -149,20 +144,18 @@ public class Robot extends RobotBase {
 					m_testInitialized = false;
 				}
 				FRCNetworkCommunicationsLibrary.FRCNetworkCommunicationObserveUserProgramDisabled();
-				periodic(Mode.DISABLED);
 			} else if (isTest()) {
 				// call TestInit() if we are now just entering test mode from
 				// either a different mode or from power-on
 				if (!m_testInitialized) {
 					LiveWindow.setEnabled(true);
-					initialize(Mode.TEST);
+					initialize();
 					m_testInitialized = true;
 					m_autonomousInitialized = false;
 					m_teleopInitialized = false;
 					m_disabledInitialized = false;
 				}
 				FRCNetworkCommunicationsLibrary.FRCNetworkCommunicationObserveUserProgramTest();
-				periodic(Mode.TEST);
 			} else if (isAutonomous()) {
 				// call Autonomous_Init() if this is the first time
 				// we've entered autonomous_mode
@@ -170,14 +163,13 @@ public class Robot extends RobotBase {
 					LiveWindow.setEnabled(false);
 					autonomousCommand = (Command) autoCommandChooser.getSelected();
 					autonomousCommand.start();
-					initialize(Mode.AUTONOMOUS);
+					initialize();
 					m_autonomousInitialized = true;
 					m_testInitialized = false;
 					m_teleopInitialized = false;
 					m_disabledInitialized = false;
 				}
 				FRCNetworkCommunicationsLibrary.FRCNetworkCommunicationObserveUserProgramAutonomous();
-				periodic(Mode.AUTONOMOUS);
 			} else {
 				// call Teleop_Init() if this is the first time
 				// we've entered teleop_mode
@@ -189,15 +181,15 @@ public class Robot extends RobotBase {
 						autonomousCommand.cancel();
 					}
 
-					initialize(Mode.TELEOP);
+					initialize();
 					m_teleopInitialized = true;
 					m_testInitialized = false;
 					m_autonomousInitialized = false;
 					m_disabledInitialized = false;
 				}
 				FRCNetworkCommunicationsLibrary.FRCNetworkCommunicationObserveUserProgramTeleop();
-				periodic(Mode.TELEOP);
 			}
+			periodic();
 		}
 	}
 	
@@ -206,14 +198,11 @@ public class Robot extends RobotBase {
 	 * used for any initialization code.
 	 */
 	private void robotInit() {
-		new UDPClient("Robot init");
-
 		initCamera();
 		initSubsystems();
 		initSmartDashboard();
 		initServer();
 		robotDiagram = new RobotDiagram();
-
 	}
 	
 	private void initServer() {
@@ -347,7 +336,7 @@ public class Robot extends RobotBase {
 
 	}
 	
-	private void initCamera() {
+	private static void initCamera() {
 		CameraServer server = CameraServer.getInstance();
 		server.setQuality(50);
 		// the camera name (ex "cam0") can be found through the roborio web interface
@@ -401,11 +390,8 @@ public class Robot extends RobotBase {
 	/**
 	 * A generic periodic function that is called by the periodic functions for
 	 * the specific modes
-	 * 
-	 * @param mode
-	 *            The name of the mode that is currently occuring
 	 */
-	private void periodic(Mode mode) {
+	private void periodic() {
 		SmartDashboard.putBoolean("Banner 1", IntakeRoller.getInstance().hasBall());
 		SmartDashboard.putBoolean("Banner 2", LoaderRoller.getInstance().hasBall());
 		SmartDashboard.putBoolean("Banner 3", Shooter.getInstance().hasBall());	
@@ -431,19 +417,14 @@ public class Robot extends RobotBase {
 	/**
 	 * A generic initialization function that is called by the periodic
 	 * functions for the specific modes
-	 * 
-	 * @param mode
-	 *            The name of the mode that just started
 	 */
-	private void initialize(Mode mode) {
-		currentMode = mode;
-		if(mode == Mode.TELEOP) {
+	private void initialize() {
+		if(isOperatorControl()) {
 			if(!doneFirstTime) {
 				new HoodMoveDownUntilLimitSwitchCommand().start();
-				//new IntakeArmMoveDownUntilLimitSwitchCommand().start();
 				doneFirstTime = true;
 			}
-		} else if (mode == Mode.AUTONOMOUS ) {
+		} else if (isDisabled()) {
 			IntakeArm.getInstance().disable();
 			//Fix intake arm cancelling
 			IntakeRoller.getInstance().setRollerSpeed(0);

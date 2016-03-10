@@ -53,27 +53,24 @@ public class TestNavX implements BaseNavX {
 	public double getRoll(AngleUnit unit) {
 		if(unit == AngleUnit.RADIAN) {
 			return Math.toRadians(roll);
-		} else {
-			return roll;
 		}
+		return roll;
 	}
 	
 	@Override
 	public double getPitch(AngleUnit unit) {
 		if(unit == AngleUnit.RADIAN) {
 			return Math.toRadians(pitch);
-		} else {
-			return pitch;
 		}
+		return pitch;
 	}
 	
 	@Override
 	public double getYaw(AngleUnit unit) {
 		if(unit == AngleUnit.RADIAN) {
 			return Math.toRadians(yaw);
-		} else {
-			return yaw;
 		}
+		return yaw;
 	}
 	
 	@Override

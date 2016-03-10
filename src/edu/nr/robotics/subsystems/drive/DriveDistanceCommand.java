@@ -84,11 +84,6 @@ public class DriveDistanceCommand extends NRCommand implements PIDOutput
 		totalDistance = value;
 	}
 
-	protected void resetEncoderSource()
-	{
-		Drive.getInstance().resetEncoders();
-	}
-
 	@Override
 	protected void onExecute()
 	{
@@ -116,10 +111,7 @@ public class DriveDistanceCommand extends NRCommand implements PIDOutput
 		{
 			return (Math.signum(pid.getError()) != usualErrorSign) || (Math.abs(pid.getError()) < roughStopDistance);
 		}
-		else
-		{
-			return Math.abs(pid.getError()) < 2d/12;
-		}
+		return Math.abs(pid.getError()) < 2d/12;
 	}
 
 	@Override

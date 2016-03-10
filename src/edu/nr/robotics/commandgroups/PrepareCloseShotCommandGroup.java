@@ -1,6 +1,5 @@
 package edu.nr.robotics.commandgroups;
 
-import edu.nr.robotics.OI;
 import edu.nr.robotics.RobotMap;
 import edu.nr.robotics.subsystems.hood.HoodPositionCommand;
 import edu.nr.robotics.subsystems.intakearm.IntakeArmBottomHeightCommandGroup;

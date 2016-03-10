@@ -2,15 +2,10 @@ package edu.nr.robotics.auton;
 
 import edu.nr.lib.network.JetsonImagePacket;
 import edu.nr.lib.network.UDPServer;
-import edu.nr.robotics.OI;
 import edu.nr.robotics.RobotMap;
 import edu.nr.robotics.commandgroups.AlignSubcommandGroup;
-import edu.nr.robotics.subsystems.drive.DriveAngleJetsonPIDCommand;
 import edu.nr.robotics.subsystems.hood.Hood;
-import edu.nr.robotics.subsystems.hood.HoodJetsonPositionCommand;
-import edu.nr.robotics.subsystems.lights.LightsBlinkCommand;
 import edu.nr.robotics.subsystems.shooter.Shooter;
-import edu.nr.robotics.subsystems.shooter.ShooterHighCommand;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 

@@ -6,7 +6,6 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 
 import edu.nr.lib.interfaces.Periodic;
-import edu.nr.robotics.subsystems.hood.Hood;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class UDPServer implements Runnable, Periodic {
@@ -56,9 +55,9 @@ public class UDPServer implements Runnable, Periodic {
 				lastUpdateTime = System.currentTimeMillis();
 			} catch (IOException e) {
 				System.err.println("Couldn't get a packet");
+				e.printStackTrace();
 			}
 			String data = new String( receivePacket.getData() );
-			new UDPClient(data);
 			//System.out.println("Received: " + data);
 			int x = data.indexOf(delimiter1);
 			int p = data.indexOf(delimiter2);
@@ -80,7 +79,7 @@ public class UDPServer implements Runnable, Periodic {
 			    	final double distance = Double.valueOf(left);
 			    	final double turnAngle = Double.valueOf(right);
 	
-				    final double hoodAngle = Hood.distanceToAngle(distance);
+				    final double hoodAngle = distanceToAngle(distance);
 			    					    
 				    synchronized(lock) {
 				    	lastPacket = new JetsonImagePacket(hoodAngle, turnAngle, lastCount);
@@ -113,5 +112,15 @@ public class UDPServer implements Runnable, Periodic {
 		if(System.currentTimeMillis() - lastUpdateTime > 1000 && System.currentTimeMillis() - lastPrintTime > 300) {
 			lastPrintTime = System.currentTimeMillis();
 		}
+	}
+	
+	//Note: the two angle/distance functions aren't inverses of each other
+	//The distanceToAngle is more accurate, but the inverse of it is hard to calculate
+	public static double distanceToAngle(double distance) {
+		return  0.0095*Math.pow(distance, 3) - 0.4725*Math.pow(distance, 2) + 8.2134*Math.pow(distance, 1) + 9.1025;
+	}
+
+	public static double angleToDistance(double angle) {
+		return 0.334902 * Math.exp(0.0657678 * angle);
 	}
 }

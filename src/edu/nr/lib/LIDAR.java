@@ -1,5 +1,5 @@
 package edu.nr.lib;
-import edu.nr.lib.network.UDPClient;
+
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -60,8 +60,7 @@ public class LIDAR
 		
 		if(sumCount != 0)
 			return sum/sumCount;
-		else
-			return 0;
+		return 0;
 	}
 
 	// Start polling
@@ -72,9 +71,6 @@ public class LIDAR
 		
 		if(!updater.isAlive() && !updater.isInterrupted())
 			updater.start();
-		
-		new UDPClient("Lidar started");
-
 	}
 	
 	// Start polling for period in milliseconds
@@ -148,13 +144,13 @@ public class LIDAR
 			while(true)
 			{
 				update();
-				new UDPClient("Lidar: " + getDistanceCentimeters());
 				try 
 				{
 					Thread.sleep(period);
 				} 
 				catch (InterruptedException e)
 				{
+					e.printStackTrace();
 					break;
 				}
 			}

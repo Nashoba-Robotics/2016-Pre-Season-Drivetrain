@@ -35,10 +35,9 @@ private ITable table;
 			} catch (NullPointerException e) {
 				System.out.println("Couldn't get Hood Angle from Jetson for Robot Digram");
 				
-				
 				table.putBoolean("Hood at Threshold", false);
 			}
-			table.putNumber("Shot distance at angle", Hood.angleToDistance(Hood.getInstance().get()));
+			table.putNumber("Shot distance at angle", UDPServer.angleToDistance(Hood.getInstance().get()));
 			
 			//Intake Arm
 			table.putBoolean("Intake Top Stop", IntakeArm.getInstance().get() > RobotMap.INTAKE_TOP_POS + RobotMap.INTAKE_ARM_THRESHOLD);

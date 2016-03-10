@@ -21,8 +21,7 @@ public class EncoderPIDSource implements PIDSource {
 	public double pidGet() {
 		if(pidType == PIDSourceType.kDisplacement)
 			return Drive.getInstance().getEncoderAverageDistance();
-		else
-			return Drive.getInstance().getEncoderAverageSpeed();
+		return Drive.getInstance().getEncoderAverageSpeed();
 	}
 
 }

@@ -35,8 +35,7 @@ public class CounterPIDSource extends Counter implements PIDSource {
 	public double pidGet() {
 		if(PIDtype == PIDSourceType.kRate)
 			return getRate()/scale * (inverted ? -1 : 1);
-		else
-			return getDistance();
+		return getDistance();
 	}
 
 	public void scale(double scaleVal) {

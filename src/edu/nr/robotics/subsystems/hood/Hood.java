@@ -5,7 +5,6 @@ import edu.nr.lib.SmartDashboardSource;
 import edu.nr.lib.TalonEncoder;
 import edu.nr.lib.interfaces.Periodic;
 import edu.nr.robotics.RobotMap;
-import edu.nr.robotics.subsystems.loaderroller.LoaderRollerJoystickCommand;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -126,17 +125,6 @@ public class Hood extends Subsystem implements SmartDashboardSource, Periodic {
 	public boolean getMoving() {
 		return Math.abs(pid.getError()) > 0.05;
 		//0.05 is a number I just made up
-	}
-	
-	
-	//Note: the two angle/distance functions aren't inverses of each other
-	//The distanceToAngle is more accurate, but the inverse of it is hard to calculate
-	public static double distanceToAngle(double distance) {
-		return  0.0095*Math.pow(distance, 3) - 0.4725*Math.pow(distance, 2) + 8.2134*Math.pow(distance, 1) + 9.1025;
-	}
-
-	public static double angleToDistance(double angle) {
-		return 0.334902 * Math.exp(0.0657678 * angle);
 	}
 	
 	public void setMaxSpeedPID(double speed) {

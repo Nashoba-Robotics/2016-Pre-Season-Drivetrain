@@ -1,5 +1,6 @@
-package edu.nr.lib;
+package edu.nr.robotics;
 
+import edu.nr.lib.NRCommand;
 import edu.nr.robotics.subsystems.climb.Elevator;
 import edu.nr.robotics.subsystems.drive.Drive;
 import edu.nr.robotics.subsystems.hood.Hood;

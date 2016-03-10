@@ -2,7 +2,6 @@ package edu.nr.robotics.subsystems.loaderroller;
 
 import edu.nr.lib.NRCommand;
 import edu.nr.robotics.subsystems.intakeroller.IntakeRoller;
-import edu.wpi.first.wpilibj.command.Command;
 
 public class LoaderRollerIntakeUntilPhotoCommand extends NRCommand {
 

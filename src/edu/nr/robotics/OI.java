@@ -1,7 +1,5 @@
 package edu.nr.robotics;
 
-import edu.nr.lib.AngleUnit;
-import edu.nr.lib.CancelAllCommand;
 import edu.nr.lib.DoubleJoystickButton;
 import edu.nr.lib.NRCommand;
 import edu.nr.lib.SmartDashboardSource;
@@ -34,7 +32,7 @@ public class OI implements SmartDashboardSource, Periodic {
 
 	public double speedMultiplier = 1;
 
-	private final double JOYSTICK_DEAD_ZONE = 0.15;
+	private final static double JOYSTICK_DEAD_ZONE = 0.15;
 
 	public double gyroValueforPlayerStation = 0;
 
@@ -256,7 +254,7 @@ public class OI implements SmartDashboardSource, Periodic {
 		return snapDriveJoysticks(driveRight.getY());
 	}
 	
-	private double snapDriveJoysticks(double value) {
+	private static double snapDriveJoysticks(double value) {
 		if (Math.abs(value) < JOYSTICK_DEAD_ZONE) {
 			value = 0;
 		} else if (value > 0) {
@@ -269,7 +267,7 @@ public class OI implements SmartDashboardSource, Periodic {
 		return value;
 	}
 	
-	private double snapCoffinJoysticks(double value)
+	private static double snapCoffinJoysticks(double value)
 	{
 		if(value > -0.3 && value < 0.3)
 			return 0;

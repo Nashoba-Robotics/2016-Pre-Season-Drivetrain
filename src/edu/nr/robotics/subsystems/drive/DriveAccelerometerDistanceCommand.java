@@ -2,7 +2,6 @@ package edu.nr.robotics.subsystems.drive;
 
 import edu.nr.lib.NRCommand;
 import edu.nr.lib.navx.NavX;
-import edu.nr.lib.FieldCentric;
 
 /**
  *

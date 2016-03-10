@@ -14,7 +14,7 @@ public class AngleGyroCorrection extends GyroCorrection {
 	
 	public AngleGyroCorrection(double angle, BaseNavX navx, AngleUnit unit) {
 		if(navx == null) {
-			this.navx = NavX.getInstance();
+			navx = NavX.getInstance();
 		}
 		this.navx = navx;
 		goalAngle = angle;

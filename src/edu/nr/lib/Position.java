@@ -85,15 +85,15 @@ public class Position {
     }
     
     /**
-     * Gets the current angle in radians
+     * Gets the current angle
+     * @param unit the AngleUnit to return in
      * @return the angle in radians
      */
     public double getAngle(AngleUnit unit) {
         if(unit == AngleUnit.RADIAN) {
         	return Math.atan2(y, x);
-        } else {
-        	return Math.toDegrees(Math.atan2(y, x));
         }
+    	return Math.toDegrees(Math.atan2(y, x));
     }
 
     /**

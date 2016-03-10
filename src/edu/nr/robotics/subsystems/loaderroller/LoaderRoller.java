@@ -1,13 +1,9 @@
 package edu.nr.robotics.subsystems.loaderroller;
 
 import edu.nr.lib.SmartDashboardSource;
-import edu.nr.lib.TalonEncoder;
 import edu.nr.robotics.RobotMap;
-import edu.nr.robotics.subsystems.drive.DriveJoystickCommand;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 

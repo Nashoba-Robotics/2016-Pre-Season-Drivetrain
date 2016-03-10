@@ -167,7 +167,7 @@ public class IMUAdvanced extends IMU {
 		world_linear_acceleration_recent_avg = (float) 0.0;
 	}
 
-	private void updateWorldLinearAccelHistory(float x, float y, float z) {
+	private void updateWorldLinearAccelHistory(float x, float y) {
 		if (next_world_linear_accel_history_index >= WORLD_LINEAR_ACCEL_HISTORY_LENGTH) {
 			next_world_linear_accel_history_index = 0;
 		}
@@ -318,8 +318,7 @@ public class IMUAdvanced extends IMU {
 			world_linear_acceleration_y = q_final[2];
 			world_linear_acceleration_z = q_final[3];
 
-			updateWorldLinearAccelHistory(world_linear_acceleration_x, world_linear_acceleration_y,
-					world_linear_acceleration_z);
+			updateWorldLinearAccelHistory(world_linear_acceleration_x, world_linear_acceleration_y);
 
 			// Calculate tilt-compensated compass heading
 

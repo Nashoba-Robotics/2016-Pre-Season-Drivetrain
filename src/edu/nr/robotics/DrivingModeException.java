@@ -2,6 +2,10 @@ package edu.nr.robotics;
 
 public class DrivingModeException extends Exception {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private DrivingMode mode;
 	
 	public DrivingModeException (DrivingMode mode) {
