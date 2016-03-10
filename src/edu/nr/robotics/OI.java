@@ -2,8 +2,8 @@ package edu.nr.robotics;
 
 import edu.nr.lib.DoubleJoystickButton;
 import edu.nr.lib.NRCommand;
-import edu.nr.lib.SmartDashboardSource;
 import edu.nr.lib.interfaces.Periodic;
+import edu.nr.lib.interfaces.SmartDashboardSource;
 import edu.nr.robotics.commandgroups.*;
 import edu.nr.robotics.subsystems.climb.*;
 import edu.nr.robotics.subsystems.drive.*;

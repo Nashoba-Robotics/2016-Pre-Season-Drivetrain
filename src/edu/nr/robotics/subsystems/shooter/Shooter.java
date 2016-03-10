@@ -2,7 +2,7 @@ package edu.nr.robotics.subsystems.shooter;
 
 import edu.nr.lib.CounterPIDSource;
 import edu.nr.lib.PID;
-import edu.nr.lib.SmartDashboardSource;
+import edu.nr.lib.interfaces.SmartDashboardSource;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.PIDSourceType;

@@ -2,7 +2,7 @@ package edu.nr.robotics.subsystems.drive;
 
 import edu.nr.lib.AngleUnit;
 import edu.nr.lib.Position;
-import edu.nr.lib.SmartDashboardSource;
+import edu.nr.lib.interfaces.SmartDashboardSource;
 import edu.nr.lib.navx.NavX;
 
 public class FieldCentric implements SmartDashboardSource {

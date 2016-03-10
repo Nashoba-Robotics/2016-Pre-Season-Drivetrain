@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import edu.nr.lib.*;
 import edu.nr.lib.interfaces.Periodic;
+import edu.nr.lib.interfaces.SmartDashboardSource;
 import edu.nr.lib.navx.NavX;
 import edu.nr.lib.network.UDPServer;
 import edu.nr.robotics.auton.*;

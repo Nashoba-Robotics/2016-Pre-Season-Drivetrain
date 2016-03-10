@@ -1,9 +1,9 @@
 package edu.nr.robotics.subsystems.climb;
 
 import edu.nr.lib.NRMath;
-import edu.nr.lib.SmartDashboardSource;
 import edu.nr.lib.TalonEncoder;
 import edu.nr.lib.interfaces.Periodic;
+import edu.nr.lib.interfaces.SmartDashboardSource;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Subsystem;

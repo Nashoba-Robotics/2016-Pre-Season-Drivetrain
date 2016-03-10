@@ -1,8 +1,8 @@
 package edu.nr.robotics.subsystems.intakearm;
 
 import edu.nr.lib.PID;
-import edu.nr.lib.SmartDashboardSource;
 import edu.nr.lib.interfaces.Periodic;
+import edu.nr.lib.interfaces.SmartDashboardSource;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;

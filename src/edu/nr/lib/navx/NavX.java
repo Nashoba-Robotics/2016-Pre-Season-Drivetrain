@@ -1,7 +1,7 @@
 package edu.nr.lib.navx;
 
 import edu.nr.lib.AngleUnit;
-import edu.nr.lib.SmartDashboardSource;
+import edu.nr.lib.interfaces.SmartDashboardSource;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
