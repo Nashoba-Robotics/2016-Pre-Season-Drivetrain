@@ -61,7 +61,7 @@ public class DriveJoystickCommand extends NRCommand {
 
 	    	}
 			
-			double negInertia = rotateValue - oldTurn;
+			/*double negInertia = rotateValue - oldTurn;
 
 			// Negative inertia!
 			double negInertiaScalar;
@@ -76,7 +76,7 @@ public class DriveJoystickCommand extends NRCommand {
 				}
 			}
 
-			rotateValue = rotateValue + negInertia * negInertiaScalar;
+			rotateValue = rotateValue + negInertia * negInertiaScalar;*/
 
 			Drive.getInstance().arcadeDrive(moveValue,rotateValue,true);
 

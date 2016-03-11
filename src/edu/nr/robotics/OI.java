@@ -269,10 +269,10 @@ public class OI implements SmartDashboardSource, Periodic {
 	
 	private static double snapCoffinJoysticks(double value)
 	{
-		if(value > -0.3 && value < 0.3)
+		if(value > -0.5 && value < 0.5)
 			return 0;
 		
-		return (value-0.3) / 0.9;
+		return (value-0.5) / 0.9;
 	}
 
 	public double getRawMove() {

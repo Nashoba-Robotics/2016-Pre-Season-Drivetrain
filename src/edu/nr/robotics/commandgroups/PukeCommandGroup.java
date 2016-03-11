@@ -16,8 +16,8 @@ public class PukeCommandGroup extends CommandGroup {
 	double oldRampRate;
 	
     public  PukeCommandGroup() {
+        addSequential(new WaitCommand(0.25));
         addParallel(new IntakeArmPositionCommand(RobotMap.INTAKE_INTAKE_POS));
-        addSequential(new WaitCommand(1));
         addParallel(new ShooterReverseCommand());
         addParallel(new LoaderRollerOuttakeCommand());
         addParallel(new IntakeRollerOuttakeCommand());

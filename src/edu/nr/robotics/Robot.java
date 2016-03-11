@@ -410,7 +410,6 @@ public class Robot extends RobotBase {
 		Scheduler.getInstance().run();
 
 		smartDashboardSources.forEach(SmartDashboardSource::smartDashboardInfo);
-		SmartDashboard.putNumber("Joystick turn value", OI.getInstance().getArcadeTurnValue());
 		
 		SmartDashboard.putData(robotDiagram);
 	}

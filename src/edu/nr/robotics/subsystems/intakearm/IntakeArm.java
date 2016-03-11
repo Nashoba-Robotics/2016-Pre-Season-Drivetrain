@@ -29,7 +29,7 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 		talon.setInverted(true);
 		pot = new AnalogPotentiometer(RobotMap.INTAKE_ARM_POT);
 		pot.setPIDSourceType(PIDSourceType.kDisplacement);
-		pid = new PID(421.8*0.015, 421.8*0.0002, 0.00, pot, talon);
+		pid = new PID(421.8*0.1, 421.8*0.0001, 0.00, pot, talon);
 	}
 	
     @Override
@@ -55,7 +55,7 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	 */
 	public void setMotor(double speed) {
 		if(pid.isEnable())
-			//pid.disable();
+			pid.disable();
 		talon.set(speed);
 	}
 	
@@ -88,7 +88,7 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	 */
 	public void disable() {
 		pidDisabled = true;
-		//pid.disable();
+		pid.disable();
 	}
 	
 	/**
@@ -114,6 +114,7 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 		SmartDashboard.putBoolean("Intake Arm bot limit switch", isBotLimitSwitchClosed());
 		SmartDashboard.putBoolean("Intake Arm top limit switch", isTopLimitSwitchClosed());
 		SmartDashboard.putData("Intake Arm PID", pid);
+		SmartDashboard.putNumber("Intake Arm Error", pid.getError());
 		SmartDashboard.putNumber("Intake arm pid output", pid.get());
 		
 	}
@@ -132,9 +133,13 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 
 	@Override
 	public void periodic() {
-		if(Math.abs(pid.getError()) < 0.005) {
+		if(Math.abs(pid.getError()) < 0.002) {
 			pid.disable();
 		}
+	}
+
+	public double getError() {
+		return pid.getError();
 	}
 }
 

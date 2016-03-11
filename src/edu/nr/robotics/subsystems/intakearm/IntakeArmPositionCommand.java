@@ -25,6 +25,6 @@ public class IntakeArmPositionCommand extends NRCommand {
 	@Override
 	protected boolean isFinishedNR() {
 		System.err.println("val " + ((IntakeArm.getInstance().get() - val) < RobotMap.INTAKE_ARM_THRESHOLD));
-		return Math.abs(IntakeArm.getInstance().get() - val) < RobotMap.INTAKE_ARM_THRESHOLD;
+		return Math.abs(IntakeArm.getInstance().getError()) < RobotMap.INTAKE_ARM_THRESHOLD;
 	}
 }
