@@ -13,7 +13,6 @@ import edu.nr.lib.navx.NavX;
 import edu.nr.lib.network.UDPServer;
 import edu.nr.robotics.auton.*;
 import edu.nr.robotics.auton.AutonOverAlignShootCommandGroup.Positions;
-import edu.nr.robotics.commandgroups.AlignAndShootCommandGroup;
 import edu.nr.robotics.commandgroups.AlignCommandGroup;
 import edu.nr.robotics.commandgroups.AutoGuillotineCommandGroup;
 import edu.nr.robotics.commandgroups.AutoShovelOfFriesCommandGroup;
@@ -222,7 +221,7 @@ public class Robot extends RobotBase {
 		autoCommandPickerOne.addObject("Drive onto obstacle134", new DriveDistanceCommand(RobotMap.ONTO_DISTANCE_134, 1.0));
 		autoCommandPickerOne.addObject("Auto Guillotine", new AutoGuillotineCommandGroup());
 		autoCommandPickerOne.addObject("Auto Shovel of Fries", new AutoShovelOfFriesCommandGroup());
-		autoCommandPickerOne.addObject("Align and shoot", new AlignAndShootCommandGroup());
+		autoCommandPickerOne.addObject("Align and shoot", new AutonAlignCommand());
 		autoCommandPickerOne.addObject("Return to normal (front)", new AutonReturnToNormalFrontCommandGroup());
 		autoCommandPickerOne.addObject("Return to normal (back)", new AutonReturnToNormalBackCommandGroup());
 		autoCommandPickerOne.addObject("Rotate 180", new DriveAnglePIDCommand(180, AngleUnit.DEGREE));
@@ -236,7 +235,7 @@ public class Robot extends RobotBase {
 		autoCommandPickerTwo.addObject("Drive onto obstacle134", new DriveDistanceCommand(RobotMap.ONTO_DISTANCE_134, 1.0));
 		autoCommandPickerTwo.addObject("Auto Guillotine", new AutoGuillotineCommandGroup());
 		autoCommandPickerTwo.addObject("Auto Shovel of Fries", new AutoShovelOfFriesCommandGroup());
-		autoCommandPickerTwo.addObject("Align and shoot", new AlignAndShootCommandGroup());
+		autoCommandPickerTwo.addObject("Align and shoot", new AutonAlignCommand());
 		autoCommandPickerTwo.addObject("Return to normal (front)", new AutonReturnToNormalFrontCommandGroup());
 		autoCommandPickerTwo.addObject("Return to normal (back)", new AutonReturnToNormalBackCommandGroup());
 		autoCommandPickerOne.addObject("Rotate 180", new DriveAnglePIDCommand(180, AngleUnit.DEGREE));
@@ -250,7 +249,7 @@ public class Robot extends RobotBase {
 		autoCommandPickerThree.addObject("Drive onto obstacle134", new DriveDistanceCommand(RobotMap.ONTO_DISTANCE_134, 1.0));
 		autoCommandPickerThree.addObject("Auto Guillotine", new AutoGuillotineCommandGroup());
 		autoCommandPickerThree.addObject("Auto Shovel of Fries", new AutoShovelOfFriesCommandGroup());
-		autoCommandPickerThree.addObject("Align and shoot", new AlignAndShootCommandGroup());
+		autoCommandPickerThree.addObject("Align and shoot", new AutonAlignCommand());
 		autoCommandPickerThree.addObject("Return to normal (front)", new AutonReturnToNormalFrontCommandGroup());
 		autoCommandPickerThree.addObject("Return to normal (back)", new AutonReturnToNormalBackCommandGroup());
 		autoCommandPickerThree.addObject("Rotate 180", new DriveAnglePIDCommand(180, AngleUnit.DEGREE));
@@ -264,7 +263,7 @@ public class Robot extends RobotBase {
 		autoCommandPickerFour.addObject("Drive onto obstacle134", new DriveDistanceCommand(RobotMap.ONTO_DISTANCE_134, 1.0));
 		autoCommandPickerFour.addObject("Auto Guillotine", new AutoGuillotineCommandGroup());
 		autoCommandPickerFour.addObject("Auto Shovel of Fries", new AutoShovelOfFriesCommandGroup());
-		autoCommandPickerFour.addObject("Align and shoot", new AlignAndShootCommandGroup());
+		autoCommandPickerFour.addObject("Align and shoot", new AutonAlignCommand());
 		autoCommandPickerFour.addObject("Return to normal (front)", new AutonReturnToNormalFrontCommandGroup());
 		autoCommandPickerFour.addObject("Return to normal (back)", new AutonReturnToNormalBackCommandGroup());
 		autoCommandPickerFour.addObject("Rotate 180", new DriveAnglePIDCommand(180, AngleUnit.DEGREE));
@@ -278,7 +277,7 @@ public class Robot extends RobotBase {
 		autoCommandPickerFive.addObject("Drive onto obstacle134", new DriveDistanceCommand(RobotMap.ONTO_DISTANCE_134, 1.0));
 		autoCommandPickerFive.addObject("Auto Guillotine", new AutoGuillotineCommandGroup());
 		autoCommandPickerFive.addObject("Auto Shovel of Fries", new AutoShovelOfFriesCommandGroup());
-		autoCommandPickerFive.addObject("Align and shoot", new AlignAndShootCommandGroup());
+		autoCommandPickerFive.addObject("Align and shoot", new AutonAlignCommand());
 		autoCommandPickerFive.addObject("Return to normal (front)", new AutonReturnToNormalFrontCommandGroup());
 		autoCommandPickerFive.addObject("Return to normal (back)", new AutonReturnToNormalBackCommandGroup());
 		autoCommandPickerFive.addObject("Rotate 180", new DriveAnglePIDCommand(180, AngleUnit.DEGREE));
@@ -292,7 +291,7 @@ public class Robot extends RobotBase {
 		autoCommandPickerSix.addObject("Drive onto obstacle134", new DriveDistanceCommand(RobotMap.ONTO_DISTANCE_134, 1.0));
 		autoCommandPickerSix.addObject("Auto Guillotine", new AutoGuillotineCommandGroup());
 		autoCommandPickerSix.addObject("Auto Shovel of Fries", new AutoShovelOfFriesCommandGroup());
-		autoCommandPickerSix.addObject("Align and shoot", new AlignAndShootCommandGroup());
+		autoCommandPickerSix.addObject("Align and shoot", new AutonAlignCommand());
 		autoCommandPickerSix.addObject("Return to normal (front)", new AutonReturnToNormalFrontCommandGroup());
 		autoCommandPickerSix.addObject("Return to normal (back)", new AutonReturnToNormalBackCommandGroup());
 		autoCommandPickerSix.addObject("Rotate 180", new DriveAnglePIDCommand(180, AngleUnit.DEGREE));
@@ -301,8 +300,13 @@ public class Robot extends RobotBase {
 		autoCommandChooser = new SendableChooser();
 		autoCommandChooser.addDefault("Do Nothing", new AutonDoNothingCommand());
 		autoCommandChooser.addObject("Follow instructions", new AutonFollowInstructionsCommand());
-		autoCommandChooser.addObject("Align and shoot", new AlignAndShootCommandGroup());
+		autoCommandChooser.addObject("Align and shoot", new AutonAlignCommand());
 		autoCommandChooser.addObject("Forward over obstacle with intake moved down", new AutonForwardCommand());
+		autoCommandChooser.addObject("Forward and shoot, low bar", new AutonForwardAlignLowBarCommand());
+		autoCommandChooser.addObject("Forward and shoot, left", new AutonForwardAlignLeftCommand());
+		autoCommandChooser.addObject("Forward and shoot, middle", new AutonForwardAlignMiddleCommand());
+		autoCommandChooser.addObject("Forward and shoot, right", new AutonForwardAlignRightCommand());
+
 		/*autoCommandChooser.addObject("Forward over obstacle, align, shoot 2", new AutonOverAlignShootCommandGroup(Positions.two));
 		autoCommandChooser.addObject("Forward over obstacle, align, shoot, return to obstacle 2", new AutonOverAlignShootReturnCommandGroup(Positions.two));
 		autoCommandChooser.addObject("Forward over obstacle, align, shoot 5", new AutonOverAlignShootCommandGroup(Positions.five));
@@ -402,6 +406,9 @@ public class Robot extends RobotBase {
 		
 		FieldCentric.getInstance().update();
 		Scheduler.getInstance().run();
+
+		if(isTest())
+			LiveWindow.run();
 
 		smartDashboardSources.forEach(SmartDashboardSource::smartDashboardInfo);
 		

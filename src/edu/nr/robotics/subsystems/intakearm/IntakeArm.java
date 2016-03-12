@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class IntakeArm extends Subsystem implements SmartDashboardSource, Periodic {
     
 	private static IntakeArm singleton;
+	
+	int counter = 0;
 
 	CANTalon talon;
 	private AnalogPotentiometer pot;
@@ -138,10 +140,14 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 
 	@Override
 	public void periodic() {
-		if(Math.abs(pid.getError()) < 0.002) {
-			pid.disable();
+		if(Math.abs(pid.getError()) < RobotMap.INTAKE_ARM_THRESHOLD) {
+			counter++;
+			if(counter > 2)
+				pid.disable();
+		} else {
+			counter = 0;
 		}
-	}
+	} 
 
 	public double getError() {
 		return pid.getError();

@@ -2,7 +2,6 @@ package edu.nr.robotics.auton;
 
 import edu.nr.lib.AngleUnit;
 import edu.nr.robotics.RobotMap;
-import edu.nr.robotics.commandgroups.AlignAndShootCommandGroup;
 import edu.nr.robotics.subsystems.drive.DriveAnglePIDCommand;
 import edu.nr.robotics.subsystems.drive.DriveSimpleDistanceWithGyroCommand;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -34,6 +33,6 @@ public class AutonOverAlignShootCommandGroup extends CommandGroup {
         } else if (pos == Positions.five) {
         	addSequential(new DriveAnglePIDCommand(-30, AngleUnit.DEGREE));
         }
-        addSequential(new AlignAndShootCommandGroup());
+        addSequential(new AutonAlignCommand());
     }
 }

@@ -62,8 +62,9 @@ public class OI implements SmartDashboardSource, Periodic {
 	public void initDriveLeft() {
 		//Drive Left: (0)
 		driveLeft = new Joystick(0);
-		//->  1: Cancel all commands
-		new JoystickButton(driveLeft, 1).whenPressed(new CancelAllCommand());
+		//->  1: Stall forward
+		new JoystickButton(driveLeft, 1).whenPressed(new DriveConstantCommand(true, true, true, .2));
+		new JoystickButton(driveLeft, 1).whenReleased(new DriveCancelCommand());
 		//->  2: Reverse drive direction
 		//->  3: Lights on
 		new JoystickButton(driveLeft, 3).whenPressed(new LightsOnCommand());
@@ -126,7 +127,9 @@ public class OI implements SmartDashboardSource, Periodic {
 		// => 8: Low Goal
 		// Double checks intake height, reverses intake and loader to spit ball
 		// into low goal.
-		new JoystickButton(operatorLeft, 8).whenPressed(new LowGoalCommandGroup());
+		new JoystickButton(operatorLeft, 8).whenPressed(new LowGoalStartCommandGroup());
+		new JoystickButton(operatorLeft, 8).whenReleased(new LowGoalFinishCommandGroup());
+
 		// -> 12: Puke
 		// Reverses all ball handling systems (shooter, loader, intake) (SHOOTER
 		// RAMPING REQUIRED)

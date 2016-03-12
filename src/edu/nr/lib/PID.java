@@ -275,6 +275,7 @@ public class PID implements LiveWindowSendable {
 					}
 				}
 
+				//So we can use the same I value from pids calibrated at different refresh rates
 				double tempm_I = m_I * kDefaultPeriod/ 0.005 ;
 
 				if (tempm_I != 0) {

@@ -1,13 +1,18 @@
 package edu.nr.robotics.commandgroups;
 
+import edu.nr.robotics.RobotMap;
+import edu.nr.robotics.subsystems.drive.DriveConstantCommand;
 import edu.nr.robotics.subsystems.drive.DriveDistanceCommand;
 import edu.nr.robotics.subsystems.hood.HoodBottomCommand;
 import edu.nr.robotics.subsystems.hood.HoodWaitForBottomCommand;
 import edu.nr.robotics.subsystems.intakearm.IntakeArmBottomHeightCommandGroup;
+import edu.nr.robotics.subsystems.intakearm.IntakeArmMoveUpUntilPositionCommand;
+import edu.nr.robotics.subsystems.intakearm.IntakeArmPositionCommand;
 import edu.nr.robotics.subsystems.intakearm.IntakeArmUpHeightCommandGroup;
 import edu.nr.robotics.subsystems.intakearm.IntakeArmWaitForBottomCommand;
 import edu.nr.robotics.subsystems.intakearm.IntakeArmWaitForTopCommand;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 
 /**
  *
@@ -22,13 +27,12 @@ public class AutoGuillotineCommandGroup extends CommandGroup {
 	//TODO: Confirm the behaviour of auto guillotine
 	
     public  AutoGuillotineCommandGroup() {
-    	addParallel(new HoodBottomCommand());
-    	addParallel(new IntakeArmBottomHeightCommandGroup());
-    	addSequential(new IntakeArmWaitForBottomCommand());
-    	addSequential(new HoodWaitForBottomCommand());
-        addSequential(new DriveDistanceCommand(firstdistance,firstspeed));
-        addSequential(new IntakeArmUpHeightCommandGroup());
-    	addSequential(new IntakeArmWaitForTopCommand());
-        addSequential(new DriveDistanceCommand(seconddistance,secondspeed));
+    	addSequential(new IntakeArmPositionCommand(RobotMap.INTAKE_BOTTOM_POS, 0.5));
+    	addParallel(new DriveConstantCommand(false, true, true, 0.4));
+    	addSequential(new WaitCommand(0.5));
+        addParallel(new DriveConstantCommand(false, true, true , 0.2));
+        addSequential(new IntakeArmMoveUpUntilPositionCommand(RobotMap.INTAKE_TOP_POS + 0.08));
+        //addParallel(new IntakeArmPositionCommand(RobotMap.INTAKE_TOP_POS, 0.08));
+        addSequential(new DriveDistanceCommand(3,0.75));
     }
 }

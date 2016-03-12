@@ -45,18 +45,19 @@ public class RobotMap {
 	public static final double SHOOTER_FAST_SPEED = 0.83; //out of 1.0
 	public static final double SHOOTER_SLOW_SPEED = 0.3; //out of 1.0
 	public static final double SHOOTER_MAX_SPEED = 210; //In rotations per second
-	public static final double CLOSE_SHOT_POSITION = 28;
+	public static final double CLOSE_SHOT_POSITION = 28.4;
 	public static final double LONG_SHOT_POSITION = 55;
 	public static final double SHOOTER_RAMP_RATE = 5;
 	public static final double HOOD_BOTTOM_POSITION = 0;
 	public static final double HOOD_TOP_POSITION = 75.46;
 	public static final double HOOD_TICK_TO_ANGLE_MULTIPLIER = 0.031934;
 	public static final double HOOD_THRESHOLD = 2;
-	public static final double INTAKE_ARM_THRESHOLD = 0.01;
-	public static final double INTAKE_TOP_POS = 0.535;
-	public static final double INTAKE_INTAKE_POS = 0.712;
-	public static final double INTAKE_HOME_POS = 0.728;
-	public static final double INTAKE_BOTTOM_POS = 0.778;
+	public static final double INTAKE_ARM_THRESHOLD = 0.002;
+	public static final double INTAKE_TOP_POS = 0.535 + 0.014;
+	public static final double INTAKE_INTAKE_POS = 0.712 + 0.014;
+	//public static final double INTAKE_HOME_POS = 0.728 + 0.014;
+	public static final double INTAKE_HOME_POS = 0.712 + 0.014; //home == intake
+	public static final double INTAKE_BOTTOM_POS = 0.778 + 0.014;
 	public static final double INTAKE_ARM_TICK_TO_ANGLE_MULTIPLIER = -0.00222;
 	public static final double TURN_THRESHOLD = 0.5;
 	public static final double SHOOTER_THRESHOLD = 0.05;

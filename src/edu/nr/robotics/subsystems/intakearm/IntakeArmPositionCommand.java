@@ -9,7 +9,7 @@ public class IntakeArmPositionCommand extends NRCommand {
 	double threshold;
 	
 	public IntakeArmPositionCommand(double val) {
-		this(val, RobotMap.INTAKE_ARM_THRESHOLD);
+		this(val, 0);
 	}
 	
 	public IntakeArmPositionCommand(double val, double threshold) {
@@ -31,6 +31,9 @@ public class IntakeArmPositionCommand extends NRCommand {
 	@Override
 	protected boolean isFinishedNR() {
 		System.err.println("val " + ((IntakeArm.getInstance().get() - val) < threshold));
-		return Math.abs(IntakeArm.getInstance().getError()) < threshold;
+		if(threshold != 0)
+			return Math.abs(IntakeArm.getInstance().getError()) < threshold;
+		return !IntakeArm.getInstance().isEnable();
+
 	}
 }
