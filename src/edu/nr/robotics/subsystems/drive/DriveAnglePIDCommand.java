@@ -4,6 +4,7 @@ import edu.nr.lib.AngleGyroCorrectionSource;
 import edu.nr.lib.AngleUnit;
 import edu.nr.lib.NRCommand;
 import edu.nr.lib.PID;
+import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -36,15 +37,12 @@ public class DriveAnglePIDCommand extends NRCommand {
 
 	// Called repeatedly when this Command is scheduled to run
     @Override
-	protected void onExecute() {
-    	SmartDashboard.putData("Angle PID", pid);
-    	SmartDashboard.putNumber("Angle PID Error", pid.getError());
-		
+	protected void onExecute() {		
 		if(Math.abs(pid.getError()) > integralDisableDistance) {
-			pid.setPID(SmartDashboard.getNumber("Turn Angle P"), 0, SmartDashboard.getNumber("Turn Angle D"));
+			pid.setPID(RobotMap.TURN_P, 0, RobotMap.TURN_D);
 		} else {
 			//if(Math.abs(pid.getError()) >= 0.5)
-				pid.setPID(SmartDashboard.getNumber("Turn Angle P"), SmartDashboard.getNumber("Turn Angle I"), SmartDashboard.getNumber("Turn Angle D"));
+				pid.setPID(RobotMap.TURN_P, RobotMap.TURN_I, RobotMap.TURN_D);
 		}
 		
 		if(Math.signum(pid.getError()) != Math.signum(pid.getTotalError())) {
@@ -55,7 +53,7 @@ public class DriveAnglePIDCommand extends NRCommand {
     // Make this return true when this Command no longer needs to run execute()
     @Override
 	protected boolean isFinishedNR() {
-    	if(Math.abs(pid.getError()) < 0.5) {
+    	if(Math.abs(pid.getError()) < RobotMap.TURN_THRESHOLD) {
     		currentCount++;
     		if(currentCount > 3)
     			pid.resetTotalError();
@@ -73,7 +71,7 @@ public class DriveAnglePIDCommand extends NRCommand {
 
 	@Override
 	protected void onStart() {
-		pid = new PID(SmartDashboard.getNumber("Turn Angle P"),SmartDashboard.getNumber("Turn Angle I"),SmartDashboard.getNumber("Turn Angle D"), new AngleGyroCorrectionSource(), new AngleController());
+		pid = new PID(RobotMap.TURN_P,RobotMap.TURN_I,RobotMap.TURN_D, new AngleGyroCorrectionSource(), new AngleController());
 		pid.setOutputRange(-0.3, 0.3);
 		pid.enable();
     	pid.setSetpoint(angle);

@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.util.BoundaryException;
  */
 public class PID implements LiveWindowSendable {
 
-	public static final double kDefaultPeriod = .005;
+	public static final double kDefaultPeriod = .02;
 	private double m_P; // factor for "proportional" control
 	private double m_I; // factor for "integral" control
 	private double m_D; // factor for "derivative" control
@@ -275,20 +275,23 @@ public class PID implements LiveWindowSendable {
 					}
 				}
 
-				if (m_I != 0) {
-					double potentialIGain = (m_totalError + m_error) * m_I;
+				double tempm_I = m_I * kDefaultPeriod/ 0.005 ;
+
+				if (tempm_I != 0) {
+
+					double potentialIGain = (m_totalError + m_error) * tempm_I;
 					if (potentialIGain < m_maximumOutput) {
 						if (potentialIGain > m_minimumOutput) {
 							m_totalError += m_error;
 						} else {
-							m_totalError = m_minimumOutput / m_I;
+							m_totalError = m_minimumOutput / tempm_I;
 						}
 					} else {
-						m_totalError = m_maximumOutput / m_I;
+						m_totalError = m_maximumOutput / tempm_I;
 					}
 				}
 
-				m_result = m_P * m_error + m_I * m_totalError + m_D * (m_error - m_prevError) + m_setpoint * m_F;
+				m_result = m_P * m_error + tempm_I * m_totalError + m_D * (m_error - m_prevError) + m_setpoint * m_F;
 				m_prevError = m_error;
 
 				if (m_result > m_maximumOutput) {

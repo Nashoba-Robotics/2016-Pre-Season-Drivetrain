@@ -1,6 +1,7 @@
 package edu.nr.robotics.subsystems.loaderroller;
 
 import edu.nr.lib.interfaces.SmartDashboardSource;
+import edu.nr.robotics.LiveWindowClasses;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -50,18 +51,23 @@ public class LoaderRoller extends Subsystem implements SmartDashboardSource {
 	public void initDefaultCommand() {
 		setDefaultCommand(new LoaderRollerJoystickCommand());
     }
-
-	@Override
-	public void smartDashboardInfo() {
-		SmartDashboard.putData(this);
-	}
 	
 	public boolean hasBall() {
 		return !gate.get();
 	}
 
-	public boolean isRunning() {
-		return Math.abs(talon.get()) > 0.1 ;
+	@Override
+	public void smartDashboardInfo() {
+		SmartDashboard.putBoolean("Loader Roller Forward", isForward());
+		SmartDashboard.putBoolean("Loader Roller Reverse", isReverse());
+	}
+	
+	public boolean isForward() {
+		return talon.get() < -0.1 ;
+	}
+	
+	public boolean isReverse() {
+		return talon.get() > 0.1 ;
 	}
 }
 

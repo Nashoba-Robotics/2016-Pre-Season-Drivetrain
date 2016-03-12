@@ -3,9 +3,11 @@ package edu.nr.lib.navx;
 import edu.nr.lib.AngleUnit;
 import edu.nr.lib.interfaces.SmartDashboardSource;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.tables.ITable;
 
-public class NavX implements BaseNavX, SmartDashboardSource {
+public class NavX implements BaseNavX, LiveWindowSendable {
 	
 	private SerialPort serial_port;
 	private IMUAdvanced imu;
@@ -116,17 +118,6 @@ public class NavX implements BaseNavX, SmartDashboardSource {
 	}
 
 	@Override
-	public void smartDashboardInfo() {
-		SmartDashboard.putNumber("NavX Yaw", getYawAbsolute(AngleUnit.DEGREE));
-		SmartDashboard.putNumber("NavX Roll", getRoll(AngleUnit.DEGREE));
-		SmartDashboard.putNumber("NavX Pitch", getPitch(AngleUnit.DEGREE));
-		
-		SmartDashboard.putNumber("NavX X Accel", getX());
-		SmartDashboard.putNumber("NavX Y Accel", getY());
-		SmartDashboard.putNumber("NavX Z Accel", getZ());
-	}
-
-	@Override
 	public double getX() {
 		return imu.getWorldLinearAccelX();
 	}
@@ -140,4 +131,41 @@ public class NavX implements BaseNavX, SmartDashboardSource {
 	public double getZ() {
 		return imu.getWorldLinearAccelZ();
 	}
+
+	private ITable m_table;
+	
+	@Override
+	public void initTable(ITable subtable) {
+	    m_table = subtable;
+	    updateTable();		
+	}
+
+	@Override
+	public ITable getTable() {
+	    return m_table;
+	}
+
+	@Override
+	public String getSmartDashboardType() {
+		return "NavX";
+	}
+
+	@Override
+	public void updateTable() {
+		if (m_table != null) {
+			m_table.putNumber("NavX Yaw", getYawAbsolute(AngleUnit.DEGREE));
+			m_table.putNumber("NavX Roll", getRoll(AngleUnit.DEGREE));
+			m_table.putNumber("NavX Pitch", getPitch(AngleUnit.DEGREE));
+			
+			m_table.putNumber("NavX X Accel", getX());
+			m_table.putNumber("NavX Y Accel", getY());
+			m_table.putNumber("NavX Z Accel", getZ());
+		}
+	}
+
+	@Override
+	public void startLiveWindowMode() {}
+
+	@Override
+	public void stopLiveWindowMode() {}
 }

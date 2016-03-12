@@ -45,19 +45,15 @@ public class DriveJoystickCommand extends NRCommand {
 	    		{
 	    			//rotateValue = gyroCorrection.getTurnValue();
 	    			//TODO:  Fix gyro rotation 
-	    			SmartDashboard.putBoolean("Using gyro correction", true);
 	    		}
 		    	else
 		    	{	    		
 		    		gyroCorrection.clearInitialValue();
-	    			SmartDashboard.putBoolean("Using gyro correction", false);
-
 		    	}
 	    	}
 	    	else
 	    	{	    		
 	    		gyroCorrection.clearInitialValue();
-    			SmartDashboard.putBoolean("Using gyro correction", false);
 
 	    	}
 			

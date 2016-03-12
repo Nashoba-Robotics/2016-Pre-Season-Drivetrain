@@ -11,7 +11,6 @@ public class AngleController implements PIDOutput {
 	@Override
 	public void pidWrite(double output) {
 		Drive.getInstance().tankDrive(output, -output);
-		SmartDashboard.putNumber("Angle PID Output", output);
 	}
 
 }

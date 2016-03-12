@@ -4,9 +4,11 @@ import edu.nr.lib.NRMath;
 import edu.nr.lib.TalonEncoder;
 import edu.nr.lib.interfaces.Periodic;
 import edu.nr.lib.interfaces.SmartDashboardSource;
+import edu.nr.robotics.LiveWindowClasses;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -32,6 +34,9 @@ public class Elevator extends Subsystem implements SmartDashboardSource, Periodi
 		talon = new CANTalon(RobotMap.ELEVATOR_TALON);
 		talon.enableBrakeMode(true);
 		enc = new TalonEncoder(talon);
+		
+		LiveWindow.addSensor("Elevator", "Speed", LiveWindowClasses.elevatorSpeed);
+		LiveWindow.addSensor("Elevator", "Switch", LiveWindowClasses.elevatorSwitch);
 	}
 	
 	public static Elevator getInstance() {
@@ -74,10 +79,8 @@ public class Elevator extends Subsystem implements SmartDashboardSource, Periodi
 
 	@Override
 	public void smartDashboardInfo() {
-		SmartDashboard.putNumber("Elevator Speed", enc.getRate());
-		SmartDashboard.putData(this);
-		SmartDashboard.putBoolean("Elevator limit switch", isLimitSwitchClosed());
-
+		LiveWindowClasses.elevatorSpeed.set(enc.getRate());
+		LiveWindowClasses.elevatorSwitch.set(isLimitSwitchClosed());
 	}
 
 	public boolean isMoving() {

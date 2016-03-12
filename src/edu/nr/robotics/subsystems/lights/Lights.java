@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class Lights extends Subsystem implements SmartDashboardSource {
+public class Lights extends Subsystem {
 	
 	Relay lights;
 	static Lights singleton;
@@ -65,11 +65,6 @@ public class Lights extends Subsystem implements SmartDashboardSource {
 	
 	public Relay.Value get() {
 		return lights.get();
-	}
-
-	@Override
-	public void smartDashboardInfo() {
-		SmartDashboard.putData("Lights", lights);
 	}
 }
 

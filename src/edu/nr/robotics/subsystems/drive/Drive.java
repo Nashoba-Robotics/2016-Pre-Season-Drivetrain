@@ -5,6 +5,7 @@ import edu.nr.lib.PID;
 import edu.nr.lib.TalonEncoder;
 import edu.nr.lib.interfaces.Periodic;
 import edu.nr.lib.interfaces.SmartDashboardSource;
+import edu.nr.robotics.LiveWindowClasses;
 import edu.nr.robotics.OI;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
@@ -12,6 +13,7 @@ import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -83,6 +85,14 @@ public class Drive extends Subsystem implements SmartDashboardSource, Periodic{
 		pidMaxVal = 1.0;
 		rightPid.setOutputRange(-pidMaxVal, pidMaxVal);
 		leftPid.setOutputRange(-pidMaxVal, pidMaxVal);
+		
+
+		
+		LiveWindow.addSensor("Drive", "Left PID", leftPid);
+		LiveWindow.addSensor("Drive", "Right PID", rightPid);
+		
+		LiveWindow.addSensor("Drive", "Distance", LiveWindowClasses.driveEncodersDistance);
+		LiveWindow.addSensor("Drive", "Speed", LiveWindowClasses.driveEncodersSpeed);
 	}
 
 	public static Drive getInstance() {
@@ -348,17 +358,8 @@ public class Drive extends Subsystem implements SmartDashboardSource, Periodic{
 	 */
 	@Override
 	public void smartDashboardInfo() {
-		SmartDashboard.putNumber("Encoders Distance Ave", getEncoderAverageDistance());
-		SmartDashboard.putNumber("Encoders Speed Ave", getEncoderAverageSpeed());
-
-		
-		SmartDashboard.putNumber("Drive Talon Average Current Draw", (rightTalon.getOutputCurrent() 
-				+ rightTalon.getOutputCurrent() + tempLeftTalon.getOutputCurrent() + tempRightTalon.getOutputCurrent())/4);
-		
-		SmartDashboard.putData("Drive", this);
-		
-		SmartDashboard.putData("Drive Left PID", leftPid);
-		SmartDashboard.putData("Drive Right PID", rightPid);
+		LiveWindowClasses.driveEncodersDistance.set(getEncoderAverageDistance());
+		LiveWindowClasses.driveEncodersSpeed.set(getEncoderAverageSpeed());
 
 	}
 

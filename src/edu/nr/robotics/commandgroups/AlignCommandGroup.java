@@ -3,6 +3,7 @@ package edu.nr.robotics.commandgroups;
 import edu.nr.lib.NRCommand;
 import edu.nr.lib.network.JetsonImagePacket;
 import edu.nr.lib.network.UDPServer;
+import edu.nr.robotics.LiveWindowClasses;
 import edu.nr.robotics.OI;
 import edu.nr.robotics.Robot;
 import edu.nr.robotics.RobotMap;
@@ -68,7 +69,7 @@ public class AlignCommandGroup extends CommandGroup {
     	}
     	Robot.getInstance().state = State.OFF;
     	System.out.println("Ended align waiting");
-    	SmartDashboard.putBoolean("Ready to shoot", false);
+    	LiveWindowClasses.readyToShoot.set(false);
     }
     
     @Override

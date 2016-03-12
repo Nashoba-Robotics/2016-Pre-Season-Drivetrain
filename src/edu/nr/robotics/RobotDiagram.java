@@ -33,9 +33,7 @@ public class RobotDiagram implements NamedSendable {
 			table.putNumber("Hood Angle", Hood.getInstance().get());
 			try {
 			table.putBoolean("Hood at Threshold", Math.abs(Hood.getInstance().get() - UDPServer.getInstance().getLastPacket().getHoodAngle()) > RobotMap.HOOD_THRESHOLD);
-			} catch (NullPointerException e) {
-				System.out.println("Couldn't get Hood Angle from Jetson for Robot Digram");
-				
+			} catch (NullPointerException e) {				
 				table.putBoolean("Hood at Threshold", false);
 			}
 			table.putNumber("Shot distance at angle", UDPServer.angleToDistance(Hood.getInstance().get()));

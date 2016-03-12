@@ -5,6 +5,7 @@ import edu.nr.lib.AngleUnit;
 import edu.nr.lib.NRCommand;
 import edu.nr.lib.PID;
 import edu.nr.lib.network.UDPServer;
+import edu.nr.robotics.RobotMap;
 import edu.nr.robotics.commandgroups.AlignSubcommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -34,15 +35,12 @@ public class DriveAngleJetsonPIDCommand extends NRCommand {
     // Called repeatedly when this Command is scheduled to run
     @Override
 	protected void onExecute() {
-    	if(canRun) {
-    		SmartDashboard.putData("Jetson Angle PID", pid);
-	    	SmartDashboard.putNumber("Jetson Angle PID Error", pid.getError());
-			
+    	if(canRun) {			
 			if(Math.abs(pid.getError()) > integralDisableDistance) {
-				pid.setPID(SmartDashboard.getNumber("Turn Angle P"), 0, SmartDashboard.getNumber("Turn Angle D"));
+				pid.setPID(RobotMap.TURN_P, 0, RobotMap.TURN_D);
 				pid.resetTotalError();
 			} else {
-				pid.setPID(SmartDashboard.getNumber("Turn Angle P"), SmartDashboard.getNumber("Turn Angle I"), SmartDashboard.getNumber("Turn Angle D"));
+				pid.setPID(RobotMap.TURN_P, RobotMap.TURN_I, RobotMap.TURN_D);
 			}
 			
 			if(Math.signum(pid.getError()) != Math.signum(pid.getTotalError())) {
@@ -56,7 +54,7 @@ public class DriveAngleJetsonPIDCommand extends NRCommand {
 	protected boolean isFinishedNR() {
     	if(!canRun)
     		return true;
-    	if(Math.abs(pid.getError()) < 0.5) {
+    	if(Math.abs(pid.getError()) < RobotMap.TURN_THRESHOLD) {
     		currentCount++;
     		if(currentCount > 3)
     			pid.resetTotalError();
@@ -96,7 +94,7 @@ public class DriveAngleJetsonPIDCommand extends NRCommand {
 			angle = angle - (0.2768*angle - 3.1668) * Math.signum(angle);
 		}*/
 		correction = new AngleGyroCorrectionSource(AngleUnit.DEGREE);
-		pid = new PID(SmartDashboard.getNumber("Turn Angle P"),SmartDashboard.getNumber("Turn Angle I"),SmartDashboard.getNumber("Turn Angle D"), correction, new AngleController());
+		pid = new PID(RobotMap.TURN_P,RobotMap.TURN_I,RobotMap.TURN_D, correction, new AngleController());
 		pid.setOutputRange(-0.3, 0.3);
 		pid.setSetpoint(angle);
     	pid.enable();

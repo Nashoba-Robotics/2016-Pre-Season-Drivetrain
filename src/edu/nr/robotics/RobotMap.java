@@ -45,7 +45,7 @@ public class RobotMap {
 	public static final double SHOOTER_FAST_SPEED = 0.83; //out of 1.0
 	public static final double SHOOTER_SLOW_SPEED = 0.3; //out of 1.0
 	public static final double SHOOTER_MAX_SPEED = 210; //In rotations per second
-	public static final double CLOSE_SHOT_POSITION = 24;
+	public static final double CLOSE_SHOT_POSITION = 28;
 	public static final double LONG_SHOT_POSITION = 55;
 	public static final double SHOOTER_RAMP_RATE = 5;
 	public static final double HOOD_BOTTOM_POSITION = 0;
@@ -54,11 +54,11 @@ public class RobotMap {
 	public static final double HOOD_THRESHOLD = 2;
 	public static final double INTAKE_ARM_THRESHOLD = 0.01;
 	public static final double INTAKE_TOP_POS = 0.535;
-	public static final double INTAKE_INTAKE_POS = 0.714;
+	public static final double INTAKE_INTAKE_POS = 0.712;
 	public static final double INTAKE_HOME_POS = 0.728;
 	public static final double INTAKE_BOTTOM_POS = 0.778;
 	public static final double INTAKE_ARM_TICK_TO_ANGLE_MULTIPLIER = -0.00222;
-	public static final double TURN_THRESHOLD = 2;
+	public static final double TURN_THRESHOLD = 0.5;
 	public static final double SHOOTER_THRESHOLD = 0.05;
 	
 	//TODO: Find all the elevator values
@@ -67,6 +67,10 @@ public class RobotMap {
 	public static final int ELEVATOR_TOP_POSITION = -1;
 	public static final double ELEVATOR_THRESHOLD = -1;
 	public static final double ELEVATOR_UP_SPEED = 1;
+	
+	public static final double TURN_P = 0.25;
+	public static final double TURN_I = 0.01;
+	public static final double TURN_D = 0.0001;
 
 
 }

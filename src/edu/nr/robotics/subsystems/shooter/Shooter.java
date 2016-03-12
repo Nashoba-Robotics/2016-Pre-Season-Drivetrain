@@ -3,11 +3,13 @@ package edu.nr.robotics.subsystems.shooter;
 import edu.nr.lib.CounterPIDSource;
 import edu.nr.lib.PID;
 import edu.nr.lib.interfaces.SmartDashboardSource;
+import edu.nr.robotics.LiveWindowClasses;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -49,6 +51,13 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 
 						
 		pid = new PID(0.75, 0.0001, 0, 1, shooterRate, talonOutput);
+
+		LiveWindow.addSensor("Shooter", "Shooter PID", pid);
+
+		LiveWindow.addSensor("Shooter", "PID Output", LiveWindowClasses.shooterOutput);
+		LiveWindow.addSensor("Shooter", "Current", LiveWindowClasses.shooterCurrent);
+
+
 	}
 	
     @Override
@@ -150,12 +159,10 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 
 	@Override
 	public void smartDashboardInfo() {
-		SmartDashboard.putNumber("Shooter Speed", getScaledSpeed());
-		SmartDashboard.putBoolean("Shooter Running", getRunning());
-		SmartDashboard.putNumber("Shooter Current", talonOutput.getOutputCurrent());
-		SmartDashboard.putData(this);
-		SmartDashboard.putData("Shooter PID", pid);
-		SmartDashboard.putNumber("Shooter Output", pid.get());
+		SmartDashboard.putNumber("Shooter Speed", getSpeed());
+		SmartDashboard.putNumber("Shooter Speed Percent", getScaledSpeed());
+		LiveWindowClasses.shooterCurrent.set(talonOutput.getOutputCurrent());
+		LiveWindowClasses.shooterOutput.set(pid.get());
 	}
 
 	public boolean hasBall() {

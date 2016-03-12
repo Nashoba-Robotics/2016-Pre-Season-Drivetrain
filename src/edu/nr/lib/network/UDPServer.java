@@ -5,10 +5,14 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
+import edu.nr.lib.AngleUnit;
 import edu.nr.lib.interfaces.Periodic;
+import edu.nr.robotics.RobotMap;
+import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.tables.ITable;
 
-public class UDPServer implements Runnable, Periodic {
+public class UDPServer implements Runnable, Periodic, LiveWindowSendable {
 	public static UDPServer singleton;
 	
 	char delimiter1 = ';';
@@ -16,6 +20,8 @@ public class UDPServer implements Runnable, Periodic {
 	//The information is split packet_number;distance:angle
 	
 	DatagramSocket serverSocket;
+	
+	boolean goodToGo = true;
 	
 	private long lastUpdateTime;
 	long lastPrintTime;
@@ -57,7 +63,10 @@ public class UDPServer implements Runnable, Periodic {
 			} catch (IOException e) {
 				System.err.println("Couldn't get a packet");
 				e.printStackTrace();
+				goodToGo = false;
+				continue;
 			}
+			goodToGo = true;
 			String data = new String( receivePacket.getData() );
 			//System.out.println("Received: " + data);
 			int x = data.indexOf(delimiter1);
@@ -87,8 +96,6 @@ public class UDPServer implements Runnable, Periodic {
 				    }
 				    
 				    //System.out.println("Packet number: " + count + "Shoot: " + hoodAngle + " Angle: " + turnAngle + " Distance: " + distance);
-				    SmartDashboard.putNumber("Shoot angle", hoodAngle);
-				    SmartDashboard.putNumber("Angle from camera", turnAngle);	
 			    } catch (NumberFormatException e) {
 			    	System.err.println("Coudln't parse number from Jetson. Recieved Message: " + data);
 			    }
@@ -102,18 +109,54 @@ public class UDPServer implements Runnable, Periodic {
 		synchronized(lock) {
 			if(lastPacket != null)
 				return lastPacket;
-			throw new NullPointerException();
+			return new JetsonImagePacket(0,0,0);
 		}
 	}
 
 	@Override
 	public void periodic() {
-		SmartDashboard.putNumber("Time since last packet", (System.currentTimeMillis() - lastPrintTime)/1000.0);
-		SmartDashboard.putNumber("Dropped packet count", droppedPackets);
+	    SmartDashboard.putNumber("Jetson Turn Angle", getLastPacket().getTurnAngle());
+	    SmartDashboard.putNumber("Jetson Distance", angleToDistance(getLastPacket().getTurnAngle()));
+	    SmartDashboard.putBoolean("Jetson Good to Go", goodToGo);
+	    SmartDashboard.putBoolean("Jetson Aligned", getLastPacket().getTurnAngle() < RobotMap.TURN_THRESHOLD);
 		if(System.currentTimeMillis() - lastUpdateTime > 1000 && System.currentTimeMillis() - lastPrintTime > 300) {
 			lastPrintTime = System.currentTimeMillis();
 		}
 	}
+	
+private ITable m_table;
+	
+	@Override
+	public void initTable(ITable subtable) {
+	    m_table = subtable;
+	    updateTable();		
+	}
+
+	@Override
+	public ITable getTable() {
+	    return m_table;
+	}
+
+	@Override
+	public String getSmartDashboardType() {
+		return "NavX";
+	}
+
+	@Override
+	public void updateTable() {
+		if (m_table != null) {
+			m_table.putNumber("Time since last packet", (System.currentTimeMillis() - lastPrintTime)/1000.0);
+			m_table.putNumber("Dropped packet count", droppedPackets);
+			m_table.putNumber("Shoot angle", getLastPacket().getHoodAngle());
+			m_table.putNumber("Angle from camera", getLastPacket().getTurnAngle());	
+		}
+	}
+
+	@Override
+	public void startLiveWindowMode() {}
+
+	@Override
+	public void stopLiveWindowMode() {}
 	
 	//Note: the two angle/distance functions aren't inverses of each other
 	//The distanceToAngle is more accurate, but the inverse of it is hard to calculate

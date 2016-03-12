@@ -2,9 +2,13 @@ package edu.nr.robotics;
 
 import java.util.ArrayList;
 
+import com.ni.vision.VisionException;
+
 import edu.nr.lib.*;
+import edu.nr.lib.camera.CameraServer;
 import edu.nr.lib.interfaces.Periodic;
 import edu.nr.lib.interfaces.SmartDashboardSource;
+import edu.nr.lib.livewindow.LiveWindowBoolean;
 import edu.nr.lib.navx.NavX;
 import edu.nr.lib.network.UDPServer;
 import edu.nr.robotics.auton.*;
@@ -19,7 +23,6 @@ import edu.nr.robotics.subsystems.drive.DriveAngleJetsonPIDCommand;
 import edu.nr.robotics.subsystems.drive.DriveAnglePIDCommand;
 import edu.nr.robotics.subsystems.drive.DriveDistanceCommand;
 import edu.nr.robotics.subsystems.drive.DrivePulseCommand;
-import edu.nr.robotics.subsystems.drive.DriveSmartDashboardCommand;
 import edu.nr.robotics.subsystems.drive.FieldCentric;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.hood.HoodJetsonPositionCommand;
@@ -30,7 +33,6 @@ import edu.nr.robotics.subsystems.lights.Lights;
 import edu.nr.robotics.subsystems.loaderroller.LaserCannonTriggerCommand;
 import edu.nr.robotics.subsystems.loaderroller.LoaderRoller;
 import edu.nr.robotics.subsystems.shooter.Shooter;
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -300,14 +302,15 @@ public class Robot extends RobotBase {
 		autoCommandChooser.addDefault("Do Nothing", new AutonDoNothingCommand());
 		autoCommandChooser.addObject("Follow instructions", new AutonFollowInstructionsCommand());
 		autoCommandChooser.addObject("Align and shoot", new AlignAndShootCommandGroup());
-		autoCommandChooser.addObject("Forward over obstacle, align, shoot 2", new AutonOverAlignShootCommandGroup(Positions.two));
+		autoCommandChooser.addObject("Forward over obstacle with intake moved down", new AutonForwardCommand());
+		/*autoCommandChooser.addObject("Forward over obstacle, align, shoot 2", new AutonOverAlignShootCommandGroup(Positions.two));
 		autoCommandChooser.addObject("Forward over obstacle, align, shoot, return to obstacle 2", new AutonOverAlignShootReturnCommandGroup(Positions.two));
 		autoCommandChooser.addObject("Forward over obstacle, align, shoot 5", new AutonOverAlignShootCommandGroup(Positions.five));
 		autoCommandChooser.addObject("Forward over obstacle, align, shoot, return to obstacle 5", new AutonOverAlignShootReturnCommandGroup(Positions.five));
 		autoCommandChooser.addObject("Forward over obstacle, align, shoot 1", new AutonOverAlignShootCommandGroup(Positions.one));
 		autoCommandChooser.addObject("Forward over obstacle, align, shoot, return to obstacle 1", new AutonOverAlignShootReturnCommandGroup(Positions.one));
 		autoCommandChooser.addObject("Forward over obstacle, align, shoot 34", new AutonOverAlignShootCommandGroup(Positions.threefour));
-		autoCommandChooser.addObject("Forward over obstacle, align, shoot, return to obstacle 34", new AutonOverAlignShootReturnCommandGroup(Positions.threefour));
+		autoCommandChooser.addObject("Forward over obstacle, align, shoot, return to obstacle 34", new AutonOverAlignShootReturnCommandGroup(Positions.threefour));*/
 
 		// Add more options like:
 		// autoCommandChooser.addObject(String name, Command command);
@@ -318,30 +321,21 @@ public class Robot extends RobotBase {
 		OI.getInstance().drivingModeChooser.addObject("tank", DrivingMode.TANK);
 		SmartDashboard.putData("Driving Mode Chooser", OI.getInstance().drivingModeChooser);
 		
-		SmartDashboard.putData(new HoodJetsonPositionCommand());
-		SmartDashboard.putData(new DriveAnglePIDCommand(10, AngleUnit.DEGREE));
-		SmartDashboard.putData(new DrivePulseCommand());
-		SmartDashboard.putData(new DriveAngleJetsonPIDCommand());
-		
-		SmartDashboard.putNumber("Turn Angle P", 0.0007);
-		SmartDashboard.putNumber("Turn Angle I", 0.0001);
-		SmartDashboard.putNumber("Turn Angle D", 0.0001);
-		
-		Drive.getInstance();
-		SmartDashboard.putNumber("Drive P", Drive.JOYSTICK_DRIVE_P);
-		SmartDashboard.putNumber("TurnSpeed", 0);
-		
-		SmartDashboard.putData(new DriveSmartDashboardCommand());
-
-		SmartDashboard.putBoolean("Ready to shoot", true);
-
+		LiveWindow.addSensor("Jetson", "Ready to shoot", LiveWindowClasses.readyToShoot);
 	}
 	
 	private static void initCamera() {
-		CameraServer server = CameraServer.getInstance();
-		server.setQuality(50);
 		// the camera name (ex "cam0") can be found through the roborio web interface
-		server.startAutomaticCapture("cam2");
+		try{ 
+			CameraServer server = CameraServer.getInstance();
+			//USBCamera cam = new USBCamera("cam2");
+			//cam.setFPS(5);
+			server.setQuality(50);
+			//server.setSize(2);
+			server.startAutomaticCapture("cam2");
+		} catch (VisionException e) {
+			//e.printStackTrace();
+		}
 	}
 	
 	private void initSubsystems() {
@@ -369,17 +363,17 @@ public class Robot extends RobotBase {
 		subsystems.add(IntakeRoller.getInstance());
 		
 		//Add SmartDashboard sources to the smartdashboard source array list
-		smartDashboardSources.add(NavX.getInstance());
 		smartDashboardSources.add(Drive.getInstance());
 		smartDashboardSources.add(FieldCentric.getInstance());
-		smartDashboardSources.add(Lights.getInstance());
 		smartDashboardSources.add(Shooter.getInstance());
 		smartDashboardSources.add(IntakeArm.getInstance());
 		smartDashboardSources.add(Elevator.getInstance());
-		smartDashboardSources.add(LoaderRoller.getInstance());
 		smartDashboardSources.add(Hood.getInstance());
 		smartDashboardSources.add(IntakeRoller.getInstance());
 		smartDashboardSources.add(OI.getInstance());
+		
+		LiveWindow.addSensor("Drive", "Gyro", NavX.getInstance());
+
 		
 		periodics.add(Drive.getInstance());
 		periodics.add(OI.getInstance());

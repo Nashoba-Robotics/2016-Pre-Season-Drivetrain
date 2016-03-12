@@ -290,7 +290,6 @@ public class OI implements SmartDashboardSource, Periodic {
 	@Override
 	public void smartDashboardInfo() {
 		speedMultiplier = SmartDashboard.getNumber("Speed Multiplier");
-		SmartDashboard.putBoolean("Dumb Drive", dumbDrive.get());
 	}
 	
 	public boolean isTankNonZero() {
