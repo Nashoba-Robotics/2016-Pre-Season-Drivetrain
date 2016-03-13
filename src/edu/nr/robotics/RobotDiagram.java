@@ -62,6 +62,8 @@ public class RobotDiagram implements NamedSendable {
 			table.putNumber("Shooter Speed", Shooter.getInstance().getScaledSpeed());
 			table.putNumber("Shooter Target Speed", Shooter.getInstance().getSetpoint() * RobotMap.SHOOTER_MAX_SPEED);
 			
+			table.putBoolean("Got Low", Hood.getInstance().isAtBottom() && (IntakeArm.getInstance().get() < RobotMap.INTAKE_INTAKE_POS + RobotMap.INTAKE_ARM_THRESHOLD || IntakeArm.getInstance().get() > RobotMap.INTAKE_INTAKE_POS - RobotMap.INTAKE_ARM_THRESHOLD));
+			
 
 		}
 	}

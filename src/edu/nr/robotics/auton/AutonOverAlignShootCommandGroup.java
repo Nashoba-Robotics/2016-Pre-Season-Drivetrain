@@ -4,6 +4,7 @@ import edu.nr.lib.AngleUnit;
 import edu.nr.robotics.RobotMap;
 import edu.nr.robotics.subsystems.drive.DriveAnglePIDCommand;
 import edu.nr.robotics.subsystems.drive.DriveSimpleDistanceWithGyroCommand;
+import edu.nr.robotics.subsystems.hood.HoodMoveDownUntilLimitSwitchCommand;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -16,7 +17,8 @@ public class AutonOverAlignShootCommandGroup extends CommandGroup {
 	}
 	
     public  AutonOverAlignShootCommandGroup(final Positions pos) {
-    	
+    	addSequential(new HoodMoveDownUntilLimitSwitchCommand());
+
     	final double overDistance;
     	
     	if(pos == Positions.two || pos == Positions.five) {

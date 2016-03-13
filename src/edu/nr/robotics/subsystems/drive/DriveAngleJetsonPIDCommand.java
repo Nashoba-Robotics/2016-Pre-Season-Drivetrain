@@ -77,17 +77,8 @@ public class DriveAngleJetsonPIDCommand extends NRCommand {
 	@Override
 	protected void onStart() {
 		System.out.println("Drive angle Jetson PID start");
-		try {
-			if(this.getGroup() instanceof AlignSubcommandGroup) {
-				angle = ((AlignSubcommandGroup )this.getGroup()).getJetsonPacket().getTurnAngle();
-			} else {
-					angle = UDPServer.getInstance().getLastPacket().getTurnAngle();
-			}
-		} catch(NullPointerException e) {
-			System.out.println("No value from Jetson yet, so we can't run " + this.getName());
-			canRun = false;
-			return;
-		}
+		angle = UDPServer.getInstance().getLastPacket().getTurnAngle();
+
 		/*if(Math.abs(angle) < .5) {
 			angle = 0;
 		} else {

@@ -9,6 +9,7 @@ import edu.nr.robotics.subsystems.climb.*;
 import edu.nr.robotics.subsystems.drive.*;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.hood.HoodIncreaseDegreeCommand;
+import edu.nr.robotics.subsystems.hood.HoodJetsonPositionCommand;
 import edu.nr.robotics.subsystems.hood.HoodResetEncoderCommand;
 import edu.nr.robotics.subsystems.intakearm.*;
 import edu.nr.robotics.subsystems.intakeroller.*;
@@ -63,7 +64,8 @@ public class OI implements SmartDashboardSource, Periodic {
 		//Drive Left: (0)
 		driveLeft = new Joystick(0);
 		//->  1: Stall forward
-		new JoystickButton(driveLeft, 1).whenPressed(new DriveConstantCommand(true, true, true, .2));
+		Robot.getInstance().driveWall = new DriveConstantCommand(true, true, true, .3);
+		new JoystickButton(driveLeft, 1).whenPressed(Robot.getInstance().driveWall);
 		new JoystickButton(driveLeft, 1).whenReleased(new DriveCancelCommand());
 		//->  2: Reverse drive direction
 		//->  3: Lights on
@@ -165,7 +167,10 @@ public class OI implements SmartDashboardSource, Periodic {
 		new JoystickButton(operatorRight, 7).whenPressed(new CancelAllCommand());
 		// => 8: Climb
 		// Fully retracts elevator, stops after 1 second of motor stall
-		new JoystickButton(operatorRight, 8).whenPressed(new ElevatorRetractCommand());
+		//new JoystickButton(operatorRight, 8).whenPressed(new ElevatorRetractCommand());
+		
+		new JoystickButton(operatorRight, 8).whenPressed(new HoodJetsonPositionCommand());
+		
 		// => 9: Extend & Intake Up
 		// Extends elevator completely, brings intake to up position
 		new JoystickButton(operatorRight, 9).whenPressed(new ElevatorExtendCommand());
@@ -180,6 +185,8 @@ public class OI implements SmartDashboardSource, Periodic {
 		// signifying we are about to shoot enables defense robots to defend
 		// more effectively
 		LEDCutout = new JoystickButton(operatorRight, 12);
+		LEDCutout.whenPressed(new ShooterHighCommand());
+		LEDCutout.whenReleased(new ShooterOffCommand());
 	}
 
 	public static OI getInstance() {
@@ -325,7 +332,7 @@ public class OI implements SmartDashboardSource, Periodic {
 	public void periodic() {
 		if(isDriveNonZero()) {
 	
-			if(Drive.getInstance().getCurrentCommand() != null && !Drive.getInstance().getCurrentCommand().getName().equals("DriveJoystickCommand")) {
+			if(Drive.getInstance().getCurrentCommand() != null && !(Drive.getInstance().getCurrentCommand().getName().equals("DriveJoystickCommand") || Drive.getInstance().getCurrentCommand() == Robot.getInstance().driveWall)) {
 				System.out.println("Drive Left X " + getDriveLeftXValue());
 				System.out.println("Drive Right X " + getDriveRightXValue());
 				System.out.println("Drive Left Y " + getDriveLeftYValue());

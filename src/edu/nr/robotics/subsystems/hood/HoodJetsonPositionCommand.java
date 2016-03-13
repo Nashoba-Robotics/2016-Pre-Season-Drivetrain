@@ -16,17 +16,7 @@ public class HoodJetsonPositionCommand extends NRCommand {
 	
 	@Override
 	protected void onStart() {
-		try {
-			if(this.getGroup() instanceof AlignSubcommandGroup) {
-				val = ((AlignSubcommandGroup )this.getGroup()).getJetsonPacket().getHoodAngle();
-			} else {
-				val = UDPServer.getInstance().getLastPacket().getHoodAngle();
-			}
-		} catch(NullPointerException e) {
-			System.out.println("No value from Jetson yet, so we can't run " + this.getName());
-			canRun = false;
-			return;
-		}
+		val = UDPServer.getInstance().getLastPacket().getHoodAngle();
 		Hood.getInstance().enable();
 		Hood.getInstance().setSetpoint(val);
 	}

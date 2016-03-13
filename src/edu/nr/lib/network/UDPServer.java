@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.tables.ITable;
 public class UDPServer implements Runnable, Periodic, LiveWindowSendable {
 	public static UDPServer singleton;
 	
+	public final JetsonImagePacket NULL_PACKET = new JetsonImagePacket(0,0,0);
+	
 	char delimiter1 = ';';
 	char delimiter2 = ':'; 
 	//The information is split packet_number;distance:angle
@@ -87,12 +89,10 @@ public class UDPServer implements Runnable, Periodic, LiveWindowSendable {
 		    		lastCount = count;
 
 			    	final double distance = Double.valueOf(left);
-			    	final double turnAngle = Double.valueOf(right);
-	
-				    final double hoodAngle = distanceToAngle(distance);
+			    	final double turnAngle = Double.valueOf(right) + 1.3;
 			    					    
 				    synchronized(lock) {
-				    	lastPacket = new JetsonImagePacket(hoodAngle, turnAngle, lastCount);
+				    	lastPacket = new JetsonImagePacket(turnAngle, distance, lastCount);
 				    }
 				    
 				    //System.out.println("Packet number: " + count + "Shoot: " + hoodAngle + " Angle: " + turnAngle + " Distance: " + distance);
@@ -109,14 +109,16 @@ public class UDPServer implements Runnable, Periodic, LiveWindowSendable {
 		synchronized(lock) {
 			if(lastPacket != null)
 				return lastPacket;
-			return new JetsonImagePacket(0,0,0);
+			return NULL_PACKET;
 		}
 	}
 
 	@Override
 	public void periodic() {
 	    SmartDashboard.putNumber("Jetson Turn Angle", getLastPacket().getTurnAngle());
-	    SmartDashboard.putNumber("Jetson Distance", angleToDistance(getLastPacket().getTurnAngle()));
+	    SmartDashboard.putNumber("Jetson Distance", getLastPacket().getDistance());
+	    SmartDashboard.putNumber("Shoot angle", getLastPacket().getHoodAngle());
+
 	    SmartDashboard.putBoolean("Jetson Good to Go", goodToGo);
 	    SmartDashboard.putBoolean("Jetson Aligned", getLastPacket().getTurnAngle() < RobotMap.TURN_THRESHOLD);
 		if(System.currentTimeMillis() - lastUpdateTime > 1000 && System.currentTimeMillis() - lastPrintTime > 300) {
@@ -149,6 +151,7 @@ private ITable m_table;
 			m_table.putNumber("Dropped packet count", droppedPackets);
 			m_table.putNumber("Shoot angle", getLastPacket().getHoodAngle());
 			m_table.putNumber("Angle from camera", getLastPacket().getTurnAngle());	
+			
 		}
 	}
 

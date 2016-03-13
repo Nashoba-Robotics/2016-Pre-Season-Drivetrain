@@ -18,6 +18,13 @@ public class DriveConstantCommand extends NRCommand {
         requires(Drive.getInstance());
     }
 
+	public DriveConstantCommand(boolean PID, double left, double right) {
+		this.PID = PID;
+		this.left = left;
+		this.right = right;
+        requires(Drive.getInstance());
+	}
+
 	@Override
 	protected void onStart() {
 		Drive.getInstance().setPIDEnabled(PID);

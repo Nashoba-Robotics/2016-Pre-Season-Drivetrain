@@ -1,12 +1,14 @@
 package edu.nr.lib.network;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class JetsonImagePacket {
-	private double hoodAngle, turnAngle;
+	private double turnAngle, distance;
 	private int packetNum;
 	
 	
-	public JetsonImagePacket(double hoodAngle, double turnAngle, int packetNum) {
-		this.hoodAngle = hoodAngle;
+	public JetsonImagePacket(double turnAngle, double distance, int packetNum) {
+		this.distance = distance;
 		this.turnAngle = turnAngle;
 		this.packetNum = packetNum;
 	}
@@ -16,10 +18,14 @@ public class JetsonImagePacket {
 	}
 
 	public double getHoodAngle() {
-		return hoodAngle;
+		return UDPServer.distanceToAngle(getDistance());
 	}
 
 	public double getTurnAngle() {
 		return turnAngle;
+	}
+	
+	public double getDistance() {
+		return distance / (SmartDashboard.getNumber("Hood Multiplier")/100.0);
 	}
 }

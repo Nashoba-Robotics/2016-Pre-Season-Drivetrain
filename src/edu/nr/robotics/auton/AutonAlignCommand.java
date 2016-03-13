@@ -7,6 +7,7 @@ import edu.nr.robotics.RobotMap;
 import edu.nr.robotics.commandgroups.AlignCommandGroup;
 import edu.nr.robotics.commandgroups.AlignSubcommandGroup;
 import edu.nr.robotics.subsystems.hood.Hood;
+import edu.nr.robotics.subsystems.hood.HoodMoveDownUntilLimitSwitchCommand;
 import edu.nr.robotics.subsystems.loaderroller.LaserCannonTriggerCommand;
 import edu.nr.robotics.subsystems.shooter.Shooter;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -20,6 +21,7 @@ public class AutonAlignCommand extends CommandGroup {
 	long startTime;
 	
     public  AutonAlignCommand() {
+    	addSequential(new HoodMoveDownUntilLimitSwitchCommand());
     	addSequential(new WaitCommand(0.25));
         addSequential(new AlignSubcommandGroup());
     }

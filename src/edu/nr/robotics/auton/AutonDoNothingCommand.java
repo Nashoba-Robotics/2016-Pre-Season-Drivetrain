@@ -1,6 +1,12 @@
 package edu.nr.robotics.auton;
 
-import edu.nr.lib.NRCommand;
+import edu.nr.robotics.subsystems.hood.HoodMoveDownUntilLimitSwitchCommand;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class AutonDoNothingCommand extends NRCommand {
+public class AutonDoNothingCommand extends CommandGroup {
+	
+	public AutonDoNothingCommand() {
+    	addSequential(new HoodMoveDownUntilLimitSwitchCommand());
+	}
+	
 }

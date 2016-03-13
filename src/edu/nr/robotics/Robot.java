@@ -55,6 +55,8 @@ public class Robot extends RobotBase {
 	public AlignCommandGroup.State state;
 	RobotDiagram robotDiagram;
 
+	public Command driveWall;
+	
 
 	boolean doneFirstTime = false;
 	
@@ -325,7 +327,14 @@ public class Robot extends RobotBase {
 		OI.getInstance().drivingModeChooser.addObject("tank", DrivingMode.TANK);
 		SmartDashboard.putData("Driving Mode Chooser", OI.getInstance().drivingModeChooser);
 		
+		SmartDashboard.putData("Gyro angle command", new WaitUntilGyroCommand(20));
+		
+		SmartDashboard.putData("Hood Jetson angle command", new HoodJetsonPositionCommand());
+		
 		LiveWindow.addSensor("Jetson", "Ready to shoot", LiveWindowClasses.readyToShoot);
+		
+		SmartDashboard.putNumber("Hood Multiplier Percent", 100);
+
 	}
 	
 	private static void initCamera() {
@@ -395,6 +404,7 @@ public class Robot extends RobotBase {
 		SmartDashboard.putBoolean("Banner 2", LoaderRoller.getInstance().hasBall());
 		SmartDashboard.putBoolean("Banner 3", Shooter.getInstance().hasBall());	
 		
+		
 		Drive.getInstance().setPIDEnabled(!OI.getInstance().dumbDrive.get());
 
 		if(OI.getInstance().fireButton.get() && (!OI.getInstance().alignButton.get())) {
@@ -420,12 +430,7 @@ public class Robot extends RobotBase {
 	 * functions for the specific modes
 	 */
 	private void initialize() {
-		if(isOperatorControl()) {
-			if(!doneFirstTime) {
-				new HoodMoveDownUntilLimitSwitchCommand().start();
-				doneFirstTime = true;
-			}
-		} else if (isDisabled()) {
+		if (isDisabled()) {
 			IntakeArm.getInstance().disable();
 			//Fix intake arm cancelling
 			IntakeRoller.getInstance().setRollerSpeed(0);
