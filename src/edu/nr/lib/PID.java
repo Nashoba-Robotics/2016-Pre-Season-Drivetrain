@@ -5,6 +5,7 @@ import java.util.TimerTask;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.tables.ITable;
 import edu.wpi.first.wpilibj.tables.ITableListener;
 import edu.wpi.first.wpilibj.util.BoundaryException;
@@ -16,6 +17,11 @@ import edu.wpi.first.wpilibj.util.BoundaryException;
  * the integral calculations, as well as writing the given PIDOutput
  */
 public class PID implements LiveWindowSendable {
+	
+	boolean smartDashboardPrintingP = false;
+	boolean smartDashboardPrintingI = false;
+	boolean smartDashboardPrintingD = false;
+	boolean smartDashboardPrintingF = false;
 
 	public static final double kDefaultPeriod = .02;
 	private double m_P; // factor for "proportional" control
@@ -44,6 +50,8 @@ public class PID implements LiveWindowSendable {
 	PIDSource m_pidInput;
 	PIDOutput m_pidOutput;
 	java.util.Timer m_controlLoop;
+
+	private String subsystemName = "";
 
 	/**
 	 * Tolerance is the type of tolerance used to specify if the PID controller
@@ -292,6 +300,16 @@ public class PID implements LiveWindowSendable {
 					}
 				}
 
+				if(smartDashboardPrintingP) {
+					SmartDashboard.putNumber(subsystemName + " PID P", m_P * m_error);
+				} if(smartDashboardPrintingI) {
+					SmartDashboard.putNumber(subsystemName + " PID I", tempm_I * m_totalError);
+				} if(smartDashboardPrintingD) {
+					SmartDashboard.putNumber(subsystemName + " PID D", m_D * (m_error - m_prevError));
+				} if(smartDashboardPrintingF) {
+					SmartDashboard.putNumber(subsystemName + " PID F", m_setpoint * m_F);
+				}
+				
 				m_result = m_P * m_error + tempm_I * m_totalError + m_D * (m_error - m_prevError) + m_setpoint * m_F;
 				m_prevError = m_error;
 
@@ -589,6 +607,15 @@ public class PID implements LiveWindowSendable {
 		m_prevError = 0;
 		m_totalError = 0;
 		m_result = 0;
+	}
+	
+	public void enableSmartDashboardPrinting(boolean willEnableP,boolean willEnableI,boolean willEnableD,boolean willEnableF, String subsystemName) {
+		this.smartDashboardPrintingP = willEnableP;
+		this.smartDashboardPrintingI = willEnableI;
+		this.smartDashboardPrintingD = willEnableD;
+		this.smartDashboardPrintingF = willEnableF;
+		this.subsystemName  = subsystemName;
+		return;
 	}
 
 	@Override

@@ -51,6 +51,7 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 
 						
 		pid = new PID(0.75, 0.0001, 0, 1, shooterRate, talonOutput);
+		pid.enableSmartDashboardPrinting(true, false, false, true, "Shooter");
 
 		LiveWindow.addSensor("Shooter", "Shooter PID", pid);
 
