@@ -10,7 +10,9 @@ import edu.nr.robotics.subsystems.drive.*;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.hood.HoodIncreaseDegreeCommand;
 import edu.nr.robotics.subsystems.hood.HoodJetsonPositionCommand;
+import edu.nr.robotics.subsystems.hood.HoodPositionCommand;
 import edu.nr.robotics.subsystems.hood.HoodResetEncoderCommand;
+import edu.nr.robotics.subsystems.hood.HoodSmartDashboardPositionCommand;
 import edu.nr.robotics.subsystems.intakearm.*;
 import edu.nr.robotics.subsystems.intakeroller.*;
 import edu.nr.robotics.subsystems.lights.*;
@@ -171,9 +173,16 @@ public class OI implements SmartDashboardSource, Periodic {
 		
 		new JoystickButton(operatorRight, 8).whenPressed(new HoodJetsonPositionCommand());
 		
+		new JoystickButton(operatorRight, 8).whenPressed(new ShooterHighCommand());
+
+		
 		// => 9: Extend & Intake Up
 		// Extends elevator completely, brings intake to up position
-		new JoystickButton(operatorRight, 9).whenPressed(new ElevatorExtendCommand());
+		//new JoystickButton(operatorRight, 9).whenPressed(new ElevatorExtendCommand());
+		
+		new JoystickButton(operatorRight, 9).whenPressed(new HoodSmartDashboardPositionCommand());
+		new JoystickButton(operatorRight, 9).whenPressed(new ShooterHighCommand());
+
 		// => 10: Prepare Climb
 		// Un-latches elevator (drives the elevator down a little)
 		new JoystickButton(operatorRight, 10).whenPressed(new ElevatorUnlatchCommand());

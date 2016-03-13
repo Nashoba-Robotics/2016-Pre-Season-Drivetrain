@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 public class LaserCannonTriggerCommand extends CommandGroup {
 
 	public LaserCannonTriggerCommand() {
-		addSequential(new LoaderRollerIntakeCommand());
+		addParallel(new LoaderRollerIntakeCommand());
 		addSequential(new WaitCommand(3));
 		addSequential(new LoaderRollerNeutralCommand());
 		addSequential(new LightsOffCommand());

@@ -161,6 +161,9 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	public void smartDashboardInfo() {
 		SmartDashboard.putNumber("Shooter Speed", getSpeed());
 		SmartDashboard.putNumber("Shooter Speed Percent", getScaledSpeed());
+		
+		SmartDashboard.putData("Shooter PID", pid);
+		SmartDashboard.putNumber("Shooter PID output", pid.get());
 		LiveWindowClasses.shooterCurrent.set(talonOutput.getOutputCurrent());
 		LiveWindowClasses.shooterOutput.set(pid.get());
 	}

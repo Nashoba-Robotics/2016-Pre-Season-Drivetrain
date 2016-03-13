@@ -26,6 +26,6 @@ public class JetsonImagePacket {
 	}
 	
 	public double getDistance() {
-		return distance / (SmartDashboard.getNumber("Hood Multiplier")/100.0);
+		return distance / (SmartDashboard.getNumber("Hood Multiplier Percent")/100.0);
 	}
 }

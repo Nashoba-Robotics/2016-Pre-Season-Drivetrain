@@ -334,6 +334,8 @@ public class Robot extends RobotBase {
 		LiveWindow.addSensor("Jetson", "Ready to shoot", LiveWindowClasses.readyToShoot);
 		
 		SmartDashboard.putNumber("Hood Multiplier Percent", 100);
+		
+		SmartDashboard.putNumber("Hood location for setting", 48);
 
 	}
 	
