@@ -38,30 +38,28 @@ public class AutonAlignCommand extends CommandGroup {
     
     @Override
     public void end() {
-    	JetsonImagePacket packet;
-		try {
-    		packet = UDPServer.getInstance().getLastPacket();
-    	} catch(NullPointerException e) {
-    		System.out.println("Couldn't get a packet from the Jetson for " + getName());
+    	JetsonImagePacket packet = UDPServer.getInstance().getLastPacket();
+
+    	if(UDPServer.getInstance().getLastPacket().getPacketNum() == 0) {
     		return;
     	}
-		
-    		boolean flag = false;
-    		
-    		double checkDist = RobotMap.TURN_THRESHOLD;
-    		
-    		if ((Math.abs(System.currentTimeMillis() - startTime) > 5000)) {
-    			checkDist = 2;
-    		}
-    		
-    		if(Math.abs(System.currentTimeMillis() - startTime) < 5000 && Hood.getInstance().get() - packet.getHoodAngle() > RobotMap.HOOD_THRESHOLD ) {flag = true;}
-    		if(Math.abs(packet.getTurnAngle()) > checkDist) {flag = true;}
-			if(Math.abs(System.currentTimeMillis() - startTime) < 5000 && Shooter.getInstance().getScaledSpeed() < RobotMap.SHOOTER_FAST_SPEED - RobotMap.SHOOTER_THRESHOLD) {flag = true;}
-    		if(flag) {
-	    		new AutonAlignCommand(startTime).start();
-	    		return;
-    		}
- 
+
+    	boolean flag = false;
+
+    	double checkDist = RobotMap.TURN_THRESHOLD;
+
+    	if ((Math.abs(System.currentTimeMillis() - startTime) > 5000)) {
+    		checkDist = 2;
+    	}
+
+    	if(Math.abs(System.currentTimeMillis() - startTime) < 5000 && Hood.getInstance().get() - packet.getHoodAngle() > RobotMap.HOOD_THRESHOLD ) {flag = true;}
+    	if(Math.abs(packet.getTurnAngle()) > checkDist) {flag = true;}
+    	if(Math.abs(System.currentTimeMillis() - startTime) < 5000 && Shooter.getInstance().getScaledSpeed() < RobotMap.SHOOTER_FAST_SPEED - RobotMap.SHOOTER_THRESHOLD) {flag = true;}
+    	if(flag) {
+    		new AutonAlignCommand(startTime).start();
+    		return;
+    	}
+
     	new LaserCannonTriggerCommand().start();
     }
 }

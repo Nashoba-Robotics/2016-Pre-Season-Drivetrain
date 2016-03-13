@@ -33,13 +33,11 @@ public class AlignCommandGroup extends CommandGroup {
     
     @Override
     public void end() {
-    	JetsonImagePacket packet;
-    	try {
-    		packet = UDPServer.getInstance().getLastPacket();
-    	} catch(NullPointerException e) {
-    		System.out.println("Couldn't get a packet from the Jetson for " + getName());
-    		return;
-    	}
+    	JetsonImagePacket packet = UDPServer.getInstance().getLastPacket();
+    	
+    	if(UDPServer.getInstance().getLastPacket().getPacketNum() == 0) {
+			return;
+		}
 
     	System.out.println("Align command group started ending");
 		System.out.println("Hood: " + (Math.abs(Hood.getInstance().get() - 

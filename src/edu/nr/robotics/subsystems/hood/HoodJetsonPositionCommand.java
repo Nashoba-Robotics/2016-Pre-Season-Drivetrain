@@ -6,7 +6,7 @@ import edu.nr.robotics.commandgroups.AlignSubcommandGroup;
 
 public class HoodJetsonPositionCommand extends NRCommand {
 
-	double val;
+	double val = 0;
 	
 	boolean canRun = true;
 	
@@ -16,6 +16,10 @@ public class HoodJetsonPositionCommand extends NRCommand {
 	
 	@Override
 	protected void onStart() {
+		if(UDPServer.getInstance().getLastPacket().getPacketNum() == 0) {
+			canRun = false;
+			return;
+		}
 		val = UDPServer.getInstance().getLastPacket().getHoodAngle();
 		Hood.getInstance().enable();
 		Hood.getInstance().setSetpoint(val);
@@ -24,6 +28,7 @@ public class HoodJetsonPositionCommand extends NRCommand {
 	@Override
 	protected void onEnd(boolean interrupted) {
 		System.out.println("Just finished Hood Jetson check");
+		canRun = true;
 	}
 
 	@Override

@@ -72,12 +72,20 @@ public class DriveAngleJetsonPIDCommand extends NRCommand {
 		if(canRun) {
 			pid.disable();
 		}
+		canRun = true;
 	}
 
 	@Override
 	protected void onStart() {
+		
+		if(UDPServer.getInstance().getLastPacket().getPacketNum() == 0) {
+			canRun = false;
+			return;
+		}
+		
 		System.out.println("Drive angle Jetson PID start");
 		angle = UDPServer.getInstance().getLastPacket().getTurnAngle();
+		
 
 		/*if(Math.abs(angle) < .5) {
 			angle = 0;

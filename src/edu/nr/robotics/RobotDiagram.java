@@ -31,11 +31,7 @@ public class RobotDiagram implements NamedSendable {
 			table.putBoolean("Hood Bottom", Hood.getInstance().isAtPosition(Hood.Position.BOTTOM));
 			table.putBoolean("Hood Top", Hood.getInstance().isAtPosition(Hood.Position.TOP));
 			table.putNumber("Hood Angle", Hood.getInstance().get());
-			try {
 			table.putBoolean("Hood at Threshold", Math.abs(Hood.getInstance().get() - UDPServer.getInstance().getLastPacket().getHoodAngle()) > RobotMap.HOOD_THRESHOLD);
-			} catch (NullPointerException e) {				
-				table.putBoolean("Hood at Threshold", false);
-			}
 			table.putNumber("Shot distance at angle", UDPServer.angleToDistance(Hood.getInstance().get()));
 			
 			//Intake Arm
