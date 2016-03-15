@@ -303,7 +303,8 @@ public class Robot extends RobotBase {
 		autoCommandChooser.addDefault("Do Nothing", new AutonDoNothingCommand());
 		autoCommandChooser.addObject("Follow instructions", new AutonFollowInstructionsCommand());
 		autoCommandChooser.addObject("Align and shoot", new AutonAlignCommand());
-		autoCommandChooser.addObject("Forward over obstacle with intake moved down", new AutonForwardCommand());
+		autoCommandChooser.addObject("Forward over obstacle with intake moved down Low Bar", new AutonForwardLowBarCommand());
+		autoCommandChooser.addObject("Forward over obstacle with intake moved down Over", new AutonForwardOverCommand());
 		autoCommandChooser.addObject("Forward and shoot, low bar", new AutonForwardAlignLowBarCommand());
 		autoCommandChooser.addObject("Forward and shoot, left", new AutonForwardAlignLeftCommand());
 		autoCommandChooser.addObject("Forward and shoot, middle", new AutonForwardAlignMiddleCommand());

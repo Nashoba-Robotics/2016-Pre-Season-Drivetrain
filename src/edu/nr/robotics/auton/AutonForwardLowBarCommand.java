@@ -6,9 +6,9 @@ import edu.nr.robotics.subsystems.hood.HoodMoveDownUntilLimitSwitchCommand;
 import edu.nr.robotics.subsystems.intakearm.IntakeArmPositionCommand;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class AutonForwardCommand extends CommandGroup {
+public class AutonForwardLowBarCommand extends CommandGroup {
 
-	public AutonForwardCommand() {
+	public AutonForwardLowBarCommand() {
     	addSequential(new HoodMoveDownUntilLimitSwitchCommand());
 		addSequential(new IntakeArmPositionCommand(RobotMap.INTAKE_INTAKE_POS, 0.05));
 		addSequential(new DriveDistanceCommand(14, 0.6));

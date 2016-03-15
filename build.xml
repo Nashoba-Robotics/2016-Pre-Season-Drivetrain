@@ -37,6 +37,7 @@
   <path id="classpath.test">
     <pathelement location="lib/junit-4.12.jar" />
     <pathelement location="lib/hamcrest-core-1.3.jar" />
+    <pathelement location="lib/RIOdroid.jar" />
   </path>
 
   <target name="test" depends="clean,compile" description="Compile source code and run all junit tests.">
