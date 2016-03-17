@@ -83,8 +83,8 @@ public class Drive extends Subsystem implements SmartDashboardSource, Periodic{
 		rightPid = new PID(JOYSTICK_DRIVE_P, 0, 0, 1, rightTalonEncoder, rightTalon);
 		
 		pidMaxVal = 1.0;
-		rightPid.setOutputRange(-pidMaxVal, pidMaxVal);
-		leftPid.setOutputRange(-pidMaxVal, pidMaxVal);
+		rightPid.setOutputRange(0, pidMaxVal);
+		leftPid.setOutputRange(0, pidMaxVal);
 		
 
 		
@@ -375,8 +375,8 @@ public class Drive extends Subsystem implements SmartDashboardSource, Periodic{
 			pidMaxVal -= 0.03;
 		}
 
-		leftPid.setOutputRange(-Math.abs(pidMaxVal), Math.abs(pidMaxVal));
-		rightPid.setOutputRange(-Math.abs(pidMaxVal), Math.abs(pidMaxVal));
+		leftPid.setOutputRange(0, Math.abs(pidMaxVal));
+		rightPid.setOutputRange(0, Math.abs(pidMaxVal));
 	}
 
 	public void setPID(double p, double i, double d, double f) {

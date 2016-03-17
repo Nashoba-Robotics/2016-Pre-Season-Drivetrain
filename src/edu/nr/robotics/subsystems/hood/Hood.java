@@ -138,7 +138,7 @@ public class Hood extends Subsystem implements SmartDashboardSource, Periodic {
 	
 	public void setMaxSpeedPID(double speed) {
 		maxSpeed = speed;
-		pid.setOutputRange(-speed, speed);
+		pid.setOutputRange(0,speed);
 	}
 	
 	@Override

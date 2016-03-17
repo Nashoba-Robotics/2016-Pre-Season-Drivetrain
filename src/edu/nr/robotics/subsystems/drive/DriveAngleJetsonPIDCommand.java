@@ -94,7 +94,7 @@ public class DriveAngleJetsonPIDCommand extends NRCommand {
 		}*/
 		correction = new AngleGyroCorrectionSource(AngleUnit.DEGREE);
 		pid = new PID(RobotMap.TURN_P,RobotMap.TURN_I,RobotMap.TURN_D, correction, new AngleController());
-		pid.setOutputRange(-0.3, 0.3);
+		pid.setOutputRange(0.1, 0.3);
 		pid.setSetpoint(angle);
     	pid.enable();
 	}

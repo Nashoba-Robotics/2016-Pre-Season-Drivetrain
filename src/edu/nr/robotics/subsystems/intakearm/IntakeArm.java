@@ -135,7 +135,7 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	}
 
 	public void setMaxSpeed(double maxSpeed) {
-		pid.setOutputRange(-maxSpeed, maxSpeed);
+		pid.setOutputRange(0, maxSpeed);
 	}
 
 	@Override

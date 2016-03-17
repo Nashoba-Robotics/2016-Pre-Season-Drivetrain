@@ -2,6 +2,9 @@ package edu.nr.robotics;
 
 import java.util.ArrayList;
 
+import org.spectrum3847.RIOdroid.RIOadb;
+import org.spectrum3847.RIOdroid.RIOdroid;
+
 import com.ni.vision.VisionException;
 
 import edu.nr.lib.*;
@@ -33,6 +36,7 @@ import edu.nr.robotics.subsystems.loaderroller.LaserCannonTriggerCommand;
 import edu.nr.robotics.subsystems.loaderroller.LoaderRoller;
 import edu.nr.robotics.subsystems.shooter.Shooter;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -207,6 +211,22 @@ public class Robot extends RobotBase {
 		initSmartDashboard();
 		initServer();
 		robotDiagram = new RobotDiagram();
+        RIOdroid.initUSB(); //Start LibUsb
+        RIOadb.init();      //Start up ADB deamon and get an instance of jadb
+        Timer.delay(1);
+        //System.out.println("ADB DEVICES: " + RIOdroid.executeCommand("adb devices"));
+        //System.out.println("Kill adb" + RIOdroid.executeCommand("adb kill-server"));
+        //System.out.println("start adb" + RIOdroid.executeCommand("adb start-server"));
+        //System.out.println("ADB DEVICES: " + RIOdroid.executeCommand("adb devices"));
+        //System.out.println("All to gether: " + RIOdroid.executeCommand("adb kill-server; adb start-server; adb devices"));
+        
+        System.out.println(RIOadb.clearNetworkPorts());
+        Timer.delay(1);
+        System.out.println("FORWARD ADB: " + RIOadb.ForwardAdb(3800,8080));
+        Timer.delay(1);
+        System.out.println("FORWARD SOCAT: " + RIOadb.forwardToLocal(8080,3800));
+        //System.out.println("FOWARD: " + RIOadb.forward(8080, 8080));
+
 	}
 	
 	private void initServer() {

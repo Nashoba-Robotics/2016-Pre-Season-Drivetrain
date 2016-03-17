@@ -18,8 +18,6 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
  */
 public class AutoShovelOfFriesCommandGroup extends CommandGroup {
 	
-	//TODO: Confirm the behaviour of auto shovel of fries
-
     public  AutoShovelOfFriesCommandGroup() {
     	addSequential(new DriveDistanceCommand(-0.1,0.6));
         addParallel(new IntakeArmBottomHeightCommandGroup());

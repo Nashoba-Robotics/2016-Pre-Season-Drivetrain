@@ -72,7 +72,7 @@ public class DriveAnglePIDCommand extends NRCommand {
 	@Override
 	protected void onStart() {
 		pid = new PID(RobotMap.TURN_P,RobotMap.TURN_I,RobotMap.TURN_D, new AngleGyroCorrectionSource(), new AngleController());
-		pid.setOutputRange(-0.3, 0.3);
+		pid.setOutputRange(0.1, 0.3);
 		pid.enable();
     	pid.setSetpoint(angle);
 	}

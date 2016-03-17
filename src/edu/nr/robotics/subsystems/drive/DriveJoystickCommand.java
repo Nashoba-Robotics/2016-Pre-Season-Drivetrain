@@ -44,7 +44,7 @@ public class DriveJoystickCommand extends NRCommand {
 	    		if (Math.abs(moveValue) > .1)
 	    		{
 	    			//rotateValue = gyroCorrection.getTurnValue();
-	    			//TODO:  Fix gyro rotation 
+	    			//TODO: Fix gyro rotation 
 	    		}
 		    	else
 		    	{	    		
@@ -59,7 +59,7 @@ public class DriveJoystickCommand extends NRCommand {
 			
 			/*double negInertia = rotateValue - oldTurn;
 
-			// Negative inertia!
+			// Negative inertia! TODO: Fix NegInertia
 			double negInertiaScalar;
 
 			if (rotateValue * negInertia > 0) {

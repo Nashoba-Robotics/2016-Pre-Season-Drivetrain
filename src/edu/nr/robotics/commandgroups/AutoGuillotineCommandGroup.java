@@ -22,8 +22,6 @@ public class AutoGuillotineCommandGroup extends CommandGroup {
 	public static final double firstspeed = 1;
 	public static final double seconddistance = 1;
 	public static final double secondspeed = 1;
-
-	//TODO: Confirm the behaviour of auto guillotine
 	
     public  AutoGuillotineCommandGroup() {
     	addSequential(new IntakeArmPositionCommand(RobotMap.INTAKE_BOTTOM_POS, 0.5));

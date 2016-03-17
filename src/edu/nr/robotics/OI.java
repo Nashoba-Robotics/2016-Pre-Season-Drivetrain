@@ -18,6 +18,7 @@ import edu.nr.robotics.subsystems.intakeroller.*;
 import edu.nr.robotics.subsystems.lights.*;
 import edu.nr.robotics.subsystems.loaderroller.*;
 import edu.nr.robotics.subsystems.shooter.ShooterHighCommand;
+import edu.nr.robotics.subsystems.shooter.ShooterManualHighCommand;
 import edu.nr.robotics.subsystems.shooter.ShooterOffCommand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
@@ -194,7 +195,7 @@ public class OI implements SmartDashboardSource, Periodic {
 		// signifying we are about to shoot enables defense robots to defend
 		// more effectively
 		LEDCutout = new JoystickButton(operatorRight, 12);
-		LEDCutout.whenPressed(new ShooterHighCommand());
+		LEDCutout.whenPressed(new ShooterManualHighCommand());
 		LEDCutout.whenReleased(new ShooterOffCommand());
 	}
 
