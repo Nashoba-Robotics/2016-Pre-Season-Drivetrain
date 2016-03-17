@@ -21,7 +21,7 @@
 
   <!-- Any other property in build.properties can also be overridden. -->
 
-  <property name="classpath" value="${user.home}/wpilib/java/current/lib/WPILib.jar:${user.home}/wpilib/java/current/lib/NetworkTables.jar:lib/RIOdroid.jar"/>
+  <property name="classpath" value="lib/wpilib/java/current/lib/WPILib.jar:lib/wpilib/java/current/lib/NetworkTables.jar:lib/RIOdroid.jar"/>
 
   <property environment="env"/>
   <condition property="wpilib.root" value="lib" else="${user.home}">
