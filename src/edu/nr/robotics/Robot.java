@@ -124,7 +124,6 @@ public class Robot extends RobotBase {
 	
 	@Override
 	public void startCompetition() {
-
 		UsageReporting.report(tResourceType.kResourceType_Framework, tInstances.kFramework_Iterative);
 
 		robotInit();
@@ -197,7 +196,7 @@ public class Robot extends RobotBase {
 				}
 				FRCNetworkCommunicationsLibrary.FRCNetworkCommunicationObserveUserProgramTeleop();
 			}
-			//periodic();
+			periodic();
 		}
 	}
 	
@@ -207,6 +206,7 @@ public class Robot extends RobotBase {
 	 */
 	private void robotInit() {
 		System.out.println("Robot Init Started");
+		/*
         RIOdroid.initUSB(); //Start LibUsb
         try { 
         	RIOadb.init();      //Start up ADB deamon and get an instance of jadb
@@ -235,15 +235,16 @@ public class Robot extends RobotBase {
         System.out.println("FOWARD SOCAT: " + RIOadb.forwardToLocal(17680,AndroidConnection.defaultPort));
         
         
-        new AndroidConnection().run();
+        new AndroidConnection().run();*/
         
-        /*initCamera();
+        initCamera();
 		initSubsystems();
 		initSmartDashboard();
-		robotDiagram = new RobotDiagram();*/
+		robotDiagram = new RobotDiagram();
 	}
 	
-	private void initSmartDashboard() {		
+	private void initSmartDashboard() {	
+		System.out.println("About to init SmartDashboard");
 		autoCommandPickerOne = new SendableChooser();
 		autoCommandPickerOne.addDefault("1-Do nothing", new AutonDoNothingCommand());
 		autoCommandPickerOne.addObject("Drive over obstacle25", new DriveDistanceCommand(RobotMap.OVER_DISTANCE_25, 1.0));
@@ -369,21 +370,21 @@ public class Robot extends RobotBase {
 
 	}
 	
-	private static void initCamera() {
+	private void initCamera() {
+		System.out.flush();
 		// the camera name (ex "cam0") can be found through the roborio web interface
 		try{ 
 			CameraServer server = CameraServer.getInstance();
-			//USBCamera cam = new USBCamera("cam2");
-			//cam.setFPS(5);
 			server.setQuality(50);
-			//server.setSize(2);
 			server.startAutomaticCapture("cam2");
 		} catch (VisionException e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
+		
 	}
 	
 	private void initSubsystems() {
+		System.out.println("About to init the subsystems");
 		//Init subsystems
 		Drive.init();
 		NavX.init();
