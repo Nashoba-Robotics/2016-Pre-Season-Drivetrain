@@ -71,12 +71,8 @@ public class OI implements SmartDashboardSource, Periodic {
 		new JoystickButton(driveLeft, 1).whenPressed(Robot.getInstance().driveWall);
 		new JoystickButton(driveLeft, 1).whenReleased(new DriveCancelCommand());
 		//->  2: Reverse drive direction
-		//->  3: Lights on
-		new JoystickButton(driveLeft, 3).whenPressed(new LightsOnCommand());
-		//->  4: Lights off
-		new JoystickButton(driveLeft, 4).whenPressed(new LightsOffCommand());
-		//->  5: Lights blink
-		new JoystickButton(driveLeft, 5).whenPressed(new LightsBlinkCommand(200));
+		//->  3: Reset elevator encoder
+		new JoystickButton(driveLeft, 3).whenPressed(new ElevatorResetEncoderCommand());
 		
 		new JoystickButton(driveLeft, 11).whenPressed(new ShooterHighCommand());
 		new JoystickButton(driveLeft, 10).whenPressed(new ShooterOffCommand());
@@ -170,20 +166,10 @@ public class OI implements SmartDashboardSource, Periodic {
 		new JoystickButton(operatorRight, 7).whenPressed(new CancelAllCommand());
 		// => 8: Climb
 		// Fully retracts elevator, stops after 1 second of motor stall
-		//new JoystickButton(operatorRight, 8).whenPressed(new ElevatorRetractCommand());
-		
-		new JoystickButton(operatorRight, 8).whenPressed(new HoodJetsonPositionCommand());
-		
-		new JoystickButton(operatorRight, 8).whenPressed(new ShooterHighCommand());
-
-		
+		new JoystickButton(operatorRight, 8).whenPressed(new ElevatorRetractCommand());
 		// => 9: Extend & Intake Up
 		// Extends elevator completely, brings intake to up position
-		//new JoystickButton(operatorRight, 9).whenPressed(new ElevatorExtendCommand());
-		
-		new JoystickButton(operatorRight, 9).whenPressed(new HoodSmartDashboardPositionCommand());
-		new JoystickButton(operatorRight, 9).whenPressed(new ShooterHighCommand());
-
+		new JoystickButton(operatorRight, 9).whenPressed(new ElevatorExtendCommand());
 		// => 10: Prepare Climb
 		// Un-latches elevator (drives the elevator down a little)
 		new JoystickButton(operatorRight, 10).whenPressed(new ElevatorUnlatchCommand());
@@ -195,7 +181,7 @@ public class OI implements SmartDashboardSource, Periodic {
 		// signifying we are about to shoot enables defense robots to defend
 		// more effectively
 		LEDCutout = new JoystickButton(operatorRight, 12);
-		LEDCutout.whenPressed(new ShooterManualHighCommand());
+		LEDCutout.whenPressed(new ShooterHighCommand());
 		LEDCutout.whenReleased(new ShooterOffCommand());
 	}
 
@@ -292,7 +278,7 @@ public class OI implements SmartDashboardSource, Periodic {
 		if(value > -0.5 && value < 0.5)
 			return 0;
 		
-		return (value-0.5) / 0.9;
+		return ((Math.abs(value)-0.5) / 0.5) * Math.signum(value);
 	}
 
 	public double getRawMove() {

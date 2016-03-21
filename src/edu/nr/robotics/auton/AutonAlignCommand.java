@@ -1,7 +1,6 @@
 package edu.nr.robotics.auton;
 
-import edu.nr.lib.network.JetsonImagePacket;
-import edu.nr.lib.network.UDPServer;
+import edu.nr.lib.network.AndroidConnection;
 import edu.nr.robotics.OI;
 import edu.nr.robotics.RobotMap;
 import edu.nr.robotics.commandgroups.AlignCommandGroup;
@@ -38,9 +37,10 @@ public class AutonAlignCommand extends CommandGroup {
     
     @Override
     public void end() {
-    	JetsonImagePacket packet = UDPServer.getInstance().getLastPacket();
-
-    	if(UDPServer.getInstance().getLastPacket().getPacketNum() == 0) {
+    	AndroidConnection connection = new AndroidConnection();
+    	connection.run();
+    	if(!connection.goodToGo()) { 
+    		System.out.println("Android connection not good to go");
     		return;
     	}
 
@@ -52,8 +52,8 @@ public class AutonAlignCommand extends CommandGroup {
     		checkDist = 2;
     	}
 
-    	if(Math.abs(System.currentTimeMillis() - startTime) < 5000 && Hood.getInstance().get() - packet.getHoodAngle() > RobotMap.HOOD_THRESHOLD ) {flag = true;}
-    	if(Math.abs(packet.getTurnAngle()) > checkDist) {flag = true;}
+    	if(Math.abs(System.currentTimeMillis() - startTime) < 5000 && Hood.getInstance().get() - Hood.distanceToAngle(connection.getDistance()) > RobotMap.HOOD_THRESHOLD ) {flag = true;}
+    	if(Math.abs(connection.getTurnAngle()) > checkDist) {flag = true;}
     	if(Math.abs(System.currentTimeMillis() - startTime) < 5000 && Shooter.getInstance().getScaledSpeed() < RobotMap.SHOOTER_FAST_SPEED - RobotMap.SHOOTER_THRESHOLD) {flag = true;}
     	if(flag) {
     		new AutonAlignCommand(startTime).start();

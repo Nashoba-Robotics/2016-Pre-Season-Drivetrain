@@ -10,7 +10,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class ElevatorExtendCommand extends CommandGroup {
     
     public  ElevatorExtendCommand() {
-        addSequential(new IntakeArmUpHeightCommandGroup());
+        
+    	//TODO: Add intake arm back
+    	
+    	//addParallel(new IntakeArmUpHeightCommandGroup());
         addSequential(new ElevatorUpUntilGreaterThanCommand(RobotMap.ELEVATOR_EXTEND_DISTANCE));
     }
 }

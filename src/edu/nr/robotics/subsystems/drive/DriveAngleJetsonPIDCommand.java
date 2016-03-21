@@ -4,7 +4,7 @@ import edu.nr.lib.AngleGyroCorrectionSource;
 import edu.nr.lib.AngleUnit;
 import edu.nr.lib.NRCommand;
 import edu.nr.lib.PID;
-import edu.nr.lib.network.UDPServer;
+import edu.nr.lib.network.AndroidConnection;
 import edu.nr.robotics.RobotMap;
 import edu.nr.robotics.commandgroups.AlignSubcommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -17,9 +17,7 @@ public class DriveAngleJetsonPIDCommand extends NRCommand {
 	PID pid;
 	
 	double angle;
-	
-	boolean canRun;
-	
+		
 	AngleGyroCorrectionSource correction;
 	boolean resetCorrection;
 	
@@ -28,6 +26,8 @@ public class DriveAngleJetsonPIDCommand extends NRCommand {
 	double accuracyFinishCount = 3;
 	double currentCount = 0;
 	
+	boolean goodToGo = true;
+	
     public DriveAngleJetsonPIDCommand() {
     	requires(Drive.getInstance());
     }
@@ -35,24 +35,22 @@ public class DriveAngleJetsonPIDCommand extends NRCommand {
     // Called repeatedly when this Command is scheduled to run
     @Override
 	protected void onExecute() {
-    	if(canRun) {			
-			if(Math.abs(pid.getError()) > integralDisableDistance) {
-				pid.setPID(RobotMap.TURN_P, 0, RobotMap.TURN_D);
-				pid.resetTotalError();
-			} else {
-				pid.setPID(RobotMap.TURN_P, RobotMap.TURN_I, RobotMap.TURN_D);
-			}
-			
-			if(Math.signum(pid.getError()) != Math.signum(pid.getTotalError())) {
-				pid.resetTotalError();
-			}
-    	}
+		if(Math.abs(pid.getError()) > integralDisableDistance) {
+			pid.setPID(RobotMap.TURN_P, 0, RobotMap.TURN_D);
+			pid.resetTotalError();
+		} else {
+			pid.setPID(RobotMap.TURN_P, RobotMap.TURN_I, RobotMap.TURN_D);
+		}
+		
+		if(Math.signum(pid.getError()) != Math.signum(pid.getTotalError())) {
+			pid.resetTotalError();
+		}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
 	protected boolean isFinishedNR() {
-    	if(!canRun)
+    	if(!goodToGo)
     		return true;
     	if(Math.abs(pid.getError()) < RobotMap.TURN_THRESHOLD) {
     		currentCount++;
@@ -69,22 +67,22 @@ public class DriveAngleJetsonPIDCommand extends NRCommand {
 	@Override
 	protected void onEnd(boolean interrupted) {
 		System.out.println("Drive angle Jetson PID finish interrupted? " + interrupted);
-		if(canRun) {
-			pid.disable();
-		}
-		canRun = true;
+		goodToGo = true;
 	}
 
 	@Override
 	protected void onStart() {
-		
-		if(UDPServer.getInstance().getLastPacket().getPacketNum() == 0) {
-			canRun = false;
-			return;
-		}
+    	AndroidConnection connection = new AndroidConnection();
+    	connection.run();
+
+    	if(!connection.goodToGo()) { 
+    		System.out.println("Android connection not good to go");
+    		goodToGo = false;
+    		return;
+    	}
 		
 		System.out.println("Drive angle Jetson PID start");
-		angle = UDPServer.getInstance().getLastPacket().getTurnAngle();
+		angle = connection.getTurnAngle();
 		
 
 		/*if(Math.abs(angle) < .5) {

@@ -1,14 +1,14 @@
 package edu.nr.robotics.subsystems.hood;
 
 import edu.nr.lib.NRCommand;
-import edu.nr.lib.network.UDPServer;
-import edu.nr.robotics.commandgroups.AlignSubcommandGroup;
+import edu.nr.lib.network.AndroidConnection;
 
 public class HoodJetsonPositionCommand extends NRCommand {
 
 	double val = 0;
 	
-	boolean canRun = true;
+	boolean goodToGo = true;
+	
 	
 	public HoodJetsonPositionCommand() {
 		requires(Hood.getInstance());
@@ -16,11 +16,14 @@ public class HoodJetsonPositionCommand extends NRCommand {
 	
 	@Override
 	protected void onStart() {
-		if(UDPServer.getInstance().getLastPacket().getPacketNum() == 0) {
-			canRun = false;
-			return;
-		}
-		val = UDPServer.getInstance().getLastPacket().getHoodAngle();
+		AndroidConnection connection = new AndroidConnection();
+    	connection.run();
+    	if(!connection.goodToGo()) { 
+    		System.out.println("Android connection not good to go");
+    		goodToGo = false;
+    		return;
+    	}
+		val = Hood.distanceToAngle(connection.getDistance());
 		Hood.getInstance().enable();
 		Hood.getInstance().setSetpoint(val);
 	}
@@ -28,12 +31,14 @@ public class HoodJetsonPositionCommand extends NRCommand {
 	@Override
 	protected void onEnd(boolean interrupted) {
 		System.out.println("Just finished Hood Jetson check");
-		canRun = true;
+    	goodToGo = true;
 	}
 
 	@Override
 	protected boolean isFinishedNR() {
-		return !canRun || Math.abs(Hood.getInstance().get() - val) < 0.25;
+		if(!goodToGo)
+			return true;
+		return Math.abs(Hood.getInstance().get() - val) < 0.25;
 	}
 
 }

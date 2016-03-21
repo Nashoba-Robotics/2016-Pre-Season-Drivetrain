@@ -1,6 +1,6 @@
 package edu.nr.robotics;
 
-import edu.nr.lib.network.UDPServer;
+import edu.nr.lib.network.AndroidConnection;
 import edu.nr.robotics.commandgroups.AlignCommandGroup;
 import edu.nr.robotics.subsystems.climb.Elevator;
 import edu.nr.robotics.subsystems.hood.Hood;
@@ -22,6 +22,8 @@ public class RobotDiagram implements NamedSendable {
 	public void initTable(ITable table) {
 		this.table = table;
 		if (table != null) {
+			
+
 			table.putString("~TYPE~", "robo-diagram");
 
 			table.putBoolean("Auto Align Happening", Robot.getInstance().state == AlignCommandGroup.State.ALIGNING);
@@ -31,8 +33,19 @@ public class RobotDiagram implements NamedSendable {
 			table.putBoolean("Hood Bottom", Hood.getInstance().isAtPosition(Hood.Position.BOTTOM));
 			table.putBoolean("Hood Top", Hood.getInstance().isAtPosition(Hood.Position.TOP));
 			table.putNumber("Hood Angle", Hood.getInstance().get());
-			table.putBoolean("Hood at Threshold", Math.abs(Hood.getInstance().get() - UDPServer.getInstance().getLastPacket().getHoodAngle()) > RobotMap.HOOD_THRESHOLD);
-			table.putNumber("Shot distance at angle", UDPServer.angleToDistance(Hood.getInstance().get()));
+			
+			AndroidConnection connection = new AndroidConnection();
+	    	connection.run();
+	    	boolean hoodAtThreshold;
+	    	if(!connection.goodToGo()) { 
+	    		System.out.println("Android connection not good to go");
+	    		hoodAtThreshold = false;
+	    	} else {
+	    		hoodAtThreshold = Math.abs(Hood.getInstance().get() - Hood.distanceToAngle(connection.getDistance())) > RobotMap.HOOD_THRESHOLD;
+	    	}
+	    	
+			table.putBoolean("Hood at Threshold", hoodAtThreshold);
+			table.putNumber("Shot distance at angle", Hood.angleToDistance(Hood.getInstance().get()));
 			
 			//Intake Arm
 			table.putBoolean("Intake Top Stop", IntakeArm.getInstance().get() > RobotMap.INTAKE_TOP_POS + RobotMap.INTAKE_ARM_THRESHOLD);

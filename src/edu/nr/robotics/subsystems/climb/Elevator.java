@@ -79,6 +79,9 @@ public class Elevator extends Subsystem implements SmartDashboardSource, Periodi
 
 	@Override
 	public void smartDashboardInfo() {
+		SmartDashboard.putNumber("Elevator speed", enc.getRate());
+		SmartDashboard.putNumber("Elevator position", enc.get());
+		SmartDashboard.putBoolean("Elevator moving", getMotorValue() != 0);
 		LiveWindowClasses.elevatorSpeed.set(enc.getRate());
 		LiveWindowClasses.elevatorSwitch.set(isLimitSwitchClosed());
 	}
@@ -100,7 +103,7 @@ public class Elevator extends Subsystem implements SmartDashboardSource, Periodi
 	}
 
 	public boolean isLimitSwitchClosed() {
-		return talon.isFwdLimitSwitchClosed();
+		return false;//talon.isFwdLimitSwitchClosed();
 		//TODO: Is it the fwd limit switch or the back limit switch?
 	}
 
@@ -109,7 +112,6 @@ public class Elevator extends Subsystem implements SmartDashboardSource, Periodi
 		if(isLimitSwitchClosed())
 			resetEncoder();
 	}
-	
 	
 }
 

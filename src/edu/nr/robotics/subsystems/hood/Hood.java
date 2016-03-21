@@ -4,7 +4,6 @@ import edu.nr.lib.PID;
 import edu.nr.lib.TalonEncoder;
 import edu.nr.lib.interfaces.Periodic;
 import edu.nr.lib.interfaces.SmartDashboardSource;
-import edu.nr.lib.network.UDPServer;
 import edu.nr.robotics.LiveWindowClasses;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
@@ -144,7 +143,7 @@ public class Hood extends Subsystem implements SmartDashboardSource, Periodic {
 	@Override
 	public void smartDashboardInfo() {
 		SmartDashboard.putNumber("Hood Angle", get());
-		SmartDashboard.putNumber("Hood Distance", UDPServer.angleToDistance(get()));
+		SmartDashboard.putNumber("Hood Distance", angleToDistance(get()));
 
 		LiveWindowClasses.hoodBottomSwitch.set(isBotLimitSwitchClosed());
 		LiveWindowClasses.hoodTopSwitch.set(isTopLimitSwitchClosed());
@@ -179,6 +178,17 @@ public class Hood extends Subsystem implements SmartDashboardSource, Periodic {
 
 	public double getMaxSpeed() {
 		return maxSpeed;
+	}
+	
+
+	//Note: the two angle/distance functions aren't inverses of each other
+	//The distanceToAngle is more accurate, but the inverse of it is hard to calculate
+	public static double distanceToAngle(double distance) {
+		return  0.0095*Math.pow(distance, 3) - 0.4725*Math.pow(distance, 2) + 8.2134*Math.pow(distance, 1) + 9.1025;
+	}
+
+	public static double angleToDistance(double angle) {
+		return 0.334902 * Math.exp(0.0657678 * angle);
 	}
 
 	
