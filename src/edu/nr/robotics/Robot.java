@@ -237,10 +237,10 @@ public class Robot extends RobotBase {
         
         new AndroidConnection().run();
         
-        /*initCamera();
+        initCamera();
 		initSubsystems();
 		initSmartDashboard();
-		robotDiagram = new RobotDiagram();*/
+		robotDiagram = new RobotDiagram();
 	}
 	
 	private void initSmartDashboard() {		
