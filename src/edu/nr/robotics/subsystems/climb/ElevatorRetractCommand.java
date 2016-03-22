@@ -11,6 +11,6 @@ public class ElevatorRetractCommand extends CommandGroup {
         addParallel(new ElevatorDownCommand());
         addSequential(new ElevatorWaitForMotorStallTimeCommand(1));
         addParallel(new ElevatorUpCommand());
-        addSequential(new ElevatorWaitUntilChangedByCommand(180));
+        addSequential(new ElevatorWaitUntilChangedByCommand(30));
     }
 }

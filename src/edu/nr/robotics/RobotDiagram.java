@@ -63,8 +63,8 @@ public class RobotDiagram implements NamedSendable {
 			table.putBoolean("Photo 3", Shooter.getInstance().hasBall());
 			
 			//Elevator
-			table.putBoolean("Elevator Bottom Height", false);
-			table.putBoolean("Elevator Top Height", false);
+			table.putBoolean("Elevator Bottom Height", Elevator.getInstance().isAtBottom());
+			table.putBoolean("Elevator Top Height", Elevator.getInstance().isAtTop());
 			table.putBoolean("Elevator Motor Running", Elevator.getInstance().isMoving());
 
 			//Shooter
