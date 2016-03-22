@@ -21,15 +21,6 @@ public class Elevator extends Subsystem implements SmartDashboardSource, Periodi
 	
 	private static Elevator singleton;
 	
-	public enum Position {
-		BOTTOM (RobotMap.ELEVATOR_BOTTOM_POSITION), TOP(RobotMap.ELEVATOR_TOP_POSITION);
-		
-		public final double pos;
-		Position(double position) {
-			this.pos = position;
-		}
-	}
-	
 	private Elevator() {
 		talon = new CANTalon(RobotMap.ELEVATOR_TALON);
 		talon.enableBrakeMode(true);
@@ -55,7 +46,6 @@ public class Elevator extends Subsystem implements SmartDashboardSource, Periodi
 	 * @param val the value from -1 to 1
 	 */
 	public void setMotorValue(double val) {
-		val = NRMath.limit(val, 1);
 		talon.set(val);
 	}
 	
@@ -88,18 +78,6 @@ public class Elevator extends Subsystem implements SmartDashboardSource, Periodi
 
 	public boolean isMoving() {
 		return enc.getRate() > 10;
-	}
-	
-	public boolean isAtPosition(Position pos) {
-		return enc.get() + RobotMap.ELEVATOR_THRESHOLD > pos.pos &&  enc.get() - RobotMap.ELEVATOR_THRESHOLD < pos.pos;
-	}
-
-	public boolean isAtBottom() {
-		return isAtPosition(Position.BOTTOM);
-	}
-
-	public boolean isAtTop() {
-		return isAtPosition(Position.TOP);
 	}
 
 	public boolean isLimitSwitchClosed() {

@@ -63,12 +63,10 @@ public class RobotMap {
 	public static final double SHOOTER_THRESHOLD = 0.05;
 	
 	//TODO: Find all the elevator values
-	public static final double ELEVATOR_EXTEND_DISTANCE = -1;
-	public static final int ELEVATOR_BOTTOM_POSITION = -1;
-	public static final int ELEVATOR_TOP_POSITION = -1;
-	public static final double ELEVATOR_THRESHOLD = -1;
+	public static final double ELEVATOR_EXTEND_DISTANCE = 49000;
+	public static final double ELEVATOR_THRESHOLD = 300;
 	public static final double ELEVATOR_UP_SPEED = 1;
-	public static final double ELEVATOR_UNLATCH_DISTANCE = 75;
+	public static final double ELEVATOR_UNLATCH_DISTANCE = 225;
 	
 	public static final double TURN_P = 0.25;
 	public static final double TURN_I = 0.01;
