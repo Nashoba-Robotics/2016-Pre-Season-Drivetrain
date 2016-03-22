@@ -56,11 +56,7 @@ public class OI implements SmartDashboardSource, Periodic {
 	
 	private OI() {
 		SmartDashboard.putNumber("Speed Multiplier", speedMultiplier);
-<<<<<<< HEAD
-		
-=======
 
->>>>>>> parent of 290b58c... Prepare & test elevator
 		initDriveLeft();
 		initDriveRight();
 		initOperatorLeft();
