@@ -155,7 +155,7 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	 * @return
 	 */
 	public boolean getSped() {
-		return getSpeedPercent() > getSetpoint();
+		return getSpeedPercent() > RobotMap.SHOOTER_FAST_SPEED - 0.1;
 	}
 
 	@Override
