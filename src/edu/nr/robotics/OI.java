@@ -56,14 +56,10 @@ public class OI implements SmartDashboardSource, Periodic {
 	
 	private OI() {
 		SmartDashboard.putNumber("Speed Multiplier", speedMultiplier);
-
-		driveLeft = new Joystick(0);
-		new JoystickButton(driveLeft, 3).whenPressed(new ElevatorResetEncoderCommand());
-
 		
-		//initDriveLeft();
-		//initDriveRight();
-		//initOperatorLeft();
+		initDriveLeft();
+		initDriveRight();
+		initOperatorLeft();
 		initOperatorRight();
 	}
 	
@@ -149,7 +145,7 @@ public class OI implements SmartDashboardSource, Periodic {
 	public void initOperatorRight() {
 		// Operator Right: (2)
 		operatorRight = new Joystick(2);
-		/*// => 1: Up Height (Climb Height)
+		// => 1: Up Height (Climb Height)
 		// Positions intake arm to vertical height, ensures intake off (also
 		// used for climb)
 		new JoystickButton(operatorRight, 4).whenPressed(new IntakeArmUpHeightCommandGroup());
@@ -165,9 +161,9 @@ public class OI implements SmartDashboardSource, Periodic {
 		new JoystickButton(operatorRight, 1).whenPressed(new IntakeArmBottomHeightCommandGroup());
 		// -> 5: Intake On
 		// Overrides intake rollers
-		new JoystickButton(operatorRight, 5).whenPressed(new IntakeRollerSwapCommand());*/
+		new JoystickButton(operatorRight, 5).whenPressed(new IntakeRollerSwapCommand());
 		// => 7: Cancel all commands
-		//new JoystickButton(operatorRight, 7).whenPressed(new CancelAllCommand());
+		new JoystickButton(operatorRight, 7).whenPressed(new CancelAllCommand());
 		// => 8: Climb
 		// Fully retracts elevator, stops after 1 second of motor stall
 		new JoystickButton(operatorRight, 8).whenPressed(new ElevatorRetractCommand());
@@ -177,7 +173,7 @@ public class OI implements SmartDashboardSource, Periodic {
 		// => 10: Prepare Climb
 		// Un-latches elevator (drives the elevator down a little)
 		new JoystickButton(operatorRight, 10).whenPressed(new ElevatorUnlatchCommand());
-		/*// => 11: Dumb Drive switch
+		// => 11: Dumb Drive switch
 		// Switch closed loop drive off (in case of sensor failure)
 		dumbDrive = new JoystickButton(operatorRight, 11);
 		// -> 12: Brake Light Cutout Switch
@@ -186,7 +182,7 @@ public class OI implements SmartDashboardSource, Periodic {
 		// more effectively
 		LEDCutout = new JoystickButton(operatorRight, 12);
 		LEDCutout.whenPressed(new ShooterHighCommand());
-		LEDCutout.whenReleased(new ShooterOffCommand());*/
+		LEDCutout.whenReleased(new ShooterOffCommand());
 	}
 
 	public static OI getInstance() {

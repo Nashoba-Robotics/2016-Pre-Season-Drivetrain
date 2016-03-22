@@ -88,11 +88,11 @@ public class Drive extends Subsystem implements SmartDashboardSource, Periodic{
 		
 
 		
-		/*LiveWindow.addSensor("Drive", "Left PID", leftPid);
+		LiveWindow.addSensor("Drive", "Left PID", leftPid);
 		LiveWindow.addSensor("Drive", "Right PID", rightPid);
 		
 		LiveWindow.addSensor("Drive", "Distance", LiveWindowClasses.driveEncodersDistance);
-		LiveWindow.addSensor("Drive", "Speed", LiveWindowClasses.driveEncodersSpeed);*/
+		LiveWindow.addSensor("Drive", "Speed", LiveWindowClasses.driveEncodersSpeed);
 	}
 
 	public static Drive getInstance() {

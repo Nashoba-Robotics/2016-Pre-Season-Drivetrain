@@ -237,10 +237,10 @@ public class Robot extends RobotBase {
         
         new AndroidConnection().run();*/
         
-        //initCamera();
+        initCamera();
 		initSubsystems();
-		//initSmartDashboard();
-		//robotDiagram = new RobotDiagram();
+		initSmartDashboard();
+		robotDiagram = new RobotDiagram();
 	}
 	
 	private void initSmartDashboard() {	
@@ -386,45 +386,45 @@ public class Robot extends RobotBase {
 	private void initSubsystems() {
 		System.out.println("About to init the subsystems");
 		//Init subsystems
-		/*Drive.init();
+		Drive.init();
 		NavX.init();
 		FieldCentric.init();
 		Lights.init();
 		Shooter.init();
-		IntakeArm.init();*/
+		IntakeArm.init();
 		Elevator.init();
-		/*LoaderRoller.init();
+		LoaderRoller.init();
 		Hood.init();
-		IntakeRoller.init();*/
+		IntakeRoller.init();
 		OI.init();
 		
 		//Add subsystems to subsystem array list
-		/*subsystems.add(Drive.getInstance());
+		subsystems.add(Drive.getInstance());
 		subsystems.add(Lights.getInstance());
 		subsystems.add(Shooter.getInstance());
 		subsystems.add(IntakeArm.getInstance());
-		subsystems.add(LoaderRoller.getInstance());*/
+		subsystems.add(LoaderRoller.getInstance());
 		subsystems.add(Elevator.getInstance());
-		//subsystems.add(Hood.getInstance());
-		//subsystems.add(IntakeRoller.getInstance());
+		subsystems.add(Hood.getInstance());
+		subsystems.add(IntakeRoller.getInstance());
 		
 		//Add SmartDashboard sources to the smartdashboard source array list
-		/*smartDashboardSources.add(Drive.getInstance());
+		smartDashboardSources.add(Drive.getInstance());
 		smartDashboardSources.add(FieldCentric.getInstance());
 		smartDashboardSources.add(Shooter.getInstance());
-		smartDashboardSources.add(IntakeArm.getInstance());*/
+		smartDashboardSources.add(IntakeArm.getInstance());
 		smartDashboardSources.add(Elevator.getInstance());
-		//smartDashboardSources.add(Hood.getInstance());
-		//smartDashboardSources.add(IntakeRoller.getInstance());
-		//smartDashboardSources.add(OI.getInstance());
+		smartDashboardSources.add(Hood.getInstance());
+		smartDashboardSources.add(IntakeRoller.getInstance());
+		smartDashboardSources.add(OI.getInstance());
 		
-		//LiveWindow.addSensor("Drive", "Gyro", NavX.getInstance());
+		LiveWindow.addSensor("Drive", "Gyro", NavX.getInstance());
 
 		
-		/*periodics.add(Drive.getInstance());
+		periodics.add(Drive.getInstance());
 		periodics.add(OI.getInstance());
 		periodics.add(Hood.getInstance());
-		periodics.add(IntakeArm.getInstance());*/
+		periodics.add(IntakeArm.getInstance());
 		periodics.add(Elevator.getInstance());
 	}
 
@@ -433,7 +433,7 @@ public class Robot extends RobotBase {
 	 * the specific modes
 	 */
 	private void periodic() {
-		/*SmartDashboard.putBoolean("Banner 1", IntakeRoller.getInstance().hasBall());
+		SmartDashboard.putBoolean("Banner 1", IntakeRoller.getInstance().hasBall());
 		SmartDashboard.putBoolean("Banner 2", LoaderRoller.getInstance().hasBall());
 		SmartDashboard.putBoolean("Banner 3", Shooter.getInstance().hasBall());	
 		
@@ -444,18 +444,18 @@ public class Robot extends RobotBase {
 			fireCommand = new LaserCannonTriggerCommand();
 			fireCommand.start();
 		}
-		*/
+		
 		periodics.forEach(Periodic::periodic);
 		
-		//FieldCentric.getInstance().update();
+		FieldCentric.getInstance().update();
 		Scheduler.getInstance().run();
 
-		/*if(isTest())
-			LiveWindow.run();*/
+		if(isTest())
+			LiveWindow.run();
 
 		smartDashboardSources.forEach(SmartDashboardSource::smartDashboardInfo);
 		
-		//SmartDashboard.putData(robotDiagram);
+		SmartDashboard.putData(robotDiagram);
 	}
 
 	/**
@@ -464,13 +464,13 @@ public class Robot extends RobotBase {
 	 */
 	private void initialize() {
 		if (isDisabled()) {
-			/*IntakeArm.getInstance().disable();
+			IntakeArm.getInstance().disable();
 			//Fix intake arm cancelling
 			IntakeRoller.getInstance().setRollerSpeed(0);
 			LoaderRoller.getInstance().setLoaderSpeed(0);
 			Hood.getInstance().disable();
 			Shooter.getInstance().setSetpoint(0);
-			Shooter.getInstance().disable();*/
+			Shooter.getInstance().disable();
 			Elevator.getInstance().setMotorValue(0);
 		}
 	}
