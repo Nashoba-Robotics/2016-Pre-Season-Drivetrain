@@ -67,7 +67,7 @@ public class RobotMap {
 	public static final double ELEVATOR_THRESHOLD = 300;
 
 	public static final double ELEVATOR_UP_SPEED = 1;
-	public static final double ELEVATOR_UNLATCH_DISTANCE = 75;
+	public static final double ELEVATOR_UNLATCH_DISTANCE = 225;
 	
 	public static final double TURN_P = 0.25;
 	public static final double TURN_I = 0.01;
