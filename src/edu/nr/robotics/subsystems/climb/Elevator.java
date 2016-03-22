@@ -46,6 +46,7 @@ public class Elevator extends Subsystem implements SmartDashboardSource, Periodi
 	 * @param val the value from -1 to 1
 	 */
 	public void setMotorValue(double val) {
+		val = NRMath.limit(val, 1);
 		talon.set(val);
 	}
 	

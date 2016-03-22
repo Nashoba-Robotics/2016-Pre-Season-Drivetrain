@@ -108,7 +108,7 @@ public class Drive extends Subsystem implements SmartDashboardSource, Periodic{
 
 	@Override
 	public void initDefaultCommand() {
-		//setDefaultCommand(new DriveJoystickCommand());
+		setDefaultCommand(new DriveJoystickCommand());
 	}
 
 	/**
