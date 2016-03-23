@@ -28,6 +28,7 @@ public class Elevator extends Subsystem implements SmartDashboardSource, Periodi
 		
 		LiveWindow.addSensor("Elevator", "Speed", LiveWindowClasses.elevatorSpeed);
 		LiveWindow.addSensor("Elevator", "Switch", LiveWindowClasses.elevatorSwitch);
+		
 	}
 	
 	public static Elevator getInstance() {

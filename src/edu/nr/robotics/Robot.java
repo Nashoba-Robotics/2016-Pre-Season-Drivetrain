@@ -20,6 +20,7 @@ import edu.nr.robotics.commandgroups.AlignCommandGroup;
 import edu.nr.robotics.commandgroups.AutoGuillotineCommandGroup;
 import edu.nr.robotics.commandgroups.AutoShovelOfFriesCommandGroup;
 import edu.nr.robotics.subsystems.climb.Elevator;
+import edu.nr.robotics.subsystems.climb.norequire.ElevatorResetCommand;
 import edu.nr.robotics.subsystems.drive.Drive;
 import edu.nr.robotics.subsystems.drive.DriveAngleJetsonPIDCommand;
 import edu.nr.robotics.subsystems.drive.DriveAnglePIDCommand;
@@ -58,7 +59,7 @@ public class Robot extends RobotBase {
 		
 	public AlignCommandGroup.State state;
 	RobotDiagram robotDiagram;
-
+	
 	public Command driveWall;
 	
 
@@ -463,6 +464,10 @@ public class Robot extends RobotBase {
 	 * functions for the specific modes
 	 */
 	private void initialize() {
+		if(!doneFirstTime) {
+			doneFirstTime = true;
+			Elevator.getInstance().resetEncoder();
+		}
 		if (isDisabled()) {
 			IntakeArm.getInstance().disable();
 			//Fix intake arm cancelling

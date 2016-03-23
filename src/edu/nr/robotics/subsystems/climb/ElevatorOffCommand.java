@@ -8,6 +8,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class ElevatorOffCommand extends CommandGroup {
     
     public  ElevatorOffCommand() {
-        addSequential(new ElevatorSpeedCommand(0));
+        addSequential(new ElevatorVoltageCommand(0));
     }
 }

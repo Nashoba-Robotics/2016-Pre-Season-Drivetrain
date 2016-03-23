@@ -1,19 +1,20 @@
-package edu.nr.robotics.subsystems.climb;
+package edu.nr.robotics.subsystems.climb.norequire;
 
 import edu.nr.lib.NRCommand;
+import edu.nr.robotics.subsystems.climb.Elevator;
 
 /**
  *
  */
-public class ElevatorWaitUntilChangedByCommand extends NRCommand {
+public class ElevatorNoRequireWaitUntilChangedByCommand extends NRCommand {
     
    	double value;
    	
    	double startValue;
 		
-    public ElevatorWaitUntilChangedByCommand(double value) {
+    public ElevatorNoRequireWaitUntilChangedByCommand(double value) {
     	this.value = value;
-    	requires(Elevator.getInstance());
+    	requires(ResetElevatorSubsystem.getInstance());
     }
     
    	@Override

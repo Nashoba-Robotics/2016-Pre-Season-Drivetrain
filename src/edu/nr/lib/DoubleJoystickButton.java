@@ -5,18 +5,16 @@ import edu.wpi.first.wpilibj.buttons.*;
 
 public class DoubleJoystickButton extends Button {
 
-	GenericHID m_joystick;
-	int m_buttonNumberOne;
-	int m_buttonNumberTwo;
+	Button m_buttonNumberOne;
+	Button m_buttonNumberTwo;
 	
-	public DoubleJoystickButton(GenericHID joystick, int buttonNumberOne, int buttonNumberTwo) {
-		m_joystick = joystick;
+	public DoubleJoystickButton(Button buttonNumberOne, Button buttonNumberTwo) {
 		m_buttonNumberOne = buttonNumberOne;
 		m_buttonNumberTwo = buttonNumberTwo;
 	}
 	
 	@Override
 	public boolean get() {
-		return m_joystick.getRawButton(m_buttonNumberOne) && m_joystick.getRawButton(m_buttonNumberTwo);
+		return m_buttonNumberOne.get() && m_buttonNumberTwo.get();
 	}
 }
