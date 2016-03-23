@@ -6,6 +6,8 @@ import edu.nr.lib.interfaces.Periodic;
 import edu.nr.lib.interfaces.SmartDashboardSource;
 import edu.nr.robotics.commandgroups.*;
 import edu.nr.robotics.subsystems.climb.*;
+import edu.nr.robotics.subsystems.climb.norequire.ElevatorResetCommand;
+import edu.nr.robotics.subsystems.climb.norequire.ResetElevatorSubsystem;
 import edu.nr.robotics.subsystems.drive.*;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.hood.HoodIncreaseDegreeCommand;
@@ -60,6 +62,14 @@ public class OI implements SmartDashboardSource, Periodic {
 		driveLeft = new Joystick(0);
 		new JoystickButton(driveLeft, 3).whenPressed(new ElevatorResetEncoderCommand());
 
+		driveRight = new Joystick(1);
+		
+		new DoubleJoystickButton(new JoystickButton(driveLeft, 6), new JoystickButton(driveRight, 6)).whenPressed(new ElevatorResetCommand());
+
+		operatorLeft = new Joystick(3);
+
+		operatorRight = new Joystick(2);
+
 		
 		//initDriveLeft();
 		//initDriveRight();
@@ -69,7 +79,6 @@ public class OI implements SmartDashboardSource, Periodic {
 	
 	public void initDriveLeft() {
 		//Drive Left: (0)
-		driveLeft = new Joystick(0);
 		//->  1: Stall forward
 		Robot.getInstance().driveWall = new DriveConstantCommand(true, true, true, .3);
 		new JoystickButton(driveLeft, 1).whenPressed(Robot.getInstance().driveWall);
@@ -87,7 +96,6 @@ public class OI implements SmartDashboardSource, Periodic {
 	
 	public void initDriveRight() {
 		// Drive Right: (1)
-		driveRight = new Joystick(1);
 		// => 1: Slow Turn
 		// -> 10: Reset drive encoders
 		new JoystickButton(driveRight, 10).whenPressed(new DriveResetEncodersCommand());
@@ -97,7 +105,6 @@ public class OI implements SmartDashboardSource, Periodic {
 
 	public void initOperatorLeft() {
 		// Operator Left: (3)
-		operatorLeft = new Joystick(3);
 		// -> 4: Auto Shovel of Fries
 		// Auto shovel of fries routine, ends when drive joysticks are touched
 		new JoystickButton(operatorLeft, 4).whenPressed(new AutoShovelOfFriesCommandGroup());
@@ -107,7 +114,7 @@ public class OI implements SmartDashboardSource, Periodic {
 
 		// -> 2 + 3: Align
 		// Auto align the robot to target, ends when drive joysticks are touched
-		alignButton = new DoubleJoystickButton(operatorLeft, 2, 3);
+		alignButton = new DoubleJoystickButton(new JoystickButton(operatorLeft, 2), new JoystickButton(operatorLeft, 3));
 		
 		alignCommand = new AlignCommandGroup();
 		alignButton.whenPressed(alignCommand);
@@ -148,7 +155,6 @@ public class OI implements SmartDashboardSource, Periodic {
 
 	public void initOperatorRight() {
 		// Operator Right: (2)
-		operatorRight = new Joystick(2);
 		/*// => 1: Up Height (Climb Height)
 		// Positions intake arm to vertical height, ensures intake off (also
 		// used for climb)
@@ -185,7 +191,7 @@ public class OI implements SmartDashboardSource, Periodic {
 		// signifying we are about to shoot enables defense robots to defend
 		// more effectively
 		LEDCutout = new JoystickButton(operatorRight, 12);
-		LEDCutout.whenPressed(new ShooterHighCommand());
+		LEDCutout.whenPressed(new ShooterManualHighCommand());
 		LEDCutout.whenReleased(new ShooterOffCommand());*/
 	}
 
@@ -345,6 +351,11 @@ public class OI implements SmartDashboardSource, Periodic {
 		
 		if(getLoaderRollerMoveValue() != 0) {
 			if(LoaderRoller.getInstance().getCurrentCommand() != null && !LoaderRoller.getInstance().getCurrentCommand().getName().equals("LoaderRollerJoystickCommand")) {
+				NRCommand.cancelCommand(LoaderRoller.getInstance().getCurrentCommand());
+				LoaderRoller.getInstance().setLoaderSpeed(0);
+			}
+		} else {
+			if(LoaderRoller.getInstance().getCurrentCommand() != null && LoaderRoller.getInstance().getCurrentCommand().getName().equals("LoaderRollerJoystickCommand")) {
 				NRCommand.cancelCommand(LoaderRoller.getInstance().getCurrentCommand());
 				LoaderRoller.getInstance().setLoaderSpeed(0);
 			}

@@ -9,6 +9,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class ElevatorDownCommand extends CommandGroup {
     
     public  ElevatorDownCommand() {
-        addSequential(new ElevatorSpeedCommand(-RobotMap.ELEVATOR_UP_SPEED));
+        addSequential(new ElevatorVoltageCommand(-RobotMap.ELEVATOR_UP_SPEED));
     }
 }

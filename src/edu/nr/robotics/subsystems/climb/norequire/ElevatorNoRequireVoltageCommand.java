@@ -1,17 +1,18 @@
-package edu.nr.robotics.subsystems.climb;
+package edu.nr.robotics.subsystems.climb.norequire;
 
 import edu.nr.lib.NRCommand;
+import edu.nr.robotics.subsystems.climb.Elevator;
 
 /**
  *
  */
-public class ElevatorSpeedCommand extends NRCommand {
+public class ElevatorNoRequireVoltageCommand extends NRCommand {
 
 	double val;
 	
-    public ElevatorSpeedCommand(double val) {
+    public ElevatorNoRequireVoltageCommand(double val) {
     	this.val = val;
-    	requires(Elevator.getInstance());
+    	requires(ResetElevatorSubsystem.getInstance());
     }
 
     // Called just before this Command runs the first time

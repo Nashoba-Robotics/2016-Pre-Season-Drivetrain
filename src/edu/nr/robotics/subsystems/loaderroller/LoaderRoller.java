@@ -49,7 +49,7 @@ public class LoaderRoller extends Subsystem implements SmartDashboardSource {
 	
     @Override
 	public void initDefaultCommand() {
-		setDefaultCommand(new LoaderRollerJoystickCommand());
+		setDefaultCommand(new LoaderRollerKeepAtPhotoCommand());
     }
 	
 	public boolean hasBall() {
