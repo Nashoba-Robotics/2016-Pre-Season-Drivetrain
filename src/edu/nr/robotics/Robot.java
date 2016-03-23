@@ -242,7 +242,6 @@ public class Robot extends RobotBase {
 		initSubsystems();
 		//initSmartDashboard();
 		//robotDiagram = new RobotDiagram();
-		SmartDashboard.putData("Reset climber", new ElevatorResetCommand());
 
 	}
 	
