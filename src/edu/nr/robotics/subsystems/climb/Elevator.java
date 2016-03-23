@@ -74,12 +74,14 @@ public class Elevator extends Subsystem implements SmartDashboardSource, Periodi
 		SmartDashboard.putNumber("Elevator speed", enc.getRate());
 		SmartDashboard.putNumber("Elevator position", enc.get());
 		SmartDashboard.putBoolean("Elevator moving", getMotorValue() != 0);
+		SmartDashboard.putData(this);
+		SmartDashboard.putNumber("Elevator current", talon.getOutputCurrent());
 		LiveWindowClasses.elevatorSpeed.set(enc.getRate());
 		LiveWindowClasses.elevatorSwitch.set(isLimitSwitchClosed());
 	}
 
 	public boolean isMoving() {
-		return enc.getRate() > 10;
+		return Math.abs(enc.getRate()) > 10;
 	}
 
 	public boolean isLimitSwitchClosed() {
@@ -91,6 +93,10 @@ public class Elevator extends Subsystem implements SmartDashboardSource, Periodi
 	public void periodic() {
 		if(isLimitSwitchClosed())
 			resetEncoder();
+	}
+
+	public double getCurrent() {
+		return talon.getOutputCurrent();
 	}
 	
 }

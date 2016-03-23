@@ -1,13 +1,19 @@
 package edu.nr.robotics.subsystems.climb;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.nr.lib.NRCommand;
 
 /**
  *
  */
-public class ElevatorOffCommand extends CommandGroup {
-    
-    public  ElevatorOffCommand() {
-        addSequential(new ElevatorVoltageCommand(0));
+public class ElevatorOffCommand extends NRCommand {
+    	
+    public ElevatorOffCommand() {
+    	requires(Elevator.getInstance());
+    }
+
+    // Called just before this Command runs the first time
+    @Override
+	protected void onStart() {
+    	Elevator.getInstance().setMotorValue(0);
     }
 }

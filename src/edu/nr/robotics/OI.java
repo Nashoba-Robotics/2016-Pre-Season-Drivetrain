@@ -6,8 +6,6 @@ import edu.nr.lib.interfaces.Periodic;
 import edu.nr.lib.interfaces.SmartDashboardSource;
 import edu.nr.robotics.commandgroups.*;
 import edu.nr.robotics.subsystems.climb.*;
-import edu.nr.robotics.subsystems.climb.norequire.ElevatorResetCommand;
-import edu.nr.robotics.subsystems.climb.norequire.ResetElevatorSubsystem;
 import edu.nr.robotics.subsystems.drive.*;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.hood.HoodIncreaseDegreeCommand;
@@ -381,7 +379,7 @@ public class OI implements SmartDashboardSource, Periodic {
 		}
 		
 		if(getElevatorMoveValue() != 0) {
-			if(Elevator.getInstance().getCurrentCommand() != null && !Elevator.getInstance().getCurrentCommand().getName().equals("ElevatorJoystickCommand")) {
+			if(Elevator.getInstance().getCurrentCommand() != null && !Elevator.getInstance().getCurrentCommand().getName().equals("ElevatorJoystickCommand") && !Elevator.getInstance().getCurrentCommand().getName().equals("ElevatorResetCommand")) {
 				NRCommand.cancelCommand(Elevator.getInstance().getCurrentCommand());
 			}
 		}

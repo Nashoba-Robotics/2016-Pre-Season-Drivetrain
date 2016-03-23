@@ -13,7 +13,6 @@ public class ElevatorWaitUntilChangedByCommand extends NRCommand {
 		
     public ElevatorWaitUntilChangedByCommand(double value) {
     	this.value = value;
-    	requires(Elevator.getInstance());
     }
     
    	@Override
