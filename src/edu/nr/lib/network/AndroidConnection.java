@@ -20,7 +20,10 @@ public class AndroidConnection {
 	boolean goodToGo = false;
 
 	public void run() {
-		Socket clientSocket;
+		goodToGo = true;
+		distance = 0;
+		turnAngle = 0;
+		/*Socket clientSocket;
 		try {
 			clientSocket = new Socket(defaultIpAddress, defaultPort);
 			clientSocket.setSoTimeout(100); //We will only wait for 100 ms before timing out
@@ -62,7 +65,7 @@ public class AndroidConnection {
 			System.out.println("Unknown host to connect to");
 		} catch (IOException e) {
 			e.printStackTrace();
-		}		
+		}*/		
 	}
 
 	public double getTurnAngle() {

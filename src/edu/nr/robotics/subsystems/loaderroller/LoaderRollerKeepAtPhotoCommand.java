@@ -14,11 +14,16 @@ public class LoaderRollerKeepAtPhotoCommand extends NRCommand {
 	protected void onExecute() {
 		
 		if(Shooter.getInstance().hasBall()) {
-			LoaderRoller.getInstance().setLoaderSpeed(-1);
+			LoaderRoller.getInstance().setLoaderSpeed(-0.4);
 		} else if(!LoaderRoller.getInstance().hasBall() && IntakeRoller.getInstance().hasBall()) {
-			LoaderRoller.getInstance().setLoaderSpeed(1);
+			LoaderRoller.getInstance().setLoaderSpeed(0.4);
 		} else {
 			LoaderRoller.getInstance().setLoaderSpeed(0);
 		}
+	}
+	
+	@Override
+	protected boolean isFinishedNR() {
+		return false;
 	}
 }

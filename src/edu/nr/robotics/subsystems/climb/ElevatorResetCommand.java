@@ -14,8 +14,9 @@ public class ElevatorResetCommand extends CommandGroup {
     	addSequential(new WaitForElevatorStoppedForTwoSeconds());
         addParallel(new ElevatorVoltageCommand(-0.3));
         addSequential(new ElevatorWaitForMotorStallTimeCommand(1));
-        addParallel(new ElevatorVoltageCommand(RobotMap.ELEVATOR_UP_SPEED));
-        addSequential(new ElevatorWaitUntilChangedByCommand(300));
+        addParallel(new ElevatorVoltageCommand(RobotMap.ELEVATOR_UP_SPEED * 0.3));
+        addSequential(new ElevatorWaitUntilChangedByCommand(RobotMap.ELEVATOR_RESET_UP_DISTANCE));
+        addSequential(new ElevatorResetEncoderCommand());
         addParallel(new ElevatorOffCommand());
     }
 	

@@ -52,22 +52,23 @@ public class RobotMap {
 	public static final double HOOD_TOP_POSITION = 75.46;
 	public static final double HOOD_TICK_TO_ANGLE_MULTIPLIER = 0.031934;
 	public static final double HOOD_THRESHOLD = 2;
-	public static final double INTAKE_ARM_THRESHOLD = 0.002;
-	public static final double INTAKE_TOP_POS = 0.535 + 0.013;
-	public static final double INTAKE_INTAKE_POS = 0.712 + 0.013;
-	//public static final double INTAKE_HOME_POS = 0.728 + 0.013;
-	public static final double INTAKE_HOME_POS = 0.712 + 0.013; //home == intake
-	public static final double INTAKE_BOTTOM_POS = 0.778 + 0.013;
+	public static final double INTAKE_ARM_THRESHOLD = 0.003;
+	public static final double INTAKE_TOP_POS = 0.565 + 0.020;
+	public static final double INTAKE_INTAKE_POS = 0.712 + 0.020;
+	//public static final double INTAKE_HOME_POS = 0.728 + 0.020;
+	public static final double INTAKE_HOME_POS = 0.712 + 0.020; //home == intake
+	public static final double INTAKE_BOTTOM_POS = 0.778 + 0.020;
 	public static final double INTAKE_ARM_TICK_TO_ANGLE_MULTIPLIER = -0.00222;
 	public static final double TURN_THRESHOLD = 0.5;
 	public static final double SHOOTER_THRESHOLD = 0.05;
 	
-	//TODO: Find all the elevator values
-	public static final double ELEVATOR_EXTEND_DISTANCE = 113000;
-	public static final double ELEVATOR_THRESHOLD = 300;
 	public static final double ELEVATOR_UP_SPEED = 1;
-	public static final double ELEVATOR_UNLATCH_DISTANCE = 225;
-	
+	public static final double ELEVATOR_THRESHOLD = 1000;
+
+	public static final double ELEVATOR_EXTEND_DISTANCE = -104000;
+	public static final double ELEVATOR_RESET_UP_DISTANCE = 12000;
+	public static final double ELEVATOR_UNLATCH_DISTANCE = 9000;
+
 	public static final double TURN_P = 0.25;
 	public static final double TURN_I = 0.01;
 	public static final double TURN_D = 0.0001;

@@ -418,6 +418,7 @@ public class Robot extends RobotBase {
 		smartDashboardSources.add(Hood.getInstance());
 		smartDashboardSources.add(IntakeRoller.getInstance());
 		smartDashboardSources.add(OI.getInstance());
+		smartDashboardSources.add(LoaderRoller.getInstance());
 		
 		LiveWindow.addSensor("Drive", "Gyro", NavX.getInstance());
 
@@ -426,7 +427,6 @@ public class Robot extends RobotBase {
 		periodics.add(OI.getInstance());
 		periodics.add(Hood.getInstance());
 		periodics.add(IntakeArm.getInstance());
-		periodics.add(Elevator.getInstance());
 	}
 
 	/**

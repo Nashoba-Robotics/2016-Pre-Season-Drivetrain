@@ -60,6 +60,7 @@ public class LoaderRoller extends Subsystem implements SmartDashboardSource {
 	public void smartDashboardInfo() {
 		SmartDashboard.putBoolean("Loader Roller Forward", isForward());
 		SmartDashboard.putBoolean("Loader Roller Reverse", isReverse());
+		SmartDashboard.putData(this);
 	}
 	
 	public boolean isForward() {

@@ -17,6 +17,7 @@ import edu.nr.robotics.subsystems.intakearm.*;
 import edu.nr.robotics.subsystems.intakeroller.*;
 import edu.nr.robotics.subsystems.lights.*;
 import edu.nr.robotics.subsystems.loaderroller.*;
+import edu.nr.robotics.subsystems.shooter.Shooter;
 import edu.nr.robotics.subsystems.shooter.ShooterHighCommand;
 import edu.nr.robotics.subsystems.shooter.ShooterManualHighCommand;
 import edu.nr.robotics.subsystems.shooter.ShooterOffCommand;
@@ -155,7 +156,7 @@ public class OI implements SmartDashboardSource, Periodic {
 	public void initOperatorRight() {
 		// Operator Right: (2)
 
-		/*// => 1: Up Height (Climb Height)
+		// => 1: Up Height (Climb Height)
 		// Positions intake arm to vertical height, ensures intake off (also
 		// used for climb)
 		new JoystickButton(operatorRight, 4).whenPressed(new IntakeArmUpHeightCommandGroup());
@@ -192,7 +193,7 @@ public class OI implements SmartDashboardSource, Periodic {
 		// more effectively
 		LEDCutout = new JoystickButton(operatorRight, 12);
 		LEDCutout.whenPressed(new ShooterManualHighCommand());
-		LEDCutout.whenReleased(new ShooterOffCommand());*/
+		LEDCutout.whenReleased(new ShooterOffCommand());
 	}
 
 	public static OI getInstance() {
@@ -336,6 +337,23 @@ public class OI implements SmartDashboardSource, Periodic {
 		
 	@Override
 	public void periodic() {
+		
+		if(Shooter.getInstance().hasBall() || LoaderRoller.getInstance().hasBall() || IntakeRoller.getInstance().hasBall()) {
+			if(LoaderRoller.getInstance().getCurrentCommand() != null && LoaderRoller.getInstance().getCurrentCommand().getName().equals("IntakeArmIntakeHeightCommandGroup")) {
+				System.out.println("Here3");
+				NRCommand.cancelCommand(LoaderRoller.getInstance().getCurrentCommand());
+				LoaderRoller.getInstance().setLoaderSpeed(0);
+			}
+		}
+		
+		if(!(Shooter.getInstance().hasBall() || LoaderRoller.getInstance().hasBall() || IntakeRoller.getInstance().hasBall())) {
+			if(LoaderRoller.getInstance().getCurrentCommand() != null && LoaderRoller.getInstance().getCurrentCommand().getName().equals("LaserCannonTriggerCommand")) {
+				System.out.println("Here4");
+				NRCommand.cancelCommand(LoaderRoller.getInstance().getCurrentCommand());
+				LoaderRoller.getInstance().setLoaderSpeed(0);
+			}
+		}
+		
 		if(isDriveNonZero()) {
 	
 			if(Drive.getInstance().getCurrentCommand() != null && !(Drive.getInstance().getCurrentCommand().getName().equals("DriveJoystickCommand") || Drive.getInstance().getCurrentCommand() == Robot.getInstance().driveWall)) {
@@ -351,11 +369,14 @@ public class OI implements SmartDashboardSource, Periodic {
 		
 		if(getLoaderRollerMoveValue() != 0) {
 			if(LoaderRoller.getInstance().getCurrentCommand() != null && !LoaderRoller.getInstance().getCurrentCommand().getName().equals("LoaderRollerJoystickCommand")) {
+				System.out.println("Here1" + LoaderRoller.getInstance().getCurrentCommand().getName());
 				NRCommand.cancelCommand(LoaderRoller.getInstance().getCurrentCommand());
+				new LoaderRollerJoystickCommand().start();
 				LoaderRoller.getInstance().setLoaderSpeed(0);
 			}
 		} else {
 			if(LoaderRoller.getInstance().getCurrentCommand() != null && LoaderRoller.getInstance().getCurrentCommand().getName().equals("LoaderRollerJoystickCommand")) {
+				System.out.println("Here2");
 				NRCommand.cancelCommand(LoaderRoller.getInstance().getCurrentCommand());
 				LoaderRoller.getInstance().setLoaderSpeed(0);
 			}

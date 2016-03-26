@@ -140,7 +140,7 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 
 	@Override
 	public void periodic() {
-		if(Math.abs(pid.getError()) < RobotMap.INTAKE_ARM_THRESHOLD) {
+		if(Math.abs(pid.getError()) < RobotMap.INTAKE_ARM_THRESHOLD * 2/3) {
 			counter++;
 			if(counter > 2)
 				pid.disable();
