@@ -80,7 +80,7 @@ public class OI implements SmartDashboardSource, Periodic {
 	public void initDriveLeft() {
 		//Drive Left: (0)
 		//->  1: Stall forward
-		Robot.getInstance().driveWall = new DriveConstantCommand(true, true, true, .3);
+		Robot.getInstance().driveWall = new DriveConstantCommand(true, true, true, .4);
 		new JoystickButton(driveLeft, 1).whenPressed(Robot.getInstance().driveWall);
 		new JoystickButton(driveLeft, 1).whenReleased(new DriveCancelCommand());
 		//->  2: Reverse drive direction
@@ -341,14 +341,6 @@ public class OI implements SmartDashboardSource, Periodic {
 		if(Shooter.getInstance().hasBall() || LoaderRoller.getInstance().hasBall() || IntakeRoller.getInstance().hasBall()) {
 			if(LoaderRoller.getInstance().getCurrentCommand() != null && LoaderRoller.getInstance().getCurrentCommand().getName().equals("IntakeArmIntakeHeightCommandGroup")) {
 				System.out.println("Here3");
-				NRCommand.cancelCommand(LoaderRoller.getInstance().getCurrentCommand());
-				LoaderRoller.getInstance().setLoaderSpeed(0);
-			}
-		}
-		
-		if(!(Shooter.getInstance().hasBall() || LoaderRoller.getInstance().hasBall() || IntakeRoller.getInstance().hasBall())) {
-			if(LoaderRoller.getInstance().getCurrentCommand() != null && LoaderRoller.getInstance().getCurrentCommand().getName().equals("LaserCannonTriggerCommand")) {
-				System.out.println("Here4");
 				NRCommand.cancelCommand(LoaderRoller.getInstance().getCurrentCommand());
 				LoaderRoller.getInstance().setLoaderSpeed(0);
 			}

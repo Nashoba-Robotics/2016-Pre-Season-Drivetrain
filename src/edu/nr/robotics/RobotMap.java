@@ -42,7 +42,7 @@ public class RobotMap {
 	public static final int SHOOTER_TALON_A = 7;
 	public static final int SHOOTER_TALON_B = 5;
 	
-	public static final double SHOOTER_FAST_SPEED = 0.83; //out of 1.0
+	public static final double SHOOTER_FAST_SPEED = 0.90; //out of 1.0
 	public static final double SHOOTER_SLOW_SPEED = 0.3; //out of 1.0
 	public static final double SHOOTER_MAX_SPEED = 210; //In rotations per second
 	public static final double CLOSE_SHOT_POSITION = 28.1;
@@ -53,11 +53,11 @@ public class RobotMap {
 	public static final double HOOD_TICK_TO_ANGLE_MULTIPLIER = 0.031934;
 	public static final double HOOD_THRESHOLD = 2;
 	public static final double INTAKE_ARM_THRESHOLD = 0.003;
-	public static final double INTAKE_TOP_POS = 0.565 + 0.020;
-	public static final double INTAKE_INTAKE_POS = 0.712 + 0.020;
-	//public static final double INTAKE_HOME_POS = 0.728 + 0.020;
-	public static final double INTAKE_HOME_POS = 0.712 + 0.020; //home == intake
-	public static final double INTAKE_BOTTOM_POS = 0.778 + 0.020;
+	public static final double INTAKE_TOP_POS = 0.565 - 0.154;
+	public static final double INTAKE_INTAKE_POS = 0.712 - 0.154;
+	//public static final double INTAKE_HOME_POS = 0.728 - 0.154;
+	public static final double INTAKE_HOME_POS = 0.712 - 0.154; //home == intake
+	public static final double INTAKE_BOTTOM_POS = 0.778 - 0.154;
 	public static final double INTAKE_ARM_TICK_TO_ANGLE_MULTIPLIER = -0.00222;
 	public static final double TURN_THRESHOLD = 0.5;
 	public static final double SHOOTER_THRESHOLD = 0.05;
@@ -67,7 +67,7 @@ public class RobotMap {
 
 	public static final double ELEVATOR_EXTEND_DISTANCE = -104000;
 	public static final double ELEVATOR_RESET_UP_DISTANCE = 12000;
-	public static final double ELEVATOR_UNLATCH_DISTANCE = 9000;
+	public static final double ELEVATOR_UNLATCH_DISTANCE = 5650;
 
 	public static final double TURN_P = 0.25;
 	public static final double TURN_I = 0.01;

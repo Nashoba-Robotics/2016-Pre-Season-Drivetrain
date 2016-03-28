@@ -10,7 +10,6 @@ public class LaserCannonTriggerCommand extends CommandGroup {
 		addParallel(new LoaderRollerIntakeCommand());
 		addSequential(new WaitCommand(3));
 		addSequential(new LoaderRollerNeutralCommand());
-		addSequential(new LightsOffCommand());
 	}
 
 }
