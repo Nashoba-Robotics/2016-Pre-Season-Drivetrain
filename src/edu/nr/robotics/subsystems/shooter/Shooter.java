@@ -50,7 +50,7 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
     	talonOutput.setTalonRampRate(RobotMap.SHOOTER_RAMP_RATE);
 
 						
-		pid = new PID(0.75, 0.0001, 0, 1, shooterRate, talonOutput);
+		pid = new PID(0.75, 0.0000, 0, 1, shooterRate, talonOutput);
 		pid.enableSmartDashboardPrinting(true, false, false, true, "Shooter");
 
 		LiveWindow.addSensor("Shooter", "Shooter PID", pid);
@@ -155,7 +155,7 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	 * @return
 	 */
 	public boolean getSped() {
-		return getSpeedPercent() > getSetpoint();
+		return getScaledSpeed() > RobotMap.SHOOTER_FAST_SPEED - 0.1;
 	}
 
 	@Override

@@ -24,6 +24,6 @@ public class ElevatorUpUntilGreaterThanCommand extends NRCommand {
     // Make this return true when this Command no longer needs to run execute()
     @Override
 	protected boolean isFinishedNR() {
-        return Elevator.getInstance().getEncoder() > value;
+        return Elevator.getInstance().getEncoder() < value;
     }
 }

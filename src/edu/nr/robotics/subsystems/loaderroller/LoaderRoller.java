@@ -49,7 +49,7 @@ public class LoaderRoller extends Subsystem implements SmartDashboardSource {
 	
     @Override
 	public void initDefaultCommand() {
-		setDefaultCommand(new LoaderRollerJoystickCommand());
+		setDefaultCommand(new LoaderRollerKeepAtPhotoCommand());
     }
 	
 	public boolean hasBall() {
@@ -60,6 +60,7 @@ public class LoaderRoller extends Subsystem implements SmartDashboardSource {
 	public void smartDashboardInfo() {
 		SmartDashboard.putBoolean("Loader Roller Forward", isForward());
 		SmartDashboard.putBoolean("Loader Roller Reverse", isReverse());
+		SmartDashboard.putData(this);
 	}
 	
 	public boolean isForward() {

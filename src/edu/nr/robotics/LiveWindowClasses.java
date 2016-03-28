@@ -14,7 +14,6 @@ public class LiveWindowClasses {
 	public static LiveWindowNumber driveEncodersSpeed = new LiveWindowNumber("Drive Encoders Speed", 0);
 
 	public static LiveWindowNumber elevatorSpeed = new LiveWindowNumber("Elevator Speed", 0);
-	public static LiveWindowBoolean elevatorSwitch = new LiveWindowBoolean("Elevator Switch", false);
 	
 	public static LiveWindowBoolean intakeArmBottomSwitch = new LiveWindowBoolean("Intake Arm Bottom Switch", false);
 	public static LiveWindowBoolean intakeArmTopSwitch = new LiveWindowBoolean("Intake Arm Top Switch", false);

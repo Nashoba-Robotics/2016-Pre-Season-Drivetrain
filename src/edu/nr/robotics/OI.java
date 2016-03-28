@@ -17,6 +17,7 @@ import edu.nr.robotics.subsystems.intakearm.*;
 import edu.nr.robotics.subsystems.intakeroller.*;
 import edu.nr.robotics.subsystems.lights.*;
 import edu.nr.robotics.subsystems.loaderroller.*;
+import edu.nr.robotics.subsystems.shooter.Shooter;
 import edu.nr.robotics.subsystems.shooter.ShooterHighCommand;
 import edu.nr.robotics.subsystems.shooter.ShooterManualHighCommand;
 import edu.nr.robotics.subsystems.shooter.ShooterOffCommand;
@@ -57,6 +58,19 @@ public class OI implements SmartDashboardSource, Periodic {
 	private OI() {
 		SmartDashboard.putNumber("Speed Multiplier", speedMultiplier);
 
+
+		driveLeft = new Joystick(0);
+		new JoystickButton(driveLeft, 3).whenPressed(new ElevatorResetEncoderCommand());
+
+		driveRight = new Joystick(1);
+		
+		new DoubleJoystickButton(new JoystickButton(driveLeft, 6), new JoystickButton(driveRight, 6)).whenPressed(new ElevatorResetCommand());
+
+		operatorLeft = new Joystick(3);
+
+		operatorRight = new Joystick(2);
+
+		
 		initDriveLeft();
 		initDriveRight();
 		initOperatorLeft();
@@ -65,9 +79,8 @@ public class OI implements SmartDashboardSource, Periodic {
 	
 	public void initDriveLeft() {
 		//Drive Left: (0)
-		driveLeft = new Joystick(0);
 		//->  1: Stall forward
-		Robot.getInstance().driveWall = new DriveConstantCommand(true, true, true, .3);
+		Robot.getInstance().driveWall = new DriveConstantCommand(true, true, true, .4);
 		new JoystickButton(driveLeft, 1).whenPressed(Robot.getInstance().driveWall);
 		new JoystickButton(driveLeft, 1).whenReleased(new DriveCancelCommand());
 		//->  2: Reverse drive direction
@@ -83,7 +96,6 @@ public class OI implements SmartDashboardSource, Periodic {
 	
 	public void initDriveRight() {
 		// Drive Right: (1)
-		driveRight = new Joystick(1);
 		// => 1: Slow Turn
 		// -> 10: Reset drive encoders
 		new JoystickButton(driveRight, 10).whenPressed(new DriveResetEncodersCommand());
@@ -93,7 +105,6 @@ public class OI implements SmartDashboardSource, Periodic {
 
 	public void initOperatorLeft() {
 		// Operator Left: (3)
-		operatorLeft = new Joystick(3);
 		// -> 4: Auto Shovel of Fries
 		// Auto shovel of fries routine, ends when drive joysticks are touched
 		new JoystickButton(operatorLeft, 4).whenPressed(new AutoShovelOfFriesCommandGroup());
@@ -103,7 +114,7 @@ public class OI implements SmartDashboardSource, Periodic {
 
 		// -> 2 + 3: Align
 		// Auto align the robot to target, ends when drive joysticks are touched
-		alignButton = new DoubleJoystickButton(operatorLeft, 2, 3);
+		alignButton = new DoubleJoystickButton(new JoystickButton(operatorLeft, 2), new JoystickButton(operatorLeft, 3));
 		
 		alignCommand = new AlignCommandGroup();
 		alignButton.whenPressed(alignCommand);
@@ -144,7 +155,7 @@ public class OI implements SmartDashboardSource, Periodic {
 
 	public void initOperatorRight() {
 		// Operator Right: (2)
-		operatorRight = new Joystick(2);
+
 		// => 1: Up Height (Climb Height)
 		// Positions intake arm to vertical height, ensures intake off (also
 		// used for climb)
@@ -181,7 +192,7 @@ public class OI implements SmartDashboardSource, Periodic {
 		// signifying we are about to shoot enables defense robots to defend
 		// more effectively
 		LEDCutout = new JoystickButton(operatorRight, 12);
-		LEDCutout.whenPressed(new ShooterHighCommand());
+		LEDCutout.whenPressed(new ShooterManualHighCommand());
 		LEDCutout.whenReleased(new ShooterOffCommand());
 	}
 
@@ -326,6 +337,15 @@ public class OI implements SmartDashboardSource, Periodic {
 		
 	@Override
 	public void periodic() {
+		
+		if(Shooter.getInstance().hasBall() || LoaderRoller.getInstance().hasBall() || IntakeRoller.getInstance().hasBall()) {
+			if(LoaderRoller.getInstance().getCurrentCommand() != null && LoaderRoller.getInstance().getCurrentCommand().getName().equals("IntakeArmIntakeHeightCommandGroup")) {
+				System.out.println("Here3");
+				NRCommand.cancelCommand(LoaderRoller.getInstance().getCurrentCommand());
+				LoaderRoller.getInstance().setLoaderSpeed(0);
+			}
+		}
+		
 		if(isDriveNonZero()) {
 	
 			if(Drive.getInstance().getCurrentCommand() != null && !(Drive.getInstance().getCurrentCommand().getName().equals("DriveJoystickCommand") || Drive.getInstance().getCurrentCommand() == Robot.getInstance().driveWall)) {
@@ -341,6 +361,14 @@ public class OI implements SmartDashboardSource, Periodic {
 		
 		if(getLoaderRollerMoveValue() != 0) {
 			if(LoaderRoller.getInstance().getCurrentCommand() != null && !LoaderRoller.getInstance().getCurrentCommand().getName().equals("LoaderRollerJoystickCommand")) {
+				System.out.println("Here1" + LoaderRoller.getInstance().getCurrentCommand().getName());
+				NRCommand.cancelCommand(LoaderRoller.getInstance().getCurrentCommand());
+				new LoaderRollerJoystickCommand().start();
+				LoaderRoller.getInstance().setLoaderSpeed(0);
+			}
+		} else {
+			if(LoaderRoller.getInstance().getCurrentCommand() != null && LoaderRoller.getInstance().getCurrentCommand().getName().equals("LoaderRollerJoystickCommand")) {
+				System.out.println("Here2");
 				NRCommand.cancelCommand(LoaderRoller.getInstance().getCurrentCommand());
 				LoaderRoller.getInstance().setLoaderSpeed(0);
 			}
@@ -364,7 +392,7 @@ public class OI implements SmartDashboardSource, Periodic {
 		}
 		
 		if(getElevatorMoveValue() != 0) {
-			if(Elevator.getInstance().getCurrentCommand() != null && !Elevator.getInstance().getCurrentCommand().getName().equals("ElevatorJoystickCommand")) {
+			if(Elevator.getInstance().getCurrentCommand() != null && !Elevator.getInstance().getCurrentCommand().getName().equals("ElevatorJoystickCommand") && !Elevator.getInstance().getCurrentCommand().getName().equals("ElevatorResetCommand")) {
 				NRCommand.cancelCommand(Elevator.getInstance().getCurrentCommand());
 			}
 		}

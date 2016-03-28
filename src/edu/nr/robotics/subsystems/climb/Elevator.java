@@ -2,7 +2,6 @@ package edu.nr.robotics.subsystems.climb;
 
 import edu.nr.lib.NRMath;
 import edu.nr.lib.TalonEncoder;
-import edu.nr.lib.interfaces.Periodic;
 import edu.nr.lib.interfaces.SmartDashboardSource;
 import edu.nr.robotics.LiveWindowClasses;
 import edu.nr.robotics.RobotMap;
@@ -14,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class Elevator extends Subsystem implements SmartDashboardSource, Periodic {
+public class Elevator extends Subsystem implements SmartDashboardSource {
     
 	CANTalon talon;
 	public TalonEncoder enc;
@@ -27,7 +26,7 @@ public class Elevator extends Subsystem implements SmartDashboardSource, Periodi
 		enc = new TalonEncoder(talon);
 		
 		LiveWindow.addSensor("Elevator", "Speed", LiveWindowClasses.elevatorSpeed);
-		LiveWindow.addSensor("Elevator", "Switch", LiveWindowClasses.elevatorSwitch);
+		
 	}
 	
 	public static Elevator getInstance() {
@@ -73,23 +72,17 @@ public class Elevator extends Subsystem implements SmartDashboardSource, Periodi
 		SmartDashboard.putNumber("Elevator speed", enc.getRate());
 		SmartDashboard.putNumber("Elevator position", enc.get());
 		SmartDashboard.putBoolean("Elevator moving", getMotorValue() != 0);
+		SmartDashboard.putData(this);
+		SmartDashboard.putNumber("Elevator current", talon.getOutputCurrent());
 		LiveWindowClasses.elevatorSpeed.set(enc.getRate());
-		LiveWindowClasses.elevatorSwitch.set(isLimitSwitchClosed());
 	}
 
 	public boolean isMoving() {
-		return enc.getRate() > 10;
+		return Math.abs(enc.getRate()) > 10;
 	}
 
-	public boolean isLimitSwitchClosed() {
-		return false;//talon.isFwdLimitSwitchClosed();
-		//TODO: Is it the fwd limit switch or the back limit switch?
-	}
-
-	@Override
-	public void periodic() {
-		if(isLimitSwitchClosed())
-			resetEncoder();
+	public double getCurrent() {
+		return talon.getOutputCurrent();
 	}
 	
 }

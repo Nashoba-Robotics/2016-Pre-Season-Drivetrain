@@ -5,11 +5,11 @@ import edu.nr.lib.NRCommand;
 /**
  *
  */
-public class ElevatorSpeedCommand extends NRCommand {
+public class ElevatorVoltageCommand extends NRCommand {
 
 	double val;
 	
-    public ElevatorSpeedCommand(double val) {
+    public ElevatorVoltageCommand(double val) {
     	this.val = val;
     	requires(Elevator.getInstance());
     }

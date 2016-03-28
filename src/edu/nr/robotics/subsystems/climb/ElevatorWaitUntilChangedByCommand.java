@@ -1,7 +1,6 @@
 package edu.nr.robotics.subsystems.climb;
 
 import edu.nr.lib.NRCommand;
-import edu.nr.robotics.RobotMap;
 
 /**
  *
@@ -14,7 +13,6 @@ public class ElevatorWaitUntilChangedByCommand extends NRCommand {
 		
     public ElevatorWaitUntilChangedByCommand(double value) {
     	this.value = value;
-    	requires(Elevator.getInstance());
     }
     
    	@Override

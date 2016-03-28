@@ -15,5 +15,6 @@ public class ShooterOffCommand extends NRCommand {
 	protected void onStart() {
 		Shooter.getInstance().setSetpoint(0);
 		Shooter.getInstance().disable();
+		Shooter.getInstance().setMotor(0);
 	}
 }
