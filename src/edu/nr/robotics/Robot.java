@@ -217,26 +217,30 @@ public class Robot extends RobotBase {
         }
         Timer.delay(1);
         System.out.println("NEXUS_ADB ADB DEVICES: " + RIOdroid.executeCommand("adb devices"));
-        System.out.println("NEXUS_ADB Unlocking screen " + RIOdroid.executeCommandThread("adb shell input keyevent 82")); //This is done in a separate thread because sometimes it just take forever for some reason
+        System.out.println("NEXUS_ADB Unlocking screen " + RIOdroid.executeCommand("adb shell input keyevent 82")); //This is done in a separate thread because sometimes it just take forever for some reason
 
-        System.out.println("NEXUS_ADB Starting app" + RIOdroid.executeCommandThread("adb shell am start -n edu.nr.robotvision/edu.nr.robotvision.MainActivity"));
+        System.out.println("NEXUS_ADB Starting app" + RIOdroid.executeCommand("adb shell am start -n edu.nr.robotvision/edu.nr.robotvision.MainActivity"));
         Timer.delay(2);
         
         //TODO: figure out the kill stuff combined with the hanging
         
-        System.out.println("NEXUS_ADB kill app for error message" + RIOdroid.executeCommandThread("adb shell am kill edu.nr.robotvision"));
+        System.out.println("NEXUS_ADB kill app for error message" + RIOdroid.executeCommand("adb shell am kill edu.nr.robotvision"));
         Timer.delay(2);
-        System.out.println("NEXUS_ADB Starting app" + RIOdroid.executeCommandThread("adb shell am start -n edu.nr.robotvision/edu.nr.robotvision.MainActivity"));
+        System.out.println("NEXUS_ADB Starting app" + RIOdroid.executeCommand("adb shell am start -n edu.nr.robotvision/edu.nr.robotvision.MainActivity"));
         Timer.delay(2);
         
         System.out.println(RIOadb.clearNetworkPorts());
         Timer.delay(1);
-        System.out.println("FOWARD ADB: " + RIOadb.forward(1768,17680));
+        System.out.println("FOWARD ADB: " + RIOadb.forward(17680,1768));
         Timer.delay(1);
         System.out.println("FOWARD SOCAT: " + RIOadb.forwardToLocal(17680,AndroidConnection.defaultPort));
         
         
+        System.out.println("Finished");
+        
         new AndroidConnection().run();
+        
+        System.out.println("Really finished");
         
         /*initCamera();
 		initSubsystems();

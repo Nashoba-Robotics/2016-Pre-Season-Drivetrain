@@ -11,7 +11,7 @@ import java.net.UnknownHostException;
 public class AndroidConnection {
 
 	public static final int defaultPort = 1768;
-	private static final String defaultIpAddress = "localhost";
+	private static final String defaultIpAddress = "127.0.0.1";
 	
 	
 	double distance;
@@ -23,17 +23,17 @@ public class AndroidConnection {
 		goodToGo = true;
 		distance = 0;
 		turnAngle = 0;
-		/*Socket clientSocket;
+		Socket clientSocket;
 		try {
 			clientSocket = new Socket(defaultIpAddress, defaultPort);
-			clientSocket.setSoTimeout(100); //We will only wait for 100 ms before timing out
+			//clientSocket.setSoTimeout(100); //We will only wait for 100 ms before timing out
 			try {
 				DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
 				BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 				outToServer.writeBytes("check\n");
 				String responseSentence = inFromServer.readLine();
 				if(responseSentence == null) {
-					System.out.println("Had socket timeout exception");
+					System.out.println("Didn't get anything back from the server - reached end of stream");
 					clientSocket.close();
 					distance = 0;
 					turnAngle = 0;
@@ -65,7 +65,7 @@ public class AndroidConnection {
 			System.out.println("Unknown host to connect to");
 		} catch (IOException e) {
 			e.printStackTrace();
-		}*/		
+		}	
 	}
 
 	public double getTurnAngle() {
