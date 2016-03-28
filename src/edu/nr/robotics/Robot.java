@@ -197,7 +197,7 @@ public class Robot extends RobotBase {
 				}
 				FRCNetworkCommunicationsLibrary.FRCNetworkCommunicationObserveUserProgramTeleop();
 			}
-			periodic();
+			//periodic();
 		}
 	}
 	
@@ -207,7 +207,7 @@ public class Robot extends RobotBase {
 	 */
 	private void robotInit() {
 		System.out.println("Robot Init Started");
-		/*
+		
         RIOdroid.initUSB(); //Start LibUsb
         try { 
         	RIOadb.init();      //Start up ADB deamon and get an instance of jadb
@@ -236,12 +236,12 @@ public class Robot extends RobotBase {
         System.out.println("FOWARD SOCAT: " + RIOadb.forwardToLocal(17680,AndroidConnection.defaultPort));
         
         
-        new AndroidConnection().run();*/
+        new AndroidConnection().run();
         
-        initCamera();
+        /*initCamera();
 		initSubsystems();
 		initSmartDashboard();
-		robotDiagram = new RobotDiagram();
+		robotDiagram = new RobotDiagram();*/
 	}
 	
 	private void initSmartDashboard() {	
@@ -464,7 +464,7 @@ public class Robot extends RobotBase {
 	 * functions for the specific modes
 	 */
 	private void initialize() {
-		if(!doneFirstTime) {
+		/*if(!doneFirstTime) {
 			doneFirstTime = true;
 			Elevator.getInstance().resetEncoder();
 		}
@@ -477,6 +477,6 @@ public class Robot extends RobotBase {
 			Shooter.getInstance().setSetpoint(0);
 			Shooter.getInstance().disable();
 			Elevator.getInstance().setMotorValue(0);
-		}
+		}*/
 	}
 }
