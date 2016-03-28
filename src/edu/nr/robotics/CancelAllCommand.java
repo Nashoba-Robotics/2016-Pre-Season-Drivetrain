@@ -30,8 +30,7 @@ public class CancelAllCommand extends NRCommand {
 		IntakeRoller.getInstance().setRollerSpeed(0);
 		LoaderRoller.getInstance().setLoaderSpeed(0);
 		Hood.getInstance().disable();
-		Shooter.getInstance().setSetpoint(0);
-		Shooter.getInstance().disable();
+		Shooter.getInstance().setMotor(0);
 		Elevator.getInstance().setMotorValue(0);
 	}
 }
