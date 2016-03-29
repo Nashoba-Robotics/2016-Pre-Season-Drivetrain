@@ -1,6 +1,6 @@
 package edu.nr.robotics;
 
-import edu.nr.lib.network.AndroidConnection;
+import edu.nr.lib.network.AndroidServer;
 import edu.nr.robotics.commandgroups.AlignCommandGroup;
 import edu.nr.robotics.subsystems.climb.Elevator;
 import edu.nr.robotics.subsystems.hood.Hood;
@@ -34,14 +34,12 @@ public class RobotDiagram implements NamedSendable {
 			table.putBoolean("Hood Top", Hood.getInstance().isAtPosition(Hood.Position.TOP));
 			table.putNumber("Hood Angle", Hood.getInstance().get());
 			
-			AndroidConnection connection = new AndroidConnection();
-	    	connection.run();
 	    	boolean hoodAtThreshold;
-	    	if(!connection.goodToGo()) { 
+	    	if(!AndroidServer.getInstance().goodToGo()) { 
 	    		System.out.println("Android connection not good to go");
 	    		hoodAtThreshold = false;
 	    	} else {
-	    		hoodAtThreshold = Math.abs(Hood.getInstance().get() - Hood.distanceToAngle(connection.getDistance())) > RobotMap.HOOD_THRESHOLD;
+	    		hoodAtThreshold = Math.abs(Hood.getInstance().get() - Hood.distanceToAngle(AndroidServer.getInstance().getDistance())) > RobotMap.HOOD_THRESHOLD;
 	    	}
 	    	
 			table.putBoolean("Hood at Threshold", hoodAtThreshold);

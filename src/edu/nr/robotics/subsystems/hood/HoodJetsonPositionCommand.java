@@ -1,7 +1,7 @@
 package edu.nr.robotics.subsystems.hood;
 
 import edu.nr.lib.NRCommand;
-import edu.nr.lib.network.AndroidConnection;
+import edu.nr.lib.network.AndroidServer;
 
 public class HoodJetsonPositionCommand extends NRCommand {
 
@@ -16,14 +16,12 @@ public class HoodJetsonPositionCommand extends NRCommand {
 	
 	@Override
 	protected void onStart() {
-		AndroidConnection connection = new AndroidConnection();
-    	connection.run();
-    	if(!connection.goodToGo()) { 
+    	if(!AndroidServer.getInstance().goodToGo()) { 
     		System.out.println("Android connection not good to go");
     		goodToGo = false;
     		return;
     	}
-		val = Hood.distanceToAngle(connection.getDistance());
+		val = Hood.distanceToAngle(AndroidServer.getInstance().getDistance());
 		Hood.getInstance().enable();
 		Hood.getInstance().setSetpoint(val);
 	}

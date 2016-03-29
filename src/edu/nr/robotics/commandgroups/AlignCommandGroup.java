@@ -1,7 +1,7 @@
 package edu.nr.robotics.commandgroups;
 
 import edu.nr.lib.NRCommand;
-import edu.nr.lib.network.AndroidConnection;
+import edu.nr.lib.network.AndroidServer;
 import edu.nr.robotics.LiveWindowClasses;
 import edu.nr.robotics.OI;
 import edu.nr.robotics.Robot;
@@ -32,23 +32,21 @@ public class AlignCommandGroup extends CommandGroup {
     
     @Override
     public void end() {
-    	AndroidConnection connection = new AndroidConnection();
-    	connection.run();
-    	if(!connection.goodToGo()) { 
+    	if(!AndroidServer.getInstance().goodToGo()) { 
     		System.out.println("Android connection not good to go");
     		return;
     	}
     	
     	System.out.println("Align command group started ending");
 		System.out.println("Hood: " + (Math.abs(Hood.getInstance().get() - 
-				Hood.distanceToAngle(connection.getDistance())) > RobotMap.HOOD_THRESHOLD));
-		System.out.println("Turn:  " + Math.abs(connection.getTurnAngle()) + " " + (Math.abs(connection.getTurnAngle()) > RobotMap.TURN_THRESHOLD));
+				Hood.distanceToAngle(AndroidServer.getInstance().getDistance())) > RobotMap.HOOD_THRESHOLD));
+		System.out.println("Turn:  " + Math.abs(AndroidServer.getInstance().getTurnAngle()) + " " + (Math.abs(AndroidServer.getInstance().getTurnAngle()) > RobotMap.TURN_THRESHOLD));
 		System.out.println("Shooter: " + Shooter.getInstance().getScaledSpeed() + " " + (Shooter.getInstance().getScaledSpeed() < RobotMap.SHOOTER_FAST_SPEED - RobotMap.SHOOTER_THRESHOLD));
 
     	if(OI.getInstance().alignButton.get()) {
     		boolean flag = false;
-    		if(Math.abs(Hood.getInstance().get() - Hood.distanceToAngle(connection.getDistance())) > RobotMap.HOOD_THRESHOLD ) {flag = true;}
-    		if(Math.abs(connection.getTurnAngle()) > RobotMap.TURN_THRESHOLD) {flag = true;}
+    		if(Math.abs(Hood.getInstance().get() - Hood.distanceToAngle(AndroidServer.getInstance().getDistance())) > RobotMap.HOOD_THRESHOLD ) {flag = true;}
+    		if(Math.abs(AndroidServer.getInstance().getTurnAngle()) > RobotMap.TURN_THRESHOLD) {flag = true;}
 			if(Shooter.getInstance().getScaledSpeed() < RobotMap.SHOOTER_FAST_SPEED - RobotMap.SHOOTER_THRESHOLD) {flag = true;}
     		if(flag) {
 	    		System.out.println("Starting align again");

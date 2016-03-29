@@ -13,7 +13,7 @@ import edu.nr.lib.interfaces.Periodic;
 import edu.nr.lib.interfaces.SmartDashboardSource;
 import edu.nr.lib.livewindow.LiveWindowBoolean;
 import edu.nr.lib.navx.NavX;
-import edu.nr.lib.network.AndroidConnection;
+import edu.nr.lib.network.AndroidServer;
 import edu.nr.robotics.auton.*;
 import edu.nr.robotics.auton.AutonOverAlignShootCommandGroup.Positions;
 import edu.nr.robotics.commandgroups.AlignCommandGroup;
@@ -233,12 +233,12 @@ public class Robot extends RobotBase {
         Timer.delay(1);
         System.out.println("FOWARD ADB: " + RIOadb.forward(17680,1768));
         Timer.delay(1);
-        System.out.println("FOWARD SOCAT: " + RIOadb.forwardToLocal(17680,AndroidConnection.defaultPort));
+        System.out.println("FOWARD SOCAT: " + RIOadb.forwardToLocal(17680,AndroidServer.defaultPort));
         
         
         System.out.println("Finished");
         
-        new AndroidConnection().run();
+        new Thread(AndroidServer.getInstance()).start();
         
         System.out.println("Really finished");
         

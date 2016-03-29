@@ -4,7 +4,7 @@ import edu.nr.lib.AngleGyroCorrectionSource;
 import edu.nr.lib.AngleUnit;
 import edu.nr.lib.NRCommand;
 import edu.nr.lib.PID;
-import edu.nr.lib.network.AndroidConnection;
+import edu.nr.lib.network.AndroidServer;
 import edu.nr.robotics.RobotMap;
 import edu.nr.robotics.commandgroups.AlignSubcommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -72,17 +72,14 @@ public class DriveAngleJetsonPIDCommand extends NRCommand {
 
 	@Override
 	protected void onStart() {
-    	AndroidConnection connection = new AndroidConnection();
-    	connection.run();
-
-    	if(!connection.goodToGo()) { 
+    	if(!AndroidServer.getInstance().goodToGo()) { 
     		System.out.println("Android connection not good to go");
     		goodToGo = false;
     		return;
     	}
 		
 		System.out.println("Drive angle Jetson PID start");
-		angle = connection.getTurnAngle();
+		angle = AndroidServer.getInstance().getTurnAngle();
 		
 
 		/*if(Math.abs(angle) < .5) {
