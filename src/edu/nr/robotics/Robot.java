@@ -197,7 +197,7 @@ public class Robot extends RobotBase {
 				}
 				FRCNetworkCommunicationsLibrary.FRCNetworkCommunicationObserveUserProgramTeleop();
 			}
-			//periodic();
+			periodic();
 		}
 	}
 	
@@ -239,10 +239,10 @@ public class Robot extends RobotBase {
         
         System.out.println("Really finished");
         
-        /*initCamera();
+        initCamera();
 		initSubsystems();
 		initSmartDashboard();
-		robotDiagram = new RobotDiagram();*/
+		robotDiagram = new RobotDiagram();
 	}
 	
 	private void initSmartDashboard() {	
@@ -465,7 +465,7 @@ public class Robot extends RobotBase {
 	 * functions for the specific modes
 	 */
 	private void initialize() {
-		/*if(!doneFirstTime) {
+		if(!doneFirstTime) {
 			doneFirstTime = true;
 			Elevator.getInstance().resetEncoder();
 		}
@@ -476,6 +476,6 @@ public class Robot extends RobotBase {
 			LoaderRoller.getInstance().setLoaderSpeed(0);
 			Hood.getInstance().disable();
 			Elevator.getInstance().setMotorValue(0);
-		}*/
+		}
 	}
 }
