@@ -9,6 +9,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class ShooterLowCommand extends CommandGroup {
     
     public  ShooterLowCommand() {
-        addSequential(new ShooterOnCommand(RobotMap.SHOOTER_SLOW_SPEED));
+        addSequential(new ShooterSpeedCommand(RobotMap.SHOOTER_SLOW_SPEED));
     }
 }

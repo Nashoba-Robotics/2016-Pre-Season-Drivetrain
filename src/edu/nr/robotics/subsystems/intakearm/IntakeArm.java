@@ -3,6 +3,7 @@ package edu.nr.robotics.subsystems.intakearm;
 import edu.nr.lib.PID;
 import edu.nr.lib.interfaces.Periodic;
 import edu.nr.lib.interfaces.SmartDashboardSource;
+import edu.nr.robotics.EnabledSubsystems;
 import edu.nr.robotics.LiveWindowClasses;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
@@ -28,17 +29,19 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	boolean pidDisabled = false;
 		
 	private IntakeArm() {		
-
-		talon = new CANTalon(RobotMap.INTAKE_ARM_TALON);
-		talon.setInverted(true);
-		pot = new AnalogPotentiometer(RobotMap.INTAKE_ARM_POT);
-		pot.setPIDSourceType(PIDSourceType.kDisplacement);
-		pid = new PID(421.8*0.1, 421.8*0.0001, 0.00, pot, talon);
-		
-		LiveWindow.addSensor("Intake Arm", "PID", pid);
-		
-		LiveWindow.addSensor("Intake Arm", "Bottom Switch", LiveWindowClasses.intakeArmBottomSwitch);
-		LiveWindow.addSensor("Intake Arm", "Top Switch", LiveWindowClasses.intakeArmTopSwitch);
+		if(EnabledSubsystems.intakeEnabled)
+		{
+			talon = new CANTalon(RobotMap.INTAKE_ARM_TALON);
+			talon.setInverted(true);
+			pot = new AnalogPotentiometer(RobotMap.INTAKE_ARM_POT);
+			pot.setPIDSourceType(PIDSourceType.kDisplacement);
+			pid = new PID(421.8*0.1, 421.8*0.0001, 0.00, pot, talon);
+			
+			LiveWindow.addSensor("Intake Arm", "PID", pid);
+			
+			LiveWindow.addSensor("Intake Arm", "Bottom Switch", LiveWindowClasses.intakeArmBottomSwitch);
+			LiveWindow.addSensor("Intake Arm", "Top Switch", LiveWindowClasses.intakeArmTopSwitch);
+		}
 
 	}
 	
@@ -64,9 +67,12 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	 * @param speed the speed to set the motor to, from -1 to 1
 	 */
 	public void setMotor(double speed) {
-		if(pid.isEnable())
-			pid.disable();
-		talon.set(speed);
+		if(pid != null) {
+			if(pid.isEnable())
+				pid.disable();
+		}
+		if(talon != null)
+			talon.set(speed);
 	}
 	
 	/**
@@ -74,7 +80,8 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	 * @param value the value to set the setpoint to
 	 */
 	public void setSetpoint(double value) {
-		pid.setSetpoint(value);	
+		if(pid != null)
+			pid.setSetpoint(value);	
 	}
 	
 	/**
@@ -82,7 +89,9 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	 * @return the PID setpoint
 	 */
 	public double getSetpoint() {
-		return pid.getSetpoint();
+		if(pid != null)
+			return pid.getSetpoint();
+		return 0;
 	}
 	
 	/**
@@ -90,7 +99,8 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	 */
 	public void enable() {
 		pidDisabled = false;
-		pid.enable();
+		if(pid != null)
+			pid.enable();
 	}
 	
 	/**
@@ -98,7 +108,8 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	 */
 	public void disable() {
 		pidDisabled = true;
-		pid.disable();
+		if(pid != null)
+			pid.disable();
 	}
 	
 	/**
@@ -106,51 +117,66 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	 * @return whether the PID is enabled
 	 */
 	public boolean isEnable() {
-		return pid.isEnable();
+		if(pid != null)
+			return pid.isEnable();
+		return false;
 	}
 	/**
 	 * Gets the value of the potentiometer
 	 * @return the value of the potentiometer
 	 */
 	public double get() {
-		return pot.get();
+		if(pot != null)
+			return pot.get();
+		return 0;
 	}
 
 	@Override
 	public void smartDashboardInfo() {
-		SmartDashboard.putNumber("Intake Arm Potentiometer", get());
-		SmartDashboard.putNumber("Intake Arm Error", pid.getError());
-		SmartDashboard.putBoolean("Intake Arm Moving", pid.isEnable());
-		
-		LiveWindowClasses.intakeArmBottomSwitch.set(isBotLimitSwitchClosed());
-		LiveWindowClasses.intakeArmTopSwitch.set(isTopLimitSwitchClosed());
+		if(EnabledSubsystems.intakeEnabled) {
+			SmartDashboard.putNumber("Intake Arm Potentiometer", get());
+			SmartDashboard.putNumber("Intake Arm Error", pid.getError());
+			SmartDashboard.putBoolean("Intake Arm Moving", pid.isEnable());
+			
+			LiveWindowClasses.intakeArmBottomSwitch.set(isBotLimitSwitchClosed());
+			LiveWindowClasses.intakeArmTopSwitch.set(isTopLimitSwitchClosed());
+		}
 	}
 
 	public boolean isTopLimitSwitchClosed() {
-		return talon.isFwdLimitSwitchClosed();
+		if(talon != null)
+			return talon.isFwdLimitSwitchClosed();
+		return false;
 	}
 	
 	public boolean isBotLimitSwitchClosed() {
-		return talon.isRevLimitSwitchClosed();
+		if(talon != null)
+			return talon.isRevLimitSwitchClosed();
+		return false;
 	}
 
 	public void setMaxSpeed(double maxSpeed) {
-		pid.setOutputRange(0, maxSpeed);
+		if(pid != null)
+			pid.setOutputRange(0, maxSpeed);
 	}
 
 	@Override
 	public void periodic() {
-		if(Math.abs(pid.getError()) < RobotMap.INTAKE_ARM_THRESHOLD * 2/3) {
-			counter++;
-			if(counter > 2)
-				pid.disable();
-		} else {
-			counter = 0;
+		if(pid != null) {
+			if(Math.abs(pid.getError()) < RobotMap.INTAKE_ARM_THRESHOLD * 2/3) {
+				counter++;
+				if(counter > 2)
+					pid.disable();
+			} else {
+				counter = 0;
+			}
 		}
 	} 
 
 	public double getError() {
-		return pid.getError();
+		if(pid != null)
+			return pid.getError();
+		return 0;
 	}
 }
 

@@ -12,16 +12,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class AlignEndCommandGroup extends CommandGroup {
     
-	
-    public  AlignEndCommandGroup() {
-    	requires(Drive.getInstance());
-    }
-    
     @Override
     public void start() {
-    	IntakeArm.getInstance().disable();
-    	Hood.getInstance().disable();
-    	Shooter.getInstance().disable();
     	OI.getInstance().alignCommand.cancel();
     }
 }

@@ -1,6 +1,7 @@
 package edu.nr.robotics.subsystems.loaderroller;
 
 import edu.nr.lib.interfaces.SmartDashboardSource;
+import edu.nr.robotics.EnabledSubsystems;
 import edu.nr.robotics.LiveWindowClasses;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
@@ -20,12 +21,11 @@ public class LoaderRoller extends Subsystem implements SmartDashboardSource {
 	DigitalInput gate;
 	
 	private LoaderRoller() {
-		
-		gate = new DigitalInput(RobotMap.LOADER_PHOTO_GATE);
-		
-		talon = new CANTalon(RobotMap.LOADER_ROLLER_TALON);
-		talon.enableBrakeMode(true);
-
+		if(EnabledSubsystems.loaderRollersEnabled) {
+			gate = new DigitalInput(RobotMap.LOADER_PHOTO_GATE);
+			talon = new CANTalon(RobotMap.LOADER_ROLLER_TALON);
+			talon.enableBrakeMode(true);
+		}
 	}
 	
 	public static LoaderRoller getInstance() {
@@ -44,7 +44,8 @@ public class LoaderRoller extends Subsystem implements SmartDashboardSource {
 	 * @param val the value to set the loader setpoint to
 	 */
 	public void setLoaderSpeed(double val) {
-		talon.set(val);
+		if(talon != null)
+			talon.set(val);
 	}
 	
     @Override
@@ -53,22 +54,30 @@ public class LoaderRoller extends Subsystem implements SmartDashboardSource {
     }
 	
 	public boolean hasBall() {
-		return !gate.get();
+		if(gate != null)
+			return !gate.get();
+		return false;
 	}
 
 	@Override
 	public void smartDashboardInfo() {
-		SmartDashboard.putBoolean("Loader Roller Forward", isForward());
-		SmartDashboard.putBoolean("Loader Roller Reverse", isReverse());
-		SmartDashboard.putData(this);
+		if(EnabledSubsystems.loaderRollersEnabled) {
+			SmartDashboard.putBoolean("Loader Roller Forward", isForward());
+			SmartDashboard.putBoolean("Loader Roller Reverse", isReverse());
+			SmartDashboard.putData(this);
+		}
 	}
 	
 	public boolean isForward() {
-		return talon.get() < -0.1 ;
+		if(talon != null)
+			return talon.get() < -0.1 ;
+		return false;
 	}
 	
 	public boolean isReverse() {
-		return talon.get() > 0.1 ;
+		if(talon != null)
+			return talon.get() > 0.1 ;
+		return false;
 	}
 }
 
