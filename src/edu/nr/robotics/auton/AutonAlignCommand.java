@@ -1,6 +1,6 @@
 package edu.nr.robotics.auton;
 
-import edu.nr.lib.network.AndroidConnection;
+import edu.nr.lib.network.AndroidServer;
 import edu.nr.robotics.OI;
 import edu.nr.robotics.RobotMap;
 import edu.nr.robotics.commandgroups.AlignCommandGroup;
@@ -37,9 +37,7 @@ public class AutonAlignCommand extends CommandGroup {
     
     @Override
     public void end() {
-    	AndroidConnection connection = new AndroidConnection();
-    	connection.run();
-    	if(!connection.goodToGo()) { 
+    	if(!AndroidServer.getInstance().goodToGo()) { 
     		System.out.println("Android connection not good to go");
     		return;
     	}
@@ -52,8 +50,8 @@ public class AutonAlignCommand extends CommandGroup {
     		checkDist = 2;
     	}
 
-    	if(Math.abs(System.currentTimeMillis() - startTime) < 5000 && Hood.getInstance().get() - Hood.distanceToAngle(connection.getDistance()) > RobotMap.HOOD_THRESHOLD ) {flag = true;}
-    	if(Math.abs(connection.getTurnAngle()) > checkDist) {flag = true;}
+    	if(Math.abs(System.currentTimeMillis() - startTime) < 5000 && Hood.getInstance().get() - Hood.distanceToAngle(AndroidServer.getInstance().getDistance()) > RobotMap.HOOD_THRESHOLD ) {flag = true;}
+    	if(Math.abs(AndroidServer.getInstance().getTurnAngle()) > checkDist) {flag = true;}
     	if(Math.abs(System.currentTimeMillis() - startTime) < 5000 && Shooter.getInstance().getScaledSpeed() < RobotMap.SHOOTER_FAST_SPEED - RobotMap.SHOOTER_THRESHOLD) {flag = true;}
     	if(flag) {
     		new AutonAlignCommand(startTime).start();
