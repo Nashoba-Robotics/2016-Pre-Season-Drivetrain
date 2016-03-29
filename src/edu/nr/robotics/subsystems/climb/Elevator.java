@@ -3,6 +3,7 @@ package edu.nr.robotics.subsystems.climb;
 import edu.nr.lib.NRMath;
 import edu.nr.lib.TalonEncoder;
 import edu.nr.lib.interfaces.SmartDashboardSource;
+import edu.nr.robotics.EnabledSubsystems;
 import edu.nr.robotics.LiveWindowClasses;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
@@ -21,11 +22,13 @@ public class Elevator extends Subsystem implements SmartDashboardSource {
 	private static Elevator singleton;
 	
 	private Elevator() {
-		talon = new CANTalon(RobotMap.ELEVATOR_TALON);
-		talon.enableBrakeMode(true);
-		enc = new TalonEncoder(talon);
+		if(EnabledSubsystems.climbEnabled) {
+			talon = new CANTalon(RobotMap.ELEVATOR_TALON);
+			talon.enableBrakeMode(true);
+			enc = new TalonEncoder(talon);
+			LiveWindow.addSensor("Elevator", "Speed", LiveWindowClasses.elevatorSpeed);
+		}
 		
-		LiveWindow.addSensor("Elevator", "Speed", LiveWindowClasses.elevatorSpeed);
 		
 	}
 	
@@ -46,19 +49,25 @@ public class Elevator extends Subsystem implements SmartDashboardSource {
 	 */
 	public void setMotorValue(double val) {
 		val = NRMath.limit(val, 1);
-		talon.set(val);
+		if(talon != null)
+			talon.set(val);
 	}
 	
 	public double getMotorValue() {
-		return talon.get();
+		if(talon != null)
+			return talon.get();
+		return 0;
 	}
 	
 	public void resetEncoder() {
-		enc.reset();
+		if(enc != null)
+			enc.reset();
 	}
 	
 	public double getEncoder() {
-		return enc.get();
+		if(enc != null)
+			return enc.get();
+		return 0;
 	}
 
 	
@@ -69,20 +78,31 @@ public class Elevator extends Subsystem implements SmartDashboardSource {
 
 	@Override
 	public void smartDashboardInfo() {
-		SmartDashboard.putNumber("Elevator speed", enc.getRate());
-		SmartDashboard.putNumber("Elevator position", enc.get());
-		SmartDashboard.putBoolean("Elevator moving", getMotorValue() != 0);
-		SmartDashboard.putData(this);
-		SmartDashboard.putNumber("Elevator current", talon.getOutputCurrent());
-		LiveWindowClasses.elevatorSpeed.set(enc.getRate());
+		if(EnabledSubsystems.climbEnabled) {
+			if(enc != null){
+				SmartDashboard.putNumber("Elevator speed", enc.getRate());
+				SmartDashboard.putNumber("Elevator position", enc.get());
+				LiveWindowClasses.elevatorSpeed.set(enc.getRate());
+	
+			}
+			
+			if(talon != null)
+				SmartDashboard.putNumber("Elevator current", talon.getOutputCurrent());
+			SmartDashboard.putBoolean("Elevator moving", getMotorValue() != 0);
+			SmartDashboard.putData(this);
+		}
 	}
 
 	public boolean isMoving() {
-		return Math.abs(enc.getRate()) > 10;
+		if(enc != null)
+			return Math.abs(enc.getRate()) > 10;
+		return false;
 	}
 
 	public double getCurrent() {
-		return talon.getOutputCurrent();
+		if(talon != null)
+			return talon.getOutputCurrent();
+		return 0;
 	}
 	
 }

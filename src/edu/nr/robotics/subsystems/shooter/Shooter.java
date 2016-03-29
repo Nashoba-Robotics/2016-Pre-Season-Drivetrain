@@ -2,6 +2,7 @@ package edu.nr.robotics.subsystems.shooter;
 
 import edu.nr.lib.CounterPIDSource;
 import edu.nr.lib.interfaces.SmartDashboardSource;
+import edu.nr.robotics.EnabledSubsystems;
 import edu.nr.robotics.LiveWindowClasses;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
@@ -29,26 +30,26 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	CounterPIDSource shooterRate;
 	
 	private Shooter() {
-		gate = new DigitalInput(RobotMap.SHOOTER_PHOTO_GATE);
-		
-		talonA = new CANTalon(RobotMap.SHOOTER_TALON_A);
-		talonA.enableBrakeMode(false);
-		
-		talonB = new CANTalon(RobotMap.SHOOTER_TALON_B);
-		talonB.enableBrakeMode(false);
-		talonB.setInverted(true);
-
-		talonOutput = new MotorSetter(talonA, talonB);
-		
-		shooterRate = new CounterPIDSource(RobotMap.SHOOTER_RATE_PORT);
-		shooterRate.setPIDSourceType(PIDSourceType.kRate);
-		shooterRate.setSamplesToAverage(24);
-		shooterRate.scale(3 * RobotMap.SHOOTER_MAX_SPEED);
-						
-		LiveWindow.addSensor("Shooter", "PID Output", LiveWindowClasses.shooterOutput);
-		LiveWindow.addSensor("Shooter", "Current", LiveWindowClasses.shooterCurrent);
-
-
+		if(EnabledSubsystems.shooterEnabled) {
+			gate = new DigitalInput(RobotMap.SHOOTER_PHOTO_GATE);
+			
+			talonA = new CANTalon(RobotMap.SHOOTER_TALON_A);
+			talonA.enableBrakeMode(false);
+			
+			talonB = new CANTalon(RobotMap.SHOOTER_TALON_B);
+			talonB.enableBrakeMode(false);
+			talonB.setInverted(true);
+	
+			talonOutput = new MotorSetter(talonA, talonB);
+			
+			shooterRate = new CounterPIDSource(RobotMap.SHOOTER_RATE_PORT);
+			shooterRate.setPIDSourceType(PIDSourceType.kRate);
+			shooterRate.setSamplesToAverage(24);
+			shooterRate.scale(3 * RobotMap.SHOOTER_MAX_SPEED);
+							
+			LiveWindow.addSensor("Shooter", "PID Output", LiveWindowClasses.shooterOutput);
+			LiveWindow.addSensor("Shooter", "Current", LiveWindowClasses.shooterCurrent);
+		}
 	}
 	
     @Override
@@ -71,7 +72,8 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	 * @param speed the speed to set the motor to, from -1 to 1
 	 */
 	public void setMotor(double speed) {
-		talonOutput.write(speed);
+		if(talonOutput != null)
+			talonOutput.write(speed);
 	}
 	
 	/**
@@ -79,7 +81,9 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	 * @return the speed of the shooter
 	 */
 	public double getScaledSpeed() {
-		return shooterRate.pidGet();
+		if(shooterRate != null)
+			return shooterRate.pidGet();
+		return 0;
 	}
 	
 	public double getSpeed() {
@@ -91,7 +95,9 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	}
 	
 	public double getSpeedPercent() {
-		return shooterRate.getRate() / RobotMap.SHOOTER_MAX_SPEED;
+		if(shooterRate != null)
+			return shooterRate.getRate() / RobotMap.SHOOTER_MAX_SPEED;
+		return 0;
 	}
 	
 	/**
@@ -104,13 +110,17 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 
 	@Override
 	public void smartDashboardInfo() {
-		SmartDashboard.putNumber("Shooter Speed", getSpeed());
-		SmartDashboard.putNumber("Shooter Speed Percent", getScaledSpeed());
-		
-		LiveWindowClasses.shooterCurrent.set(talonOutput.getOutputCurrent());
+		if(EnabledSubsystems.shooterEnabled) {
+			SmartDashboard.putNumber("Shooter Speed", getSpeed());
+			SmartDashboard.putNumber("Shooter Speed Percent", getScaledSpeed());
+			SmartDashboard.putData(this);
+			LiveWindowClasses.shooterCurrent.set(talonOutput.getOutputCurrent());
+		}
 	}
 
 	public boolean hasBall() {
-		return !gate.get();
+		if(gate != null)
+			return !gate.get();
+		return false;
 	}
 }
