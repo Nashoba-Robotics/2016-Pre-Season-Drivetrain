@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
@@ -24,7 +25,7 @@ public class AndroidServer implements Runnable {
 	}
 	
 
-	public static final int defaultPort = 1768;
+	public static final int defaultPort = 5432;
 	private static final String defaultIpAddress = "127.0.0.1";
 	
 	
@@ -44,31 +45,28 @@ public class AndroidServer implements Runnable {
 				Socket clientSocket;
 				try {
 					clientSocket = new Socket(defaultIpAddress, defaultPort);
-					//clientSocket.setSoTimeout(100); //We will only wait for 100 ms before timing out
 					try {
-						DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
 						BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-						outToServer.writeBytes("check\n");
-						String responseSentence = inFromServer.readLine();
-						if(responseSentence == null) {
+						String message = inFromServer.readLine();
+						if(message == null) {
 							System.out.println("Didn't get anything back from the server - reached end of stream");
 							clientSocket.close();
 							distance = 0;
 							turnAngle = 0;
 							goodToGo = false;
 						} else {
-							System.out.println("FROM SERVER: " + responseSentence);
+							System.out.println("FROM SERVER: " + message);
 							goodToGo = true;
-							int x = responseSentence.indexOf(':');
+							int x = message.indexOf(':');
 							if (x > 0) {
-								String left = responseSentence.substring(0, x);
-							    String right = responseSentence.substring(x);
+								String left = message.substring(0, x);
+							    String right = message.substring(x+1);
 							    try {
 							    	distance = Double.valueOf(left);
 							    	turnAngle = Double.valueOf(right);
 								    System.out.println("Angle: " + turnAngle + " Distance: " + distance);
 							    } catch (NumberFormatException e) {
-							    	System.err.println("Coudln't parse number from Jetson. Recieved Message: " + responseSentence);
+							    	System.err.println("Coudln't parse number from Jetson. Recieved Message: " + message);
 							    }
 							}
 						}
@@ -81,9 +79,11 @@ public class AndroidServer implements Runnable {
 					} 
 				} catch (UnknownHostException e) {
 					System.out.println("Unknown host to connect to");
+				} catch (ConnectException e) {
+					System.out.println("Couldn't connect");
 				} catch (IOException e) {
 					e.printStackTrace();
-				}	
+				} 
 			} catch(Exception e) {
 				
 			}

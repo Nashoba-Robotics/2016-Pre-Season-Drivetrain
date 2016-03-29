@@ -231,10 +231,7 @@ public class Robot extends RobotBase {
         
         System.out.println(RIOadb.clearNetworkPorts());
         Timer.delay(1);
-        System.out.println("FOWARD ADB: " + RIOadb.forward(17680,1768));
-        Timer.delay(1);
-        System.out.println("FOWARD SOCAT: " + RIOadb.forwardToLocal(17680,AndroidServer.defaultPort));
-        
+        System.out.println("FOWARD ADB: " + RIOadb.ForwardAdb(5432,5432));
         
         System.out.println("Finished");
         
