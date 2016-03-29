@@ -50,25 +50,26 @@ public class AndroidServer implements Runnable {
 							BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 							String message = inFromServer.readLine();
 							if(message == null) {
-								System.out.println("Didn't get anything back from the server - reached end of stream");
+								System.out.println("Reached end of stream");
 								clientSocket.close();
 								distance = 0;
 								turnAngle = 0;
 								goodToGo = false;
-							} else {
-								goodToGo = true;
-								int x = message.indexOf(':');
-								if (x > 0) {
-									String left = message.substring(0, x);
-								    String right = message.substring(x+1);
-								    try {
-								    	distance = Double.valueOf(left);
-								    	turnAngle = Double.valueOf(right);
-									    System.out.println("Angle: " + turnAngle + " Distance: " + distance);
-								    } catch (NumberFormatException e) {
-								    	System.err.println("Coudln't parse number from Nexus. Recieved Message: " + message);
-								    }
-								}
+								Thread.sleep(1000);
+								break;
+							} 								
+							goodToGo = true;
+							int x = message.indexOf(':');
+							if (x > 0) {
+								String left = message.substring(0, x);
+							    String right = message.substring(x+1);
+							    try {
+							    	distance = Double.valueOf(left);
+							    	turnAngle = Double.valueOf(right);
+								    System.out.println("Angle: " + turnAngle + " Distance: " + distance);
+							    } catch (NumberFormatException e) {
+							    	System.err.println("Coudln't parse number from Nexus. Recieved Message: " + message);
+							    }
 							}
 						}
 					} catch (SocketTimeoutException e) {

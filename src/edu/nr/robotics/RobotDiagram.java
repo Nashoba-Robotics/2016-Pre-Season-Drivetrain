@@ -36,7 +36,6 @@ public class RobotDiagram implements NamedSendable {
 			
 	    	boolean hoodAtThreshold;
 	    	if(!AndroidServer.getInstance().goodToGo()) { 
-	    		System.out.println("Android connection not good to go");
 	    		hoodAtThreshold = false;
 	    	} else {
 	    		hoodAtThreshold = Math.abs(Hood.getInstance().get() - Hood.distanceToAngle(AndroidServer.getInstance().getDistance())) > RobotMap.HOOD_THRESHOLD;
