@@ -192,7 +192,7 @@ public class OI implements SmartDashboardSource, Periodic {
 		// signifying we are about to shoot enables defense robots to defend
 		// more effectively
 		LEDCutout = new JoystickButton(operatorRight, 12);
-		LEDCutout.whenPressed(new ShooterManualHighCommand());
+		LEDCutout.whenPressed(new ShooterHighCommand());
 		LEDCutout.whenReleased(new ShooterOffCommand());
 	}
 

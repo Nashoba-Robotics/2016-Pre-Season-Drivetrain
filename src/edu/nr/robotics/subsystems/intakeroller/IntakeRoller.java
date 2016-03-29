@@ -1,6 +1,7 @@
 package edu.nr.robotics.subsystems.intakeroller;
 
 import edu.nr.lib.interfaces.SmartDashboardSource;
+import edu.nr.robotics.EnabledSubsystems;
 import edu.nr.robotics.LiveWindowClasses;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
@@ -20,11 +21,12 @@ public class IntakeRoller extends Subsystem implements SmartDashboardSource {
 	DigitalInput gate;
 
 	private IntakeRoller() {
-		gate = new DigitalInput(RobotMap.INTAKE_PHOTO_GATE);
-		talon = new CANTalon(RobotMap.INTAKE_ROLLER_TALON);
-		
-		LiveWindow.addSensor("Intake Roller", "Speed", LiveWindowClasses.intakeRollerSpeed);
-
+		if(EnabledSubsystems.intakeRollersEnabled) {
+			gate = new DigitalInput(RobotMap.INTAKE_PHOTO_GATE);
+			talon = new CANTalon(RobotMap.INTAKE_ROLLER_TALON);
+			
+			LiveWindow.addSensor("Intake Roller", "Speed", LiveWindowClasses.intakeRollerSpeed);
+		}
 	}
 	
 	public static IntakeRoller getInstance() {
@@ -43,7 +45,8 @@ public class IntakeRoller extends Subsystem implements SmartDashboardSource {
 	 * @param value the value to set the setpoint to
 	 */
 	public void setRollerSpeed(double value) {
-		talon.set(value);	
+		if(talon != null)
+			talon.set(value);	
 	}
 
     @Override
@@ -53,25 +56,34 @@ public class IntakeRoller extends Subsystem implements SmartDashboardSource {
 
 	@Override
 	public void smartDashboardInfo() {
-		LiveWindowClasses.intakeRollerSpeed.set(talon.get());
-		SmartDashboard.putBoolean("Intake Roller Forward", isForward());
-		SmartDashboard.putBoolean("Intake Roller Reverse", isReverse());
+		if(EnabledSubsystems.intakeRollersEnabled) {
+			LiveWindowClasses.intakeRollerSpeed.set(talon.get());
+			SmartDashboard.putBoolean("Intake Roller Forward", isForward());
+			SmartDashboard.putBoolean("Intake Roller Reverse", isReverse());
+		}
 	}
 	
 	public boolean hasBall() {
-		return !gate.get();
+		if(gate != null)
+			return !gate.get();
+		return false;
 	}
 
 	public double getRollerSpeed() {
-		return talon.get();
+		if(talon != null)
+			return talon.get();
+		return 0;
 	}
 
 	public boolean isForward() {
-		return talon.get() < -0.1 ;
+		if(talon != null)
+			return talon.get() < -0.1 ;
+		return false;
 	}
 	
 	public boolean isReverse() {
-		return talon.get() > 0.1 ;
-	}
+		if(talon != null)
+			return talon.get() > 0.1 ;
+		return false;	}
 }
 

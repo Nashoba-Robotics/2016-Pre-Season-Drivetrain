@@ -478,8 +478,6 @@ public class Robot extends RobotBase {
 			IntakeRoller.getInstance().setRollerSpeed(0);
 			LoaderRoller.getInstance().setLoaderSpeed(0);
 			Hood.getInstance().disable();
-			Shooter.getInstance().setSetpoint(0);
-			Shooter.getInstance().disable();
 			Elevator.getInstance().setMotorValue(0);
 		}*/
 	}

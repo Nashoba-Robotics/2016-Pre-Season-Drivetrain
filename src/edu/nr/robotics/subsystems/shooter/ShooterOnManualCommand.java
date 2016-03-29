@@ -16,8 +16,7 @@ public class ShooterOnManualCommand extends NRCommand {
 
 	@Override
 	protected void onStart() {
-		Shooter.getInstance().enable();
-		Shooter.getInstance().setSetpoint(val);
+		Shooter.getInstance().setMotor(val);
 
 	}
 }
