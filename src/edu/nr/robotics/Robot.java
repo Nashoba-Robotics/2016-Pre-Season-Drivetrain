@@ -9,7 +9,6 @@ import com.ni.vision.VisionException;
 
 import edu.nr.lib.AngleUnit;
 import edu.nr.lib.WaitUntilGyroCommand;
-import edu.nr.lib.camera.CameraServer;
 import edu.nr.lib.interfaces.Periodic;
 import edu.nr.lib.interfaces.SmartDashboardSource;
 import edu.nr.lib.navx.NavX;
@@ -41,6 +40,7 @@ import edu.nr.robotics.subsystems.lights.Lights;
 import edu.nr.robotics.subsystems.loaderroller.LaserCannonTriggerCommand;
 import edu.nr.robotics.subsystems.loaderroller.LoaderRoller;
 import edu.nr.robotics.subsystems.shooter.Shooter;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
