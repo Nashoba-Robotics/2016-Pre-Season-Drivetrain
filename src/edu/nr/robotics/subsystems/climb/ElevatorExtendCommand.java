@@ -12,8 +12,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class ElevatorExtendCommand extends CommandGroup {
     
     public  ElevatorExtendCommand() {
-        
-    	//TODO: Add intake arm back
     	
     	addParallel(new IntakeArmUpHeightCommandGroup());
     	addParallel(new HoodPositionCommand(34.5));
