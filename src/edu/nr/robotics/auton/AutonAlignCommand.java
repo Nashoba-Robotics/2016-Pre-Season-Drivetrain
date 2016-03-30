@@ -1,9 +1,7 @@
 package edu.nr.robotics.auton;
 
 import edu.nr.lib.network.AndroidServer;
-import edu.nr.robotics.OI;
 import edu.nr.robotics.RobotMap;
-import edu.nr.robotics.commandgroups.AlignCommandGroup;
 import edu.nr.robotics.commandgroups.AlignSubcommandGroup;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.hood.HoodMoveDownUntilLimitSwitchCommand;

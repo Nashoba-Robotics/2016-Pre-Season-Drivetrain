@@ -1,7 +1,6 @@
 package edu.nr.robotics.subsystems.intakearm;
 
 import edu.nr.lib.NRCommand;
-import edu.nr.robotics.RobotMap;
 
 public class IntakeArmPositionCommand extends NRCommand {
 

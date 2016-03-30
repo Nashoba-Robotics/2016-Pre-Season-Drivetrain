@@ -6,8 +6,6 @@ import edu.nr.lib.NRCommand;
 import edu.nr.lib.PID;
 import edu.nr.lib.network.AndroidServer;
 import edu.nr.robotics.RobotMap;
-import edu.nr.robotics.commandgroups.AlignSubcommandGroup;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *

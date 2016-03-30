@@ -1,7 +1,6 @@
 package edu.nr.robotics.subsystems.climb;
 
 import edu.nr.lib.NRCommand;
-import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *

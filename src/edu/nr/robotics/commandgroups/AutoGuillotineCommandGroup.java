@@ -3,13 +3,8 @@ package edu.nr.robotics.commandgroups;
 import edu.nr.robotics.RobotMap;
 import edu.nr.robotics.subsystems.drive.DriveConstantCommand;
 import edu.nr.robotics.subsystems.drive.DriveDistanceCommand;
-import edu.nr.robotics.subsystems.hood.HoodBottomCommand;
-import edu.nr.robotics.subsystems.hood.HoodWaitForBottomCommand;
-import edu.nr.robotics.subsystems.intakearm.IntakeArmBottomHeightCommandGroup;
 import edu.nr.robotics.subsystems.intakearm.IntakeArmMoveUpUntilPositionCommand;
 import edu.nr.robotics.subsystems.intakearm.IntakeArmPositionCommand;
-import edu.nr.robotics.subsystems.intakearm.IntakeArmUpHeightCommandGroup;
-import edu.nr.robotics.subsystems.intakearm.IntakeArmWaitForBottomCommand;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 

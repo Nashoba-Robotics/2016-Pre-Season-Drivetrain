@@ -3,7 +3,6 @@ package edu.nr.robotics.subsystems.climb;
 import edu.nr.lib.NRCommand;
 import edu.nr.robotics.RobotMap;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;
-import edu.nr.robotics.subsystems.intakearm.IntakeArmUpHeightCommandGroup;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class ElevatorUnlatchCommand extends CommandGroup {

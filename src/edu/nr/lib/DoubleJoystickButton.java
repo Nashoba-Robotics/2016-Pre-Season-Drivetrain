@@ -1,7 +1,6 @@
 package edu.nr.lib;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.buttons.*;
+import edu.wpi.first.wpilibj.buttons.Button;
 
 public class DoubleJoystickButton extends Button {
 

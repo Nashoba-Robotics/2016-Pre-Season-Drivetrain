@@ -1,10 +1,8 @@
 package edu.nr.lib.navx;
 
 import edu.nr.lib.AngleUnit;
-import edu.nr.lib.interfaces.SmartDashboardSource;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.tables.ITable;
 
 public class NavX implements BaseNavX, LiveWindowSendable {

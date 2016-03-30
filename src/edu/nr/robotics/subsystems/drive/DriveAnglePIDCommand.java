@@ -5,7 +5,6 @@ import edu.nr.lib.AngleUnit;
 import edu.nr.lib.NRCommand;
 import edu.nr.lib.PID;
 import edu.nr.robotics.RobotMap;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *

@@ -1,10 +1,8 @@
 package edu.nr.robotics.subsystems.lights;
 
-import edu.nr.lib.interfaces.SmartDashboardSource;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *

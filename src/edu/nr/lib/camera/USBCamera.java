@@ -7,15 +7,15 @@
 
 package edu.nr.lib.camera;
 
+import static edu.wpi.first.wpilibj.Timer.delay;
+
 import java.nio.ByteBuffer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.ni.vision.NIVision;
+import com.ni.vision.NIVision.Image;
 import com.ni.vision.VisionException;
-
-import static com.ni.vision.NIVision.Image;
-import static edu.wpi.first.wpilibj.Timer.delay;
 
 public class USBCamera {
   public static String kDefaultCameraName = "cam0";

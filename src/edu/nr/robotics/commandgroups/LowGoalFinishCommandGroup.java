@@ -2,7 +2,6 @@ package edu.nr.robotics.commandgroups;
 
 import edu.nr.robotics.subsystems.intakeroller.IntakeRollerNeutralCommand;
 import edu.nr.robotics.subsystems.loaderroller.LoaderRollerNeutralCommand;
-import edu.nr.robotics.subsystems.shooter.ShooterOffCommand;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
