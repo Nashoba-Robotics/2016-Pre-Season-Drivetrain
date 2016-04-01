@@ -72,7 +72,7 @@ public class DriveAnglePIDCommand extends NRCommand {
 	protected void onEnd(boolean interrupted) {
 		if(!interrupted) {
 			correction.reset();
-			new DriveSimpleDistanceWithGyroCommand(0.5, 0.2, correction).start();
+			new DriveSimpleDistanceWithGyroCommand(1, 0.2, correction).start();
 		}
 		pid.disable();
 

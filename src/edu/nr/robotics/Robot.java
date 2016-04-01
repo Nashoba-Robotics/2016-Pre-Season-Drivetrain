@@ -252,7 +252,7 @@ public class Robot extends RobotBase {
 	
 	private void initSmartDashboard() {	
 		System.out.println("About to init SmartDashboard");
-		autoCommandPickerOne = new SendableChooser();
+		/*autoCommandPickerOne = new SendableChooser();
 		autoCommandPickerOne.addDefault("1-Do nothing", new AutonDoNothingCommand());
 		autoCommandPickerOne.addObject("Drive over obstacle25", new DriveDistanceCommand(RobotMap.OVER_DISTANCE_25, 1.0));
 		autoCommandPickerOne.addObject("Drive onto obstacle25", new DriveDistanceCommand(RobotMap.ONTO_DISTANCE_25, 1.0));
@@ -334,11 +334,11 @@ public class Robot extends RobotBase {
 		autoCommandPickerSix.addObject("Return to normal (front)", new AutonReturnToNormalFrontCommandGroup());
 		autoCommandPickerSix.addObject("Return to normal (back)", new AutonReturnToNormalBackCommandGroup());
 		autoCommandPickerSix.addObject("Rotate 180", new DriveAnglePIDCommand(180, AngleUnit.DEGREE));
-		SmartDashboard.putData("Picker Six", autoCommandPickerSix);
+		SmartDashboard.putData("Picker Six", autoCommandPickerSix);*/
 		
 		autoCommandChooser = new SendableChooser();
 		autoCommandChooser.addDefault("Do Nothing", new AutonDoNothingCommand());
-		autoCommandChooser.addObject("Follow instructions", new AutonFollowInstructionsCommand());
+		//autoCommandChooser.addObject("Follow instructions", new AutonFollowInstructionsCommand());
 		autoCommandChooser.addObject("Align and shoot", new AutonAlignCommand());
 		autoCommandChooser.addObject("Forward over obstacle with intake moved down Low Bar", new AutonForwardLowBarCommand());
 		autoCommandChooser.addObject("Forward over obstacle with intake moved down Over", new AutonForwardOverCommand());
@@ -369,7 +369,7 @@ public class Robot extends RobotBase {
 		
 		SmartDashboard.putData("Hood Jetson angle command", new HoodJetsonPositionCommand());
 		
-		SmartDashboard.putData("Turn 3 degree command", new DriveAnglePIDCommand(10, AngleUnit.DEGREE));
+		SmartDashboard.putData("Turn 3 degree command", new DriveAnglePIDCommand(-15, AngleUnit.DEGREE));
 		
 		LiveWindow.addSensor("Jetson", "Ready to shoot", LiveWindowClasses.readyToShoot);
 		
