@@ -36,6 +36,7 @@ import edu.nr.robotics.subsystems.intakearm.IntakeArmPrepareLowGoalCommand;
 import edu.nr.robotics.subsystems.intakearm.IntakeArmUpHeightCommandGroup;
 import edu.nr.robotics.subsystems.intakeroller.IntakeRoller;
 import edu.nr.robotics.subsystems.intakeroller.IntakeRollerSwapCommand;
+import edu.nr.robotics.subsystems.loaderroller.LaserCannonTriggerCommand;
 import edu.nr.robotics.subsystems.loaderroller.LoaderRoller;
 import edu.nr.robotics.subsystems.loaderroller.LoaderRollerJoystickCommand;
 import edu.nr.robotics.subsystems.shooter.Shooter;
@@ -71,6 +72,7 @@ public class OI implements SmartDashboardSource, Periodic {
 	JoystickButton LEDCutout;
 	
 	public JoystickButton fireButton;
+	public JoystickButton backupFireButton;
 	public DoubleJoystickButton alignButton;
 	
 	public AlignCommandGroup alignCommand;
@@ -121,6 +123,8 @@ public class OI implements SmartDashboardSource, Periodic {
 		new JoystickButton(driveRight, 10).whenPressed(new DriveResetEncodersCommand());
 		// => 11: Reset hood encoder
 		new JoystickButton(driveRight, 11).whenPressed(new HoodResetEncoderCommand());
+		
+		backupFireButton = new JoystickButton(driveRight, 9);
 	}
 
 	public void initOperatorLeft() {

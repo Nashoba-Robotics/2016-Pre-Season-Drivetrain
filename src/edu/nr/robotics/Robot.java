@@ -369,6 +369,8 @@ public class Robot extends RobotBase {
 		
 		SmartDashboard.putData("Hood Jetson angle command", new HoodJetsonPositionCommand());
 		
+		SmartDashboard.putData("Turn 3 degree command", new DriveAnglePIDCommand(10, AngleUnit.DEGREE));
+		
 		LiveWindow.addSensor("Jetson", "Ready to shoot", LiveWindowClasses.readyToShoot);
 		
 		SmartDashboard.putNumber("Hood Multiplier Percent", 100);
@@ -447,7 +449,7 @@ public class Robot extends RobotBase {
 		
 		Drive.getInstance().setPIDEnabled(!OI.getInstance().dumbDrive.get());
 
-		if(OI.getInstance().fireButton.get() && (!OI.getInstance().alignButton.get())) {
+		if((OI.getInstance().fireButton.get() || OI.getInstance().backupFireButton.get()) && (!OI.getInstance().alignButton.get())) {
 			fireCommand = new LaserCannonTriggerCommand();
 			fireCommand.start();
 		}

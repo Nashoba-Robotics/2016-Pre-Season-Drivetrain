@@ -5,6 +5,7 @@ import edu.nr.lib.AngleUnit;
 import edu.nr.lib.NRCommand;
 import edu.nr.lib.PID;
 import edu.nr.robotics.RobotMap;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -14,12 +15,13 @@ public class DriveAnglePIDCommand extends NRCommand {
 	PID pid;
 	
 	double angle;
+	AngleController controller;
 	AngleGyroCorrectionSource correction;
 	boolean resetCorrection;
 	
 	double integralDisableDistance = 5;
 
-	double accuracyFinishCount = 6;
+	double accuracyFinishCount = 0;
 	double currentCount = 0;
 	
     public DriveAnglePIDCommand(double angle, AngleUnit unit) {
@@ -34,14 +36,17 @@ public class DriveAnglePIDCommand extends NRCommand {
     	requires(Drive.getInstance());
 	}
 
-	// Called repeatedly when this Command is scheduled to run
+    // Called repeatedly when this Command is scheduled to run
     @Override
-	protected void onExecute() {		
+	protected void onExecute() {
+    	SmartDashboard.putNumber("Drive Angle PID error", pid.getError());
+    	SmartDashboard.putNumber("Drive Angle PID output", pid.get());
+    	SmartDashboard.putNumber("Drive Angle PID total error", pid.getTotalError());
 		if(Math.abs(pid.getError()) > integralDisableDistance) {
 			pid.setPID(RobotMap.TURN_P, 0, RobotMap.TURN_D);
+			pid.resetTotalError();
 		} else {
-			//if(Math.abs(pid.getError()) >= 0.5)
-				pid.setPID(RobotMap.TURN_P, RobotMap.TURN_I, RobotMap.TURN_D);
+			pid.setPID(RobotMap.TURN_P, RobotMap.TURN_I, RobotMap.TURN_D);
 		}
 		
 		if(Math.signum(pid.getError()) != Math.signum(pid.getTotalError())) {
@@ -65,12 +70,20 @@ public class DriveAnglePIDCommand extends NRCommand {
 
 	@Override
 	protected void onEnd(boolean interrupted) {
+		if(!interrupted) {
+			correction.reset();
+			new DriveSimpleDistanceWithGyroCommand(0.5, 0.2, correction).start();
+		}
 		pid.disable();
+
 	}
 
 	@Override
 	protected void onStart() {
-		pid = new PID(RobotMap.TURN_P,RobotMap.TURN_I,RobotMap.TURN_D, new AngleGyroCorrectionSource(), new AngleController());
+		Drive.getInstance().setPIDEnabled(true);
+		controller = new AngleController();
+		correction.reset();
+		pid = new PID(RobotMap.TURN_P,RobotMap.TURN_I,RobotMap.TURN_D, correction, controller);
 		pid.setOutputRange(0.1, 0.3);
 		pid.enable();
     	pid.setSetpoint(angle);

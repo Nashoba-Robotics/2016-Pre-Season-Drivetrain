@@ -17,6 +17,7 @@ public class DriveAngleJetsonPIDCommand extends NRCommand {
 	double angle;
 		
 	AngleGyroCorrectionSource correction;
+	AngleController controller;
 	boolean resetCorrection;
 	
 	double integralDisableDistance = 5;
@@ -33,6 +34,7 @@ public class DriveAngleJetsonPIDCommand extends NRCommand {
     // Called repeatedly when this Command is scheduled to run
     @Override
 	protected void onExecute() {
+    	
 		if(Math.abs(pid.getError()) > integralDisableDistance) {
 			pid.setPID(RobotMap.TURN_P, 0, RobotMap.TURN_D);
 			pid.resetTotalError();
@@ -86,7 +88,8 @@ public class DriveAngleJetsonPIDCommand extends NRCommand {
 			angle = angle - (0.2768*angle - 3.1668) * Math.signum(angle);
 		}*/
 		correction = new AngleGyroCorrectionSource(AngleUnit.DEGREE);
-		pid = new PID(RobotMap.TURN_P,RobotMap.TURN_I,RobotMap.TURN_D, correction, new AngleController());
+		controller = new AngleController();
+		pid = new PID(RobotMap.TURN_P,RobotMap.TURN_I,RobotMap.TURN_D, correction, controller);
 		pid.setOutputRange(0.1, 0.3);
 		pid.setSetpoint(angle);
     	pid.enable();

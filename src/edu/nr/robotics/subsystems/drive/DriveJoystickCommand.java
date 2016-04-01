@@ -42,8 +42,7 @@ public class DriveJoystickCommand extends NRCommand {
 	    	{
 	    		if (Math.abs(moveValue) > .1)
 	    		{
-	    			//rotateValue = gyroCorrection.getTurnValue();
-	    			//TODO: Fix gyro rotation 
+	    			rotateValue = gyroCorrection.getTurnValue();
 	    		}
 		    	else
 		    	{	    		

@@ -4,6 +4,7 @@ import edu.nr.lib.AngleUnit;
 import edu.nr.lib.Position;
 import edu.nr.lib.interfaces.SmartDashboardSource;
 import edu.nr.lib.navx.NavX;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class FieldCentric implements SmartDashboardSource {
 
@@ -120,5 +121,6 @@ public class FieldCentric implements SmartDashboardSource {
 
 	@Override
 	public void smartDashboardInfo() {
+		SmartDashboard.putNumber("NavX Yaw", (NavX.getInstance().getYaw(AngleUnit.DEGREE)));
 	}
 }

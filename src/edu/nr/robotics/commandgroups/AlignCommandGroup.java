@@ -58,8 +58,8 @@ public class AlignCommandGroup extends CommandGroup {
     	}
     	System.out.println("Ended align correction");
 		Robot.getInstance().state = State.WAITING;
-    	while(!OI.getInstance().fireButton.get() && OI.getInstance().alignButton.get()) {}
-    	if(OI.getInstance().fireButton.get()) {
+    	while((!OI.getInstance().fireButton.get() || !OI.getInstance().backupFireButton.get()) && OI.getInstance().alignButton.get()) {}
+    	if((OI.getInstance().fireButton.get() || OI.getInstance().backupFireButton.get())) {
 			Robot.getInstance().fireCommand = new LaserCannonTriggerCommand();
 			Robot.getInstance().fireCommand.start();
     	}
