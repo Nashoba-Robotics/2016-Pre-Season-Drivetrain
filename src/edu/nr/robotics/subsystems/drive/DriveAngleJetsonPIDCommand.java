@@ -6,13 +6,13 @@ import edu.nr.lib.NRCommand;
 import edu.nr.lib.PID;
 import edu.nr.lib.network.AndroidServer;
 import edu.nr.robotics.RobotMap;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
 public class DriveAngleJetsonPIDCommand extends NRCommand {
-
-	PID pid;
+	double totalError = 0;
 	
 	double angle;
 		
@@ -22,29 +22,46 @@ public class DriveAngleJetsonPIDCommand extends NRCommand {
 	
 	double integralDisableDistance = 5;
 
-	double accuracyFinishCount = 3;
+	double accuracyFinishCount = 0;
 	double currentCount = 0;
 	
 	boolean goodToGo = true;
 	
     public DriveAngleJetsonPIDCommand() {
     	requires(Drive.getInstance());
+		correction = new AngleGyroCorrectionSource(AngleUnit.DEGREE);
+
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
 	protected void onExecute() {
-    	
-		if(Math.abs(pid.getError()) > integralDisableDistance) {
-			pid.setPID(RobotMap.TURN_P, 0, RobotMap.TURN_D);
-			pid.resetTotalError();
+    	double output = 0;
+		if(Math.abs(correction.pidGet()-angle) > integralDisableDistance) {
+			totalError = 0;
 		} else {
-			pid.setPID(RobotMap.TURN_P, RobotMap.TURN_I, RobotMap.TURN_D);
+			totalError += RobotMap.TURN_I*(correction.pidGet()-angle);
 		}
 		
-		if(Math.signum(pid.getError()) != Math.signum(pid.getTotalError())) {
-			pid.resetTotalError();
+		if(Math.signum(correction.pidGet()-angle) != Math.signum(totalError)) {
+			totalError = 0;
 		}
+		
+		output += RobotMap.TURN_P*(correction.pidGet()-angle);
+
+		output += totalError;
+		if(Math.abs(output) < 0.1) {
+			output = 0.1 * Math.signum(output);
+		} else if(Math.abs(output) > 0.3) {
+			output = 0.3 * Math.signum(output);
+		}
+		
+		output *= -1;
+		controller.pidWrite(output);
+		
+    	SmartDashboard.putNumber("Drive Turn Error", correction.pidGet()-angle);
+    	SmartDashboard.putNumber("Drive Turn Total Error", totalError);
+    	SmartDashboard.putNumber("Drive Turn Output", output);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -52,21 +69,21 @@ public class DriveAngleJetsonPIDCommand extends NRCommand {
 	protected boolean isFinishedNR() {
     	if(!goodToGo)
     		return true;
-    	if(Math.abs(pid.getError()) < RobotMap.TURN_THRESHOLD) {
+    	if(Math.abs(correction.pidGet()-angle) < RobotMap.TURN_THRESHOLD) {
     		currentCount++;
-    		if(currentCount > 3)
-    			pid.resetTotalError();
-
     	} else {
     		currentCount = 0;
     	}
-    	
     	return currentCount > accuracyFinishCount;
     }
 
 	@Override
 	protected void onEnd(boolean interrupted) {
-		System.out.println("Drive angle Jetson PID finish interrupted? " + interrupted);
+		if(!interrupted && goodToGo) {
+			correction.reset();
+			new DriveSimpleDistanceWithGyroCommand(1, 0.2, correction).start();
+		}
+		totalError = 0;
 		goodToGo = true;
 	}
 
@@ -78,20 +95,16 @@ public class DriveAngleJetsonPIDCommand extends NRCommand {
     		return;
     	}
 		
-		System.out.println("Drive angle Jetson PID start");
 		angle = AndroidServer.getInstance().getTurnAngle();
-		
+		System.out.println("Drive angle Jetson PID start - angle = " + angle);
 
-		/*if(Math.abs(angle) < .5) {
-			angle = 0;
-		} else {
-			angle = angle - (0.2768*angle - 3.1668) * Math.signum(angle);
-		}*/
-		correction = new AngleGyroCorrectionSource(AngleUnit.DEGREE);
+		if(Math.abs(angle) < RobotMap.TURN_THRESHOLD) {
+			goodToGo = false;
+		}
+		
+		Drive.getInstance().setPIDEnabled(true);
+		
 		controller = new AngleController();
-		pid = new PID(RobotMap.TURN_P,RobotMap.TURN_I,RobotMap.TURN_D, correction, controller);
-		pid.setOutputRange(0.1, 0.3);
-		pid.setSetpoint(angle);
-    	pid.enable();
+		correction.reset();
 	}
 }

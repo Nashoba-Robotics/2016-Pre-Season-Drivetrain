@@ -11,8 +11,6 @@ public class ElevatorRetractCommand extends CommandGroup {
 
     public ElevatorRetractCommand() {
     	    	
-    	addParallel(new IntakeArmUpHeightCommandGroup());
-    	addParallel(new ShooterHighCommand());
     	addParallel(new ElevatorVoltageCommand(-1));
         addSequential(new ElevatorWaitForMotorStallTimeCommand(1));
         addParallel(new ElevatorOffCommand());

@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AlignSubcommandGroup extends CommandGroup {
     	
     public  AlignSubcommandGroup() {
-        addParallel(new HoodJetsonPositionCommand());
         addParallel(new ShooterHighCommand());
         addSequential(new DriveAngleJetsonPIDCommand());
+        addSequential(new HoodJetsonPositionCommand());
     }
 }

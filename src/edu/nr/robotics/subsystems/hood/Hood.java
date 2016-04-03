@@ -209,10 +209,11 @@ public class Hood extends Subsystem implements SmartDashboardSource, Periodic {
 	//Note: the two angle/distance functions aren't inverses of each other
 	//The distanceToAngle is more accurate, but the inverse of it is hard to calculate
 	public static double distanceToAngle(double distance) {
-		return  0.0095*Math.pow(distance, 3) - 0.4725*Math.pow(distance, 2) + 8.2134*Math.pow(distance, 1) + 9.1025;
+		return  0.0095*Math.pow(distance, 3) - 0.4725*Math.pow(distance, 2) + 8.2134*Math.pow(distance, 1) + 9.1025 - 0.1;
 	}
 
 	public static double angleToDistance(double angle) {
+		angle += 0.1;
 		return 0.334902 * Math.exp(0.0657678 * angle);
 	}
 

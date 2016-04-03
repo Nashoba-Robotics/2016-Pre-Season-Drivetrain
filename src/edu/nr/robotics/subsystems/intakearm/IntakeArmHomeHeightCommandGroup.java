@@ -11,8 +11,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class IntakeArmHomeHeightCommandGroup extends CommandGroup {
 
     public IntakeArmHomeHeightCommandGroup() {
-        addParallel(new IntakeRollerNeutralCommand());
-        addParallel(new LoaderRollerNeutralCommand());
         addSequential(new IntakeArmPositionCommand(RobotMap.INTAKE_HOME_POS));
     }
 }

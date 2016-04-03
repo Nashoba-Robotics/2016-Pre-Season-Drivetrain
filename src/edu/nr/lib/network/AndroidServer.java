@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class AndroidServer implements Runnable {
 	
 	private static AndroidServer singleton;
@@ -64,8 +66,10 @@ public class AndroidServer implements Runnable {
 							    String right = message.substring(x+1);
 							    try {
 							    	distance = Double.valueOf(left);
-							    	turnAngle = Double.valueOf(right);
+							    	turnAngle = -Double.valueOf(right);
 								    System.out.println("Angle: " + turnAngle + " Distance: " + distance);
+								    SmartDashboard.putNumber("Camera distance", distance);
+								    SmartDashboard.putNumber("Camera angle", turnAngle);
 							    } catch (NumberFormatException e) {
 							    	System.err.println("Coudln't parse number from Nexus. Recieved Message: " + message);
 							    }

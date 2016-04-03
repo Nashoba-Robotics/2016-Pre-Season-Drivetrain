@@ -22,8 +22,9 @@ public class AutoShovelOfFriesCommandGroup extends CommandGroup {
         addParallel(new IntakeArmOffCommand());
         addSequential(new DriveDistanceCommand(1.5,0.6));
         addParallel(new DriveConstantCommand(false, true, true , 0.3));
-        addSequential(new IntakeArmMoveUpUntilPositionCommand(RobotMap.INTAKE_TOP_POS + 0.05));
+        addSequential(new IntakeArmMoveUpUntilPositionCommand(RobotMap.INTAKE_TOP_POS - 0.05));
         addParallel(new IntakeArmPositionCommand(RobotMap.INTAKE_TOP_POS, 0.08));
-        addSequential(new DriveDistanceCommand(3,0.75));
+        addSequential(new WaitCommand(0.2));
+        addSequential(new DriveDistanceCommand(3,0.6));
     }
 }

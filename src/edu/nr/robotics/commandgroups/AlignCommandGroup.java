@@ -1,6 +1,8 @@
 package edu.nr.robotics.commandgroups;
 
+import edu.nr.lib.AngleUnit;
 import edu.nr.lib.NRCommand;
+import edu.nr.lib.navx.NavX;
 import edu.nr.lib.network.AndroidServer;
 import edu.nr.robotics.LiveWindowClasses;
 import edu.nr.robotics.OI;
@@ -47,9 +49,9 @@ public class AlignCommandGroup extends CommandGroup {
     		boolean flag = false;
     		if(Math.abs(Hood.getInstance().get() - Hood.distanceToAngle(AndroidServer.getInstance().getDistance())) > RobotMap.HOOD_THRESHOLD ) {flag = true;}
     		if(Math.abs(AndroidServer.getInstance().getTurnAngle()) > RobotMap.TURN_THRESHOLD) {flag = true;}
-			if(Shooter.getInstance().getScaledSpeed() < RobotMap.SHOOTER_FAST_SPEED - RobotMap.SHOOTER_THRESHOLD) {flag = true;}
+    		if(Shooter.getInstance().getScaledSpeed() < RobotMap.SHOOTER_FAST_SPEED - RobotMap.SHOOTER_THRESHOLD) {flag = true;}
     		if(flag) {
-	    		System.out.println("Starting align again");
+	    		System.out.println("Starting align again angle: " + NavX.getInstance().getYaw(AngleUnit.DEGREE) + " shooter speed: " + Shooter.getInstance().getScaledSpeed() + " Hood angle " + Hood.getInstance().get());
 	    		
 	    		OI.getInstance().alignCommand = new AlignCommandGroup();
 	    		OI.getInstance().alignCommand.start();
@@ -62,6 +64,9 @@ public class AlignCommandGroup extends CommandGroup {
     	if((OI.getInstance().fireButton.get() || OI.getInstance().backupFireButton.get())) {
 			Robot.getInstance().fireCommand = new LaserCannonTriggerCommand();
 			Robot.getInstance().fireCommand.start();
+	    	System.out.println("Align ended after shot - angle: " + NavX.getInstance().getYaw(AngleUnit.DEGREE));
+    	} else {
+        	System.out.println("Align ended due to button release - angle: " + NavX.getInstance().getYaw(AngleUnit.DEGREE));
     	}
     	Robot.getInstance().state = State.OFF;
     	System.out.println("Ended align waiting");
@@ -75,9 +80,8 @@ public class AlignCommandGroup extends CommandGroup {
     }
     
     @Override
-	public void start() {
-    	System.out.println("Align just started");
-    	super.start();
+	public void initialize() {
+    	System.out.println("Align started - angle: " + NavX.getInstance().getYaw(AngleUnit.DEGREE));
     }
     
     public class AlignStartCommand extends NRCommand {

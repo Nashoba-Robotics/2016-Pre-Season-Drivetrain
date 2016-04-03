@@ -9,7 +9,7 @@ public class ElevatorUnlatchCommand extends CommandGroup {
 	
 	public ElevatorUnlatchCommand() {
 		//addSequential(new IntakeArmMoveIfTooHighCommand());
-		addParallel(new ElevatorVoltageCommand(-0.3));
+		addParallel(new ElevatorVoltageCommand(0.3));
 		addSequential(new ElevatorWaitUntilChangedByCommand(RobotMap.ELEVATOR_UNLATCH_DISTANCE));
         addParallel(new ElevatorOffCommand());
 	}

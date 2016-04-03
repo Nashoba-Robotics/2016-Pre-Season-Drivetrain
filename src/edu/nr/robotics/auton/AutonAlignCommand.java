@@ -1,5 +1,7 @@
 package edu.nr.robotics.auton;
 
+import edu.nr.lib.AngleUnit;
+import edu.nr.lib.navx.NavX;
 import edu.nr.lib.network.AndroidServer;
 import edu.nr.robotics.RobotMap;
 import edu.nr.robotics.commandgroups.AlignSubcommandGroup;
@@ -30,6 +32,7 @@ public class AutonAlignCommand extends CommandGroup {
     
     @Override
     public void initialize() {
+    	System.out.println("Auton Align started - angle: " + NavX.getInstance().getYaw(AngleUnit.DEGREE));
     	startTime = System.currentTimeMillis();
     }
     
@@ -53,9 +56,11 @@ public class AutonAlignCommand extends CommandGroup {
     	if(Math.abs(System.currentTimeMillis() - startTime) < 5000 && Shooter.getInstance().getScaledSpeed() < RobotMap.SHOOTER_FAST_SPEED - RobotMap.SHOOTER_THRESHOLD) {flag = true;}
     	if(flag) {
     		new AutonAlignCommand(startTime).start();
+    		System.out.println("Starting auton align again angle: " + NavX.getInstance().getYaw(AngleUnit.DEGREE) + " shooter speed: " + Shooter.getInstance().getScaledSpeed() + " Hood angle " + Hood.getInstance().get());
     		return;
     	}
 
     	new LaserCannonTriggerCommand().start();
+    	System.out.println("Auton Align ended and shot - angle: " + NavX.getInstance().getYaw(AngleUnit.DEGREE));
     }
 }

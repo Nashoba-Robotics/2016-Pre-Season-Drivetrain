@@ -13,9 +13,6 @@ public class ElevatorExtendCommand extends CommandGroup {
     
     public  ElevatorExtendCommand() {
     	
-    	addParallel(new IntakeArmUpHeightCommandGroup());
-    	addParallel(new HoodPositionCommand(34.5));
-    	addParallel(new ShooterHighCommand());
         addSequential(new ElevatorUpUntilGreaterThanCommand(RobotMap.ELEVATOR_EXTEND_DISTANCE));
         addSequential(new ElevatorOffCommand());
     }

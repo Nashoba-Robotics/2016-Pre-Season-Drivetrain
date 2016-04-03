@@ -19,6 +19,7 @@ import edu.nr.robotics.subsystems.climb.Elevator;
 import edu.nr.robotics.subsystems.climb.ElevatorExtendCommand;
 import edu.nr.robotics.subsystems.climb.ElevatorResetCommand;
 import edu.nr.robotics.subsystems.climb.ElevatorResetEncoderCommand;
+import edu.nr.robotics.subsystems.climb.ElevatorResetPart2Command;
 import edu.nr.robotics.subsystems.climb.ElevatorRetractCommand;
 import edu.nr.robotics.subsystems.climb.ElevatorUnlatchCommand;
 import edu.nr.robotics.subsystems.drive.Drive;
@@ -27,6 +28,8 @@ import edu.nr.robotics.subsystems.drive.DriveConstantCommand;
 import edu.nr.robotics.subsystems.drive.DriveResetEncodersCommand;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.hood.HoodIncreaseDegreeCommand;
+import edu.nr.robotics.subsystems.hood.HoodJetsonPositionCommand;
+import edu.nr.robotics.subsystems.hood.HoodPositionCommand;
 import edu.nr.robotics.subsystems.hood.HoodResetEncoderCommand;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;
 import edu.nr.robotics.subsystems.intakearm.IntakeArmBottomHeightCommandGroup;
@@ -35,9 +38,12 @@ import edu.nr.robotics.subsystems.intakearm.IntakeArmIntakeHeightCommandGroup;
 import edu.nr.robotics.subsystems.intakearm.IntakeArmPrepareLowGoalCommand;
 import edu.nr.robotics.subsystems.intakearm.IntakeArmUpHeightCommandGroup;
 import edu.nr.robotics.subsystems.intakeroller.IntakeRoller;
+import edu.nr.robotics.subsystems.intakeroller.IntakeRollerIntakeCommand;
 import edu.nr.robotics.subsystems.intakeroller.IntakeRollerSwapCommand;
 import edu.nr.robotics.subsystems.loaderroller.LaserCannonTriggerCommand;
 import edu.nr.robotics.subsystems.loaderroller.LoaderRoller;
+import edu.nr.robotics.subsystems.loaderroller.LoaderRollerIntakeCommand;
+import edu.nr.robotics.subsystems.loaderroller.LoaderRollerIntakeUntilPhotoCommand;
 import edu.nr.robotics.subsystems.loaderroller.LoaderRollerJoystickCommand;
 import edu.nr.robotics.subsystems.shooter.Shooter;
 import edu.nr.robotics.subsystems.shooter.ShooterHighCommand;
@@ -80,29 +86,24 @@ public class OI implements SmartDashboardSource, Periodic {
 	private OI() {
 		SmartDashboard.putNumber("Speed Multiplier", speedMultiplier);
 
-
 		driveLeft = new Joystick(0);
-		new JoystickButton(driveLeft, 3).whenPressed(new ElevatorResetEncoderCommand());
-
 		driveRight = new Joystick(1);
-		
-		new DoubleJoystickButton(new JoystickButton(driveLeft, 6), new JoystickButton(driveRight, 6)).whenPressed(new ElevatorResetCommand());
-
 		operatorLeft = new Joystick(3);
-
 		operatorRight = new Joystick(2);
-
 		
 		initDriveLeft();
 		initDriveRight();
 		initOperatorLeft();
 		initOperatorRight();
+		
+		new DoubleJoystickButton(new JoystickButton(driveLeft, 6), new JoystickButton(driveRight, 6)).whenPressed(new ElevatorResetCommand());
+		new DoubleJoystickButton(new JoystickButton(driveLeft, 6), new JoystickButton(driveRight, 7)).whenPressed(new ElevatorResetPart2Command());
 	}
 	
 	public void initDriveLeft() {
 		//Drive Left: (0)
 		//->  1: Stall forward
-		Robot.getInstance().driveWall = new DriveConstantCommand(true, true, true, .4);
+		Robot.getInstance().driveWall = new DriveConstantCommand(true, true, true, .25);
 		new JoystickButton(driveLeft, 1).whenPressed(Robot.getInstance().driveWall);
 		new JoystickButton(driveLeft, 1).whenReleased(new DriveCancelCommand());
 		//->  2: Reverse drive direction
@@ -123,6 +124,8 @@ public class OI implements SmartDashboardSource, Periodic {
 		new JoystickButton(driveRight, 10).whenPressed(new DriveResetEncodersCommand());
 		// => 11: Reset hood encoder
 		new JoystickButton(driveRight, 11).whenPressed(new HoodResetEncoderCommand());
+		
+		new JoystickButton(driveRight, 2).whenPressed(new HoodJetsonPositionCommand());
 		
 		backupFireButton = new JoystickButton(driveRight, 9);
 	}
@@ -187,6 +190,7 @@ public class OI implements SmartDashboardSource, Periodic {
 		// => 2: Intake Height
 		// Positions intake arm to collecting height turns on intake
 		new JoystickButton(operatorRight, 3).whenPressed(new IntakeArmIntakeHeightCommandGroup());
+		new JoystickButton(operatorRight, 3).whenPressed(new LoaderRollerIntakeUntilPhotoCommand());
 		// => 3: Bumper Height (Home)
 		// Positions intake arm to home height (such that it will contact the
 		// bumper of another robot), ensures intake off
@@ -202,9 +206,16 @@ public class OI implements SmartDashboardSource, Periodic {
 		// => 8: Climb
 		// Fully retracts elevator, stops after 1 second of motor stall
 		new JoystickButton(operatorRight, 8).whenPressed(new ElevatorRetractCommand());
+		new JoystickButton(operatorRight, 8).whenPressed(new ShooterHighCommand());
+		new JoystickButton(operatorRight, 8).whenPressed(new IntakeArmUpHeightCommandGroup());
+		new JoystickButton(operatorRight, 8).whenPressed(new HoodPositionCommand(34.5));
 		// => 9: Extend & Intake Up
 		// Extends elevator completely, brings intake to up position
 		new JoystickButton(operatorRight, 9).whenPressed(new ElevatorExtendCommand());
+		new JoystickButton(operatorRight, 9).whenPressed(new ShooterHighCommand());
+		new JoystickButton(operatorRight, 9).whenPressed(new IntakeArmUpHeightCommandGroup());
+		new JoystickButton(operatorRight, 9).whenPressed(new HoodPositionCommand(34.5));
+
 		// => 10: Prepare Climb
 		// Un-latches elevator (drives the elevator down a little)
 		new JoystickButton(operatorRight, 10).whenPressed(new ElevatorUnlatchCommand());
@@ -235,7 +246,7 @@ public class OI implements SmartDashboardSource, Periodic {
 	// Overrides intake arm position (overrides pot, not limit switches)
 	// snapCoffinJoysticks(operatorRight.getAxis(AxisType.kY))
 	public double getIntakeArmMoveValue() {
-		return snapCoffinJoysticks(operatorRight.getAxis(AxisType.kY));
+		return snapCoffinJoysticks(-operatorRight.getAxis(AxisType.kY));
 	}
 	
 	// -> Joy2: Loader Roller Joystick

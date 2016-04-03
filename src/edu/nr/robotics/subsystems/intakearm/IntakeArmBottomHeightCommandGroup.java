@@ -11,8 +11,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class IntakeArmBottomHeightCommandGroup extends CommandGroup {
 
     public IntakeArmBottomHeightCommandGroup() {
-        addParallel(new IntakeRollerNeutralCommand());
-        addParallel(new LoaderRollerNeutralCommand());
     	addSequential(new IntakeArmPositionCommand(RobotMap.INTAKE_BOTTOM_POS));
     }
 }

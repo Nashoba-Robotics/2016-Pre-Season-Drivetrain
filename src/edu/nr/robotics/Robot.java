@@ -385,7 +385,7 @@ public class Robot extends RobotBase {
 		try{ 
 			CameraServer server = CameraServer.getInstance();
 			server.setQuality(50);
-			server.startAutomaticCapture("cam2");
+			server.startAutomaticCapture("cam0");
 		} catch (VisionException e) {
 			e.printStackTrace();
 		}

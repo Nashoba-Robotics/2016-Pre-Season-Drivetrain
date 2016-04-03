@@ -53,11 +53,11 @@ public class RobotMap {
 	public static final double HOOD_TICK_TO_ANGLE_MULTIPLIER = 0.031934;
 	public static final double HOOD_THRESHOLD = 2;
 	public static final double INTAKE_ARM_THRESHOLD = 0.003;
-	public static final double INTAKE_TOP_POS = 0.565 - 0.154;
-	public static final double INTAKE_INTAKE_POS = 0.712 - 0.154;
-	//public static final double INTAKE_HOME_POS = 0.728 - 0.154;
-	public static final double INTAKE_HOME_POS = 0.712 - 0.154; //home == intake
-	public static final double INTAKE_BOTTOM_POS = 0.778 - 0.154;
+	public static final double INTAKE_OFFSET = 0;
+	public static final double INTAKE_TOP_POS = 0.655 + INTAKE_OFFSET;
+	public static final double INTAKE_INTAKE_POS = 0.522 + INTAKE_OFFSET;
+	public static final double INTAKE_HOME_POS = 0.522 + INTAKE_OFFSET; //home == intake
+	public static final double INTAKE_BOTTOM_POS = 0.494 + INTAKE_OFFSET;
 	public static final double INTAKE_ARM_TICK_TO_ANGLE_MULTIPLIER = -0.00222;
 	public static final double TURN_THRESHOLD = 0.5;
 	public static final double SHOOTER_THRESHOLD = 0.05;
@@ -65,13 +65,13 @@ public class RobotMap {
 	public static final double ELEVATOR_UP_SPEED = 1;
 	public static final double ELEVATOR_THRESHOLD = 1000;
 
-	public static final double ELEVATOR_EXTEND_DISTANCE = -104000;
+	public static final double ELEVATOR_EXTEND_DISTANCE = -112000;
 	public static final double ELEVATOR_RESET_UP_DISTANCE = 12000;
 	public static final double ELEVATOR_UNLATCH_DISTANCE = 5650;
 
-	public static final double TURN_P = 0.1;
-	public static final double TURN_I = 0.5;
-	public static final double TURN_D = 0.0001;
+	public static final double TURN_P = 0.026;
+	public static final double TURN_I = 0.09;
+	public static final double TURN_D = 0.0;
 
 
 }
