@@ -3,6 +3,7 @@ package edu.nr.robotics.subsystems.drive;
 import edu.nr.lib.AngleGyroCorrectionSource;
 import edu.nr.lib.AngleUnit;
 import edu.nr.lib.NRCommand;
+import edu.nr.lib.network.AndroidServer;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -16,24 +17,35 @@ public class DriveAnglePIDCommand extends NRCommand {
 	double angle;
 	AngleController controller;
 	AngleGyroCorrectionSource correction;
-	boolean resetCorrection;
 	
 	double integralDisableDistance = 5;
 
 	double accuracyFinishCount = 0;
 	double currentCount = 0;
 	
+	boolean useJetson;
+	
+	boolean goodToGo = true;
+
+	
+    public DriveAnglePIDCommand(boolean useJetson) {
+    	this.correction = new AngleGyroCorrectionSource(AngleUnit.DEGREE);
+    	this.useJetson = useJetson;
+    	requires(Drive.getInstance());
+
+    }
+    
     public DriveAnglePIDCommand(double angle, AngleUnit unit) {
-    	this(angle, new AngleGyroCorrectionSource(unit), true);    	
+    	this(angle, new AngleGyroCorrectionSource(unit));    	
     }
 
-    public DriveAnglePIDCommand(double angle, AngleGyroCorrectionSource correction, boolean resetCorrection) {
+    public DriveAnglePIDCommand(double angle, AngleGyroCorrectionSource correction) {
     	this.angle = angle;
     	this.correction = correction;
-    	this.resetCorrection = resetCorrection;
+    	this.useJetson = false;
     	requires(Drive.getInstance());
 	}
-
+    
     // Called repeatedly when this Command is scheduled to run
     @Override
 	protected void onExecute() {
@@ -72,6 +84,8 @@ public class DriveAnglePIDCommand extends NRCommand {
     // Make this return true when this Command no longer needs to run execute()
     @Override
 	protected boolean isFinishedNR() {
+    	if(!goodToGo)
+    		return true;
     	if(Math.abs(correction.pidGet()-angle) < RobotMap.TURN_THRESHOLD) {
     		currentCount++;
     	} else {
@@ -82,15 +96,32 @@ public class DriveAnglePIDCommand extends NRCommand {
 
 	@Override
 	protected void onEnd(boolean interrupted) {
-		if(!interrupted) {
+		if(!interrupted && goodToGo) {
 			correction.reset();
 			new DriveSimpleDistanceWithGyroCommand(1, 0.2, correction).start();
 		}
 		totalError = 0;
+		goodToGo = true;
+
 	}
 
 	@Override
 	protected void onStart() {
+		
+		if(useJetson) {
+			if(!AndroidServer.getInstance().goodToGo()) { 
+	    		System.out.println("Android connection not good to go");
+	    		goodToGo = false;
+	    		return;
+	    	}
+			
+			angle = AndroidServer.getInstance().getTurnAngle();
+
+			if(Math.abs(angle) < RobotMap.TURN_THRESHOLD) {
+				goodToGo = false;
+			}
+		}
+		
 		Drive.getInstance().setPIDEnabled(true);
 		controller = new AngleController();
 		correction.reset();
