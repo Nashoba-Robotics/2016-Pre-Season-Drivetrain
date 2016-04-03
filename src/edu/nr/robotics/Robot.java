@@ -376,6 +376,9 @@ public class Robot extends RobotBase {
 		SmartDashboard.putNumber("Hood Multiplier Percent", 100);
 		
 		SmartDashboard.putNumber("Hood location for setting", 48);
+		
+		SmartDashboard.putNumber("Turn P", RobotMap.TURN_P);
+		SmartDashboard.putNumber("Turn I", RobotMap.TURN_I);
 
 	}
 	

@@ -38,17 +38,21 @@ public class DriveAnglePIDCommand extends NRCommand {
     @Override
 	protected void onExecute() {
     	double output = 0;
+    	
+    	final double TURN_P = SmartDashboard.getNumber("Turn P");
+    	final double TURN_I = SmartDashboard.getNumber("Turn I");
+
 		if(Math.abs(correction.pidGet()-angle) > integralDisableDistance) {
 			totalError = 0;
 		} else {
-			totalError += RobotMap.TURN_I*(correction.pidGet()-angle);
+			totalError += TURN_I*(correction.pidGet()-angle);
 		}
 		
 		if(Math.signum(correction.pidGet()-angle) != Math.signum(totalError)) {
 			totalError = 0;
 		}
 		
-		output += RobotMap.TURN_P*(correction.pidGet()-angle);
+		output += TURN_P*(correction.pidGet()-angle);
 
 		output += totalError;
 		if(Math.abs(output) < 0.1) {
