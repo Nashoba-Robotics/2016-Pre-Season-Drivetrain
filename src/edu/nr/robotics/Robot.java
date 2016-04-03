@@ -22,6 +22,7 @@ import edu.nr.robotics.auton.AutonForwardAlignMiddleCommand;
 import edu.nr.robotics.auton.AutonForwardAlignRightCommand;
 import edu.nr.robotics.auton.AutonForwardLowBarCommand;
 import edu.nr.robotics.auton.AutonForwardOverCommand;
+import edu.nr.robotics.auton.AutonForwardRoughTerrainCommand;
 import edu.nr.robotics.auton.AutonReturnToNormalBackCommandGroup;
 import edu.nr.robotics.auton.AutonReturnToNormalFrontCommandGroup;
 import edu.nr.robotics.commandgroups.AlignCommandGroup;
@@ -340,12 +341,13 @@ public class Robot extends RobotBase {
 		autoCommandChooser.addDefault("Do Nothing", new AutonDoNothingCommand());
 		//autoCommandChooser.addObject("Follow instructions", new AutonFollowInstructionsCommand());
 		autoCommandChooser.addObject("Align and shoot", new AutonAlignCommand());
-		autoCommandChooser.addObject("Forward over obstacle with intake moved down Low Bar", new AutonForwardLowBarCommand());
-		autoCommandChooser.addObject("Forward over obstacle with intake moved down Over", new AutonForwardOverCommand());
-		autoCommandChooser.addObject("Forward and shoot, low bar", new AutonForwardAlignLowBarCommand());
-		autoCommandChooser.addObject("Forward and shoot, left", new AutonForwardAlignLeftCommand());
-		autoCommandChooser.addObject("Forward and shoot, middle", new AutonForwardAlignMiddleCommand());
-		autoCommandChooser.addObject("Forward and shoot, right", new AutonForwardAlignRightCommand());
+		autoCommandChooser.addObject("Forward no shoot Low Bar", new AutonForwardLowBarCommand());
+		autoCommandChooser.addObject("Forward no shoot Rough Terrain", new AutonForwardRoughTerrainCommand());
+		autoCommandChooser.addObject("Forward no shoot others", new AutonForwardOverCommand());
+		autoCommandChooser.addObject("Forward and shoot Low Bar", new AutonForwardAlignLowBarCommand());
+		autoCommandChooser.addObject("Forward and shoot Left", new AutonForwardAlignLeftCommand());
+		autoCommandChooser.addObject("Forward and shoot Middle", new AutonForwardAlignMiddleCommand());
+		autoCommandChooser.addObject("Forward and shoot Right", new AutonForwardAlignRightCommand());
 
 		/*autoCommandChooser.addObject("Forward over obstacle, align, shoot 2", new AutonOverAlignShootCommandGroup(Positions.two));
 		autoCommandChooser.addObject("Forward over obstacle, align, shoot, return to obstacle 2", new AutonOverAlignShootReturnCommandGroup(Positions.two));
@@ -452,10 +454,6 @@ public class Robot extends RobotBase {
 		
 		Drive.getInstance().setPIDEnabled(!OI.getInstance().dumbDrive.get());
 
-		if((OI.getInstance().fireButton.get() || OI.getInstance().backupFireButton.get()) && (!OI.getInstance().alignButton.get())) {
-			fireCommand = new LaserCannonTriggerCommand();
-			fireCommand.start();
-		}
 		
 		periodics.forEach(Periodic::periodic);
 		

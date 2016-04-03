@@ -127,7 +127,7 @@ public class OI implements SmartDashboardSource, Periodic {
 		
 		new JoystickButton(driveRight, 2).whenPressed(new HoodJetsonPositionCommand());
 		
-		backupFireButton = new JoystickButton(driveRight, 9);
+		new JoystickButton(driveRight, 9).whenPressed(new LaserCannonTriggerCommand());
 	}
 
 	public void initOperatorLeft() {
@@ -177,7 +177,7 @@ public class OI implements SmartDashboardSource, Periodic {
 		// => 1: Laser Cannon Trigger (Shoot)
 		// Forces intake on to shoot (loader auto off based on photo sensor 3,
 		// turns off lights)
-		fireButton = new JoystickButton(operatorLeft, 1);
+		new JoystickButton(operatorLeft, 1).whenPressed(new LaserCannonTriggerCommand());
 	}
 
 	public void initOperatorRight() {

@@ -54,6 +54,7 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	
     @Override
 	public void initDefaultCommand() {
+    	setDefaultCommand(new ShooterOffCommand());
     }
     
     public static Shooter getInstance() {

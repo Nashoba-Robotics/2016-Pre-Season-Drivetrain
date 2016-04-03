@@ -27,7 +27,7 @@ public class DriveSimpleDistanceWithGyroCommand extends NRCommand {
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinishedNR() {
-		return Math.abs(FieldCentric.getInstance().getDistance()) > distance;
+		return Math.abs(FieldCentric.getInstance().getDistance()) > Math.abs(distance);
 	}
 
 	@Override

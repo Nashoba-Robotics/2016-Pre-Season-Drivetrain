@@ -59,7 +59,7 @@ public class RobotMap {
 	public static final double INTAKE_HOME_POS = 0.522 + INTAKE_OFFSET; //home == intake
 	public static final double INTAKE_BOTTOM_POS = 0.494 + INTAKE_OFFSET;
 	public static final double INTAKE_ARM_TICK_TO_ANGLE_MULTIPLIER = -0.00222;
-	public static final double TURN_THRESHOLD = 0.5;
+	public static final double TURN_THRESHOLD = 0.4;
 	public static final double SHOOTER_THRESHOLD = 0.05;
 	
 	public static final double ELEVATOR_UP_SPEED = 1;
@@ -70,7 +70,7 @@ public class RobotMap {
 	public static final double ELEVATOR_UNLATCH_DISTANCE = 5650;
 
 	public static final double TURN_P = 0.026;
-	public static final double TURN_I = 0.09;
+	public static final double TURN_I = 0.08;
 
 
 }

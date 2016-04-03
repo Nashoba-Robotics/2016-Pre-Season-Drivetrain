@@ -98,7 +98,6 @@ public class DriveAnglePIDCommand extends NRCommand {
 	protected void onEnd(boolean interrupted) {
 		if(!interrupted && goodToGo) {
 			correction.reset();
-			new DriveSimpleDistanceWithGyroCommand(1, 0.2, correction).start();
 		}
 		totalError = 0;
 		goodToGo = true;
