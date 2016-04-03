@@ -20,6 +20,9 @@ import edu.nr.robotics.auton.AutonForwardAlignLeftCommand;
 import edu.nr.robotics.auton.AutonForwardAlignLowBarCommand;
 import edu.nr.robotics.auton.AutonForwardAlignMiddleCommand;
 import edu.nr.robotics.auton.AutonForwardAlignRightCommand;
+import edu.nr.robotics.auton.AutonForwardAlignRoughTerrainLeftCommand;
+import edu.nr.robotics.auton.AutonForwardAlignRoughTerrainMiddleCommand;
+import edu.nr.robotics.auton.AutonForwardAlignRoughTerrainRightCommand;
 import edu.nr.robotics.auton.AutonForwardLowBarCommand;
 import edu.nr.robotics.auton.AutonForwardOverCommand;
 import edu.nr.robotics.auton.AutonForwardRoughTerrainCommand;
@@ -348,6 +351,9 @@ public class Robot extends RobotBase {
 		autoCommandChooser.addObject("Forward and shoot Left", new AutonForwardAlignLeftCommand());
 		autoCommandChooser.addObject("Forward and shoot Middle", new AutonForwardAlignMiddleCommand());
 		autoCommandChooser.addObject("Forward and shoot Right", new AutonForwardAlignRightCommand());
+		autoCommandChooser.addObject("Forward and shoot Rough Terrain Left", new AutonForwardAlignRoughTerrainLeftCommand());
+		autoCommandChooser.addObject("Forward and shoot Rough Terrain Middle", new AutonForwardAlignRoughTerrainMiddleCommand());
+		autoCommandChooser.addObject("Forward and shoot Rough Terrain Right", new AutonForwardAlignRoughTerrainRightCommand());
 
 		/*autoCommandChooser.addObject("Forward over obstacle, align, shoot 2", new AutonOverAlignShootCommandGroup(Positions.two));
 		autoCommandChooser.addObject("Forward over obstacle, align, shoot, return to obstacle 2", new AutonOverAlignShootReturnCommandGroup(Positions.two));
