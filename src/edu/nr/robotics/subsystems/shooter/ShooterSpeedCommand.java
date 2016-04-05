@@ -1,6 +1,7 @@
 package edu.nr.robotics.subsystems.shooter;
 
 import edu.nr.lib.NRCommand;
+import edu.nr.robotics.OI;
 
 /**
  *
@@ -19,14 +20,17 @@ public class ShooterSpeedCommand extends NRCommand {
     
     @Override
 	protected void onExecute() {
-    	
-    	double speed = Shooter.getInstance().getScaledSpeed();
-    	double p = kP * (goalSpeed - speed);
-    	double f = kF * goalSpeed;
-    	
-    	double output = p + f;
-    	
-    	Shooter.getInstance().setMotor(output);
+    	if(!OI.getInstance().getDumbShooter()) {
+	    	double speed = Shooter.getInstance().getScaledSpeed();
+	    	double p = kP * (goalSpeed - speed);
+	    	double f = kF * goalSpeed;
+	    	
+	    	double output = p + f;
+	    	
+	    	Shooter.getInstance().setMotor(output);
+    	} else {
+    		Shooter.getInstance().setMotor(goalSpeed);
+    	}
 	}
 	
 	@Override

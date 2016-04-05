@@ -1,11 +1,6 @@
 package edu.nr.robotics;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-
-import org.spectrum3847.RIOdroid.RIOadb;
-import org.spectrum3847.RIOdroid.RIOdroid;
 
 import com.ni.vision.VisionException;
 
@@ -14,7 +9,6 @@ import edu.nr.lib.WaitUntilGyroCommand;
 import edu.nr.lib.interfaces.Periodic;
 import edu.nr.lib.interfaces.SmartDashboardSource;
 import edu.nr.lib.navx.NavX;
-import edu.nr.lib.network.AndroidServer;
 import edu.nr.robotics.auton.AutonAlignCommand;
 import edu.nr.robotics.auton.AutonDoNothingCommand;
 import edu.nr.robotics.auton.AutonForwardAlignLeftCommand;
@@ -28,8 +22,6 @@ import edu.nr.robotics.auton.AutonForwardLowBarCommand;
 import edu.nr.robotics.auton.AutonForwardOverCommand;
 import edu.nr.robotics.auton.AutonForwardRoughTerrainCommand;
 import edu.nr.robotics.auton.AutonGuillotineCommandGroup;
-import edu.nr.robotics.auton.AutonReturnToNormalBackCommandGroup;
-import edu.nr.robotics.auton.AutonReturnToNormalFrontCommandGroup;
 import edu.nr.robotics.commandgroups.AlignCommandGroup;
 import edu.nr.robotics.subsystems.climb.Elevator;
 import edu.nr.robotics.subsystems.drive.Drive;
@@ -44,7 +36,6 @@ import edu.nr.robotics.subsystems.loaderroller.LoaderRoller;
 import edu.nr.robotics.subsystems.shooter.Shooter;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;

@@ -13,8 +13,8 @@ public class CancelAllCommand extends NRCommand {
 
 	public CancelAllCommand() {
 		requires(Drive.getInstance());
-		requires(Shooter.getInstance());
 		requires(IntakeArm.getInstance());
+		requires(Shooter.getInstance());
 		requires(LoaderRoller.getInstance());
 		requires(Elevator.getInstance());
 		requires(Hood.getInstance());
@@ -28,7 +28,6 @@ public class CancelAllCommand extends NRCommand {
 		IntakeRoller.getInstance().setRollerSpeed(0);
 		LoaderRoller.getInstance().setLoaderSpeed(0);
 		Hood.getInstance().disable();
-		Shooter.getInstance().setMotor(0);
 		Elevator.getInstance().setMotorValue(0);
 	}
 }

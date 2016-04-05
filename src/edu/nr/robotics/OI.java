@@ -44,7 +44,6 @@ import edu.nr.robotics.subsystems.loaderroller.LoaderRollerIntakeUntilPhotoComma
 import edu.nr.robotics.subsystems.loaderroller.LoaderRollerJoystickCommand;
 import edu.nr.robotics.subsystems.shooter.Shooter;
 import edu.nr.robotics.subsystems.shooter.ShooterHighCommand;
-import edu.nr.robotics.subsystems.shooter.ShooterSpeedCommand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -72,7 +71,7 @@ public class OI implements SmartDashboardSource, Periodic {
 	Joystick operatorLeft, operatorRight;
 
 	JoystickButton dumbDrive;
-	JoystickButton LEDCutout;
+	JoystickButton dumbShooter;
 	
 	public JoystickButton fireButton;
 	public JoystickButton backupFireButton;
@@ -217,9 +216,7 @@ public class OI implements SmartDashboardSource, Periodic {
 		// Disables robot "shot ready" LED sequences (in the event that
 		// signifying we are about to shoot enables defense robots to defend
 		// more effectively
-		LEDCutout = new JoystickButton(operatorRight, 12);
-		LEDCutout.whenPressed(new ShooterHighCommand());
-		LEDCutout.whenReleased(new ShooterSpeedCommand(0));
+		dumbShooter = new JoystickButton(operatorRight, 12);
 	}
 
 	public static OI getInstance() {
@@ -357,8 +354,8 @@ public class OI implements SmartDashboardSource, Periodic {
 		return getDriveLeftXValue() != 0 || getDriveRightXValue() != 0 || getDriveLeftYValue() != 0 || getDriveRightYValue() != 0;
 	}
 	
-	public boolean getBrakeLightCutout() {
-		return LEDCutout.get();
+	public boolean getDumbShooter() {
+		return dumbShooter.get();
 	}
 		
 	@Override
