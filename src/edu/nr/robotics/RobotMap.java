@@ -71,6 +71,9 @@ public class RobotMap {
 
 	public static final double TURN_P = 0.026;
 	public static final double TURN_I = 0.08;
+	public static final double LOADER_INTAKE_SPEED = 0.5;
+	public static final double LOADER_OUTTAKE_SPEED = -0.5;
+	public static final double LOADER_SHOOT_SPEED = 1;
 
 
 }

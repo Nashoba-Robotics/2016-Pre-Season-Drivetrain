@@ -27,7 +27,6 @@ import edu.nr.robotics.subsystems.drive.DriveCancelCommand;
 import edu.nr.robotics.subsystems.drive.DriveConstantCommand;
 import edu.nr.robotics.subsystems.drive.DriveResetEncodersCommand;
 import edu.nr.robotics.subsystems.hood.Hood;
-import edu.nr.robotics.subsystems.hood.HoodIncreaseDegreeCommand;
 import edu.nr.robotics.subsystems.hood.HoodJetsonPositionCommand;
 import edu.nr.robotics.subsystems.hood.HoodPositionCommand;
 import edu.nr.robotics.subsystems.hood.HoodResetEncoderCommand;
@@ -38,16 +37,14 @@ import edu.nr.robotics.subsystems.intakearm.IntakeArmIntakeHeightCommandGroup;
 import edu.nr.robotics.subsystems.intakearm.IntakeArmPrepareLowGoalCommand;
 import edu.nr.robotics.subsystems.intakearm.IntakeArmUpHeightCommandGroup;
 import edu.nr.robotics.subsystems.intakeroller.IntakeRoller;
-import edu.nr.robotics.subsystems.intakeroller.IntakeRollerIntakeCommand;
 import edu.nr.robotics.subsystems.intakeroller.IntakeRollerSwapCommand;
 import edu.nr.robotics.subsystems.loaderroller.LaserCannonTriggerCommand;
 import edu.nr.robotics.subsystems.loaderroller.LoaderRoller;
-import edu.nr.robotics.subsystems.loaderroller.LoaderRollerIntakeCommand;
 import edu.nr.robotics.subsystems.loaderroller.LoaderRollerIntakeUntilPhotoCommand;
 import edu.nr.robotics.subsystems.loaderroller.LoaderRollerJoystickCommand;
 import edu.nr.robotics.subsystems.shooter.Shooter;
 import edu.nr.robotics.subsystems.shooter.ShooterHighCommand;
-import edu.nr.robotics.subsystems.shooter.ShooterOffCommand;
+import edu.nr.robotics.subsystems.shooter.ShooterSpeedCommand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -109,12 +106,6 @@ public class OI implements SmartDashboardSource, Periodic {
 		//->  2: Reverse drive direction
 		//->  3: Reset elevator encoder
 		new JoystickButton(driveLeft, 3).whenPressed(new ElevatorResetEncoderCommand());
-		
-		new JoystickButton(driveLeft, 11).whenPressed(new ShooterHighCommand());
-		new JoystickButton(driveLeft, 10).whenPressed(new ShooterOffCommand());
-
-		new JoystickButton(driveLeft, 9).whenPressed(new HoodIncreaseDegreeCommand(1));
-		new JoystickButton(driveLeft, 8).whenPressed(new HoodIncreaseDegreeCommand(-1));
 	}
 	
 	public void initDriveRight() {
@@ -228,7 +219,7 @@ public class OI implements SmartDashboardSource, Periodic {
 		// more effectively
 		LEDCutout = new JoystickButton(operatorRight, 12);
 		LEDCutout.whenPressed(new ShooterHighCommand());
-		LEDCutout.whenReleased(new ShooterOffCommand());
+		LEDCutout.whenReleased(new ShooterSpeedCommand(0));
 	}
 
 	public static OI getInstance() {

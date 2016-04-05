@@ -30,11 +30,6 @@ public class ShooterSpeedCommand extends NRCommand {
 	}
 	
 	@Override
-	protected void onEnd() {
-		Shooter.getInstance().setMotor(0);
-	}
-	
-	@Override
 	protected boolean isFinishedNR() {
 		return false;
 	}

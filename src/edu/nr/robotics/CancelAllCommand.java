@@ -6,7 +6,6 @@ import edu.nr.robotics.subsystems.drive.Drive;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;
 import edu.nr.robotics.subsystems.intakeroller.IntakeRoller;
-import edu.nr.robotics.subsystems.lights.Lights;
 import edu.nr.robotics.subsystems.loaderroller.LoaderRoller;
 import edu.nr.robotics.subsystems.shooter.Shooter;
 
@@ -14,7 +13,6 @@ public class CancelAllCommand extends NRCommand {
 
 	public CancelAllCommand() {
 		requires(Drive.getInstance());
-		requires(Lights.getInstance());
 		requires(Shooter.getInstance());
 		requires(IntakeArm.getInstance());
 		requires(LoaderRoller.getInstance());

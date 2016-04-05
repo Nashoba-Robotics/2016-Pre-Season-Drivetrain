@@ -15,7 +15,6 @@ import edu.nr.lib.navx.NavX;
 import edu.nr.lib.network.AndroidServer;
 import edu.nr.robotics.auton.AutonAlignCommand;
 import edu.nr.robotics.auton.AutonDoNothingCommand;
-import edu.nr.robotics.auton.AutonFollowInstructionsCommand;
 import edu.nr.robotics.auton.AutonForwardAlignLeftCommand;
 import edu.nr.robotics.auton.AutonForwardAlignLowBarCommand;
 import edu.nr.robotics.auton.AutonForwardAlignMiddleCommand;
@@ -23,21 +22,15 @@ import edu.nr.robotics.auton.AutonForwardAlignRightCommand;
 import edu.nr.robotics.auton.AutonForwardLowBarCommand;
 import edu.nr.robotics.auton.AutonForwardOverCommand;
 import edu.nr.robotics.auton.AutonForwardRoughTerrainCommand;
-import edu.nr.robotics.auton.AutonReturnToNormalBackCommandGroup;
-import edu.nr.robotics.auton.AutonReturnToNormalFrontCommandGroup;
 import edu.nr.robotics.commandgroups.AlignCommandGroup;
-import edu.nr.robotics.commandgroups.AutoGuillotineCommandGroup;
-import edu.nr.robotics.commandgroups.AutoShovelOfFriesCommandGroup;
 import edu.nr.robotics.subsystems.climb.Elevator;
 import edu.nr.robotics.subsystems.drive.Drive;
 import edu.nr.robotics.subsystems.drive.DriveAnglePIDCommand;
-import edu.nr.robotics.subsystems.drive.DriveDistanceCommand;
 import edu.nr.robotics.subsystems.drive.FieldCentric;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.hood.HoodJetsonPositionCommand;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;
 import edu.nr.robotics.subsystems.intakeroller.IntakeRoller;
-import edu.nr.robotics.subsystems.lights.Lights;
 import edu.nr.robotics.subsystems.loaderroller.LaserCannonTriggerCommand;
 import edu.nr.robotics.subsystems.loaderroller.LoaderRoller;
 import edu.nr.robotics.subsystems.shooter.Shooter;
@@ -403,7 +396,6 @@ public class Robot extends RobotBase {
 		Drive.init();
 		NavX.init();
 		FieldCentric.init();
-		Lights.init();
 		Shooter.init();
 		IntakeArm.init();
 		Elevator.init();
@@ -414,7 +406,6 @@ public class Robot extends RobotBase {
 		
 		//Add subsystems to subsystem array list
 		subsystems.add(Drive.getInstance());
-		subsystems.add(Lights.getInstance());
 		subsystems.add(Shooter.getInstance());
 		subsystems.add(IntakeArm.getInstance());
 		subsystems.add(LoaderRoller.getInstance());

@@ -1,6 +1,7 @@
 package edu.nr.robotics.subsystems.loaderroller;
 
 import edu.nr.lib.NRCommand;
+import edu.nr.robotics.RobotMap;
 import edu.nr.robotics.subsystems.intakeroller.IntakeRoller;
 
 public class LoaderRollerIntakeUntilPhotoCommand extends NRCommand {
@@ -12,7 +13,7 @@ public class LoaderRollerIntakeUntilPhotoCommand extends NRCommand {
 
 	@Override
 	protected void onStart() {
-    	LoaderRoller.getInstance().setLoaderSpeed(1);
+    	LoaderRoller.getInstance().setLoaderSpeed(RobotMap.LOADER_INTAKE_SPEED);
     	IntakeRoller.getInstance().setRollerSpeed(-1);
 	}
 
