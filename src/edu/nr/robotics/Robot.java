@@ -1,5 +1,7 @@
 package edu.nr.robotics;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import org.spectrum3847.RIOdroid.RIOadb;
@@ -26,6 +28,7 @@ import edu.nr.robotics.auton.AutonForwardAlignRoughTerrainRightCommand;
 import edu.nr.robotics.auton.AutonForwardLowBarCommand;
 import edu.nr.robotics.auton.AutonForwardOverCommand;
 import edu.nr.robotics.auton.AutonForwardRoughTerrainCommand;
+import edu.nr.robotics.auton.AutonGuillotineCommandGroup;
 import edu.nr.robotics.auton.AutonReturnToNormalBackCommandGroup;
 import edu.nr.robotics.auton.AutonReturnToNormalFrontCommandGroup;
 import edu.nr.robotics.commandgroups.AlignCommandGroup;
@@ -216,35 +219,45 @@ public class Robot extends RobotBase {
 	 */
 	private void robotInit() {
 		System.out.println("Robot Init Started");
-		
-        RIOdroid.initUSB(); //Start LibUsb
-        try { 
-        	RIOadb.init();      //Start up ADB deamon and get an instance of jadb
-        } catch(IndexOutOfBoundsException e) {
-        	System.out.println("ADB not started successfully - trying to do it now");
+		/*new Thread(new Runnable() {
+			
+		@Override
+		public void run () {
+	        /*RIOdroid.initUSB(); //Start LibUsb
+	        
+        	System.out.println(RIOdroid.executeCommand("adb kill-server"));
+        	Timer.delay(1);
         	System.out.println(RIOdroid.executeCommand("adb start-server"));
-        }
-        Timer.delay(1);
-        System.out.println("NEXUS_ADB ADB DEVICES: " + RIOdroid.executeCommand("adb devices"));
-        System.out.println("NEXUS_ADB Unlocking screen " + RIOdroid.executeCommand("adb shell input keyevent 82")); //This is done in a separate thread because sometimes it just take forever for some reason
 
-        System.out.println("NEXUS_ADB Starting app" + RIOdroid.executeCommand("adb shell am start -n edu.nr.robotvision/edu.nr.robotvision.MainActivity"));
-        Timer.delay(2);
+	        
+	        Timer.delay(1);
+	        System.out.println("NEXUS_ADB ADB DEVICES: " + RIOdroid.executeCommand("adb devices"));
+	        System.out.println("NEXUS_ADB Unlocking screen " + RIOdroid.executeCommand("adb shell input keyevent 82")); //This is done in a separate thread because sometimes it just take forever for some reason
+	
+	        System.out.println("NEXUS_ADB Starting app" + RIOdroid.executeCommand("adb shell am start -n edu.nr.robotvision/edu.nr.robotvision.MainActivity"));
+	        Timer.delay(2);
+	        
+	        //TODO: figure out the kill stuff combined with the hanging
+	        
+	        System.out.println("NEXUS_ADB kill app for error message" + RIOdroid.executeCommand("adb shell am kill edu.nr.robotvision"));
+	        Timer.delay(2);
+	        System.out.println("NEXUS_ADB Starting app" + RIOdroid.executeCommand("adb shell am start -n edu.nr.robotvision/edu.nr.robotvision.MainActivity"));
+	        Timer.delay(2);
+	        
+	        System.out.println(RIOadb.clearNetworkPorts());
+	        Timer.delay(1);
+	        System.out.println("FOWARD ADB: " + RIOadb.ForwardAdb(5432,5432));
+	        
+	        System.out.println("Finished");
+			Timer.delay(10);			
+			
+			//
+			
+			AndroidServer.executeCommand("/home/lvuser/adbScript.sh");
+			
+	        AndroidServer.getInstance().run();
+        }}).start();*/
         
-        //TODO: figure out the kill stuff combined with the hanging
-        
-        System.out.println("NEXUS_ADB kill app for error message" + RIOdroid.executeCommand("adb shell am kill edu.nr.robotvision"));
-        Timer.delay(2);
-        System.out.println("NEXUS_ADB Starting app" + RIOdroid.executeCommand("adb shell am start -n edu.nr.robotvision/edu.nr.robotvision.MainActivity"));
-        Timer.delay(2);
-        
-        System.out.println(RIOadb.clearNetworkPorts());
-        Timer.delay(1);
-        System.out.println("FOWARD ADB: " + RIOadb.ForwardAdb(5432,5432));
-        
-        System.out.println("Finished");
-        
-        new Thread(AndroidServer.getInstance()).start();
         
         System.out.println("Really finished");
         
@@ -346,6 +359,7 @@ public class Robot extends RobotBase {
 		autoCommandChooser.addObject("Align and shoot", new AutonAlignCommand());
 		autoCommandChooser.addObject("Forward no shoot Low Bar", new AutonForwardLowBarCommand());
 		autoCommandChooser.addObject("Forward no shoot Rough Terrain", new AutonForwardRoughTerrainCommand());
+		autoCommandChooser.addObject("Forward no shoot Guillotine", new AutonGuillotineCommandGroup());
 		autoCommandChooser.addObject("Forward no shoot others", new AutonForwardOverCommand());
 		autoCommandChooser.addObject("Forward and shoot Low Bar", new AutonForwardAlignLowBarCommand());
 		autoCommandChooser.addObject("Forward and shoot Left", new AutonForwardAlignLeftCommand());
