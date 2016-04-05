@@ -53,7 +53,7 @@ public class AutonAlignCommand extends CommandGroup {
 
     	if(Math.abs(System.currentTimeMillis() - startTime) < 5000 && Hood.getInstance().get() - Hood.distanceToAngle(AndroidServer.getInstance().getDistance()) > RobotMap.HOOD_THRESHOLD ) {flag = true;}
     	if(Math.abs(AndroidServer.getInstance().getTurnAngle()) > checkDist) {flag = true;}
-    	if(Math.abs(System.currentTimeMillis() - startTime) < 5000 && Shooter.getInstance().getScaledSpeed() < RobotMap.SHOOTER_FAST_SPEED - RobotMap.SHOOTER_THRESHOLD) {flag = true;}
+    	if(Shooter.getInstance().getScaledSpeed() < RobotMap.SHOOTER_FAST_SPEED - RobotMap.SHOOTER_THRESHOLD) {flag = true;}
     	if(flag) {
     		new AutonAlignCommand(startTime).start();
     		System.out.println("Starting auton align again angle: " + NavX.getInstance().getYaw(AngleUnit.DEGREE) + " shooter speed: " + Shooter.getInstance().getScaledSpeed() + " Hood angle " + Hood.getInstance().get());

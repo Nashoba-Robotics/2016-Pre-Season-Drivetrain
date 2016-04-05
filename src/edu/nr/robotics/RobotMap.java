@@ -70,10 +70,11 @@ public class RobotMap {
 	public static final double ELEVATOR_UNLATCH_DISTANCE = 5650;
 
 	public static final double TURN_P = 0.026;
-	public static final double TURN_I = 0.08;
 	public static final double LOADER_INTAKE_SPEED = 0.5;
 	public static final double LOADER_OUTTAKE_SPEED = -0.5;
 	public static final double LOADER_SHOOT_SPEED = 1;
+	public static final double TURN_I = 0.05;
+	public static final double HOOD_HANG_SHOT = 29;
 
 
 }

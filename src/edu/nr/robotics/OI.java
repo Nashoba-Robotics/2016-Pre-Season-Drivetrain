@@ -199,13 +199,13 @@ public class OI implements SmartDashboardSource, Periodic {
 		new JoystickButton(operatorRight, 8).whenPressed(new ElevatorRetractCommand());
 		new JoystickButton(operatorRight, 8).whenPressed(new ShooterHighCommand());
 		new JoystickButton(operatorRight, 8).whenPressed(new IntakeArmUpHeightCommandGroup());
-		new JoystickButton(operatorRight, 8).whenPressed(new HoodPositionCommand(34.5));
+		new JoystickButton(operatorRight, 8).whenPressed(new HoodPositionCommand(RobotMap.HOOD_HANG_SHOT));
 		// => 9: Extend & Intake Up
 		// Extends elevator completely, brings intake to up position
 		new JoystickButton(operatorRight, 9).whenPressed(new ElevatorExtendCommand());
 		new JoystickButton(operatorRight, 9).whenPressed(new ShooterHighCommand());
 		new JoystickButton(operatorRight, 9).whenPressed(new IntakeArmUpHeightCommandGroup());
-		new JoystickButton(operatorRight, 9).whenPressed(new HoodPositionCommand(34.5));
+		new JoystickButton(operatorRight, 9).whenPressed(new HoodPositionCommand(RobotMap.HOOD_HANG_SHOT));
 
 		// => 10: Prepare Climb
 		// Un-latches elevator (drives the elevator down a little)
