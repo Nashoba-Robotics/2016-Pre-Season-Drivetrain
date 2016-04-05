@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class IntakeArmHomeHeightCommandGroup extends CommandGroup {
+public class IntakeArmHomeHeightCommand extends CommandGroup {
 
-    public IntakeArmHomeHeightCommandGroup() {
+    public IntakeArmHomeHeightCommand() {
         addSequential(new IntakeArmPositionCommand(RobotMap.INTAKE_HOME_POS));
     }
 }

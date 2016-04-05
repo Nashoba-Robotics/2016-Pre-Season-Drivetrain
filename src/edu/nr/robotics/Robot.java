@@ -26,6 +26,7 @@ import edu.nr.robotics.commandgroups.AlignCommandGroup;
 import edu.nr.robotics.subsystems.climb.Elevator;
 import edu.nr.robotics.subsystems.drive.Drive;
 import edu.nr.robotics.subsystems.drive.DriveAnglePIDCommand;
+import edu.nr.robotics.subsystems.drive.DriveAnglePIDCommandGroup;
 import edu.nr.robotics.subsystems.drive.FieldCentric;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.hood.HoodJetsonPositionCommand;
@@ -378,7 +379,7 @@ public class Robot extends RobotBase {
 		
 		SmartDashboard.putData("Hood Jetson angle command", new HoodJetsonPositionCommand());
 		
-		SmartDashboard.putData("Turn 3 degree command", new DriveAnglePIDCommand(-15, AngleUnit.DEGREE));
+		SmartDashboard.putData("Turn 3 degree command", new DriveAnglePIDCommandGroup(-15, AngleUnit.DEGREE));
 		
 		LiveWindow.addSensor("Jetson", "Ready to shoot", LiveWindowClasses.readyToShoot);
 		

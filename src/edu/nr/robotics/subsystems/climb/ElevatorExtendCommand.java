@@ -2,7 +2,7 @@ package edu.nr.robotics.subsystems.climb;
 
 import edu.nr.robotics.RobotMap;
 import edu.nr.robotics.subsystems.hood.HoodPositionCommand;
-import edu.nr.robotics.subsystems.intakearm.IntakeArmUpHeightCommandGroup;
+import edu.nr.robotics.subsystems.intakearm.IntakeArmUpHeightCommand;
 import edu.nr.robotics.subsystems.shooter.ShooterHighCommand;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 

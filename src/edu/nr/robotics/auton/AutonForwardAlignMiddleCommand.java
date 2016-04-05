@@ -5,8 +5,8 @@ import edu.nr.robotics.subsystems.drive.DriveConstantCommand;
 import edu.nr.robotics.subsystems.drive.DriveDistanceCommand;
 import edu.nr.robotics.subsystems.drive.DriveSimpleDistanceCommand;
 import edu.nr.robotics.subsystems.hood.HoodMoveDownUntilLimitSwitchCommand;
-import edu.nr.robotics.subsystems.intakearm.IntakeArmHomeHeightCommandGroup;
-import edu.nr.robotics.subsystems.intakearm.IntakeArmIntakeHeightCommandGroup;
+import edu.nr.robotics.subsystems.intakearm.IntakeArmHomeHeightCommand;
+import edu.nr.robotics.subsystems.intakearm.IntakeArmIntakeHeightCommand;
 import edu.nr.robotics.subsystems.intakearm.IntakeArmPositionCommand;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
@@ -20,7 +20,7 @@ public class AutonForwardAlignMiddleCommand extends CommandGroup {
 		addParallel(new DriveConstantCommand(false, true, true, 0));
 		addSequential(new WaitCommand(0.2));
 		addSequential(new DriveDistanceCommand(13.75, 1));
-		addParallel(new IntakeArmHomeHeightCommandGroup());
+		addParallel(new IntakeArmHomeHeightCommand());
 		addSequential(new WaitCommand(0.8));
 		addSequential(new AutonAlignCommand());
 	}

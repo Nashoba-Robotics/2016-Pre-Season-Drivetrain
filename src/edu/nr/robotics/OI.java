@@ -8,13 +8,6 @@ import edu.nr.robotics.commandgroups.AlignCommandGroup;
 import edu.nr.robotics.commandgroups.AlignEndCommandGroup;
 import edu.nr.robotics.commandgroups.AutoGuillotineCommandGroup;
 import edu.nr.robotics.commandgroups.AutoShovelOfFriesCommandGroup;
-import edu.nr.robotics.commandgroups.GetLowCommandGroup;
-import edu.nr.robotics.commandgroups.LowGoalFinishCommandGroup;
-import edu.nr.robotics.commandgroups.LowGoalStartCommandGroup;
-import edu.nr.robotics.commandgroups.PrepareCloseShotCommandGroup;
-import edu.nr.robotics.commandgroups.PrepareLongShotCommandGroup;
-import edu.nr.robotics.commandgroups.PukeCommandGroup;
-import edu.nr.robotics.commandgroups.PukeFinishCommandGroup;
 import edu.nr.robotics.subsystems.climb.Elevator;
 import edu.nr.robotics.subsystems.climb.ElevatorExtendCommand;
 import edu.nr.robotics.subsystems.climb.ElevatorResetCommand;
@@ -27,21 +20,27 @@ import edu.nr.robotics.subsystems.drive.DriveCancelCommand;
 import edu.nr.robotics.subsystems.drive.DriveConstantCommand;
 import edu.nr.robotics.subsystems.drive.DriveResetEncodersCommand;
 import edu.nr.robotics.subsystems.hood.Hood;
+import edu.nr.robotics.subsystems.hood.HoodBottomCommand;
 import edu.nr.robotics.subsystems.hood.HoodJetsonPositionCommand;
 import edu.nr.robotics.subsystems.hood.HoodPositionCommand;
 import edu.nr.robotics.subsystems.hood.HoodResetEncoderCommand;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;
-import edu.nr.robotics.subsystems.intakearm.IntakeArmBottomHeightCommandGroup;
-import edu.nr.robotics.subsystems.intakearm.IntakeArmHomeHeightCommandGroup;
-import edu.nr.robotics.subsystems.intakearm.IntakeArmIntakeHeightCommandGroup;
+import edu.nr.robotics.subsystems.intakearm.IntakeArmBottomHeightCommand;
+import edu.nr.robotics.subsystems.intakearm.IntakeArmHomeHeightCommand;
+import edu.nr.robotics.subsystems.intakearm.IntakeArmIntakeHeightCommand;
+import edu.nr.robotics.subsystems.intakearm.IntakeArmPositionCommand;
 import edu.nr.robotics.subsystems.intakearm.IntakeArmPrepareLowGoalCommand;
-import edu.nr.robotics.subsystems.intakearm.IntakeArmUpHeightCommandGroup;
+import edu.nr.robotics.subsystems.intakearm.IntakeArmUpHeightCommand;
 import edu.nr.robotics.subsystems.intakeroller.IntakeRoller;
+import edu.nr.robotics.subsystems.intakeroller.IntakeRollerNeutralCommand;
+import edu.nr.robotics.subsystems.intakeroller.IntakeRollerOuttakeCommand;
 import edu.nr.robotics.subsystems.intakeroller.IntakeRollerSwapCommand;
 import edu.nr.robotics.subsystems.loaderroller.LaserCannonTriggerCommand;
 import edu.nr.robotics.subsystems.loaderroller.LoaderRoller;
 import edu.nr.robotics.subsystems.loaderroller.LoaderRollerIntakeUntilPhotoCommand;
 import edu.nr.robotics.subsystems.loaderroller.LoaderRollerJoystickCommand;
+import edu.nr.robotics.subsystems.loaderroller.LoaderRollerNeutralCommand;
+import edu.nr.robotics.subsystems.loaderroller.LoaderRollerOuttakeCommand;
 import edu.nr.robotics.subsystems.shooter.Shooter;
 import edu.nr.robotics.subsystems.shooter.ShooterHighCommand;
 import edu.wpi.first.wpilibj.Joystick;
@@ -140,31 +139,40 @@ public class OI implements SmartDashboardSource, Periodic {
 		// => 9: Get low
 		// Puts robot in position to go under low bar (hood down, intake to
 		// appropriate height)
-		new JoystickButton(operatorLeft, 9).whenPressed(new GetLowCommandGroup());
+		new JoystickButton(operatorLeft, 9).whenPressed(new HoodBottomCommand());
+		new JoystickButton(operatorLeft, 9).whenPressed(new IntakeArmPositionCommand(RobotMap.INTAKE_INTAKE_POS));		
 		// => 11: Prepare Long Shot
 		// Prepares long shot (shooter wheels to speed, hood up to approximate
 		// angle, drops intake to position where it does not block shot, turns
 		// on lights)
-		new JoystickButton(operatorLeft, 11).whenPressed(new PrepareLongShotCommandGroup());
+		new JoystickButton(operatorLeft, 9).whenPressed(new HoodPositionCommand(RobotMap.LONG_SHOT_POSITION));
+		new JoystickButton(operatorLeft, 10).whenPressed(new IntakeArmHomeHeightCommand());
 		// => 10: Prepare Close Shot
 		// Prepares close shot (shooter wheels to speed, hood up to approximate
 		// angle, drops intake to position where it does not block shot, turns
 		// on lights)
-		new JoystickButton(operatorLeft, 10).whenPressed(new PrepareCloseShotCommandGroup());
+		new JoystickButton(operatorLeft, 10).whenPressed(new HoodPositionCommand(RobotMap.CLOSE_SHOT_POSITION));
+		new JoystickButton(operatorLeft, 10).whenPressed(new IntakeArmHomeHeightCommand());
 		// => 5: Prepare Low Goal
 		// Prepares low goal dump (positions intake to proper height)
 		new JoystickButton(operatorLeft, 5).whenPressed(new IntakeArmPrepareLowGoalCommand());
 		// => 8: Low Goal
 		// Double checks intake height, reverses intake and loader to spit ball
-		// into low goal.
-		new JoystickButton(operatorLeft, 8).whenPressed(new LowGoalStartCommandGroup());
-		new JoystickButton(operatorLeft, 8).whenReleased(new LowGoalFinishCommandGroup());
+		// into low goal.		
+		new JoystickButton(operatorLeft, 8).whenPressed(new IntakeArmPositionCommand(RobotMap.INTAKE_INTAKE_POS));
+		new JoystickButton(operatorLeft, 8).whenPressed(new IntakeRollerOuttakeCommand());
+		new JoystickButton(operatorLeft, 8).whenPressed(new LoaderRollerOuttakeCommand());
+		new JoystickButton(operatorLeft, 8).whenReleased(new IntakeRollerNeutralCommand());
+		new JoystickButton(operatorLeft, 8).whenReleased(new LoaderRollerNeutralCommand());
 
-		// -> 12: Puke
-		// Reverses all ball handling systems (shooter, loader, intake) (SHOOTER
-		// RAMPING REQUIRED)
-		new JoystickButton(operatorLeft, 12).whenPressed(new PukeCommandGroup());
-		new JoystickButton(operatorLeft, 12).whenReleased(new PukeFinishCommandGroup());
+		// => 12: Puke
+		// Double checks intake height, reverses intake and loader to spit ball
+		// into low goal.		
+		new JoystickButton(operatorLeft, 12).whenPressed(new IntakeArmPositionCommand(RobotMap.INTAKE_INTAKE_POS));
+		new JoystickButton(operatorLeft, 12).whenPressed(new IntakeRollerOuttakeCommand());
+		new JoystickButton(operatorLeft, 12).whenPressed(new LoaderRollerOuttakeCommand());
+		new JoystickButton(operatorLeft, 12).whenReleased(new IntakeRollerNeutralCommand());
+		new JoystickButton(operatorLeft, 12).whenReleased(new LoaderRollerNeutralCommand());
 		// => 1: Laser Cannon Trigger (Shoot)
 		// Forces intake on to shoot (loader auto off based on photo sensor 3,
 		// turns off lights)
@@ -177,18 +185,18 @@ public class OI implements SmartDashboardSource, Periodic {
 		// => 1: Up Height (Climb Height)
 		// Positions intake arm to vertical height, ensures intake off (also
 		// used for climb)
-		new JoystickButton(operatorRight, 4).whenPressed(new IntakeArmUpHeightCommandGroup());
+		new JoystickButton(operatorRight, 4).whenPressed(new IntakeArmUpHeightCommand());
 		// => 2: Intake Height
 		// Positions intake arm to collecting height turns on intake
-		new JoystickButton(operatorRight, 3).whenPressed(new IntakeArmIntakeHeightCommandGroup());
+		new JoystickButton(operatorRight, 3).whenPressed(new IntakeArmIntakeHeightCommand());
 		new JoystickButton(operatorRight, 3).whenPressed(new LoaderRollerIntakeUntilPhotoCommand());
 		// => 3: Bumper Height (Home)
 		// Positions intake arm to home height (such that it will contact the
 		// bumper of another robot), ensures intake off
-		new JoystickButton(operatorRight, 2).whenPressed(new IntakeArmHomeHeightCommandGroup());
+		new JoystickButton(operatorRight, 2).whenPressed(new IntakeArmHomeHeightCommand());
 		// => 4: Bottom Height
 		// Positions intake arm to bottom height, ensures intake off
-		new JoystickButton(operatorRight, 1).whenPressed(new IntakeArmBottomHeightCommandGroup());
+		new JoystickButton(operatorRight, 1).whenPressed(new IntakeArmBottomHeightCommand());
 		// -> 5: Intake On
 		// Overrides intake rollers
 		new JoystickButton(operatorRight, 5).whenPressed(new IntakeRollerSwapCommand());
@@ -197,12 +205,12 @@ public class OI implements SmartDashboardSource, Periodic {
 		// => 8: Climb
 		// Fully retracts elevator, stops after 1 second of motor stall
 		new JoystickButton(operatorRight, 8).whenPressed(new ElevatorRetractCommand());
-		new JoystickButton(operatorRight, 8).whenPressed(new IntakeArmUpHeightCommandGroup());
+		new JoystickButton(operatorRight, 8).whenPressed(new IntakeArmUpHeightCommand());
 		new JoystickButton(operatorRight, 8).whenPressed(new HoodPositionCommand(RobotMap.HOOD_HANG_SHOT));
 		// => 9: Extend & Intake Up
 		// Extends elevator completely, brings intake to up position
 		new JoystickButton(operatorRight, 9).whenPressed(new ElevatorExtendCommand());
-		new JoystickButton(operatorRight, 9).whenPressed(new IntakeArmUpHeightCommandGroup());
+		new JoystickButton(operatorRight, 9).whenPressed(new IntakeArmUpHeightCommand());
 		new JoystickButton(operatorRight, 9).whenPressed(new HoodPositionCommand(RobotMap.HOOD_HANG_SHOT));
 
 		// => 10: Prepare Climb
