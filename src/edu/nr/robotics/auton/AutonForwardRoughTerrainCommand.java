@@ -18,7 +18,6 @@ public class AutonForwardRoughTerrainCommand extends CommandGroup {
 		addParallel(new DriveConstantCommand(false, true, true, 0));
 		addSequential(new WaitCommand(0.2));
 		addSequential(new DriveDistanceCommand(14.4, 1));
-		addSequential(new ShooterHighCommand());
 	}
 	
 }

@@ -13,7 +13,6 @@ public class AutonForwardLowBarCommand extends CommandGroup {
     	addSequential(new HoodMoveDownUntilLimitSwitchCommand());
 		addSequential(new IntakeArmPositionCommand(RobotMap.INTAKE_INTAKE_POS, 0.05));
 		addSequential(new DriveDistanceCommand(14, 0.6));
-		addSequential(new ShooterHighCommand());
 	}
 	
 }

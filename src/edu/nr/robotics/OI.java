@@ -94,6 +94,7 @@ public class OI implements SmartDashboardSource, Periodic {
 		
 		new DoubleJoystickButton(new JoystickButton(driveLeft, 6), new JoystickButton(driveRight, 6)).whenPressed(new ElevatorResetCommand());
 		new DoubleJoystickButton(new JoystickButton(driveLeft, 6), new JoystickButton(driveRight, 7)).whenPressed(new ElevatorResetPart2Command());
+		new DoubleJoystickButton(new JoystickButton(driveLeft, 6), new JoystickButton(driveRight, 8)).whenPressed(new ShooterHighCommand());
 	}
 	
 	public void initDriveLeft() {
@@ -196,13 +197,11 @@ public class OI implements SmartDashboardSource, Periodic {
 		// => 8: Climb
 		// Fully retracts elevator, stops after 1 second of motor stall
 		new JoystickButton(operatorRight, 8).whenPressed(new ElevatorRetractCommand());
-		new JoystickButton(operatorRight, 8).whenPressed(new ShooterHighCommand());
 		new JoystickButton(operatorRight, 8).whenPressed(new IntakeArmUpHeightCommandGroup());
 		new JoystickButton(operatorRight, 8).whenPressed(new HoodPositionCommand(RobotMap.HOOD_HANG_SHOT));
 		// => 9: Extend & Intake Up
 		// Extends elevator completely, brings intake to up position
 		new JoystickButton(operatorRight, 9).whenPressed(new ElevatorExtendCommand());
-		new JoystickButton(operatorRight, 9).whenPressed(new ShooterHighCommand());
 		new JoystickButton(operatorRight, 9).whenPressed(new IntakeArmUpHeightCommandGroup());
 		new JoystickButton(operatorRight, 9).whenPressed(new HoodPositionCommand(RobotMap.HOOD_HANG_SHOT));
 

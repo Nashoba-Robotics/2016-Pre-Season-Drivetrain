@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class PrepareLongShotCommandGroup extends CommandGroup {
     
     public  PrepareLongShotCommandGroup() {
-        addParallel(new ShooterHighCommand());
         addParallel(new HoodPositionCommand(RobotMap.LONG_SHOT_POSITION));
         //addParallel(new HoodJetsonPositionCommand());
         addParallel(new IntakeArmHomeHeightCommandGroup());

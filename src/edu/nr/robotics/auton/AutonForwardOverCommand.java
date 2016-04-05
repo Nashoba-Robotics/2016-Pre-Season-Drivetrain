@@ -17,7 +17,6 @@ public class AutonForwardOverCommand extends CommandGroup {
 		addParallel(new DriveConstantCommand(false, true, true, 0));
 		addSequential(new WaitCommand(0.2));
 		addSequential(new DriveDistanceCommand(13.75, 1));
-		addSequential(new ShooterHighCommand());
 	}
 	
 }

@@ -14,7 +14,6 @@ public class AutonForwardAlignLowBarCommand extends CommandGroup {
 	public AutonForwardAlignLowBarCommand() {
     	addSequential(new HoodMoveDownUntilLimitSwitchCommand());
 		addSequential(new IntakeArmPositionCommand(RobotMap.INTAKE_INTAKE_POS, 0.05));
-		addParallel(new ShooterHighCommand());
 		addSequential(new DriveDistanceCommand(14, 0.6));
 		addParallel(new DriveConstantCommand(true, 0.7, 0));
 		addSequential(new WaitUntilGyroCommand(20));

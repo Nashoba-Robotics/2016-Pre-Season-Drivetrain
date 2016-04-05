@@ -35,6 +35,7 @@ import edu.nr.robotics.subsystems.loaderroller.LaserCannonTriggerCommand;
 import edu.nr.robotics.subsystems.loaderroller.LoaderRoller;
 import edu.nr.robotics.subsystems.shooter.Shooter;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -477,9 +478,16 @@ public class Robot extends RobotBase {
 	 * functions for the specific modes
 	 */
 	private void initialize() {
+		
+		if(DriverStation.getInstance().getLocation() != 0) {
+			Shooter.getInstance().setDefaultCommandOn();
+		} else {
+			Shooter.getInstance().setDefaultCommandOff();
+		}		
+		
 		if(!doneFirstTime) {
-			doneFirstTime = true;
 			Elevator.getInstance().resetEncoder();
+			doneFirstTime = true;
 		}
 		if (isDisabled()) {
 			IntakeArm.getInstance().disable();

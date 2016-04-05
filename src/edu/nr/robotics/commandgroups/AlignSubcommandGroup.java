@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AlignSubcommandGroup extends CommandGroup {
     	
     public  AlignSubcommandGroup() {
-        addParallel(new ShooterHighCommand());
         addSequential(new DriveAnglePIDCommand(true));
         addSequential(new DriveSimpleDistanceWithGyroCommand(1, 0.2));
         addSequential(new DriveSimpleDistanceWithGyroCommand(-1, 0.2));

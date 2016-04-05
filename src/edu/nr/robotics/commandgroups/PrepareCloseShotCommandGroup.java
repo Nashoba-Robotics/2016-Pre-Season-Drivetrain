@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class PrepareCloseShotCommandGroup extends CommandGroup {
     
     public  PrepareCloseShotCommandGroup() {
-    	addParallel(new ShooterHighCommand());
         addParallel(new HoodPositionCommand(RobotMap.CLOSE_SHOT_POSITION));
         addParallel(new IntakeArmHomeHeightCommandGroup());
     }

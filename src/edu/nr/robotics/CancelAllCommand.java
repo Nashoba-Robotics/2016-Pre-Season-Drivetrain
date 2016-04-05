@@ -8,6 +8,7 @@ import edu.nr.robotics.subsystems.intakearm.IntakeArm;
 import edu.nr.robotics.subsystems.intakeroller.IntakeRoller;
 import edu.nr.robotics.subsystems.loaderroller.LoaderRoller;
 import edu.nr.robotics.subsystems.shooter.Shooter;
+import edu.nr.robotics.subsystems.shooter.ShooterSpeedCommand;
 
 public class CancelAllCommand extends NRCommand {
 

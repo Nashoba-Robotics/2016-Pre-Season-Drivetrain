@@ -7,6 +7,7 @@ import edu.nr.robotics.LiveWindowClasses;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -54,7 +55,17 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	
     @Override
 	public void initDefaultCommand() {
+    	setDefaultCommandOn();
+    }
+    
+    public void setDefaultCommandOn() {
     	setDefaultCommand(new ShooterHighCommand());
+
+    }
+    
+    public void setDefaultCommandOff() {
+    	setDefaultCommand(new ShooterOffCommand());
+
     }
     
     public static Shooter getInstance() {
