@@ -9,6 +9,7 @@ import edu.nr.lib.WaitUntilGyroCommand;
 import edu.nr.lib.interfaces.Periodic;
 import edu.nr.lib.interfaces.SmartDashboardSource;
 import edu.nr.lib.navx.NavX;
+import edu.nr.lib.network.AndroidServer;
 import edu.nr.robotics.auton.AutonAlignCommand;
 import edu.nr.robotics.auton.AutonDoNothingCommand;
 import edu.nr.robotics.auton.AutonForwardAlignLeftCommand;
@@ -37,6 +38,7 @@ import edu.nr.robotics.subsystems.shooter.Shooter;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -206,44 +208,14 @@ public class Robot extends RobotBase {
 	 */
 	private void robotInit() {
 		System.out.println("Robot Init Started");
-		/*new Thread(new Runnable() {
+		new Thread(new Runnable() {
 			
 		@Override
-		public void run () {
-	        /*RIOdroid.initUSB(); //Start LibUsb
-	        
-        	System.out.println(RIOdroid.executeCommand("adb kill-server"));
-        	Timer.delay(1);
-        	System.out.println(RIOdroid.executeCommand("adb start-server"));
-
-	        
-	        Timer.delay(1);
-	        System.out.println("NEXUS_ADB ADB DEVICES: " + RIOdroid.executeCommand("adb devices"));
-	        System.out.println("NEXUS_ADB Unlocking screen " + RIOdroid.executeCommand("adb shell input keyevent 82")); //This is done in a separate thread because sometimes it just take forever for some reason
-	
-	        System.out.println("NEXUS_ADB Starting app" + RIOdroid.executeCommand("adb shell am start -n edu.nr.robotvision/edu.nr.robotvision.MainActivity"));
-	        Timer.delay(2);
-	        
-	        //TODO: figure out the kill stuff combined with the hanging
-	        
-	        System.out.println("NEXUS_ADB kill app for error message" + RIOdroid.executeCommand("adb shell am kill edu.nr.robotvision"));
-	        Timer.delay(2);
-	        System.out.println("NEXUS_ADB Starting app" + RIOdroid.executeCommand("adb shell am start -n edu.nr.robotvision/edu.nr.robotvision.MainActivity"));
-	        Timer.delay(2);
-	        
-	        System.out.println(RIOadb.clearNetworkPorts());
-	        Timer.delay(1);
-	        System.out.println("FOWARD ADB: " + RIOadb.ForwardAdb(5432,5432));
-	        
-	        System.out.println("Finished");
-			Timer.delay(10);			
-			
-			//
-			
-			AndroidServer.executeCommand("/home/lvuser/adbScript.sh");
+		public void run () {			
+			AndroidServer.executeCommand("ssh lvuser@localhost ./adbScript.sh");
 			
 	        AndroidServer.getInstance().run();
-        }}).start();*/
+        }}).start();
         
         
         System.out.println("Really finished");
@@ -458,6 +430,7 @@ public class Robot extends RobotBase {
 		
 		
 		Drive.getInstance().setPIDEnabled(!OI.getInstance().dumbDrive.get());
+		Shooter.getInstance().setEnabled(!OI.getInstance().dumbShooter.get());
 
 		
 		periodics.forEach(Periodic::periodic);
@@ -477,13 +450,7 @@ public class Robot extends RobotBase {
 	 * A generic initialization function that is called by the periodic
 	 * functions for the specific modes
 	 */
-	private void initialize() {
-		
-		if(DriverStation.getInstance().getLocation() != 0) {
-			Shooter.getInstance().setDefaultCommandOn();
-		} else {
-			Shooter.getInstance().setDefaultCommandOff();
-		}		
+	private void initialize() {	
 		
 		if(!doneFirstTime) {
 			Elevator.getInstance().resetEncoder();

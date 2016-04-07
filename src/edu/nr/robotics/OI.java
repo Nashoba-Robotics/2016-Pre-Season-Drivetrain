@@ -44,6 +44,7 @@ import edu.nr.robotics.subsystems.loaderroller.LoaderRollerIntakeUntilPhotoComma
 import edu.nr.robotics.subsystems.loaderroller.LoaderRollerJoystickCommand;
 import edu.nr.robotics.subsystems.shooter.Shooter;
 import edu.nr.robotics.subsystems.shooter.ShooterHighCommand;
+import edu.nr.robotics.subsystems.shooter.ShooterSwapCommand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -160,11 +161,8 @@ public class OI implements SmartDashboardSource, Periodic {
 		new JoystickButton(operatorLeft, 8).whenPressed(new LowGoalStartCommandGroup());
 		new JoystickButton(operatorLeft, 8).whenReleased(new LowGoalFinishCommandGroup());
 
-		// -> 12: Puke
-		// Reverses all ball handling systems (shooter, loader, intake) (SHOOTER
-		// RAMPING REQUIRED)
-		new JoystickButton(operatorLeft, 12).whenPressed(new PukeCommandGroup());
-		new JoystickButton(operatorLeft, 12).whenReleased(new PukeFinishCommandGroup());
+		// -> 12: Turn the shooter on/off
+		
 		// => 1: Laser Cannon Trigger (Shoot)
 		// Forces intake on to shoot (loader auto off based on photo sensor 3,
 		// turns off lights)

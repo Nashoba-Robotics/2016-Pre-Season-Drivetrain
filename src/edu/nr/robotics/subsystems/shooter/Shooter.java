@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,12 +20,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Shooter extends Subsystem implements SmartDashboardSource{
     
 	private static Shooter singleton;
+	
+	Command ShooterHighCommand = new ShooterHighCommand();
+	Command ShooterOffCommand = new ShooterOffCommand();
 
 	CANTalon talonA, talonB;
 		
 	MotorSetter talonOutput;
 	
 	DigitalInput gate;
+	
+	public boolean currentModeOff;
 
 	
 	//In rotations per second
@@ -55,17 +61,16 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	
     @Override
 	public void initDefaultCommand() {
-    	setDefaultCommandOn();
     }
     
     public void setDefaultCommandOn() {
-    	setDefaultCommand(new ShooterHighCommand());
-
+    	setDefaultCommand(ShooterHighCommand);
+    	currentModeOff = false;
     }
     
     public void setDefaultCommandOff() {
-    	setDefaultCommand(new ShooterOffCommand());
-
+    	setDefaultCommand(ShooterOffCommand);
+    	currentModeOff = true;
     }
     
     public static Shooter getInstance() {
@@ -134,5 +139,13 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 		if(gate != null)
 			return !gate.get();
 		return false;
+	}
+
+	public void setEnabled(boolean b) {
+		if(b) {
+			setDefaultCommandOn();
+		} else {
+			setDefaultCommandOff();
+		}
 	}
 }
