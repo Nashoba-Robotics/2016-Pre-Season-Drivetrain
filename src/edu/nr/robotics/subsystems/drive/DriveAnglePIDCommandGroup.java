@@ -1,8 +1,6 @@
-package edu.nr.robotics.commandgroups;
+package edu.nr.robotics.subsystems.drive;
 
 import edu.nr.lib.AngleUnit;
-import edu.nr.robotics.subsystems.drive.DriveAnglePIDCommand;
-import edu.nr.robotics.subsystems.drive.DriveSimpleDistanceWithGyroCommand;
 import edu.nr.robotics.subsystems.hood.HoodJetsonPositionCommand;
 import edu.nr.robotics.subsystems.shooter.ShooterHighCommand;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -12,8 +10,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class DriveAnglePIDCommandGroup extends CommandGroup {
     	
-    public  DriveAnglePIDCommandGroup(double angle) {
-        addSequential(new DriveAnglePIDCommand(angle, AngleUnit.DEGREE));
+    public  DriveAnglePIDCommandGroup(double angle, AngleUnit unit) {
+        addSequential(new DriveAnglePIDCommand(angle, unit));
         addSequential(new DriveSimpleDistanceWithGyroCommand(1, 0.2));
         addSequential(new DriveSimpleDistanceWithGyroCommand(-1, 0.2));
     }

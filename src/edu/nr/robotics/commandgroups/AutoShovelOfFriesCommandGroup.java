@@ -3,7 +3,7 @@ package edu.nr.robotics.commandgroups;
 import edu.nr.robotics.RobotMap;
 import edu.nr.robotics.subsystems.drive.DriveConstantCommand;
 import edu.nr.robotics.subsystems.drive.DriveDistanceCommand;
-import edu.nr.robotics.subsystems.intakearm.IntakeArmBottomHeightCommandGroup;
+import edu.nr.robotics.subsystems.intakearm.IntakeArmBottomHeightCommand;
 import edu.nr.robotics.subsystems.intakearm.IntakeArmMoveUpUntilPositionCommand;
 import edu.nr.robotics.subsystems.intakearm.IntakeArmOffCommand;
 import edu.nr.robotics.subsystems.intakearm.IntakeArmPositionCommand;
@@ -17,7 +17,7 @@ public class AutoShovelOfFriesCommandGroup extends CommandGroup {
 	
     public  AutoShovelOfFriesCommandGroup() {
     	addSequential(new DriveDistanceCommand(-0.1,-0.6));
-        addParallel(new IntakeArmBottomHeightCommandGroup());
+        addParallel(new IntakeArmBottomHeightCommand());
         addSequential(new WaitCommand(1.3));
         addParallel(new IntakeArmOffCommand());
         addSequential(new DriveDistanceCommand(1.2,0.8));
