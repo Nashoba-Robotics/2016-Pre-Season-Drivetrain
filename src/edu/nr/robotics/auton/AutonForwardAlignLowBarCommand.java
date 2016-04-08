@@ -6,7 +6,6 @@ import edu.nr.robotics.subsystems.drive.DriveConstantCommand;
 import edu.nr.robotics.subsystems.drive.DriveDistanceCommand;
 import edu.nr.robotics.subsystems.hood.HoodMoveDownUntilLimitSwitchCommand;
 import edu.nr.robotics.subsystems.intakearm.IntakeArmPositionCommand;
-import edu.nr.robotics.subsystems.shooter.ShooterHighCommand;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class AutonForwardAlignLowBarCommand extends CommandGroup {

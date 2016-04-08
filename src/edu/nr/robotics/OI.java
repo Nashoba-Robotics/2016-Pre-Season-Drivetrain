@@ -43,7 +43,7 @@ import edu.nr.robotics.subsystems.loaderroller.LoaderRollerNeutralCommand;
 import edu.nr.robotics.subsystems.loaderroller.LoaderRollerOuttakeCommand;
 import edu.nr.robotics.subsystems.shooter.Shooter;
 import edu.nr.robotics.subsystems.shooter.ShooterHighCommand;
-import edu.nr.robotics.subsystems.shooter.ShooterSwapCommand;
+import edu.nr.robotics.subsystems.shooter.ShooterOffCommand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -95,6 +95,7 @@ public class OI implements SmartDashboardSource, Periodic {
 		new DoubleJoystickButton(new JoystickButton(driveLeft, 6), new JoystickButton(driveRight, 6)).whenPressed(new ElevatorResetCommand());
 		new DoubleJoystickButton(new JoystickButton(driveLeft, 6), new JoystickButton(driveRight, 7)).whenPressed(new ElevatorResetPart2Command());
 		new DoubleJoystickButton(new JoystickButton(driveLeft, 6), new JoystickButton(driveRight, 8)).whenPressed(new ShooterHighCommand());
+		new DoubleJoystickButton(new JoystickButton(driveLeft, 6), new JoystickButton(driveRight, 9)).whenPressed(new ShooterOffCommand());
 	}
 	
 	public void initDriveLeft() {
@@ -169,7 +170,6 @@ public class OI implements SmartDashboardSource, Periodic {
 		// => 12: Puke
 		// Double checks intake height, reverses intake and loader to spit ball
 		// into low goal.		
-		new JoystickButton(operatorLeft, 12).whenPressed(new IntakeArmPositionCommand(RobotMap.INTAKE_INTAKE_POS));
 		new JoystickButton(operatorLeft, 12).whenPressed(new IntakeRollerOuttakeCommand());
 		new JoystickButton(operatorLeft, 12).whenPressed(new LoaderRollerOuttakeCommand());
 		new JoystickButton(operatorLeft, 12).whenReleased(new IntakeRollerNeutralCommand());
@@ -362,7 +362,7 @@ public class OI implements SmartDashboardSource, Periodic {
 		return getDriveLeftXValue() != 0 || getDriveRightXValue() != 0 || getDriveLeftYValue() != 0 || getDriveRightYValue() != 0;
 	}
 	
-	public boolean getDumbShooter() {
+	public boolean shooterOn() {
 		return dumbShooter.get();
 	}
 		

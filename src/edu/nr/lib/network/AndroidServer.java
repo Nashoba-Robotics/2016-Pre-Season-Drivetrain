@@ -57,6 +57,9 @@ public class AndroidServer implements Runnable {
 								turnAngle = 0;
 								goodToGo = false;
 								Thread.sleep(1000);
+								
+								AndroidServer.executeCommand("ssh lvuser@localhost ./adbScript.sh");
+								
 								break;
 							} 								
 							goodToGo = true;

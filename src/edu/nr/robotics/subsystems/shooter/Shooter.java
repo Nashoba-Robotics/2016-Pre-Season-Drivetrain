@@ -21,8 +21,8 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
     
 	private static Shooter singleton;
 	
-	Command ShooterHighCommand = new ShooterHighCommand();
-	Command ShooterOffCommand = new ShooterOffCommand();
+	Command ShooterHighCommand;
+	Command ShooterOffCommand;
 
 	CANTalon talonA, talonB;
 		
@@ -56,21 +56,15 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 							
 			LiveWindow.addSensor("Shooter", "PID Output", LiveWindowClasses.shooterOutput);
 			LiveWindow.addSensor("Shooter", "Current", LiveWindowClasses.shooterCurrent);
+			
 		}
+
+	
 	}
 	
     @Override
 	public void initDefaultCommand() {
-    }
-    
-    public void setDefaultCommandOn() {
-    	setDefaultCommand(ShooterHighCommand);
-    	currentModeOff = false;
-    }
-    
-    public void setDefaultCommandOff() {
-    	setDefaultCommand(ShooterOffCommand);
-    	currentModeOff = true;
+    	setDefaultCommand(new ShooterSpeedCommand());
     }
     
     public static Shooter getInstance() {
@@ -81,6 +75,7 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	public static void init() {
 		if (singleton == null) {
 			singleton = new Shooter();
+
 		}
 	}
 	
@@ -139,13 +134,5 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 		if(gate != null)
 			return !gate.get();
 		return false;
-	}
-
-	public void setEnabled(boolean b) {
-		if(b) {
-			setDefaultCommandOn();
-		} else {
-			setDefaultCommandOff();
-		}
 	}
 }

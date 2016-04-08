@@ -3,7 +3,6 @@ package edu.nr.robotics.commandgroups;
 import edu.nr.robotics.subsystems.drive.DriveAnglePIDCommand;
 import edu.nr.robotics.subsystems.drive.DriveSimpleDistanceWithGyroCommand;
 import edu.nr.robotics.subsystems.hood.HoodJetsonPositionCommand;
-import edu.nr.robotics.subsystems.shooter.ShooterHighCommand;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**

@@ -36,6 +36,8 @@ import edu.nr.robotics.subsystems.intakeroller.IntakeRoller;
 import edu.nr.robotics.subsystems.loaderroller.LaserCannonTriggerCommand;
 import edu.nr.robotics.subsystems.loaderroller.LoaderRoller;
 import edu.nr.robotics.subsystems.shooter.Shooter;
+import edu.nr.robotics.subsystems.shooter.ShooterDumbCommand;
+import edu.nr.robotics.subsystems.shooter.ShooterSmartCommand;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -103,6 +105,7 @@ public class Robot extends RobotBase {
 	}
 
 	public Mode currentMode;
+	public boolean useDumbShooter = false;
 	
 	public Robot() {
 		singleton = this;
@@ -359,6 +362,10 @@ public class Robot extends RobotBase {
 		
 		SmartDashboard.putNumber("Hood location for setting", 48);
 		
+		SmartDashboard.putData("Shooter dumb command", new ShooterDumbCommand());
+		SmartDashboard.putData("Shooter smart command", new ShooterSmartCommand());
+
+		
 		SmartDashboard.putNumber("Turn P", RobotMap.TURN_P);
 		SmartDashboard.putNumber("Turn I", RobotMap.TURN_I);
 
@@ -431,7 +438,6 @@ public class Robot extends RobotBase {
 		
 		
 		Drive.getInstance().setPIDEnabled(!OI.getInstance().dumbDrive.get());
-		Shooter.getInstance().setEnabled(!OI.getInstance().dumbShooter.get());
 
 		
 		periodics.forEach(Periodic::periodic);
