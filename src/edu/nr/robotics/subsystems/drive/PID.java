@@ -33,6 +33,7 @@ public class PID extends TimerTask {
 		this.integralDisableDistance = integralDisableDistance;
 		this.goal = goal;
 		this.minimumOutput = minimumOutput;
+		timer = new Timer();
 		timer.schedule(this, 0, period);
 	}
 	

@@ -24,8 +24,6 @@ public class Drive extends Subsystem implements SmartDashboardSource, Periodic{
 	private static Drive singleton;
 	private CANTalon leftTalon, rightTalon, tempLeftTalon, tempRightTalon;
 
-	// These values are right so that one distance  
-	// unit given by the encoders is one meter
 	private final int ticksPerRev = 30720;
 	private final double wheelDiameter = 0.6375; //Feet
 	private final double distancePerRev = Math.PI * wheelDiameter;
