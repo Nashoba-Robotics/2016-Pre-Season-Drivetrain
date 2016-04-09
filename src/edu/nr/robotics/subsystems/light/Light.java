@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Light extends Subsystem {
     
-	DigitalOutput light;
+	private DigitalOutput light;
 	
 	private static Light singleton;
 	

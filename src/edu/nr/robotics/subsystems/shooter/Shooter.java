@@ -5,12 +5,8 @@ import edu.nr.lib.interfaces.SmartDashboardSource;
 import edu.nr.robotics.EnabledSubsystems;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -20,42 +16,28 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
     
 	private static Shooter singleton;
 	
-	Command ShooterHighCommand;
-	Command ShooterOffCommand;
-
-	CANTalon talonA, talonB;
-		
-	MotorSetter talonOutput;
-	
-	DigitalInput gate;
+	private CANTalon talonA, talonB;	
 	
 	public boolean currentModeOff;
 
 	
 	//In rotations per second
-	CounterPIDSource shooterRate;
+	private CounterPIDSource shooterRate;
 	
 	private Shooter() {
 		if(EnabledSubsystems.shooterEnabled) {
-			gate = new DigitalInput(RobotMap.SHOOTER_PHOTO_GATE);
-			
 			talonA = new CANTalon(RobotMap.SHOOTER_TALON_A);
 			talonA.enableBrakeMode(false);
 			
 			talonB = new CANTalon(RobotMap.SHOOTER_TALON_B);
 			talonB.enableBrakeMode(false);
 			talonB.setInverted(true);
-	
-			talonOutput = new MotorSetter(talonA, talonB);
-			
+				
 			shooterRate = new CounterPIDSource(RobotMap.SHOOTER_RATE_PORT);
 			shooterRate.setPIDSourceType(PIDSourceType.kRate);
 			shooterRate.setSamplesToAverage(24);
-			shooterRate.scale(3 * RobotMap.SHOOTER_MAX_SPEED);
-										
+			shooterRate.scale(3 * RobotMap.SHOOTER_MAX_SPEED);							
 		}
-
-	
 	}
 	
     @Override
@@ -80,8 +62,10 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 	 * @param speed the speed to set the motor to, from -1 to 1
 	 */
 	public void setMotor(double speed) {
-		if(talonOutput != null)
-			talonOutput.write(speed);
+		if(talonA != null && talonB != null) {
+			talonA.set(speed);
+			talonB.set(speed);
+		}
 	}
 	
 	/**
@@ -125,9 +109,4 @@ public class Shooter extends Subsystem implements SmartDashboardSource{
 		}
 	}
 
-	public boolean hasBall() {
-		if(gate != null)
-			return !gate.get();
-		return false;
-	}
 }

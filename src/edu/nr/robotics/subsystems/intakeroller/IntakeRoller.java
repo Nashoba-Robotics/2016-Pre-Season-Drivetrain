@@ -15,12 +15,10 @@ public class IntakeRoller extends Subsystem implements SmartDashboardSource {
     
 	private static IntakeRoller singleton;
 	
-	CANTalon talon;
-	DigitalInput gate;
+	private CANTalon talon;
 
 	private IntakeRoller() {
 		if(EnabledSubsystems.intakeRollersEnabled) {
-			gate = new DigitalInput(RobotMap.INTAKE_PHOTO_GATE);
 			talon = new CANTalon(RobotMap.INTAKE_ROLLER_TALON);
 		}
 	}
@@ -58,12 +56,6 @@ public class IntakeRoller extends Subsystem implements SmartDashboardSource {
 		}
 	}
 	
-	public boolean hasBall() {
-		if(gate != null)
-			return !gate.get();
-		return false;
-	}
-
 	public double getRollerSpeed() {
 		if(talon != null)
 			return talon.get();

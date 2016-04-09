@@ -9,5 +9,5 @@ public class EnabledSubsystems {
 			intakeRollersEnabled = false,
 			loaderRollersEnabled = false,
 			shooterEnabled = false,
-			lightsEnabled = true;
+			lightsEnabled = false;
 }

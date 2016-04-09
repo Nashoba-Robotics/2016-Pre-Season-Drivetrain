@@ -20,9 +20,9 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 	
 	int counter = 0;
 
-	CANTalon talon;
+	private CANTalon talon;
 	private AnalogPotentiometer pot;
-	PID pid;
+	private PID pid;
 	
 	boolean pidDisabled = false;
 		

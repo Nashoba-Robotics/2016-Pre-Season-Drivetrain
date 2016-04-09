@@ -4,8 +4,10 @@ import edu.nr.lib.AngleUnit;
 import edu.nr.lib.navx.NavX;
 import edu.nr.lib.network.AndroidServer;
 import edu.nr.robotics.RobotMap;
-import edu.nr.robotics.commandgroups.AlignSubcommandGroup;
+import edu.nr.robotics.subsystems.drive.DriveAnglePIDAutonCommand;
+import edu.nr.robotics.subsystems.drive.DriveSimpleDistanceWithGyroCommand;
 import edu.nr.robotics.subsystems.hood.Hood;
+import edu.nr.robotics.subsystems.hood.HoodJetsonPositionCommand;
 import edu.nr.robotics.subsystems.hood.HoodMoveDownUntilLimitSwitchCommand;
 import edu.nr.robotics.subsystems.loaderroller.LaserCannonTriggerCommand;
 import edu.nr.robotics.subsystems.shooter.Shooter;
@@ -22,7 +24,10 @@ public class AutonAlignCommand extends CommandGroup {
     public  AutonAlignCommand() {
     	addSequential(new HoodMoveDownUntilLimitSwitchCommand());
     	addSequential(new WaitCommand(0.25));
-        addSequential(new AlignSubcommandGroup());
+        addSequential(new DriveAnglePIDAutonCommand(true));
+        addSequential(new DriveSimpleDistanceWithGyroCommand(1, 0.2));
+        addSequential(new DriveSimpleDistanceWithGyroCommand(-1, 0.2));
+        addSequential(new HoodJetsonPositionCommand());
     }
     
     public  AutonAlignCommand(long startTime) {

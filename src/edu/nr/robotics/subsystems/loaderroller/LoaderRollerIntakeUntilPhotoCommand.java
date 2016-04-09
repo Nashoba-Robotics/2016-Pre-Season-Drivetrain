@@ -19,7 +19,7 @@ public class LoaderRollerIntakeUntilPhotoCommand extends NRCommand {
 
 	@Override
 	protected boolean isFinishedNR() {
-		return IntakeRoller.getInstance().hasBall();
+		return LoaderRoller.getInstance().hasIntakeBall();
 	}
 	
 	@Override

@@ -16,9 +16,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Hood extends Subsystem implements SmartDashboardSource, Periodic {
     
-	CANTalon talon;	
-	TalonEncoder enc;
-	PID pid;
+	private CANTalon talon;	
+	private TalonEncoder enc;
+	private PID pid;
 	
 	double maxSpeed = 1.0;
 	

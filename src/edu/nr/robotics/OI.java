@@ -376,7 +376,7 @@ public class OI implements SmartDashboardSource, Periodic {
 	@Override
 	public void periodic() {
 		
-		if(Shooter.getInstance().hasBall() || LoaderRoller.getInstance().hasBall() || IntakeRoller.getInstance().hasBall()) {
+		if(LoaderRoller.getInstance().hasShooterBall() || LoaderRoller.getInstance().hasLoaderBall() || LoaderRoller.getInstance().hasIntakeBall()) {
 			if(LoaderRoller.getInstance().getCurrentCommand() != null && LoaderRoller.getInstance().getCurrentCommand().getName().equals("IntakeArmIntakeHeightCommandGroup")) {
 				System.out.println("Here3");
 				NRCommand.cancelCommand(LoaderRoller.getInstance().getCurrentCommand());

@@ -1,15 +1,14 @@
 package edu.nr.robotics.commandgroups;
 
 import edu.nr.lib.AngleUnit;
-import edu.nr.lib.NRCommand;
 import edu.nr.lib.navx.NavX;
 import edu.nr.lib.network.AndroidServer;
 import edu.nr.robotics.OI;
-import edu.nr.robotics.Robot;
 import edu.nr.robotics.RobotMap;
+import edu.nr.robotics.subsystems.drive.DriveAnglePIDTeleopCommand;
 import edu.nr.robotics.subsystems.hood.Hood;
+import edu.nr.robotics.subsystems.hood.HoodJetsonPositionCommand;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;
-import edu.nr.robotics.subsystems.loaderroller.LaserCannonTriggerCommand;
 import edu.nr.robotics.subsystems.shooter.Shooter;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
@@ -25,9 +24,9 @@ public class AlignCommandGroup extends CommandGroup {
 	}
 	
     public  AlignCommandGroup() {
-    	addSequential(new AlignStartCommand());
     	addSequential(new WaitCommand(0.25));
-        addSequential(new AlignSubcommandGroup());
+        addSequential(new DriveAnglePIDTeleopCommand(true));
+        addSequential(new HoodJetsonPositionCommand());
         addSequential(new WaitCommand(0.25));
     }
     
@@ -69,17 +68,5 @@ public class AlignCommandGroup extends CommandGroup {
     @Override
 	public void initialize() {
     	System.out.println("Align started - angle: " + NavX.getInstance().getYaw(AngleUnit.DEGREE));
-    }
-    
-    public class AlignStartCommand extends NRCommand {
-    	
-    	public AlignStartCommand() {
-    		//addSequential(new IntakeArmHomeHeightCommandGroup());
-    	}
-    	
-    	@Override
-    	public void onStart() {
-    		Robot.getInstance().state = State.ALIGNING;
-    	}
     }
 }

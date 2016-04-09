@@ -13,15 +13,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class LoaderRoller extends Subsystem implements SmartDashboardSource {
     
-	CANTalon talon;
+	private CANTalon talon;
 		
 	private static LoaderRoller singleton;
 	
-	DigitalInput gate;
-	
+	private DigitalInput loadergate, intakegate, shootergate;
+
 	private LoaderRoller() {
 		if(EnabledSubsystems.loaderRollersEnabled) {
-			gate = new DigitalInput(RobotMap.LOADER_PHOTO_GATE);
+			loadergate = new DigitalInput(RobotMap.LOADER_PHOTO_GATE);
+			intakegate = new DigitalInput(RobotMap.INTAKE_PHOTO_GATE);
+			shootergate = new DigitalInput(RobotMap.SHOOTER_PHOTO_GATE);
 			talon = new CANTalon(RobotMap.LOADER_ROLLER_TALON);
 			talon.enableBrakeMode(true);
 		}
@@ -52,9 +54,21 @@ public class LoaderRoller extends Subsystem implements SmartDashboardSource {
 		setDefaultCommand(new LoaderRollerKeepAtPhotoCommand());
     }
 	
-	public boolean hasBall() {
-		if(gate != null)
-			return !gate.get();
+	public boolean hasLoaderBall() {
+		if(loadergate != null)
+			return !loadergate.get();
+		return false;
+	}
+	
+	public boolean hasIntakeBall() {
+		if(intakegate != null)
+			return !intakegate.get();
+		return false;
+	}
+
+	public boolean hasShooterBall() {
+		if(shootergate != null)
+			return !shootergate.get();
 		return false;
 	}
 

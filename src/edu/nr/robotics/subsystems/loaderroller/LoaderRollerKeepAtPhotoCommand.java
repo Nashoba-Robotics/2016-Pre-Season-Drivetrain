@@ -14,9 +14,9 @@ public class LoaderRollerKeepAtPhotoCommand extends NRCommand {
 	@Override
 	protected void onExecute() {
 		
-		if(Shooter.getInstance().hasBall()) {
+		if(LoaderRoller.getInstance().hasShooterBall()) {
 			LoaderRoller.getInstance().setLoaderSpeed(RobotMap.LOADER_OUTTAKE_SPEED);
-		} else if(!LoaderRoller.getInstance().hasBall() && IntakeRoller.getInstance().hasBall()) {
+		} else if(!LoaderRoller.getInstance().hasLoaderBall() && LoaderRoller.getInstance().hasIntakeBall()) {
 			LoaderRoller.getInstance().setLoaderSpeed(RobotMap.LOADER_INTAKE_SPEED);
 		} else {
 			LoaderRoller.getInstance().setLoaderSpeed(0);

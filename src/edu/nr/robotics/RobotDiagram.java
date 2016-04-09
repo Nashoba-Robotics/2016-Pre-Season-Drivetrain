@@ -26,7 +26,7 @@ public class RobotDiagram implements NamedSendable {
 
 			table.putString("~TYPE~", "robo-diagram");
 
-			table.putBoolean("Auto Align Happening", Robot.getInstance().state == AlignCommandGroup.State.ALIGNING);
+			table.putBoolean("Auto Align Happening", false);
 			table.putBoolean("All Systems Go", Shooter.getInstance().getSped());
 			
 			//Hood
@@ -58,9 +58,9 @@ public class RobotDiagram implements NamedSendable {
 			//Note: includes bottom height as well
 			table.putBoolean("Intake Bottom Stop", IntakeArm.getInstance().get() < RobotMap.INTAKE_BOTTOM_POS + RobotMap.INTAKE_ARM_THRESHOLD);
 						
-			table.putBoolean("Photo 1", IntakeRoller.getInstance().hasBall());
-			table.putBoolean("Photo 2", LoaderRoller.getInstance().hasBall());
-			table.putBoolean("Photo 3", Shooter.getInstance().hasBall());
+			table.putBoolean("Photo 1", LoaderRoller.getInstance().hasIntakeBall());
+			table.putBoolean("Photo 2", LoaderRoller.getInstance().hasLoaderBall());
+			table.putBoolean("Photo 3", LoaderRoller.getInstance().hasShooterBall());
 			
 			//Elevator
 			table.putBoolean("Elevator Bottom Height", Elevator.getInstance().getEncoder() > RobotMap.ELEVATOR_EXTEND_DISTANCE * 0.1);

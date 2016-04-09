@@ -17,10 +17,10 @@ public class LaserCannonTriggerCommand extends CommandGroup {
 	
 	@Override
 	public void initialize() {
-		System.out.println("Shooter button pressed. Photo 1: " 
-				+ IntakeRoller.getInstance().hasBall() 
-				+ " Photo 2: " + LoaderRoller.getInstance().hasBall() 
-				+ " Photo 3: " + IntakeRoller.getInstance().hasBall()
+		System.out.println("Shooter button pressed." 
+				+ " Photo 1: " + LoaderRoller.getInstance().hasIntakeBall() 
+				+ " Photo 2: " + LoaderRoller.getInstance().hasLoaderBall() 
+				+ " Photo 3: " + LoaderRoller.getInstance().hasShooterBall()
 				+ " Shooter Speed: " + Shooter.getInstance().getScaledSpeed() 
 				+ " Hood angle: " + Hood.getInstance().get());
 	}
