@@ -11,7 +11,7 @@ public class DriveStallFindCommand extends NRCommand {
 	public double lastSpeed = 0;
 	public double lastTime;
 	
-	public DriveStallFindCommand(double distance, double speed) {
+	public DriveStallFindCommand() {
 		requires(Drive.getInstance());
 	}
 	
@@ -34,6 +34,7 @@ public class DriveStallFindCommand extends NRCommand {
 			Drive.getInstance().arcadeDrive(0, speed);
 			lastTime = System.currentTimeMillis();
 			SmartDashboard.putNumber("Stall Find Speed", speed);
+			System.out.println("Stall find speed: " + speed);
 			lastSpeed = speed;
 		} else {
 			Drive.getInstance().arcadeDrive(0, lastSpeed);

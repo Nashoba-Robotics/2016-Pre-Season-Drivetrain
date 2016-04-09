@@ -27,6 +27,7 @@ import edu.nr.robotics.commandgroups.AlignCommandGroup;
 import edu.nr.robotics.subsystems.climb.Elevator;
 import edu.nr.robotics.subsystems.drive.Drive;
 import edu.nr.robotics.subsystems.drive.DriveAnglePIDAutonCommandGroup;
+import edu.nr.robotics.subsystems.drive.DriveStallFindCommand;
 import edu.nr.robotics.subsystems.drive.FieldCentric;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.hood.HoodJetsonPositionCommand;
@@ -364,6 +365,8 @@ public class Robot extends RobotBase {
 		
 		SmartDashboard.putNumber("Turn P", RobotMap.TURN_P);
 		SmartDashboard.putNumber("Turn I", RobotMap.TURN_I);
+		
+		SmartDashboard.putData("Find Drive Stall", new DriveStallFindCommand());
 
 	}
 	

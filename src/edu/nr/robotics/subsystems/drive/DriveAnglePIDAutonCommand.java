@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveAnglePIDAutonCommand extends NRCommand {
 
-	double totalError = 0;
+	PID pid;
 	
 	double angle;
 	AngleController controller;
@@ -32,7 +32,7 @@ public class DriveAnglePIDAutonCommand extends NRCommand {
     	this.correction = new AngleGyroCorrectionSource(AngleUnit.DEGREE);
     	this.useJetson = useJetson;
     	requires(Drive.getInstance());
-
+		pid = new PID(integralDisableDistance, controller, correction, 0, RobotMap.MINIMUM_TURN);
     }
     
     public DriveAnglePIDAutonCommand(double angle, AngleUnit unit) {
@@ -44,49 +44,15 @@ public class DriveAnglePIDAutonCommand extends NRCommand {
     	this.correction = correction;
     	this.useJetson = false;
     	requires(Drive.getInstance());
+		pid = new PID(integralDisableDistance, controller, correction, angle, RobotMap.MINIMUM_TURN);
 	}
-    
-    // Called repeatedly when this Command is scheduled to run
-    @Override
-	protected void onExecute() {
-    	double output = 0;
-    	
-    	final double TURN_P = SmartDashboard.getNumber("Turn P");
-    	final double TURN_I = SmartDashboard.getNumber("Turn I");
-
-		if(Math.abs(correction.pidGet()-angle) > integralDisableDistance) {
-			totalError = 0;
-		} else {
-			totalError += TURN_I*(correction.pidGet()-angle);
-		}
-		
-		if(Math.signum(correction.pidGet()-angle) != Math.signum(totalError)) {
-			totalError = 0;
-		}
-		
-		output += TURN_P*(correction.pidGet()-angle);
-
-		output += totalError;
-		if(Math.abs(output) < 0.1) {
-			output = 0.1 * Math.signum(output);
-		} else if(Math.abs(output) > 0.3) {
-			output = 0.3 * Math.signum(output);
-		}
-		
-		output *= -1;
-		controller.pidWrite(output);
-		
-    	SmartDashboard.putNumber("Drive Turn Error", correction.pidGet()-angle);
-    	SmartDashboard.putNumber("Drive Turn Total Error", totalError);
-    	SmartDashboard.putNumber("Drive Turn Output", output);
-    }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
 	protected boolean isFinishedNR() {
     	if(!goodToGo)
     		return true;
-    	if(Math.abs(correction.pidGet()-angle) < RobotMap.TURN_THRESHOLD) {
+    	if(Math.abs(pid.getError()) < RobotMap.TURN_THRESHOLD) {
     		currentCount++;
     	} else {
     		currentCount = 0;
@@ -96,7 +62,8 @@ public class DriveAnglePIDAutonCommand extends NRCommand {
 
 	@Override
 	protected void onEnd(boolean interrupted) {
-		totalError = 0;
+		pid.disable();
+		pid.reset();
 		goodToGo = true;
 	}
 
@@ -114,11 +81,16 @@ public class DriveAnglePIDAutonCommand extends NRCommand {
 
 			if(Math.abs(angle) < RobotMap.TURN_THRESHOLD) {
 				goodToGo = false;
+				return;
 			}
+			
+			pid.setGoal(angle);
+
 		}
 		
 		Drive.getInstance().setPIDEnabled(true);
 		controller = new AngleController();
 		correction.reset();
+		pid.enable();
 	}
 }
