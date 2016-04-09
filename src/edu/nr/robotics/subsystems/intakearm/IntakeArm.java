@@ -4,13 +4,11 @@ import edu.nr.lib.PID;
 import edu.nr.lib.interfaces.Periodic;
 import edu.nr.lib.interfaces.SmartDashboardSource;
 import edu.nr.robotics.EnabledSubsystems;
-import edu.nr.robotics.LiveWindowClasses;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -36,11 +34,6 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 			pot = new AnalogPotentiometer(RobotMap.INTAKE_ARM_POT);
 			pot.setPIDSourceType(PIDSourceType.kDisplacement);
 			pid = new PID(421.8*0.1, 421.8*0.0001, 0.00, pot, talon);
-			
-			LiveWindow.addSensor("Intake Arm", "PID", pid);
-			
-			LiveWindow.addSensor("Intake Arm", "Bottom Switch", LiveWindowClasses.intakeArmBottomSwitch);
-			LiveWindow.addSensor("Intake Arm", "Top Switch", LiveWindowClasses.intakeArmTopSwitch);
 		}
 
 	}
@@ -137,9 +130,6 @@ public class IntakeArm extends Subsystem implements SmartDashboardSource, Period
 			SmartDashboard.putNumber("Intake Arm Potentiometer", get());
 			SmartDashboard.putNumber("Intake Arm Error", pid.getError());
 			SmartDashboard.putBoolean("Intake Arm Moving", pid.isEnable());
-			
-			LiveWindowClasses.intakeArmBottomSwitch.set(isBotLimitSwitchClosed());
-			LiveWindowClasses.intakeArmTopSwitch.set(isTopLimitSwitchClosed());
 		}
 	}
 

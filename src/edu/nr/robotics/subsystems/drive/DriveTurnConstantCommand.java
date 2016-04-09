@@ -18,7 +18,8 @@ public class DriveTurnConstantCommand extends NRCommand {
 
 	@Override
 	protected void onStart() {
-			Drive.getInstance().setRawMotorSpeed(-val, val);
+		Drive.getInstance().setPIDEnabled(false);
+		Drive.getInstance().setMotorSpeed(-val, val);
 	}
     
 }

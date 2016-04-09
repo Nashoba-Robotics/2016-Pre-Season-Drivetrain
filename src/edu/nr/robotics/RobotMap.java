@@ -29,7 +29,7 @@ public class RobotMap {
 	public static final int SHOOTER_PHOTO_GATE = 8; //Label is B - Banner 3
 	public static final int SHOOTER_RATE_PORT = 6; //Label 
 
-	public static final int LIGHTS_SPIKE = 0;
+	public static final int LIGHT_DIO = 0;
 	
 	public static final int INTAKE_ARM_TALON = 11;
 	public static final int INTAKE_ARM_POT = 0;

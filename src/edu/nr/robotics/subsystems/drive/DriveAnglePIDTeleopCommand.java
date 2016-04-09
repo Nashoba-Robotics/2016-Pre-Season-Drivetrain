@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class DriveAnglePIDCommand extends NRCommand {
+public class DriveAnglePIDTeleopCommand extends NRCommand {
 
 	double totalError = 0;
 	
@@ -28,18 +28,18 @@ public class DriveAnglePIDCommand extends NRCommand {
 	boolean goodToGo = true;
 
 	
-    public DriveAnglePIDCommand(boolean useJetson) {
+    public DriveAnglePIDTeleopCommand(boolean useJetson) {
     	this.correction = new AngleGyroCorrectionSource(AngleUnit.DEGREE);
     	this.useJetson = useJetson;
     	requires(Drive.getInstance());
 
     }
     
-    public DriveAnglePIDCommand(double angle, AngleUnit unit) {
+    public DriveAnglePIDTeleopCommand(double angle, AngleUnit unit) {
     	this(angle, new AngleGyroCorrectionSource(unit));    	
     }
 
-    public DriveAnglePIDCommand(double angle, AngleGyroCorrectionSource correction) {
+    public DriveAnglePIDTeleopCommand(double angle, AngleGyroCorrectionSource correction) {
     	this.angle = angle;
     	this.correction = correction;
     	this.useJetson = false;
@@ -96,12 +96,8 @@ public class DriveAnglePIDCommand extends NRCommand {
 
 	@Override
 	protected void onEnd(boolean interrupted) {
-		if(!interrupted && goodToGo) {
-			correction.reset();
-		}
 		totalError = 0;
 		goodToGo = true;
-
 	}
 
 	@Override

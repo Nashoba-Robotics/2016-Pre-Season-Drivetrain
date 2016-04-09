@@ -4,7 +4,6 @@ import edu.nr.lib.AngleUnit;
 import edu.nr.lib.NRCommand;
 import edu.nr.lib.navx.NavX;
 import edu.nr.lib.network.AndroidServer;
-import edu.nr.robotics.LiveWindowClasses;
 import edu.nr.robotics.OI;
 import edu.nr.robotics.Robot;
 import edu.nr.robotics.RobotMap;
@@ -59,18 +58,6 @@ public class AlignCommandGroup extends CommandGroup {
     		}
     	}
     	System.out.println("Ended align correction");
-		/*Robot.getInstance().state = State.WAITING;
-    	while((!OI.getInstance().fireButton.get() || !OI.getInstance().backupFireButton.get()) && OI.getInstance().alignButton.get()) {}
-    	if((OI.getInstance().fireButton.get() || OI.getInstance().backupFireButton.get())) {
-			Robot.getInstance().fireCommand = new LaserCannonTriggerCommand();
-			Robot.getInstance().fireCommand.start();
-	    	System.out.println("Align ended after shot - angle: " + NavX.getInstance().getYaw(AngleUnit.DEGREE));
-    	} else {
-        	System.out.println("Align ended due to button release - angle: " + NavX.getInstance().getYaw(AngleUnit.DEGREE));
-    	}
-    	Robot.getInstance().state = State.OFF;
-    	System.out.println("Ended align waiting");
-    	LiveWindowClasses.readyToShoot.set(false);*/
     }
     
     @Override

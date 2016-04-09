@@ -5,12 +5,10 @@ import edu.nr.lib.TalonEncoder;
 import edu.nr.lib.interfaces.Periodic;
 import edu.nr.lib.interfaces.SmartDashboardSource;
 import edu.nr.robotics.EnabledSubsystems;
-import edu.nr.robotics.LiveWindowClasses;
 import edu.nr.robotics.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -43,11 +41,6 @@ public class Hood extends Subsystem implements SmartDashboardSource, Periodic {
 			enc.setPIDSourceType(PIDSourceType.kDisplacement);
 			enc.setDistancePerRev(RobotMap.HOOD_TICK_TO_ANGLE_MULTIPLIER);
 			pid = new PID(0.25, 0.00, 0.001, enc, talon);
-			
-			LiveWindow.addSensor("Hood", "Bottom Switch", LiveWindowClasses.hoodBottomSwitch);
-			LiveWindow.addSensor("Hood", "Top Switch", LiveWindowClasses.hoodTopSwitch);
-			
-			LiveWindow.addSensor("Hood", "PID", pid);
 		}
 	}
 
@@ -162,9 +155,6 @@ public class Hood extends Subsystem implements SmartDashboardSource, Periodic {
 	public void smartDashboardInfo() {
 		SmartDashboard.putNumber("Hood Angle", get());
 		SmartDashboard.putNumber("Hood Distance", angleToDistance(get()));
-
-		LiveWindowClasses.hoodBottomSwitch.set(isBotLimitSwitchClosed());
-		LiveWindowClasses.hoodTopSwitch.set(isTopLimitSwitchClosed());
 	}
 
 	public boolean isAtPosition(Position pos) {

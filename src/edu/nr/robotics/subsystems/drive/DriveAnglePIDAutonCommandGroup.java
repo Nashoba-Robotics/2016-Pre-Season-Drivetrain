@@ -7,10 +7,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class DriveAnglePIDCommandGroup extends CommandGroup {
+public class DriveAnglePIDAutonCommandGroup extends CommandGroup {
     	
-    public  DriveAnglePIDCommandGroup(double angle, AngleUnit unit) {
-        addSequential(new DriveAnglePIDCommand(angle, unit));
+    public  DriveAnglePIDAutonCommandGroup(double angle, AngleUnit unit) {
+        addSequential(new DriveAnglePIDAutonCommand(angle, unit));
         addSequential(new DriveSimpleDistanceWithGyroCommand(1, 0.2));
         addSequential(new DriveSimpleDistanceWithGyroCommand(-1, 0.2));
     }

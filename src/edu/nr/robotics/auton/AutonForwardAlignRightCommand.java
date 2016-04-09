@@ -2,7 +2,7 @@ package edu.nr.robotics.auton;
 
 import edu.nr.lib.AngleUnit;
 import edu.nr.robotics.RobotMap;
-import edu.nr.robotics.subsystems.drive.DriveAnglePIDCommand;
+import edu.nr.robotics.subsystems.drive.DriveAnglePIDAutonCommand;
 import edu.nr.robotics.subsystems.drive.DriveConstantCommand;
 import edu.nr.robotics.subsystems.drive.DriveDistanceCommand;
 import edu.nr.robotics.subsystems.drive.DriveSimpleDistanceCommand;
@@ -24,7 +24,7 @@ public class AutonForwardAlignRightCommand extends CommandGroup {
 		addSequential(new DriveDistanceCommand(13.75, 1));
 		addParallel(new IntakeArmHomeHeightCommand());
 		addSequential(new WaitCommand(0.5));
-		addSequential(new DriveAnglePIDCommand(-20, AngleUnit.DEGREE));
+		addSequential(new DriveAnglePIDAutonCommand(-20, AngleUnit.DEGREE));
 		addSequential(new AutonAlignCommand());
 	}
 	

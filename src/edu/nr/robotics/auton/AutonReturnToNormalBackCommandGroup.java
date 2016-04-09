@@ -2,7 +2,7 @@ package edu.nr.robotics.auton;
 
 import edu.nr.lib.AngleGyroCorrectionSource;
 import edu.nr.lib.AngleUnit;
-import edu.nr.robotics.subsystems.drive.DriveAnglePIDCommand;
+import edu.nr.robotics.subsystems.drive.DriveAnglePIDAutonCommand;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -15,6 +15,6 @@ public class AutonReturnToNormalBackCommandGroup extends CommandGroup {
 	 */
     public  AutonReturnToNormalBackCommandGroup() {
         AngleGyroCorrectionSource correction = new AngleGyroCorrectionSource(180, AngleUnit.DEGREE);
-        addSequential(new DriveAnglePIDCommand(0.0, AngleUnit.DEGREE));
+        addSequential(new DriveAnglePIDAutonCommand(0.0, AngleUnit.DEGREE));
     }
 }

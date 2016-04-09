@@ -26,22 +26,20 @@ import edu.nr.robotics.auton.AutonGuillotineCommandGroup;
 import edu.nr.robotics.commandgroups.AlignCommandGroup;
 import edu.nr.robotics.subsystems.climb.Elevator;
 import edu.nr.robotics.subsystems.drive.Drive;
-import edu.nr.robotics.subsystems.drive.DriveAnglePIDCommand;
-import edu.nr.robotics.subsystems.drive.DriveAnglePIDCommandGroup;
+import edu.nr.robotics.subsystems.drive.DriveAnglePIDAutonCommandGroup;
 import edu.nr.robotics.subsystems.drive.FieldCentric;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.hood.HoodJetsonPositionCommand;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;
 import edu.nr.robotics.subsystems.intakeroller.IntakeRoller;
+import edu.nr.robotics.subsystems.light.Light;
 import edu.nr.robotics.subsystems.loaderroller.LaserCannonTriggerCommand;
 import edu.nr.robotics.subsystems.loaderroller.LoaderRoller;
 import edu.nr.robotics.subsystems.shooter.Shooter;
 import edu.nr.robotics.subsystems.shooter.ShooterDumbCommand;
 import edu.nr.robotics.subsystems.shooter.ShooterSmartCommand;
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -73,7 +71,7 @@ public class Robot extends RobotBase {
 
 	private static Robot singleton;
 	
-	//This is technically unsafe, since it's not guarenteed not to return a null pointer, but we don't have any code that runs before the robot is initialized.
+	//This is technically unsafe, since it's not guaranteed not to return a null pointer, but we don't have any code that runs before the robot is initialized.
 	public static Robot getInstance() {
 		return singleton; 
 	}
@@ -354,10 +352,8 @@ public class Robot extends RobotBase {
 		
 		SmartDashboard.putData("Hood Jetson angle command", new HoodJetsonPositionCommand());
 		
-		SmartDashboard.putData("Turn 3 degree command", new DriveAnglePIDCommandGroup(-15, AngleUnit.DEGREE));
-		
-		LiveWindow.addSensor("Jetson", "Ready to shoot", LiveWindowClasses.readyToShoot);
-		
+		SmartDashboard.putData("Turn 3 degree command", new DriveAnglePIDAutonCommandGroup(-15, AngleUnit.DEGREE));
+				
 		SmartDashboard.putNumber("Hood Multiplier Percent", 100);
 		
 		SmartDashboard.putNumber("Hood location for setting", 48);
@@ -397,6 +393,7 @@ public class Robot extends RobotBase {
 		Hood.init();
 		IntakeRoller.init();
 		OI.init();
+		Light.init();
 		
 		//Add subsystems to subsystem array list
 		subsystems.add(Drive.getInstance());

@@ -28,24 +28,9 @@ public class DriveConstantCommand extends NRCommand {
 	@Override
 	protected void onStart() {
 		Drive.getInstance().setPIDEnabled(PID);
+		Drive.getInstance().setMotorSpeed(left, right);
 	}
-
-	@Override
-	protected void onExecute() {
-		if(PID)
-			Drive.getInstance().setPIDSetpoint(left, right);
-		else
-			Drive.getInstance().setRawMotorSpeed(left, right);
-	}
-
-	@Override
-	protected void onEnd(boolean interrupted) {
-		if(PID)
-			Drive.getInstance().setPIDSetpoint(0, 0);
-		else
-			Drive.getInstance().setRawMotorSpeed(0, 0);
-	}
-
+	
 	@Override
 	protected boolean isFinishedNR() {
 		return false;

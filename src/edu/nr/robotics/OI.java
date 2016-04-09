@@ -35,6 +35,8 @@ import edu.nr.robotics.subsystems.intakeroller.IntakeRoller;
 import edu.nr.robotics.subsystems.intakeroller.IntakeRollerNeutralCommand;
 import edu.nr.robotics.subsystems.intakeroller.IntakeRollerOuttakeCommand;
 import edu.nr.robotics.subsystems.intakeroller.IntakeRollerSwapCommand;
+import edu.nr.robotics.subsystems.light.LightOffCommand;
+import edu.nr.robotics.subsystems.light.LightOnCommand;
 import edu.nr.robotics.subsystems.loaderroller.LaserCannonTriggerCommand;
 import edu.nr.robotics.subsystems.loaderroller.LoaderRoller;
 import edu.nr.robotics.subsystems.loaderroller.LoaderRollerIntakeUntilPhotoCommand;
@@ -107,6 +109,11 @@ public class OI implements SmartDashboardSource, Periodic {
 		//->  2: Reverse drive direction
 		//->  3: Reset elevator encoder
 		new JoystickButton(driveLeft, 3).whenPressed(new ElevatorResetEncoderCommand());
+		
+		
+		new JoystickButton(driveLeft, 4).whenPressed(new LightOnCommand());
+		new JoystickButton(driveLeft, 5).whenPressed(new LightOffCommand());
+
 	}
 	
 	public void initDriveRight() {
