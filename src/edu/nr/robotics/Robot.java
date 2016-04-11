@@ -268,7 +268,10 @@ public class Robot extends RobotBase {
 		
 		SmartDashboard.putNumber("Turn P", RobotMap.TURN_P);
 		SmartDashboard.putNumber("Turn I", RobotMap.TURN_I);
-		
+		SmartDashboard.putNumber("Turn D", RobotMap.TURN_D);
+
+		SmartDashboard.putNumber("Turn Dampen Rate", RobotMap.TURN_DAMPEN_RATE);
+
 		SmartDashboard.putData("Find Drive Stall", new DriveStallFindCommand());
 
 	}

@@ -32,7 +32,7 @@ public class DriveAnglePIDAutonCommand extends NRCommand {
     	this.correction = new AngleGyroCorrectionSource(AngleUnit.DEGREE);
     	this.useJetson = useJetson;
     	requires(Drive.getInstance());
-		pid = new PID(integralDisableDistance, controller, correction, 0, RobotMap.MINIMUM_TURN);
+		pid = new PID(integralDisableDistance, controller, correction, 0, RobotMap.MINIMUM_TURN, RobotMap.TURN_DAMPEN_RATE);
     }
     
     public DriveAnglePIDAutonCommand(double angle, AngleUnit unit) {
@@ -44,7 +44,7 @@ public class DriveAnglePIDAutonCommand extends NRCommand {
     	this.correction = correction;
     	this.useJetson = false;
     	requires(Drive.getInstance());
-		pid = new PID(integralDisableDistance, controller, correction, angle, RobotMap.MINIMUM_TURN);
+		pid = new PID(integralDisableDistance, controller, correction, angle, RobotMap.MINIMUM_TURN, RobotMap.TURN_DAMPEN_RATE);
 	}
 
     // Make this return true when this Command no longer needs to run execute()
@@ -84,7 +84,7 @@ public class DriveAnglePIDAutonCommand extends NRCommand {
 				return;
 			}
 			
-			pid.setGoal(angle);
+			pid.setSetpoint(angle);
 
 		}
 		
