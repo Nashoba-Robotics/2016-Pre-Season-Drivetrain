@@ -24,20 +24,24 @@ public class PID extends TimerTask {
 	PIDSource source;
 	
 	double setpoint = 0;
-	
-	double minimumOutput = 0;
-	
+		
 	long period = 1; //in milliseconds
 
 	double integralDisableDistance;
 	
 	double dampenRate;
 	
-	public PID(double integralDisableDistance, PIDOutput output, PIDSource source, double goal, double minimumOutput, double dampenRate) {
+	/**
+	 * @param integralDisableDistance The error beyond which (greater than) there is no integral term
+	 * @param output the output 
+	 * @param source the source
+	 * @param setpoint the setpoint value
+	 * @param dampenRate the value to multiply the total error by every loop
+	 */
+	public PID(double integralDisableDistance, PIDOutput output, PIDSource source, double setpoint, double dampenRate) {
 		this.output = output;
 		this.integralDisableDistance = integralDisableDistance;
-		this.setpoint = goal;
-		this.minimumOutput = minimumOutput;
+		this.setpoint = setpoint;
 		this.dampenRate = dampenRate;
 		timer = new Timer();
 		timer.schedule(this, 0, period);
@@ -89,12 +93,8 @@ public class PID extends TimerTask {
 			double timeChange = System.currentTimeMillis() - prevTime;
 			
 			output += TURN_D * (errorChange/timeChange);
-						
-			//Minimum output
-			if(Math.abs(output) < Math.abs(minimumOutput)) {
-				output = minimumOutput * Math.signum(output);
-			}
 			
+			//Output
 			this.output.pidWrite(output);
 			
 	    	SmartDashboard.putNumber("Drive Turn Error", error);

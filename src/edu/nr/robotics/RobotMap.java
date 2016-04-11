@@ -77,8 +77,6 @@ public class RobotMap {
 	public static final double TURN_D = 0;
 	public static final double HOOD_HANG_SHOT = 29;
 	
-	
-	public static final double MINIMUM_TURN = 0;
 	public static final double TURN_DAMPEN_RATE = 1;
 
 
