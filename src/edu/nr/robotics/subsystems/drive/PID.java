@@ -40,6 +40,7 @@ public class PID extends TimerTask {
 	 */
 	public PID(double integralDisableDistance, PIDOutput output, PIDSource source, double setpoint, double dampenRate) {
 		this.output = output;
+		this.source = source;
 		this.integralDisableDistance = integralDisableDistance;
 		this.setpoint = setpoint;
 		this.dampenRate = dampenRate;

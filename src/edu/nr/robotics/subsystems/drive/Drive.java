@@ -10,28 +10,24 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
 public class Drive extends Subsystem implements SmartDashboardSource, Periodic{
 
-	/**
-	 *  This is a constant that is used for driving with PID control
-	 */
-	public static final double JOYSTICK_DRIVE_P = 0.25;
-
 	private static Drive singleton;
 	private CANTalon leftTalon, rightTalon, tempLeftTalon, tempRightTalon;
 
-	private final int ticksPerRev = 30720;
-	private final double wheelDiameter = 0.6375; //Feet
-	private final double distancePerRev = Math.PI * wheelDiameter;
+	private static final int ticksPerRev = 360;//30720;
+	private static final double wheelDiameter = 0.6375; //Feet
+	private static final double distancePerRev = Math.PI * wheelDiameter;
 
-	private final double rpm = RobotMap.MAX_SPEED / distancePerRev * 60;
+	private static final double rpm = RobotMap.MAX_SPEED / distancePerRev * 60;
 		
-	private final double hundredMSPerMin = 600;
-	private final int nativeUnitsPerRev = 4 * ticksPerRev;
+	private static final double hundredMSPerMin = 600;
+	private static final int nativeUnitsPerRev = 4 * ticksPerRev;
 	
 	private Drive() {
 		if(EnabledSubsystems.leftDriveEnabled) {
@@ -39,31 +35,31 @@ public class Drive extends Subsystem implements SmartDashboardSource, Periodic{
 			
 			leftTalon.changeControlMode(TalonControlMode.Speed);
 			leftTalon.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-			leftTalon.setF(1023.0/(rpm / hundredMSPerMin * nativeUnitsPerRev));;
-			leftTalon.setP(0.25);
+			leftTalon.setF(1023.0/(rpm / hundredMSPerMin * nativeUnitsPerRev));
+			leftTalon.setP(0);
 			leftTalon.configEncoderCodesPerRev(ticksPerRev);
 			leftTalon.enableBrakeMode(true);
 			leftTalon.setEncPosition(0);
-	
+				
 			tempLeftTalon = new CANTalon(RobotMap.TALON_LEFT_B);
 			tempLeftTalon.changeControlMode(TalonControlMode.Follower);
 			tempLeftTalon.set(leftTalon.getDeviceID());
 			tempLeftTalon.enableBrakeMode(true);
 		} 
 		if(EnabledSubsystems.rightDriveEnabled) {
-			rightTalon = new CANTalon(RobotMap.TALON_RIGHT_A);
+			rightTalon = new CANTalon(RobotMap.TALON_RIGHT_B);
 			
 			rightTalon.setInverted(true);
 			rightTalon.reverseSensor(true);
 			rightTalon.changeControlMode(TalonControlMode.Speed);
 			rightTalon.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-			rightTalon.setF(1023.0/(rpm / hundredMSPerMin * nativeUnitsPerRev));;
-			rightTalon.setP(0.25);
+			rightTalon.setF(1023.0/(rpm / hundredMSPerMin * nativeUnitsPerRev));
+			rightTalon.setP(0);
 			rightTalon.configEncoderCodesPerRev(ticksPerRev);
 			rightTalon.enableBrakeMode(true);
 			rightTalon.setEncPosition(0);
 				
-			tempRightTalon = new CANTalon(RobotMap.TALON_RIGHT_B);
+			tempRightTalon = new CANTalon(RobotMap.TALON_RIGHT_A);
 			tempRightTalon.changeControlMode(TalonControlMode.Follower);
 			tempRightTalon.set(rightTalon.getDeviceID());
 			tempRightTalon.enableBrakeMode(true);
@@ -183,6 +179,10 @@ public class Drive extends Subsystem implements SmartDashboardSource, Periodic{
 	 *            the right motor speed, from -1 to 1
 	 */
 	public void setMotorSpeed(double left, double right) {
+		
+		SmartDashboard.putNumber("Left motor setpoint", left*rpm);
+		SmartDashboard.putNumber("Right motor setpoint", right*rpm);
+		
 		if(leftTalon != null) {
 			if(leftTalon.getControlMode() == TalonControlMode.Speed)
 				leftTalon.set(left*rpm);
@@ -252,7 +252,7 @@ public class Drive extends Subsystem implements SmartDashboardSource, Periodic{
 	 */
 	public double getEncoderLeftDistance() {
 		if(leftTalon != null)
-			return -leftTalon.getEncPosition();
+			return -leftTalon.getEncPosition()/4;
 		return 0;
 	}
 
@@ -263,7 +263,7 @@ public class Drive extends Subsystem implements SmartDashboardSource, Periodic{
 	 */
 	public double getEncoderRightDistance() {
 		if(rightTalon != null)
-			return -rightTalon.getEncPosition();
+			return -rightTalon.getEncPosition()/4;
 		return 0;
 	}
 
@@ -275,7 +275,7 @@ public class Drive extends Subsystem implements SmartDashboardSource, Periodic{
 	 */
 	public double getEncoderLeftSpeed() {
 		if(leftTalon != null)
-			return -leftTalon.getEncVelocity();
+			return -leftTalon.getEncVelocity()/4;
 		return 0;
 	}
 
@@ -287,7 +287,7 @@ public class Drive extends Subsystem implements SmartDashboardSource, Periodic{
 	 */
 	public double getEncoderRightSpeed() {
 		if(rightTalon != null)
-			return -rightTalon.getEncVelocity();
+			return -rightTalon.getEncVelocity()/4;
 		return 0;
 	}
 
@@ -317,6 +317,8 @@ public class Drive extends Subsystem implements SmartDashboardSource, Periodic{
 	 */
 	@Override
 	public void smartDashboardInfo() {
+		SmartDashboard.putNumber("Left speed", getEncoderLeftSpeed());
+		SmartDashboard.putNumber("Right speed", getEncoderRightSpeed());
 	}
 
 	@Override

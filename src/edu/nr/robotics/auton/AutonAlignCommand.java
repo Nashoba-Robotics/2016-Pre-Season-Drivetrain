@@ -7,7 +7,7 @@ import edu.nr.robotics.RobotMap;
 import edu.nr.robotics.subsystems.drive.DriveAnglePIDAutonCommand;
 import edu.nr.robotics.subsystems.drive.DriveSimpleDistanceWithGyroCommand;
 import edu.nr.robotics.subsystems.hood.Hood;
-import edu.nr.robotics.subsystems.hood.HoodJetsonPositionCommand;
+import edu.nr.robotics.subsystems.hood.HoodAndroidPositionCommand;
 import edu.nr.robotics.subsystems.hood.HoodMoveDownUntilLimitSwitchCommand;
 import edu.nr.robotics.subsystems.loaderroller.LaserCannonTriggerCommand;
 import edu.nr.robotics.subsystems.shooter.Shooter;
@@ -24,10 +24,10 @@ public class AutonAlignCommand extends CommandGroup {
     public  AutonAlignCommand() {
     	addSequential(new HoodMoveDownUntilLimitSwitchCommand());
     	addSequential(new WaitCommand(0.25));
-        addSequential(new DriveAnglePIDAutonCommand(true));
+        addSequential(new DriveAnglePIDAutonCommand());
         addSequential(new DriveSimpleDistanceWithGyroCommand(1, 0.2));
         addSequential(new DriveSimpleDistanceWithGyroCommand(-1, 0.2));
-        addSequential(new HoodJetsonPositionCommand());
+        addSequential(new HoodAndroidPositionCommand());
     }
     
     public  AutonAlignCommand(long startTime) {

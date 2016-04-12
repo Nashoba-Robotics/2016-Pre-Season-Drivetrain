@@ -3,14 +3,14 @@ package edu.nr.robotics.subsystems.hood;
 import edu.nr.lib.NRCommand;
 import edu.nr.lib.network.AndroidServer;
 
-public class HoodJetsonPositionCommand extends NRCommand {
+public class HoodAndroidPositionCommand extends NRCommand {
 
 	double val = 0;
 	
 	boolean goodToGo = true;
 	
 	
-	public HoodJetsonPositionCommand() {
+	public HoodAndroidPositionCommand() {
 		requires(Hood.getInstance());
 	}
 	

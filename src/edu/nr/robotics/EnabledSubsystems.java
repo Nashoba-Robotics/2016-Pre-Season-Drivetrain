@@ -2,12 +2,12 @@ package edu.nr.robotics;
 
 public class EnabledSubsystems {
 	public static final boolean climbEnabled = false,
-			leftDriveEnabled = false, 
-			rightDriveEnabled = false, 
+			leftDriveEnabled = true, 
+			rightDriveEnabled = true, 
 			hoodEnabled = false,
 			intakeEnabled = false,
 			intakeRollersEnabled = false,
 			loaderRollersEnabled = false,
-			shooterEnabled = true,
+			shooterEnabled = false,
 			lightsEnabled = false;
 }

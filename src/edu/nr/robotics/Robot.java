@@ -27,10 +27,12 @@ import edu.nr.robotics.commandgroups.AlignCommandGroup;
 import edu.nr.robotics.subsystems.climb.Elevator;
 import edu.nr.robotics.subsystems.drive.Drive;
 import edu.nr.robotics.subsystems.drive.DriveAnglePIDAutonCommandGroup;
+import edu.nr.robotics.subsystems.drive.DriveAnglePIDTeleopCommand;
+import edu.nr.robotics.subsystems.drive.DriveConstantCommand;
 import edu.nr.robotics.subsystems.drive.DriveStallFindCommand;
 import edu.nr.robotics.subsystems.drive.FieldCentric;
 import edu.nr.robotics.subsystems.hood.Hood;
-import edu.nr.robotics.subsystems.hood.HoodJetsonPositionCommand;
+import edu.nr.robotics.subsystems.hood.HoodAndroidPositionCommand;
 import edu.nr.robotics.subsystems.hood.HoodSmartDashboardPositionCommand;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;
 import edu.nr.robotics.subsystems.intakeroller.IntakeRoller;
@@ -253,10 +255,13 @@ public class Robot extends RobotBase {
 		OI.getInstance().drivingModeChooser.addObject("tank", DrivingMode.TANK);
 		SmartDashboard.putData("Driving Mode Chooser", OI.getInstance().drivingModeChooser);
 				
-		SmartDashboard.putData("Hood Jetson angle command", new HoodJetsonPositionCommand());
+		SmartDashboard.putData("Hood Jetson angle command", new HoodAndroidPositionCommand());
 		
-		SmartDashboard.putData("Turn -15 degree command", new DriveAnglePIDAutonCommandGroup(-15, AngleUnit.DEGREE));
-				
+		SmartDashboard.putData("Turn -15 degree command", new DriveAnglePIDTeleopCommand(-15, AngleUnit.DEGREE));
+
+		SmartDashboard.putData("Drive forward command", new DriveConstantCommand(true, 1, 1));
+
+		
 		SmartDashboard.putNumber("Hood Multiplier Percent", 100);
 		
 		SmartDashboard.putData("Hood SmartDashboard angle command", new HoodSmartDashboardPositionCommand());

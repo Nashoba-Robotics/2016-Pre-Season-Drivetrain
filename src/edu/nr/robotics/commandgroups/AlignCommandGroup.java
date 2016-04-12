@@ -7,7 +7,7 @@ import edu.nr.robotics.OI;
 import edu.nr.robotics.RobotMap;
 import edu.nr.robotics.subsystems.drive.DriveAnglePIDTeleopCommand;
 import edu.nr.robotics.subsystems.hood.Hood;
-import edu.nr.robotics.subsystems.hood.HoodJetsonPositionCommand;
+import edu.nr.robotics.subsystems.hood.HoodAndroidPositionCommand;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;
 import edu.nr.robotics.subsystems.shooter.Shooter;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -25,8 +25,8 @@ public class AlignCommandGroup extends CommandGroup {
 	
     public  AlignCommandGroup() {
     	addSequential(new WaitCommand(0.25));
-        addSequential(new DriveAnglePIDTeleopCommand(true));
-        addSequential(new HoodJetsonPositionCommand());
+        addSequential(new DriveAnglePIDTeleopCommand());
+        addSequential(new HoodAndroidPositionCommand());
         addSequential(new WaitCommand(0.25));
     }
     

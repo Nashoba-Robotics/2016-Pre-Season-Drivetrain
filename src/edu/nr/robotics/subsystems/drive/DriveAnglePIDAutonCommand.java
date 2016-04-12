@@ -23,26 +23,26 @@ public class DriveAnglePIDAutonCommand extends NRCommand {
 	double accuracyFinishCount = 0;
 	double currentCount = 0;
 	
-	boolean useJetson;
+	boolean useAndroid;
 	
 	boolean goodToGo = true;
 
-	
-    public DriveAnglePIDAutonCommand(boolean useJetson) {
-    	this.correction = new AngleGyroCorrectionSource(AngleUnit.DEGREE);
-    	this.useJetson = useJetson;
-    	requires(Drive.getInstance());
-		pid = new PID(integralDisableDistance, controller, correction, 0, RobotMap.TURN_DAMPEN_RATE);
+	/**
+	 * Create one for using the Android to communicate
+	 */
+    public DriveAnglePIDAutonCommand() {
+    	this(0, new AngleGyroCorrectionSource(AngleUnit.DEGREE));
+    	this.useAndroid = true;
     }
     
     public DriveAnglePIDAutonCommand(double angle, AngleUnit unit) {
     	this(angle, new AngleGyroCorrectionSource(unit));    	
+    	this.useAndroid = false;
     }
 
-    public DriveAnglePIDAutonCommand(double angle, AngleGyroCorrectionSource correction) {
+    private DriveAnglePIDAutonCommand(double angle, AngleGyroCorrectionSource correction) {
     	this.angle = angle;
     	this.correction = correction;
-    	this.useJetson = false;
     	requires(Drive.getInstance());
 		pid = new PID(integralDisableDistance, controller, correction, angle, RobotMap.TURN_DAMPEN_RATE);
 	}
@@ -57,7 +57,8 @@ public class DriveAnglePIDAutonCommand extends NRCommand {
     	} else {
     		currentCount = 0;
     	}
-    	return currentCount > accuracyFinishCount;
+    	System.out.println("current count: " + currentCount);
+    	return false;//currentCount > accuracyFinishCount;
     }
 
 	@Override
@@ -70,7 +71,7 @@ public class DriveAnglePIDAutonCommand extends NRCommand {
 	@Override
 	protected void onStart() {
 		
-		if(useJetson) {
+		if(useAndroid) {
 			if(!AndroidServer.getInstance().goodToGo()) { 
 	    		System.out.println("Android connection not good to go");
 	    		goodToGo = false;

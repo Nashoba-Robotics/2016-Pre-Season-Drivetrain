@@ -21,7 +21,7 @@ import edu.nr.robotics.subsystems.drive.DriveConstantCommand;
 import edu.nr.robotics.subsystems.drive.DriveResetEncodersCommand;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.hood.HoodBottomCommand;
-import edu.nr.robotics.subsystems.hood.HoodJetsonPositionCommand;
+import edu.nr.robotics.subsystems.hood.HoodAndroidPositionCommand;
 import edu.nr.robotics.subsystems.hood.HoodPositionCommand;
 import edu.nr.robotics.subsystems.hood.HoodResetEncoderCommand;
 import edu.nr.robotics.subsystems.intakearm.IntakeArm;
@@ -111,8 +111,8 @@ public class OI implements SmartDashboardSource, Periodic {
 		new JoystickButton(driveLeft, 3).whenPressed(new ElevatorResetEncoderCommand());
 		
 		
-		new JoystickButton(driveLeft, 4).whenPressed(new LightOnCommand());
-		new JoystickButton(driveLeft, 5).whenPressed(new LightOffCommand());
+		new JoystickButton(driveLeft, 4).whenPressed(new LightOffCommand());
+		new JoystickButton(driveLeft, 5).whenPressed(new LightOnCommand());
 
 	}
 	
@@ -124,7 +124,7 @@ public class OI implements SmartDashboardSource, Periodic {
 		// => 11: Reset hood encoder
 		new JoystickButton(driveRight, 11).whenPressed(new HoodResetEncoderCommand());
 		
-		new JoystickButton(driveRight, 2).whenPressed(new HoodJetsonPositionCommand());
+		new JoystickButton(driveRight, 2).whenPressed(new HoodAndroidPositionCommand());
 		
 		new JoystickButton(driveRight, 9).whenPressed(new LaserCannonTriggerCommand());
 	}
