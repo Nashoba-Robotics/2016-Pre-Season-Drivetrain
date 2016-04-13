@@ -51,7 +51,6 @@ public class AndroidServer implements Runnable {
 							BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 							String message = inFromServer.readLine();
 							if(message == null) {
-								System.out.println("Reached end of stream");
 								clientSocket.close();
 								distance = 0;
 								turnAngle = 0;
@@ -76,7 +75,7 @@ public class AndroidServer implements Runnable {
 							}
 						}
 					} catch (SocketTimeoutException e) {
-						System.out.println("Had socket timeout exception");
+						e.printStackTrace();
 						clientSocket.close();
 						distance = 0;
 						turnAngle = 0;
@@ -85,7 +84,6 @@ public class AndroidServer implements Runnable {
 				} catch (UnknownHostException e) {
 					System.out.println("Unknown host to connect to");
 				} catch (ConnectException e) {
-					System.out.println("Couldn't connect");
 					goodToGo = false;
 					Thread.sleep(1000);
 				} catch (IOException e) {

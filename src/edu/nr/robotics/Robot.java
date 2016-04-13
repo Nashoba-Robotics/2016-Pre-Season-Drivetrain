@@ -29,7 +29,10 @@ import edu.nr.robotics.subsystems.drive.Drive;
 import edu.nr.robotics.subsystems.drive.DriveAnglePIDAutonCommandGroup;
 import edu.nr.robotics.subsystems.drive.DriveAnglePIDTeleopCommand;
 import edu.nr.robotics.subsystems.drive.DriveConstantCommand;
+import edu.nr.robotics.subsystems.drive.DriveSetTalonPIDFCommand;
 import edu.nr.robotics.subsystems.drive.DriveStallFindCommand;
+import edu.nr.robotics.subsystems.drive.DriveStraightSmartDashboardCommand;
+import edu.nr.robotics.subsystems.drive.DriveTurnSmartDashboardCommand;
 import edu.nr.robotics.subsystems.drive.FieldCentric;
 import edu.nr.robotics.subsystems.hood.Hood;
 import edu.nr.robotics.subsystems.hood.HoodAndroidPositionCommand;
@@ -259,8 +262,9 @@ public class Robot extends RobotBase {
 		
 		SmartDashboard.putData("Turn -15 degree command", new DriveAnglePIDTeleopCommand(-15, AngleUnit.DEGREE));
 
-		SmartDashboard.putData("Drive forward command", new DriveConstantCommand(true, 1, 1));
+		SmartDashboard.putData("Drive forward command", new DriveConstantCommand(true, 450, 450));
 
+		SmartDashboard.putData("Drive forward smart dashboard command", new DriveStraightSmartDashboardCommand());
 		
 		SmartDashboard.putNumber("Hood Multiplier Percent", 100);
 		
@@ -274,6 +278,19 @@ public class Robot extends RobotBase {
 		SmartDashboard.putNumber("Turn P", RobotMap.TURN_P);
 		SmartDashboard.putNumber("Turn I", RobotMap.TURN_I);
 		SmartDashboard.putNumber("Turn D", RobotMap.TURN_D);
+		
+		SmartDashboard.putNumber("Drive Turn Constant", 0.5);
+		
+		SmartDashboard.putData("Drive turn constant command", new DriveTurnSmartDashboardCommand());
+		
+		SmartDashboard.putNumber("Talon F", Drive.turn_F);
+		SmartDashboard.putNumber("Talon P", Drive.turn_P);
+		SmartDashboard.putNumber("Talon I", Drive.turn_I);
+		SmartDashboard.putNumber("Talon D", Drive.turn_D);
+		
+		SmartDashboard.putData("Set Talon PIDFs", new DriveSetTalonPIDFCommand());
+
+		
 
 		SmartDashboard.putNumber("Turn Dampen Rate", RobotMap.TURN_DAMPEN_RATE);
 
@@ -378,6 +395,7 @@ public class Robot extends RobotBase {
 			LoaderRoller.getInstance().setLoaderSpeed(0);
 			Hood.getInstance().disable();
 			Elevator.getInstance().setMotorValue(0);
+			Drive.getInstance().resetTalons();
 		}
 	}
 }

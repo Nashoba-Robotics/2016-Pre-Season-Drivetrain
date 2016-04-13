@@ -109,8 +109,7 @@ public class OI implements SmartDashboardSource, Periodic {
 		//->  2: Reverse drive direction
 		//->  3: Reset elevator encoder
 		new JoystickButton(driveLeft, 3).whenPressed(new ElevatorResetEncoderCommand());
-		
-		
+
 		new JoystickButton(driveLeft, 4).whenPressed(new LightOffCommand());
 		new JoystickButton(driveLeft, 5).whenPressed(new LightOnCommand());
 
